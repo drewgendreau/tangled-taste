@@ -57,8 +57,14 @@
       <div class="setting col">
         <div class="row"><label for="density"><b>Density</b></label><output id="density-label" for="density">High</output></div>
         <input id="density" type="range" min="0" max="3" step="1" value="0" aria-describedby="density-help" />
-        <div class="ticks" aria-hidden="true"><span>High</span><span>Medium</span><span>Low</span><span>Minimal</span></div>
+        <div class="ticks" id="density-ticks" aria-hidden="true"><span>High</span><span>Medium</span><span>Low</span><span>Minimal</span></div>
         <small id="density-help">How much of the background map is drawn. Lower densities keep the most common ingredients and strongest connections; whatever you select always stays visible.</small>
+      </div>
+      <div class="setting col">
+        <div class="row"><label for="hide-common"><b>Hide top common ingredients</b></label><output id="hide-label" for="hide-common">Show all</output></div>
+        <input id="hide-common" type="range" min="0" max="2" step="1" value="0" aria-describedby="hide-help" />
+        <div class="ticks" id="hide-ticks" aria-hidden="true"><span>Show all</span><span>Hide some</span><span>Hide most</span></div>
+        <small id="hide-help"></small>
       </div>
       <footer class="set-foot"><button id="settings-done" type="button">Done</button></footer>
     </section>

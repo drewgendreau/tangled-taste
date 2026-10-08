@@ -300,6 +300,7 @@ body { background-size: 512px 512px; }
   border: 1px solid var(--rule); border-radius: 8px 20px 8px 20px / 20px 8px 20px 8px;
   box-shadow: 0 14px 44px rgba(90, 60, 30, 0.22);
   animation: rise 0.25s ease;
+  max-height: calc(100vh - 100px); overflow-y: auto; scrollbar-width: thin;
 }
 #settings[hidden] { display: none; }
 .set-head { display: flex; align-items: center; margin-bottom: 4px; }
@@ -311,10 +312,10 @@ body { background-size: 512px 512px; }
 .setting small { display: block; margin-top: 1px; font-size: 14px; line-height: 1.25; color: var(--ink-soft); }
 .setting.col { flex-direction: column; align-items: stretch; gap: 4px; }
 .setting .row { display: flex; align-items: baseline; }
-.setting output { margin-left: auto; font-family: var(--hand); font-size: 22px; color: var(--accent); }
+.setting output { white-space: nowrap; flex: none; padding-left: 10px; margin-left: auto; font-family: var(--hand); font-size: 22px; color: var(--accent); }
 .sw { all: unset; display: inline-flex; align-items: center; cursor: pointer; flex: none; margin-left: auto; padding: 4px; border-radius: 999px; }
-.sw:focus-visible, #density:focus-visible, #settings-done:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-#density { width: 100%; margin: 6px 0 0; accent-color: var(--accent); cursor: pointer; }
+.sw:focus-visible, #density:focus-visible, #hide-common:focus-visible, #settings-done:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+#density, #hide-common { width: 100%; margin: 6px 0 0; accent-color: var(--accent); cursor: pointer; }
 .ticks { display: flex; justify-content: space-between; font-size: 13px; color: var(--ink-faint); padding: 0 1px; }
 .ticks span.on { color: var(--accent); font-weight: 700; }
 .set-foot { display: flex; justify-content: flex-end; padding-top: 10px; border-top: 1px solid var(--rule); }

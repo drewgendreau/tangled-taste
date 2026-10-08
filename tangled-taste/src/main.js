@@ -231,7 +231,7 @@ function setHighlightEdges(list) {
 // ---------------------------------------------------------------- HTML labels
 const labelLayer = document.getElementById('labels');
 const ranked = [...nodes].sort((a, b) => b.count - a.count);
-const HOME_LABELS = new Set(ranked.slice(0, 55).map((n) => n.id));
+let HOME_LABELS = new Set(ranked.slice(0, 55).map((n) => n.id));
 for (const n of nodes) {
   const el = document.createElement('div');
   el.className = 'label';
@@ -422,7 +422,7 @@ function cliqueEdges(dishIds, color) {
 const nodeByName = new Map(nodes.map((n) => [n.name, n]));
 const dishIngredientIds = (did) => DISHES[did].ingredients.map((nm) => nodeByName.get(nm).id);
 
-function go(next, { push = true } = {}) {
+function go(next, { push = true, quiet = false } = {}) {
   if (push && !(next.type === view.type && JSON.stringify(next) === JSON.stringify(view))) history.push(view);
   view = next;
   controls.autoRotate = next.type === 'home';
@@ -519,13 +519,19 @@ function go(next, { push = true } = {}) {
       break;
     }
   }
+  // ingredients hidden in Settings stay off the map (except one you picked on purpose)
+  const exempt = next.type === 'ingredient' ? next.id : -1;
+  const gone = (id) => nodes[id].hidden && id !== exempt;
+  if (hi) hi = new Set([...hi].filter((id) => !gone(id)));
+  focus = new Set([...focus].filter((id) => !gone(id)));
+  edgesHi = edgesHi.filter((e) => !gone(e.a) && !gone(e.b));
   highlight = hi;
   focusIds = focus;
   setHighlightEdges(edgesHi);
   baseEdgeMat.opacity = next.type === 'compare' ? 0 : hi ? 0.18 : 0.75; // compare: no background lines at all
   for (const n of nodes) {
     const on = hi ? hi.has(n.id) : n.densityKeep;
-    n.vis.tOpacity = on ? 1 : next.type === 'compare' ? 0.04 : n.densityKeep ? 0.09 : 0; // thinned-out ingredients vanish unless highlighted
+    n.vis.tOpacity = gone(n.id) ? 0 : on ? 1 : next.type === 'compare' ? 0.04 : n.densityKeep ? 0.09 : 0; // thinned-out ingredients vanish unless highlighted
     n.vis.tScale = focus.has(n.id) ? (next.type === 'ingredient' ? 1.35 : 1.18) : on ? 1 : 0.8;
     // focused ingredients are painted over the big hubs so they are never buried
     n.sprite.renderOrder = focus.has(n.id) ? 10 : 0;
@@ -545,6 +551,7 @@ function go(next, { push = true } = {}) {
   halo.renderOrder = 11;
   halo.material.depthTest = false;
   if (next.type === 'home') compare.picks = [];
+  if (quiet) return; // a settings change redraws the map only
   renderPanel();
   renderAtlas();
   renderFilters();
@@ -843,12 +850,49 @@ const DENSITY = [
 let densityLevel = 0;
 try { densityLevel = Math.min(3, Math.max(0, parseInt(localStorage.getItem('tt-density') || '0', 10) || 0)); } catch { /* storage unavailable */ }
 const densitySlider = document.getElementById('density');
+// "Hide top common ingredients": which ingredients count as common is worked out from the
+// data itself (how many dishes use each), so it follows the dataset as it grows.
+const COMMON_SHARES = [0, 0.05, 0.2]; // share of all ingredients, most-used first
+const COMMON_LABELS = ['Show all', 'Hide some', 'Hide most'];
+const byCount = [...nodes].sort((a, b) => b.count - a.count);
+function commonAt(level) {
+  if (!level) return { ids: new Set(), cut: 0, list: [] };
+  const k = Math.max(1, Math.round(nodes.length * COMMON_SHARES[level]));
+  const cut = byCount[k - 1].count;
+  const list = byCount.filter((n) => n.count >= cut);
+  return { ids: new Set(list.map((n) => n.id)), cut, list };
+}
+let hideLevel = 0;
+try { hideLevel = Math.min(2, Math.max(0, parseInt(localStorage.getItem('tt-hide-common') || '0', 10) || 0)); } catch { /* storage unavailable */ }
+const hideSlider = document.getElementById('hide-common');
+function applyHideCommon(level, { refresh = true } = {}) {
+  hideLevel = level;
+  const { ids, cut, list } = commonAt(level);
+  for (const n of nodes) n.hidden = ids.has(n.id);
+  hideSlider.value = String(level);
+  document.getElementById('hide-label').textContent = COMMON_LABELS[level];
+  document.querySelectorAll('#hide-ticks span').forEach((t, i) => t.classList.toggle('on', i === level));
+  document.getElementById('hide-help').textContent = level
+    ? `Removes the ${list.length} most common ingredients, the ones used in at least ${Math.round((cut / totalDishes) * 100)}% of all ${totalDishes} dishes (${list.slice(0, 6).map((n) => n.name).join(', ')}…), from the map.`
+    : `Every ingredient is drawn. “Hide some” would remove the ${commonAt(1).list.length} most common, “Hide most” the ${commonAt(2).list.length}.`;
+  try { localStorage.setItem('tt-hide-common', String(level)); } catch { /* storage unavailable */ }
+  if (refresh) {
+    applyDensity(densityLevel);
+    freezeCamera = true; // redraw the current view without moving the camera
+    go(view, { push: false, quiet: true });
+    freezeCamera = false;
+  }
+}
+hideSlider.addEventListener('input', () => applyHideCommon(+hideSlider.value));
+
 function applyDensity(level) {
   densityLevel = level;
   const d = DENSITY[level];
-  const keep = new Set(ranked.slice(0, Math.ceil(nodes.length * d.nodes)).map((n) => n.id));
-  for (const n of nodes) n.densityKeep = keep.has(n.id);
-  buildBaseEdges(d.minWeight, level ? keep : null);
+  const keepTop = new Set(ranked.slice(0, Math.ceil(nodes.length * d.nodes)).map((n) => n.id));
+  for (const n of nodes) n.densityKeep = keepTop.has(n.id) && !n.hidden;
+  const keep = new Set(nodes.filter((n) => n.densityKeep).map((n) => n.id));
+  HOME_LABELS = new Set(ranked.filter((n) => n.densityKeep).slice(0, 55).map((n) => n.id));
+  buildBaseEdges(d.minWeight, keep);
   // refresh what is shown right now, without moving the camera
   for (const n of nodes) {
     const on = highlight ? highlight.has(n.id) : n.densityKeep;
@@ -856,10 +900,11 @@ function applyDensity(level) {
   }
   densitySlider.value = String(level);
   document.getElementById('density-label').textContent = d.label;
-  document.querySelectorAll('.ticks span').forEach((t, i) => t.classList.toggle('on', i === level));
+  document.querySelectorAll('#density-ticks span').forEach((t, i) => t.classList.toggle('on', i === level));
   try { localStorage.setItem('tt-density', String(level)); } catch { /* storage unavailable */ }
 }
 densitySlider.addEventListener('input', () => applyDensity(+densitySlider.value));
+applyHideCommon(hideLevel, { refresh: false });
 applyDensity(densityLevel);
 
 const settingsBtn = document.getElementById('settings-btn');
