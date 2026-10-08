@@ -1,0 +1,862 @@
+{
+  "thumbnailSheet": {
+    "size": 2048,
+    "cell": 192,
+    "gutter": 2,
+    "columns": 10,
+    "format": "webp"
+  },
+  "previewFormat": "webp",
+  "dishes": [
+    {
+      "rank": 1,
+      "id": "TT-0001",
+      "name": "Margherita Pizza",
+      "cuisine": "Italian",
+      "template": "pizza",
+      "thumbnail": {
+        "sheet": 0,
+        "col": 0,
+        "row": 0,
+        "size": 192
+      },
+      "preview": {
+        "file": "previews/TT-0001.[hash].webp",
+        "size": 1024
+      }
+    },
+    {
+      "rank": 2,
+      "id": "TT-0002",
+      "name": "Sushi",
+      "cuisine": "Japanese",
+      "template": "rolls",
+      "thumbnail": {
+        "sheet": 0,
+        "col": 1,
+        "row": 0,
+        "size": 192
+      },
+      "preview": {
+        "file": "previews/TT-0002.[hash].webp",
+        "size": 1024
+      }
+    },
+    {
+      "rank": 3,
+      "id": "TT-0003",
+      "name": "Hamburger",
+      "cuisine": "American",
+      "template": "burger",
+      "thumbnail": {
+        "sheet": 0,
+        "col": 2,
+        "row": 0,
+        "size": 192
+      },
+      "preview": {
+        "file": "previews/TT-0003.[hash].webp",
+        "size": 1024
+      }
+    },
+    {
+      "rank": 4,
+      "id": "TT-0004",
+      "name": "Spaghetti Carbonara",
+      "cuisine": "Italian",
+      "template": "pastaPlate",
+      "thumbnail": {
+        "sheet": 0,
+        "col": 3,
+        "row": 0,
+        "size": 192
+      },
+      "preview": {
+        "file": "previews/TT-0004.[hash].webp",
+        "size": 1024
+      }
+    },
+    {
+      "rank": 5,
+      "id": "TT-0005",
+      "name": "Ramen",
+      "cuisine": "Japanese",
+      "template": "soupBowl",
+      "thumbnail": {
+        "sheet": 0,
+        "col": 4,
+        "row": 0,
+        "size": 192
+      },
+      "preview": {
+        "file": "previews/TT-0005.[hash].webp",
+        "size": 1024
+      }
+    },
+    {
+      "rank": 6,
+      "id": "TT-0006",
+      "name": "Pad Thai",
+      "cuisine": "Thai",
+      "template": "pastaPlate",
+      "thumbnail": {
+        "sheet": 0,
+        "col": 5,
+        "row": 0,
+        "size": 192
+      },
+      "preview": {
+        "file": "previews/TT-0006.[hash].webp",
+        "size": 1024
+      }
+    },
+    {
+      "rank": 7,
+      "id": "TT-0007",
+      "name": "Lasagna",
+      "cuisine": "Italian",
+      "template": "layerSlice",
+      "thumbnail": {
+        "sheet": 0,
+        "col": 6,
+        "row": 0,
+        "size": 192
+      },
+      "preview": {
+        "file": "previews/TT-0007.[hash].webp",
+        "size": 1024
+      }
+    },
+    {
+      "rank": 8,
+      "id": "TT-0008",
+      "name": "Croissant",
+      "cuisine": "French",
+      "template": "croissant",
+      "thumbnail": {
+        "sheet": 0,
+        "col": 7,
+        "row": 0,
+        "size": 192
+      },
+      "preview": {
+        "file": "previews/TT-0008.[hash].webp",
+        "size": 1024
+      }
+    },
+    {
+      "rank": 9,
+      "id": "TT-0009",
+      "name": "Butter Chicken",
+      "cuisine": "Indian",
+      "template": "stewBowl",
+      "thumbnail": {
+        "sheet": 0,
+        "col": 8,
+        "row": 0,
+        "size": 192
+      },
+      "preview": {
+        "file": "previews/TT-0009.[hash].webp",
+        "size": 1024
+      }
+    },
+    {
+      "rank": 10,
+      "id": "TT-0010",
+      "name": "Tiramisu",
+      "cuisine": "Italian",
+      "template": "layerSlice",
+      "thumbnail": {
+        "sheet": 0,
+        "col": 9,
+        "row": 0,
+        "size": 192
+      },
+      "preview": {
+        "file": "previews/TT-0010.[hash].webp",
+        "size": 1024
+      }
+    },
+    {
+      "rank": 11,
+      "id": "TT-0011",
+      "name": "Tacos al Pastor",
+      "cuisine": "Mexican",
+      "template": "taco",
+      "thumbnail": {
+        "sheet": 0,
+        "col": 0,
+        "row": 1,
+        "size": 192
+      },
+      "preview": {
+        "file": "previews/TT-0011.[hash].webp",
+        "size": 1024
+      }
+    },
+    {
+      "rank": 12,
+      "id": "TT-0012",
+      "name": "Jiaozi Dumplings",
+      "cuisine": "Chinese",
+      "template": "dumplings",
+      "thumbnail": {
+        "sheet": 0,
+        "col": 1,
+        "row": 1,
+        "size": 192
+      },
+      "preview": {
+        "file": "previews/TT-0012.[hash].webp",
+        "size": 1024
+      }
+    },
+    {
+      "rank": 13,
+      "id": "TT-0013",
+      "name": "Pho",
+      "cuisine": "Vietnamese",
+      "template": "soupBowl",
+      "thumbnail": {
+        "sheet": 0,
+        "col": 2,
+        "row": 1,
+        "size": 192
+      },
+      "preview": {
+        "file": "previews/TT-0013.[hash].webp",
+        "size": 1024
+      }
+    },
+    {
+      "rank": 14,
+      "id": "TT-0014",
+      "name": "Biryani",
+      "cuisine": "Indian",
+      "template": "riceBowl",
+      "thumbnail": {
+        "sheet": 0,
+        "col": 3,
+        "row": 1,
+        "size": 192
+      },
+      "preview": {
+        "file": "previews/TT-0014.[hash].webp",
+        "size": 1024
+      }
+    },
+    {
+      "rank": 15,
+      "id": "TT-0015",
+      "name": "Hummus",
+      "cuisine": "Levantine",
+      "template": "dipBowl",
+      "thumbnail": {
+        "sheet": 0,
+        "col": 4,
+        "row": 1,
+        "size": 192
+      },
+      "preview": {
+        "file": "previews/TT-0015.[hash].webp",
+        "size": 1024
+      }
+    },
+    {
+      "rank": 16,
+      "id": "TT-0016",
+      "name": "Fried Chicken",
+      "cuisine": "American",
+      "template": "drumsticks",
+      "thumbnail": {
+        "sheet": 0,
+        "col": 5,
+        "row": 1,
+        "size": 192
+      },
+      "preview": {
+        "file": "previews/TT-0016.[hash].webp",
+        "size": 1024
+      }
+    },
+    {
+      "rank": 17,
+      "id": "TT-0017",
+      "name": "Paella",
+      "cuisine": "Spanish",
+      "template": "paella",
+      "thumbnail": {
+        "sheet": 0,
+        "col": 6,
+        "row": 1,
+        "size": 192
+      },
+      "preview": {
+        "file": "previews/TT-0017.[hash].webp",
+        "size": 1024
+      }
+    },
+    {
+      "rank": 18,
+      "id": "TT-0018",
+      "name": "Guacamole",
+      "cuisine": "Mexican",
+      "template": "dipBowl",
+      "thumbnail": {
+        "sheet": 0,
+        "col": 7,
+        "row": 1,
+        "size": 192
+      },
+      "preview": {
+        "file": "previews/TT-0018.[hash].webp",
+        "size": 1024
+      }
+    },
+    {
+      "rank": 19,
+      "id": "TT-0019",
+      "name": "Fried Rice",
+      "cuisine": "Chinese",
+      "template": "riceBowl",
+      "thumbnail": {
+        "sheet": 0,
+        "col": 8,
+        "row": 1,
+        "size": 192
+      },
+      "preview": {
+        "file": "previews/TT-0019.[hash].webp",
+        "size": 1024
+      }
+    },
+    {
+      "rank": 20,
+      "id": "TT-0020",
+      "name": "Shawarma",
+      "cuisine": "Levantine",
+      "template": "wrap",
+      "thumbnail": {
+        "sheet": 0,
+        "col": 9,
+        "row": 1,
+        "size": 192
+      },
+      "preview": {
+        "file": "previews/TT-0020.[hash].webp",
+        "size": 1024
+      }
+    },
+    {
+      "rank": 21,
+      "id": "TT-0021",
+      "name": "Pastel de Nata",
+      "cuisine": "Portuguese",
+      "template": "tartlets",
+      "thumbnail": {
+        "sheet": 0,
+        "col": 0,
+        "row": 2,
+        "size": 192
+      },
+      "preview": {
+        "file": "previews/TT-0021.[hash].webp",
+        "size": 1024
+      }
+    },
+    {
+      "rank": 22,
+      "id": "TT-0022",
+      "name": "Pancakes",
+      "cuisine": "American",
+      "template": "pancakes",
+      "thumbnail": {
+        "sheet": 0,
+        "col": 1,
+        "row": 2,
+        "size": 192
+      },
+      "preview": {
+        "file": "previews/TT-0022.[hash].webp",
+        "size": 1024
+      }
+    },
+    {
+      "rank": 23,
+      "id": "TT-0023",
+      "name": "Crêpes",
+      "cuisine": "French",
+      "template": "crepes",
+      "thumbnail": {
+        "sheet": 0,
+        "col": 2,
+        "row": 2,
+        "size": 192
+      },
+      "preview": {
+        "file": "previews/TT-0023.[hash].webp",
+        "size": 1024
+      }
+    },
+    {
+      "rank": 24,
+      "id": "TT-0024",
+      "name": "Fish and Chips",
+      "cuisine": "British",
+      "template": "fishChips",
+      "thumbnail": {
+        "sheet": 0,
+        "col": 3,
+        "row": 2,
+        "size": 192
+      },
+      "preview": {
+        "file": "previews/TT-0024.[hash].webp",
+        "size": 1024
+      }
+    },
+    {
+      "rank": 25,
+      "id": "TT-0025",
+      "name": "Samosa",
+      "cuisine": "Indian",
+      "template": "dumplings",
+      "thumbnail": {
+        "sheet": 0,
+        "col": 4,
+        "row": 2,
+        "size": 192
+      },
+      "preview": {
+        "file": "previews/TT-0025.[hash].webp",
+        "size": 1024
+      }
+    },
+    {
+      "rank": 26,
+      "id": "TT-0026",
+      "name": "Falafel",
+      "cuisine": "Levantine",
+      "template": "falafel",
+      "thumbnail": {
+        "sheet": 0,
+        "col": 5,
+        "row": 2,
+        "size": 192
+      },
+      "preview": {
+        "file": "previews/TT-0026.[hash].webp",
+        "size": 1024
+      }
+    },
+    {
+      "rank": 27,
+      "id": "TT-0027",
+      "name": "Crème Brûlée",
+      "cuisine": "French",
+      "template": "ramekin",
+      "thumbnail": {
+        "sheet": 0,
+        "col": 6,
+        "row": 2,
+        "size": 192
+      },
+      "preview": {
+        "file": "previews/TT-0027.[hash].webp",
+        "size": 1024
+      }
+    },
+    {
+      "rank": 28,
+      "id": "TT-0028",
+      "name": "Belgian Waffles",
+      "cuisine": "Belgian",
+      "template": "waffle",
+      "thumbnail": {
+        "sheet": 0,
+        "col": 7,
+        "row": 2,
+        "size": 192
+      },
+      "preview": {
+        "file": "previews/TT-0028.[hash].webp",
+        "size": 1024
+      }
+    },
+    {
+      "rank": 29,
+      "id": "TT-0029",
+      "name": "Mac and Cheese",
+      "cuisine": "American",
+      "template": "mixBowl",
+      "thumbnail": {
+        "sheet": 0,
+        "col": 8,
+        "row": 2,
+        "size": 192
+      },
+      "preview": {
+        "file": "previews/TT-0029.[hash].webp",
+        "size": 1024
+      }
+    },
+    {
+      "rank": 30,
+      "id": "TT-0030",
+      "name": "Jerk Chicken",
+      "cuisine": "Jamaican",
+      "template": "drumsticks",
+      "thumbnail": {
+        "sheet": 0,
+        "col": 9,
+        "row": 2,
+        "size": 192
+      },
+      "preview": {
+        "file": "previews/TT-0030.[hash].webp",
+        "size": 1024
+      }
+    },
+    {
+      "rank": 31,
+      "id": "TT-0031",
+      "name": "Kung Pao Chicken",
+      "cuisine": "Chinese",
+      "template": "stewBowl",
+      "thumbnail": {
+        "sheet": 0,
+        "col": 0,
+        "row": 3,
+        "size": 192
+      },
+      "preview": {
+        "file": "previews/TT-0031.[hash].webp",
+        "size": 1024
+      }
+    },
+    {
+      "rank": 32,
+      "id": "TT-0032",
+      "name": "Green Curry",
+      "cuisine": "Thai",
+      "template": "stewBowl",
+      "thumbnail": {
+        "sheet": 0,
+        "col": 1,
+        "row": 3,
+        "size": 192
+      },
+      "preview": {
+        "file": "previews/TT-0032.[hash].webp",
+        "size": 1024
+      }
+    },
+    {
+      "rank": 33,
+      "id": "TT-0033",
+      "name": "Bánh Mì",
+      "cuisine": "Vietnamese",
+      "template": "baguette",
+      "thumbnail": {
+        "sheet": 0,
+        "col": 2,
+        "row": 3,
+        "size": 192
+      },
+      "preview": {
+        "file": "previews/TT-0033.[hash].webp",
+        "size": 1024
+      }
+    },
+    {
+      "rank": 34,
+      "id": "TT-0034",
+      "name": "Masala Chai",
+      "cuisine": "Indian",
+      "template": "cup",
+      "thumbnail": {
+        "sheet": 0,
+        "col": 3,
+        "row": 3,
+        "size": 192
+      },
+      "preview": {
+        "file": "previews/TT-0034.[hash].webp",
+        "size": 1024
+      }
+    },
+    {
+      "rank": 35,
+      "id": "TT-0035",
+      "name": "Nasi Goreng",
+      "cuisine": "Indonesian",
+      "template": "riceBowl",
+      "thumbnail": {
+        "sheet": 0,
+        "col": 4,
+        "row": 3,
+        "size": 192
+      },
+      "preview": {
+        "file": "previews/TT-0035.[hash].webp",
+        "size": 1024
+      }
+    },
+    {
+      "rank": 36,
+      "id": "TT-0036",
+      "name": "Pesto Genovese",
+      "cuisine": "Italian",
+      "template": "pastaPlate",
+      "thumbnail": {
+        "sheet": 0,
+        "col": 5,
+        "row": 3,
+        "size": 192
+      },
+      "preview": {
+        "file": "previews/TT-0036.[hash].webp",
+        "size": 1024
+      }
+    },
+    {
+      "rank": 37,
+      "id": "TT-0037",
+      "name": "Ceviche",
+      "cuisine": "Peruvian",
+      "template": "mixBowl",
+      "thumbnail": {
+        "sheet": 0,
+        "col": 6,
+        "row": 3,
+        "size": 192
+      },
+      "preview": {
+        "file": "previews/TT-0037.[hash].webp",
+        "size": 1024
+      }
+    },
+    {
+      "rank": 38,
+      "id": "TT-0038",
+      "name": "Empanadas",
+      "cuisine": "Argentine",
+      "template": "dumplings",
+      "thumbnail": {
+        "sheet": 0,
+        "col": 7,
+        "row": 3,
+        "size": 192
+      },
+      "preview": {
+        "file": "previews/TT-0038.[hash].webp",
+        "size": 1024
+      }
+    },
+    {
+      "rank": 39,
+      "id": "TT-0039",
+      "name": "Bibimbap",
+      "cuisine": "Korean",
+      "template": "bibimbap",
+      "thumbnail": {
+        "sheet": 0,
+        "col": 8,
+        "row": 3,
+        "size": 192
+      },
+      "preview": {
+        "file": "previews/TT-0039.[hash].webp",
+        "size": 1024
+      }
+    },
+    {
+      "rank": 40,
+      "id": "TT-0040",
+      "name": "Rendang",
+      "cuisine": "Indonesian",
+      "template": "stewBowl",
+      "thumbnail": {
+        "sheet": 0,
+        "col": 9,
+        "row": 3,
+        "size": 192
+      },
+      "preview": {
+        "file": "previews/TT-0040.[hash].webp",
+        "size": 1024
+      }
+    },
+    {
+      "rank": 41,
+      "id": "TT-0041",
+      "name": "Laksa",
+      "cuisine": "Malaysian",
+      "template": "soupBowl",
+      "thumbnail": {
+        "sheet": 0,
+        "col": 0,
+        "row": 4,
+        "size": 192
+      },
+      "preview": {
+        "file": "previews/TT-0041.[hash].webp",
+        "size": 1024
+      }
+    },
+    {
+      "rank": 42,
+      "id": "TT-0042",
+      "name": "Shakshuka",
+      "cuisine": "Levantine",
+      "template": "skillet",
+      "thumbnail": {
+        "sheet": 0,
+        "col": 1,
+        "row": 4,
+        "size": 192
+      },
+      "preview": {
+        "file": "previews/TT-0042.[hash].webp",
+        "size": 1024
+      }
+    },
+    {
+      "rank": 43,
+      "id": "TT-0043",
+      "name": "Jollof Rice",
+      "cuisine": "West African",
+      "template": "riceBowl",
+      "thumbnail": {
+        "sheet": 0,
+        "col": 2,
+        "row": 4,
+        "size": 192
+      },
+      "preview": {
+        "file": "previews/TT-0043.[hash].webp",
+        "size": 1024
+      }
+    },
+    {
+      "rank": 44,
+      "id": "TT-0044",
+      "name": "Wiener Schnitzel",
+      "cuisine": "German",
+      "template": "cutlet",
+      "thumbnail": {
+        "sheet": 0,
+        "col": 3,
+        "row": 4,
+        "size": 192
+      },
+      "preview": {
+        "file": "previews/TT-0044.[hash].webp",
+        "size": 1024
+      }
+    },
+    {
+      "rank": 45,
+      "id": "TT-0045",
+      "name": "Apple Pie",
+      "cuisine": "American",
+      "template": "pie",
+      "thumbnail": {
+        "sheet": 0,
+        "col": 4,
+        "row": 4,
+        "size": 192
+      },
+      "preview": {
+        "file": "previews/TT-0045.[hash].webp",
+        "size": 1024
+      }
+    },
+    {
+      "rank": 46,
+      "id": "TT-0046",
+      "name": "Poutine",
+      "cuisine": "Canadian",
+      "template": "poutine",
+      "thumbnail": {
+        "sheet": 0,
+        "col": 5,
+        "row": 4,
+        "size": 192
+      },
+      "preview": {
+        "file": "previews/TT-0046.[hash].webp",
+        "size": 1024
+      }
+    },
+    {
+      "rank": 47,
+      "id": "TT-0047",
+      "name": "Kimchi",
+      "cuisine": "Korean",
+      "template": "mixBowl",
+      "thumbnail": {
+        "sheet": 0,
+        "col": 6,
+        "row": 4,
+        "size": 192
+      },
+      "preview": {
+        "file": "previews/TT-0047.[hash].webp",
+        "size": 1024
+      }
+    },
+    {
+      "rank": 48,
+      "id": "TT-0048",
+      "name": "Massaman Curry",
+      "cuisine": "Thai",
+      "template": "stewBowl",
+      "thumbnail": {
+        "sheet": 0,
+        "col": 7,
+        "row": 4,
+        "size": 192
+      },
+      "preview": {
+        "file": "previews/TT-0048.[hash].webp",
+        "size": 1024
+      }
+    },
+    {
+      "rank": 49,
+      "id": "TT-0049",
+      "name": "Satay",
+      "cuisine": "Indonesian",
+      "template": "skewers",
+      "thumbnail": {
+        "sheet": 0,
+        "col": 8,
+        "row": 4,
+        "size": 192
+      },
+      "preview": {
+        "file": "previews/TT-0049.[hash].webp",
+        "size": 1024
+      }
+    },
+    {
+      "rank": 50,
+      "id": "TT-0050",
+      "name": "Nasi Lemak",
+      "cuisine": "Malaysian",
+      "template": "platedRice",
+      "thumbnail": {
+        "sheet": 0,
+        "col": 9,
+        "row": 4,
+        "size": 192
+      },
+      "preview": {
+        "file": "previews/TT-0050.[hash].webp",
+        "size": 1024
+      }
+    }
+  ]
+}
