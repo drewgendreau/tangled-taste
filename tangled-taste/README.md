@@ -16,7 +16,9 @@ pnpm validate   # sanity-check the dataset (run in CI before every deploy)
 - **Click an ingredient**: see its companions, the cuisines that use it and its dishes.
 - **Click a dish**: its ingredients light up as a linked constellation; the panel shows popularity and kindred dishes.
 - **Cuisine names on the globe** and the *Cuisines of the world* legend open a cuisine or region view.
-- **Dish-type chips** under the search bar (soups, desserts, drinks…) filter the whole atlas. Tick *Select several to compare* in the legend to pick multiple cuisines, and the panel shows the ingredients they share.
+- **Dish-type chips** under the search bar (soups, desserts, drinks…) filter the whole atlas.
+- **Compare cuisines** (bottom pane, closed until you open it): pick up to three cuisines and their ingredients light up in three colors. Shared ingredients get a ring split into one arc per cuisine, and ingredient pairings shared by two or more cuisines are drawn as thick striped lines, one stripe color per cuisine. The side panel scores every pair out of 100 and shows a Venn diagram of their ingredients, their shared pairings and each cuisine's closest relatives. *Only what they share* hides everything unique to one cuisine.
+- **Illustrations switch** (top right, left of *Reset view*) swaps the food paintings for plain watercolor dots, which makes dense areas easier to read.
 - **Drag / scroll** to orbit and zoom; **Esc** or the breadcrumbs step back.
 - **Reset view** (top right, or the Home key) clears the search and filters and returns to the full atlas.
 
@@ -30,6 +32,7 @@ pnpm validate   # sanity-check the dataset (run in CI before every deploy)
 - `scripts/validate.mjs` fails on unknown or near-duplicate ingredients, missing illustrations, duplicate dishes, any cuisine with fewer than 6 dishes and any ingredient used by fewer than 2 dishes. Ingredients used by only two dishes are reported as soft goals (`--strict` makes them fail too).
 - `scripts/format-data.mjs` regroups the dish files by cuisine after you append new dishes (`pnpm format:data`).
 - `scripts/bake-layout.mjs` runs the force-directed layout once at build time so the page doesn't have to simulate it on load.
+- `src/similarity.js` scores how alike two cuisines are: 50% flavor profile (IDF-weighted cosine of ingredient frequencies), 25% shared ingredients and 25% shared pairings (Jaccard overlaps).
 - `src/graph.js` builds the co-occurrence graph and the 3D layout. Each ingredient is pulled toward the globe position of its cuisines, so staples sit at the center and regional ingredients drift outward.
 - `src/illustrations.js` paints every ingredient illustration in code, in a watercolor style: layered washes, soft form shading, pigment pooling at the edges, granulation, crisp highlights and loose ink liners. To see them all on one page, open `/gallery.html` (add `?cat=herb`, `?names=beet,okra` and so on to filter).
 - `src/watercolor.js` paints the paper texture, the background washes and the cuisine map pins.

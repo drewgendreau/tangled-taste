@@ -28,10 +28,17 @@
         <kbd>/</kbd>
         <ul id="search-results" role="listbox"></ul>
       </div>
+      <div id="topright">
+        <button id="illus-toggle" type="button" role="switch" aria-checked="true" title="Show or hide the food illustrations on the map">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19c0-8 5-13 14-14 0 9-5 14-13 14" /><path d="M5 19c3-5 6-8 10-10" /></svg>
+          <span>Illustrations</span>
+          <i class="switch" aria-hidden="true"></i>
+        </button>
       <button id="reset" type="button" title="Return to the full atlas (Home)">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3" /><path d="M4 4.5v4h4" /></svg>
-        Reset view
-      </button>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3" /><path d="M4 4.5v4h4" /></svg>
+          Reset view
+        </button>
+      </div>
     </header>
 
     <div id="filters" role="group" aria-label="Filter by dish type"></div>
@@ -41,6 +48,17 @@
     <nav id="atlas">
       <button id="atlas-toggle" aria-expanded="true">Cuisines of the world</button>
       <div id="atlas-body"></div>
+    </nav>
+
+    <nav id="compare" aria-label="Compare cuisines">
+      <button id="compare-toggle" aria-expanded="false">Compare cuisines</button>
+      <div id="compare-body">
+        <p class="hint">Pick up to three cuisines. Their ingredients light up in three colors, and pairings they share are drawn as striped lines.</p>
+        <div id="compare-slots"></div>
+        <input id="compare-search" type="search" placeholder="Find a cuisine…" autocomplete="off" spellcheck="false" />
+        <div id="compare-list"></div>
+        <p id="compare-msg" role="status"></p>
+      </div>
     </nav>
 
     <div id="tooltip"></div>
