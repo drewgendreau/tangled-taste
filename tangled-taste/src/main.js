@@ -177,15 +177,18 @@ hiMat.resolution.set(innerWidth, innerHeight);
 hiMatShared.resolution.set(innerWidth, innerHeight);
 let hiLines = null;
 let hiLinesShared = null;
+let hiLinesCasing = null;
+const hiMatCasing = new LineMaterial({ color: 0xf7f1e4, linewidth: 9, transparent: true, opacity: 0.85, depthWrite: false, worldUnits: false });
+hiMatCasing.resolution.set(innerWidth, innerHeight);
 const colorCache = new Map();
 const colorOf = (hex) => colorCache.get(hex) || (colorCache.set(hex, new THREE.Color(hex)), colorCache.get(hex));
 // items: { a, b, color | colors[], strength, shared }. Edges with several colors are
 // drawn as barber-pole stripes in thicker lines, so shared connections read at a glance.
 function setHighlightEdges(list) {
-  for (const l of [hiLines, hiLinesShared]) if (l) { scene.remove(l); l.geometry.dispose(); }
-  hiLines = hiLinesShared = null;
+  for (const l of [hiLines, hiLinesShared, hiLinesCasing]) if (l) { scene.remove(l); l.geometry.dispose(); }
+  hiLines = hiLinesShared = hiLinesCasing = null;
   if (!list.length) return;
-  const build = (items, material, order) => {
+  const build = (items, material, order, casing = false) => {
     if (!items.length) return null;
     const pos = [], col = [];
     const tmp = new THREE.Color();
@@ -205,10 +208,18 @@ function setHighlightEdges(list) {
     const lines = new LineSegments2(g, material);
     lines.renderOrder = order;
     scene.add(lines);
+    if (casing) {
+      // a pale outline under thick lines keeps them readable over clutter
+      const cg = new LineSegmentsGeometry();
+      cg.setPositions(pos);
+      hiLinesCasing = new LineSegments2(cg, hiMatCasing);
+      hiLinesCasing.renderOrder = order - 0.05;
+      scene.add(hiLinesCasing);
+    }
     return lines;
   };
   hiLines = build(list.filter((e) => !e.shared), hiMat, -1);
-  hiLinesShared = build(list.filter((e) => e.shared), hiMatShared, -0.9);
+  hiLinesShared = build(list.filter((e) => e.shared), hiMatShared, -0.9, list.some((e) => e.casing));
 }
 
 // ---------------------------------------------------------------- HTML labels
@@ -259,11 +270,20 @@ let compareInfo = null; // analysis of the cuisines currently being compared
 let simCache = null;
 function getSim() {
   if (!simCache) {
-    const { profiles } = buildProfiles(DISHES, Object.keys(CUISINES));
-    simCache = { profiles, matrix: buildMatrix(profiles) };
+    const { profiles, df } = buildProfiles(DISHES, Object.keys(CUISINES));
+    // "everyday" ingredients: used by at least 65% of all cuisines
+    const staples = new Set([...df].filter(([, v]) => v / profiles.size >= 0.65).map(([k]) => k));
+    simCache = { profiles, matrix: buildMatrix(profiles), staples };
   }
   return simCache;
 }
+// view options that survive adding or removing a cuisine
+const compareOpts = (prev) => ({ shared: !!prev?.shared, spot: null, detail: prev?.detail ?? 1, staples: prev?.staples ?? true });
+const DETAIL = [
+  { label: 'Few', shared: 80, unique: 60 },
+  { label: 'Some', shared: 200, unique: 200 },
+  { label: 'Many', shared: 450, unique: 450 },
+];
 const bitCount = (m) => (m & 1) + ((m >> 1) & 1) + ((m >> 2) & 1);
 const maskColors = (m) => COMPARE_COLORS.filter((_, i) => m & (1 << i));
 
@@ -386,6 +406,7 @@ function go(next, { push = true } = {}) {
   filter.cuisines = new Set(next.type === 'filter' ? next.cuisines : []);
   let hi = null, edgesHi = [], focus = new Set();
   hiMat.linewidth = 2;
+  hiMat.opacity = 0.85;
   switch (next.type) {
     case 'home':
       flyTo(new THREE.Vector3(), HOME_POS.length() * (camera.aspect < 1 ? 1.25 : 1));
@@ -427,17 +448,25 @@ function go(next, { push = true } = {}) {
       compare.picks = next.names.slice();
       next.names.forEach((c) => activeCuisines.add(c));
       compareInfo = analyzeCompare(next.names);
+      const { staples } = getSim();
       const sharedOnly = !!next.shared && next.names.length > 1;
-      hi = new Set([...compareInfo.masks].filter(([, m]) => !sharedOnly || bitCount(m) > 1).map(([id]) => id));
-      focus = new Set([...compareInfo.masks].filter(([, m]) => bitCount(m) > 1).map(([id]) => id));
-      const wmax = Math.max(1, ...compareInfo.pairs.map((p) => p.w));
-      const shape = (p) => ({ a: nodeByName.get(p.x).id, b: nodeByName.get(p.y).id, colors: maskColors(p.mask), shared: bitCount(p.mask) > 1, strength: bitCount(p.mask) > 1 ? 1 : Math.pow(p.w / wmax, 0.5) });
+      const spotBit = next.spot == null ? 0 : 1 << next.spot; // spotlight one cuisine
+      const detail = DETAIL[next.detail ?? 1];
+      const keepMask = (m) => (!spotBit || m & spotBit) && (!sharedOnly || bitCount(m) > 1);
+      hi = new Set([...compareInfo.masks].filter(([, m]) => keepMask(m)).map(([id]) => id));
+      focus = new Set([...compareInfo.masks].filter(([, m]) => keepMask(m) && bitCount(m) > 1).map(([id]) => id));
+      // lines: skip pairings that involve everyday ingredients (they link to everything) and cap by strength
+      const usable = compareInfo.pairs.filter((p) => keepMask(p.mask) && (!spotBit || p.mask & spotBit) && (next.staples === false || !(staples.has(p.x) || staples.has(p.y))));
+      compareInfo.hiddenStaplePairs = compareInfo.pairs.filter((p) => keepMask(p.mask) && (staples.has(p.x) || staples.has(p.y))).length;
+      const wmax = Math.max(1, ...usable.map((p) => p.w));
+      const shape = (p) => ({ a: nodeByName.get(p.x).id, b: nodeByName.get(p.y).id, colors: maskColors(p.mask), shared: bitCount(p.mask) > 1, casing: true, strength: bitCount(p.mask) > 1 ? 1 : Math.pow(p.w / wmax, 0.5) });
       const order = (x, y) => y.w - x.w;
       edgesHi = [
-        ...compareInfo.pairs.filter((p) => bitCount(p.mask) > 1).sort(order).slice(0, 450).map(shape),
-        ...(sharedOnly ? [] : compareInfo.pairs.filter((p) => bitCount(p.mask) === 1).sort(order).slice(0, 450).map(shape)),
+        ...usable.filter((p) => bitCount(p.mask) > 1).sort(order).slice(0, detail.shared).map(shape),
+        ...(sharedOnly ? [] : usable.filter((p) => bitCount(p.mask) === 1).sort(order).slice(0, detail.unique).map(shape)),
       ];
-      hiMat.linewidth = 1.7;
+      hiMat.linewidth = 1.6;
+      hiMat.opacity = 0.6;
       if (hi.size) {
         const { c, r } = centroid([...hi]);
         flyTo(c, Math.max(230, r * 2.6));
@@ -467,10 +496,10 @@ function go(next, { push = true } = {}) {
   highlight = hi;
   focusIds = focus;
   setHighlightEdges(edgesHi);
-  baseEdgeMat.opacity = hi ? 0.18 : 0.75;
+  baseEdgeMat.opacity = next.type === 'compare' ? 0 : hi ? 0.18 : 0.75; // compare: no background lines at all
   for (const n of nodes) {
     const on = hi ? hi.has(n.id) : n.densityKeep;
-    n.vis.tOpacity = on ? 1 : n.densityKeep ? 0.09 : 0; // thinned-out ingredients vanish unless highlighted
+    n.vis.tOpacity = on ? 1 : next.type === 'compare' ? 0.04 : n.densityKeep ? 0.09 : 0; // thinned-out ingredients vanish unless highlighted
     n.vis.tScale = focus.has(n.id) ? (next.type === 'ingredient' ? 1.35 : 1.18) : on ? 1 : 0.8;
     // focused ingredients are painted over the big hubs so they are never buried
     n.sprite.renderOrder = focus.has(n.id) ? 10 : 0;
@@ -478,7 +507,7 @@ function go(next, { push = true } = {}) {
     // compare: shared ingredients grow with the number of cuisines that use them, and get a ring
     if (next.type === 'compare') {
       const m = compareInfo.masks.get(n.id) || 0;
-      if (m) {
+      if (m && hi.has(n.id)) {
         n.vis.tScale = [0, 1, 1.22, 1.4][bitCount(m)];
         const ring = ensureRing(n);
         ring.material.map = ringTexture(maskColors(m));
@@ -669,14 +698,23 @@ function renderCompareView(v) {
   const full = names.length >= 3;
   let h = `${crumbs()}<div class="kicker">compare cuisines</div>
     <h2 class="cmp-title">${names.map((n, i) => `${cdot(i)}${esc(n)}`).join('<span class="vs">vs</span>')}</h2>
-    <div class="chips cmp-chips">${names.map((n, i) => `<span class="cchip" style="--c:${COMPARE_COLORS[i]}">${esc(n)}<button data-compare-remove="${esc(n)}" aria-label="Remove ${esc(n)}">×</button></span>`).join('')}</div>`;
+    <div class="chips cmp-chips">${names.map((n, i) => `<span class="cchip${v.spot === i ? ' spot' : ''}" style="--c:${COMPARE_COLORS[i]}"><button class="cname" data-compare-spot="${i}" aria-pressed="${v.spot === i}" title="Spotlight ${esc(n)}">${esc(n)}</button><button data-compare-remove="${esc(n)}" aria-label="Remove ${esc(n)}">×</button></span>`).join('')}</div>
+    ${names.length > 1 ? '<p class="note tip">Click a cuisine to spotlight it on the map.</p>' : ''}`;
 
   if (names.length > 1) h += `<div class="seg" role="group" aria-label="What to show"><button class="${v.shared ? '' : 'on'}" data-compare-mode="all">All ingredients</button><button class="${v.shared ? 'on' : ''}" data-compare-mode="shared">Only what they share</button></div>`;
+  const detailLevel = v.detail ?? 1, hideStaples = v.staples !== false;
+  const stapleList = [...getSim().staples];
+  h += `<div class="ctl"><span>Connections</span><div class="seg mini" role="group" aria-label="How many connections to draw">${DETAIL.map((d, i) => `<button class="${i === detailLevel ? 'on' : ''}" data-compare-detail="${i}">${d.label}</button>`).join('')}</div></div>
+    <label class="chk"><input type="checkbox" data-compare-staples ${hideStaples ? 'checked' : ''}><span>Hide lines to everyday ingredients<small>${esc(stapleList.join(', '))} — they connect to everything${hideStaples && info.hiddenStaplePairs ? `, so ${info.hiddenStaplePairs} pairings are hidden` : ''}.</small></span></label>`;
   const pairs = [];
   for (let i = 0; i < names.length; i++) for (let j = i + 1; j < names.length; j++) pairs.push({ i, j, s: matrix.pair(names[i], names[j]) });
   if (pairs.length) {
     const overall = pairs.reduce((t, p) => t + p.s.overall, 0) / pairs.length;
-    h += `<div class="score"><b>${pct(overall)}</b><div><span>${names.length === 2 ? 'similarity score' : 'overall similarity'}</span><em>${describe(matrix.percentile(overall))}</em></div></div>
+    const sharedAll = info.counts.get(names.length === 3 ? 7 : 3) || 0;
+    const sharedSome = names.length === 3 ? (info.counts.get(3) || 0) + (info.counts.get(5) || 0) + (info.counts.get(6) || 0) : 0;
+    const total = info.masks.size;
+    h += `<p class="takeaway">${names.length === 2 ? `${esc(names[0])} and ${esc(names[1])} have <b>${sharedAll}</b> ingredients in common, out of ${total} between them.` : `<b>${sharedAll}</b> ingredients appear in all three cuisines and <b>${sharedSome}</b> more in two of them, out of ${total} in total.`}</p>
+    <div class="score"><b>${pct(overall)}</b><div><span>${names.length === 2 ? 'similarity score' : 'overall similarity'}</span><em>${describe(matrix.percentile(overall))}</em></div></div>
       <p class="note">${names.length === 2 ? 'Out of 100.' : 'The average of the three pairs below, out of 100.'} The score blends flavor profile, shared ingredients and shared pairings.</p>
       <h3>${names.length === 2 ? 'How they score' : 'Between each pair'}</h3><ul class="pairs">${pairs.map(({ i, j, s: sc }) => {
         const a = names[i], b = names[j];
@@ -720,7 +758,12 @@ function parseGo(s) {
 }
 document.addEventListener('click', (e) => {
   const cm = e.target.closest('[data-compare-mode]');
-  if (cm) return go({ type: 'compare', names: view.names, shared: cm.dataset.compareMode === 'shared' }, { push: false });
+  if (cm) return go({ ...view, shared: cm.dataset.compareMode === 'shared' }, { push: false });
+  const cs = e.target.closest('[data-compare-spot]');
+  if (cs) { const i = +cs.dataset.compareSpot; return go({ ...view, spot: view.spot === i ? null : i }, { push: false }); }
+  const cd = e.target.closest('[data-compare-detail]');
+  if (cd) return go({ ...view, detail: +cd.dataset.compareDetail }, { push: false });
+  if (e.target.closest('[data-compare-staples]')) return go({ ...view, staples: !(view.staples ?? true) }, { push: false });
   const cp = e.target.closest('[data-compare-pick],[data-compare-add],[data-compare-remove]');
   if (cp && !cp.disabled) {
     if (cp.dataset.comparePick) return togglePick(cp.dataset.comparePick);
@@ -820,6 +863,7 @@ function flashMessage(text) {
 function renderComparePane() {
   compareToggle.setAttribute('aria-expanded', String(compare.open));
   document.getElementById('compare').classList.toggle('has-picks', compare.picks.length > 0);
+  document.getElementById('compare').classList.toggle('full', compare.picks.length >= 3);
   if (!compare.open) return;
   compareSlots.innerHTML = [0, 1, 2].map((i) => {
     const n = compare.picks[i];
@@ -845,14 +889,14 @@ function applyPicks(picks) {
     renderComparePane();
     return;
   }
-  go({ type: 'compare', names: picks, shared: view.type === 'compare' && view.shared }, { push: view.type !== 'compare' });
+  go({ type: 'compare', names: picks, ...compareOpts(view.type === 'compare' ? view : null) }, { push: view.type !== 'compare' });
 }
 function togglePick(name, add = false) {
   if (!compare.open) setCompareOpen(true);
   const has = compare.picks.includes(name);
   if (has && !add) return applyPicks(compare.picks.filter((n) => n !== name));
   if (has) return;
-  if (compare.picks.length >= 3) return flashMessage('Up to three cuisines — remove one first.');
+  if (compare.picks.length >= 3) return flashMessage('Up to three cuisines — remove one with × to pick another.');
   applyPicks([...compare.picks, name]);
 }
 function setCompareOpen(open) {
@@ -1164,6 +1208,7 @@ function fitViewport() {
   renderer.setSize(innerWidth, innerHeight);
   hiMat.resolution.set(innerWidth, innerHeight);
   hiMatShared.resolution.set(innerWidth, innerHeight);
+  hiMatCasing.resolution.set(innerWidth, innerHeight);
 }
 window.addEventListener('resize', fitViewport);
 fitViewport();
