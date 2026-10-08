@@ -244,14 +244,14 @@ for (const n of nodes) {
 const UNIFORM_SCALE = 13;
 let sizeByPopularity = true;
 try { sizeByPopularity = localStorage.getItem('tt-size-popularity') !== '0'; } catch { /* storage unavailable */ }
-function setSizeByPopularity(on) {
+function setSizeByPopularity(on, { persist = true } = {}) {
   sizeByPopularity = on;
   for (const n of nodes) {
     n.label.style.fontSize = on ? `${12 + 16 * n.commonness * n.commonness + 4 * n.commonness}px` : '15px';
     n.label.classList.toggle('major', on && n.commonness > 0.55);
   }
   document.getElementById('size-toggle').setAttribute('aria-checked', String(on));
-  try { localStorage.setItem('tt-size-popularity', on ? '1' : '0'); } catch { /* storage unavailable */ }
+  if (persist) try { localStorage.setItem('tt-size-popularity', on ? '1' : '0'); } catch { /* storage unavailable */ }
 }
 const CUISINE_PIN_SIZE = 17;
 const cuisineMarks = Object.entries(CUISINES).map(([name, c]) => {
@@ -291,6 +291,8 @@ const compare = { open: false, picks: [], query: '' };
 // Comparing starts with the food illustrations off (easier to read); closing it puts things back
 // unless the person changed the switch themselves in the meantime.
 const compareIllus = { auto: false, previous: true };
+// ...and with sizes following popularity (so the shared everyday ingredients stand out).
+const compareSize = { auto: false, previous: true };
 let compareInfo = null; // analysis of the cuisines currently being compared
 let simCache = null;
 function getSim() {
@@ -975,9 +977,18 @@ function setCompareOpen(open) {
     compareIllus.previous = showIllustrations;
     compareIllus.auto = true;
     if (showIllustrations) setIllustrations(false, { persist: false });
-  } else if (!open && compare.open && compareIllus.auto) {
-    compareIllus.auto = false;
-    if (compareIllus.previous !== showIllustrations) setIllustrations(compareIllus.previous, { persist: false });
+    compareSize.previous = sizeByPopularity;
+    compareSize.auto = true;
+    if (!sizeByPopularity) setSizeByPopularity(true, { persist: false });
+  } else if (!open && compare.open) {
+    if (compareIllus.auto) {
+      compareIllus.auto = false;
+      if (compareIllus.previous !== showIllustrations) setIllustrations(compareIllus.previous, { persist: false });
+    }
+    if (compareSize.auto) {
+      compareSize.auto = false;
+      if (compareSize.previous !== sizeByPopularity) setSizeByPopularity(compareSize.previous, { persist: false });
+    }
   }
   compare.open = open;
   if (!open) {
@@ -1016,7 +1027,10 @@ document.getElementById('illus-toggle').addEventListener('click', () => {
   compareIllus.auto = false; // the person's own choice always wins
   setIllustrations(!showIllustrations);
 });
-document.getElementById('size-toggle').addEventListener('click', () => setSizeByPopularity(!sizeByPopularity));
+document.getElementById('size-toggle').addEventListener('click', () => {
+  compareSize.auto = false; // the person's own choice always wins
+  setSizeByPopularity(!sizeByPopularity);
+});
 setSizeByPopularity(sizeByPopularity);
 setIllustrations(showIllustrations);
 window.addEventListener('keydown', (e) => {
