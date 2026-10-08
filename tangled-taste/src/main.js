@@ -615,7 +615,8 @@ function go(next, { push = true, quiet = false } = {}) {
       hi = new Set([...ids, ...bridgeIds]);
       focus = new Set(ids);
       // cuisines that use every one of them light up (or, failing that, those using at least two)
-      (overlapInfo.cuisinesAll.length ? overlapInfo.cuisinesAll : overlapInfo.cuisines.filter((c) => c.usedCount >= 2)).forEach((c) => activeCuisines.add(c.name));
+      if (next.cuisine) activeCuisines.add(next.cuisine);
+      else (overlapInfo.cuisinesAll.length ? overlapInfo.cuisinesAll : overlapInfo.cuisines.filter((c) => c.usedCount >= 2)).forEach((c) => activeCuisines.add(c.name));
       // thick striped lines where two picks meet in a dish, thin coloured lines through the bridge ingredients
       for (const p of overlapInfo.pairs) if (p.co) edgesHi.push({ a: ids[p.ai], b: ids[p.bi], colors: [PICK_COLORS[p.ai], PICK_COLORS[p.bi]], shared: true, casing: true, strength: 1 });
       const wmax = Math.max(1, ...bridges.flatMap((b) => b.links));
@@ -733,7 +734,7 @@ const ingRows = (list, valFn, max = 99, maxVal) => {
 
 function crumbs() {
   const trail = [...history.slice(-3), view].filter((v, i, arr) => i === arr.length - 1 || v.type !== 'home');
-  const name = (v) => (v.type === 'home' ? 'Atlas' : v.type === 'ingredient' ? nodes[v.id].name : v.type === 'dish' ? DISHES[v.id].name : v.type === 'category' ? CATEGORIES[v.key].label : v.type === 'filter' ? 'Filtered' : v.type === 'compare' ? 'Compare' : v.type === 'overlap' ? 'Overlap' : v.name);
+  const name = (v) => (v.type === 'home' ? 'Atlas' : v.type === 'ingredient' ? nodes[v.id].name : v.type === 'dish' ? DISHES[v.id].name : v.type === 'category' ? CATEGORIES[v.key].label : v.type === 'filter' ? 'Filtered' : v.type === 'compare' ? 'Compare' : v.type === 'overlap' ? (v.cuisine ? `${v.cuisine} dishes` : 'Overlap') : v.name);
   const parts = [`<button data-go="home">Atlas</button>`];
   trail.forEach((v, i) => {
     if (v.type === 'home') return;
@@ -969,12 +970,21 @@ function renderOverlapView(v) {
   const common = names.filter((_, i) => info.counts[i] / info.total > 0.2);
   if (common.length) h += `<p class="fine">${common.map(esc).join(' and ')} ${common.length === 1 ? 'is' : 'are'} in more than a fifth of all dishes, so some overlap is expected by luck alone; the “× chance” figures show what is left over.</p>`;
 
+  if (v.cuisine) {
+    const ds = info.all.filter((d) => d.cuisine === v.cuisine);
+    h += `<h3>${cuiIco(v.cuisine)}${esc(v.cuisine)} · ${dishes(ds.length)} with ${k === 2 ? 'both' : 'all'}</h3>`;
+    h += ds.length ? `<ul class="rows">${ds.map((d) => `<li data-go="dish:${d.id}"><span class="nm">${esc(d.name)} <em>${names.map((nm, i) => `${dot(i)}${esc(nm)}`).join(' ')}</em></span><span class="val">${d.popularity}</span>${bar(d.popularity, CUISINES[d.cuisine].color)}</li>`).join('')}</ul>`
+      : `<p class="note">No ${esc(v.cuisine)} dish uses all of them.</p>`;
+    h += `<p class="fine"><button class="link" data-go="cuisine:${esc(v.cuisine)}">Open the ${esc(v.cuisine)} cuisine view</button></p>`;
+    return h;
+  }
+
   // cuisines
   const maxAll = Math.max(1, ...info.cuisines.map((c) => c.dishesAll));
   h += `<h3>Cuisines</h3><ul class="rows">${info.cuisines.slice(0, 10).map((c) => {
     const note = c.useAll ? (c.dishesAll ? 'uses all, together' : 'uses all, separately') : `uses ${c.usedCount} of ${k}`;
     const width = c.dishesAll ? (c.dishesAll / maxAll) * 100 : (c.usedCount / k) * 30;
-    return `<li data-go="cuisine:${esc(c.name)}"><span class="nm">${cuiIco(c.name)}${esc(c.name)} <em>${note}</em></span><span class="val">${c.dishesAll ? dishes(c.dishesAll) : ''}</span>${bar(Math.max(width, 4), CUISINES[c.name].color)}</li>`;
+    return `<li data-go="${c.dishesAll ? 'overlapcuisine' : 'cuisine'}:${esc(c.name)}"><span class="nm">${cuiIco(c.name)}${esc(c.name)} <em>${note}</em></span><span class="val">${c.dishesAll ? dishes(c.dishesAll) : ''}</span>${bar(Math.max(width, 4), CUISINES[c.name].color)}</li>`;
   }).join('')}</ul>${info.cuisines.length > 10 ? `<p class="fine">Showing 10 of ${info.cuisines.length} cuisines that use at least one.</p>` : ''}`;
 
   // dishes
@@ -1027,6 +1037,7 @@ function parseGo(s) {
   const type = s.slice(0, i), arg = s.slice(i + 1);
   if (type === 'ingredient' || type === 'dish') return { type, id: +arg };
   if (type === 'category') return { type, key: arg };
+  if (type === 'overlapcuisine') return { type: 'overlap', ids: view.ids, cuisine: arg };
   return { type, name: arg };
 }
 document.addEventListener('click', (e) => {
