@@ -266,7 +266,7 @@ const cuisineMarks = Object.entries(CUISINES).map(([name, c]) => {
   dot.position.copy(p);
   dot.scale.setScalar(CUISINE_PIN_SIZE); // every cuisine pin is the same size
   scene.add(dot);
-  return { name, pos: p, el, dot, blobTex: dot.material.map, illusTex: null, vis: 1 };
+  return { name, pos: p, el, dot, blobTex: dot.material.map, illusTex: null, vis: 1, fade: 0 };
 });
 
 // Cuisines get a small watercolor map of their country, painted just after the ingredients.
@@ -1174,13 +1174,16 @@ function updateLabels() {
     const behind = camera.position.distanceTo(m.pos) > camera.position.length() + 10;
     const on = !activeCuisines.size || activeCuisines.has(m.name);
     const visible = !(v3.z > 1 || Math.abs(v3.x) > 1.05 || Math.abs(v3.y) > 1.05);
-    const rPx = (m.dot.scale.x * 0.45) / (camera.position.distanceTo(m.pos) * tanHalf) * (H / 2);
+    // the country painting is only shown while its cuisine is highlighted (it fades in and out)
+    m.fade += ((activeCuisines.has(m.name) ? 1 : 0) - m.fade) * 0.18;
+    const rPx = 3 + (m.dot.scale.x * 0.45) / (camera.position.distanceTo(m.pos) * tanHalf) * (H / 2) * m.fade;
     return { m, behind, on, visible, rPx, x: (v3.x * 0.5 + 0.5) * W, y: (-v3.y * 0.5 + 0.5) * H };
   }).sort((p, q) => (q.on - p.on) * 2 + (p.behind - q.behind));
   const cuisineBoxes = [];
   for (const c of marks) {
     const { m } = c;
-    m.dot.material.opacity = (c.on ? 0.95 : 0.07) * (c.behind ? 0.5 : 1); // unselected countries nearly vanish
+    m.dot.material.opacity = m.fade * 0.95 * (c.behind ? 0.5 : 1);
+    m.dot.visible = m.fade > 0.01;
     const w = m.name.length * 9 + 8, h = 24;
     const top = c.y - c.rPx - 2;
     const box = [c.x - w / 2, top - h, c.x + w / 2, top];
@@ -1268,4 +1271,4 @@ camTween.t = 1;
 if (camera.aspect < 1) camera.position.multiplyScalar(1.25);
 animate();
 // expose for debugging
-window.__atlas = { nodes, edges, go, camera, controls, step: (k = 30) => { for (let i = 0; i < k; i++) frame(0.05); } };
+window.__atlas = { nodes, edges, go, camera, controls, cuisineMarks, step: (k = 30) => { for (let i = 0; i < k; i++) frame(0.05); } };
