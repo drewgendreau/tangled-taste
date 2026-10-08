@@ -440,6 +440,7 @@ function go(next, { push = true } = {}) {
       const n = nodes[next.id];
       hi = new Set([n.id, ...adjacency[n.id].keys()]);
       focus = new Set([n.id]);
+      n.cuisines.forEach((_, c) => activeCuisines.add(c)); // light up the cuisines that use it, fade the rest
       const mw = Math.max(...[...adjacency[n.id].values()].map((e) => e.weight));
       for (const [other, e] of adjacency[n.id]) edgesHi.push({ a: n.id, b: other, color: CATEGORIES[n.category].color, strength: Math.pow(e.weight / mw, 0.6) });
       flyTo(n.sprite.position.clone(), 170);

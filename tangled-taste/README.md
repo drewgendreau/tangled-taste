@@ -13,7 +13,7 @@ pnpm validate   # sanity-check the dataset (run in CI before every deploy)
 ## Navigating
 
 - **Search bar** (press `/`): find ingredients, dishes, cuisines, countries, regions or ingredient families.
-- **Click an ingredient**: see its companions, the cuisines that use it and its dishes.
+- **Click an ingredient**: see its companions, the cuisines that use it and its dishes. Cuisines that use it light up on the globe and all the others fade.
 - **Click a dish**: its ingredients light up as a linked constellation; the panel shows popularity and kindred dishes.
 - **Cuisines** appear on the globe as small watercolor maps of their country (all one size), with their names above. They also mark the cuisine in the *Cuisines of the world* legend, in search and in the compare picker. Click one to open the cuisine or region view. The Illustrations setting turns them back into plain dots along with the food paintings.
 - **Dish-type chips** under the search bar (soups, desserts, drinks…) filter the whole atlas.
