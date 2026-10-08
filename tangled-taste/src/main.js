@@ -5,22 +5,58 @@ import { LineSegmentsGeometry } from 'three/examples/jsm/lines/LineSegmentsGeome
 import { LineMaterial } from 'three/examples/jsm/lines/LineMaterial.js';
 import { CATEGORIES, CUISINES, DISHES, DISH_TYPES } from './data.js';
 import { buildGraph, latLngToVec, GLOBE_RADIUS } from './graph.js';
-import { paintBlob, paintHalo, paintPaper, swatchDataURL } from './watercolor.js';
-import { paintIngredient, iconURL, paintCuisine, cuisineIconURL } from './illustrations.js';
+import { paintBlob, paintBlobCanvas, paintHalo, paintPaperTile } from './watercolor.js';
+import { paintIngredient, paintCuisine, isPainted } from './illustrations.js';
 import { buildProfiles, buildMatrix, compareSets, describe } from './similarity.js';
 
+performance.mark('app:module-start');
 const PAPER = new THREE.Color('#f5eee0');
 const INK = new THREE.Color('#5a4030');
 // Positions are computed once at build time (scripts/bake-layout.mjs); without them we simulate on load.
 const baked = Object.values(import.meta.glob('./data/layout.generated.json', { eager: true, import: 'default' }))[0];
 const { nodes, edges, adjacency } = buildGraph(baked);
+performance.mark('app:graph');
 const totalDishes = DISHES.length;
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
 const norm = (s) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
 
+// ---------------------------------------------------------------- idle work
+// Painting and icon work is cut into short slices (about 8 ms) so the page stays responsive;
+// anything the person is waiting for goes in the urgent queue and is done first.
+const urgentQueue = [], idleQueue = [];
+const sliceChannel = new MessageChannel();
+let sliceRunning = false;
+sliceChannel.port1.onmessage = () => {
+  const t0 = performance.now();
+  while ((urgentQueue.length || idleQueue.length) && performance.now() - t0 < 8) (urgentQueue.shift() || idleQueue.shift())();
+  if (urgentQueue.length || idleQueue.length) sliceChannel.port2.postMessage(0);
+  else sliceRunning = false;
+};
+function whenIdle(fn, low = false) {
+  (low ? idleQueue : urgentQueue).push(fn);
+  if (!sliceRunning) {
+    sliceRunning = true;
+    sliceChannel.port2.postMessage(0);
+  }
+}
+
 // ---------------------------------------------------------------- page dressing
-document.body.style.backgroundImage = `url(${paintPaper()})`;
 {
+  // paper: a small speckled tile repeated across a full-screen canvas
+  const paper = document.createElement('canvas');
+  paper.id = 'paper';
+  document.body.prepend(paper);
+  const tile = paintPaperTile(256);
+  const drawPaper = () => {
+    paper.width = innerWidth;
+    paper.height = innerHeight;
+    const g = paper.getContext('2d');
+    g.fillStyle = g.createPattern(tile, 'repeat');
+    g.fillRect(0, 0, paper.width, paper.height);
+  };
+  drawPaper();
+  window.addEventListener('resize', drawPaper);
+  // soft colour washes (blurred by CSS, so a small canvas is plenty)
   const washes = document.getElementById('washes');
   const spots = [
     ['#c0504d', 11, '-8vw', '-10vh', '38vw'],
@@ -28,17 +64,16 @@ document.body.style.backgroundImage = `url(${paintPaper()})`;
     ['#e0bb57', 37, '-6vw', '68vh', '30vw'],
     ['#5a8fb8', 41, '80vw', '-12vh', '26vw'],
   ];
-  for (const [c, seed, x, y, s] of spots) {
-    const img = new Image();
-    img.src = swatchDataURL(c, seed, 160);
-    Object.assign(img.style, { left: x, top: y, width: s, height: s });
-    washes.appendChild(img);
+  for (const [c, seed, x, y, w] of spots) {
+    const cv = paintBlobCanvas(c, seed, 96);
+    Object.assign(cv.style, { left: x, top: y, width: w, height: w });
+    washes.appendChild(cv);
   }
 }
 
 // ---------------------------------------------------------------- renderer
 const stage = document.getElementById('stage');
-const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+const renderer = new THREE.WebGLRenderer({ antialias: (window.devicePixelRatio || 1) < 2, alpha: true, powerPreference: 'high-performance' });
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 renderer.setSize(innerWidth, innerHeight);
 renderer.setClearColor(0x000000, 0);
@@ -56,6 +91,8 @@ controls.minDistance = 40;
 controls.maxDistance = 700;
 controls.autoRotate = true;
 controls.autoRotateSpeed = 0.35;
+let ownControlsUpdate = false; // changes caused by our own frame loop must not wake it up again
+controls.addEventListener('change', () => { if (!ownControlsUpdate) invalidate(); });
 controls.rotateSpeed = 0.6;
 
 // ---------------------------------------------------------------- globe graticule
@@ -79,13 +116,35 @@ controls.rotateSpeed = 0.6;
 // Plain watercolor blobs, three variants per family: the loading wash, and what the map
 // shows when the illustrations are switched off.
 const blobs = {};
-Object.entries(CATEGORIES).forEach(([key, { color }], ci) => (blobs[key] = [0, 1, 2].map((v) => paintBlob(color, ci * 101 + v * 17 + 1, 128))));
+Object.entries(CATEGORIES).forEach(([key, { color }], ci) => (blobs[key] = [0, 1, 2].map((v) => paintBlob(color, ci * 101 + v * 17 + 1, 96))));
 let showIllustrations = true;
 try { showIllustrations = localStorage.getItem('tt-illustrations') !== '0'; } catch { /* storage unavailable */ }
 const REP = { vegetable: 'tomato', herb: 'basil', fruit: 'lemon', spice: 'cinnamon', meat: 'beef', seafood: 'fish', dairy: 'egg', grain: 'bread', legume: 'chickpeas', nut: 'walnut', pantry: 'olive oil' };
-const icon = (n) => iconURL(n.name, CATEGORIES[n.category].color);
-const cuisineIcon = (name) => cuisineIconURL(name, CUISINES[name].color);
-const familyIcon = (k) => iconURL(REP[k], CATEGORIES[k].color);
+// Small icons are drawn straight into <canvas> elements from the artwork that is already painted
+// (no PNG encoding): the markup goes in first and fillIcons() puts the pixels in as time allows.
+const ico = (kind, key, px = 26, cls = '') => `<canvas class="ico ${cls}" data-ico="${kind}:${esc(key)}" width="${px * 2}" height="${px * 2}" aria-hidden="true"></canvas>`;
+const ingIco = (n, px) => ico('ing', n.id, px);
+const cuiIco = (name, px = 24) => ico('cui', name, px, 'cico');
+const famIco = (k, px) => ico('fam', k, px);
+const iconSource = (kind, key) => {
+  if (kind === 'ing') { const n = nodes[+key]; return paintIngredient(n.name, CATEGORIES[n.category].color); }
+  if (kind === 'cui') return paintCuisine(key, CUISINES[key].color);
+  return paintIngredient(REP[key], CATEGORIES[key].color);
+};
+const iconReady = (kind, key) => (kind === 'ing' ? isPainted(nodes[+key].name) : kind === 'cui' ? isPainted(`cuisine:${key}`) : isPainted(REP[key]));
+function fillIcons(root) {
+  for (const c of root.querySelectorAll('canvas[data-ico]:not([data-done])')) {
+    const [kind, key] = c.dataset.ico.split(/:(.*)/s);
+    const draw = () => {
+      const g = c.getContext('2d');
+      g.imageSmoothingQuality = 'high';
+      g.drawImage(iconSource(kind, key), 0, 0, c.width, c.height);
+      c.dataset.done = '1';
+    };
+    if (iconReady(kind, key)) draw();
+    else whenIdle(draw); // paints the artwork first, in a slice of its own
+  }
+}
 const nodeGroup = new THREE.Group();
 scene.add(nodeGroup);
 for (const n of nodes) {
@@ -100,33 +159,34 @@ for (const n of nodes) {
   n.vis = { scale: 1, base: n.baseScale, opacity: 0, tScale: 1, tOpacity: 1 };
   nodeGroup.add(s);
 }
-const paintQueue = [...nodes].sort((a, b) => b.count - a.count);
-function paintSome(budgetMs) {
-  const t0 = performance.now();
-  while (paintQueue.length && performance.now() - t0 < budgetMs) {
-    const n = paintQueue.shift();
-    const tex = new THREE.CanvasTexture(paintIngredient(n.name, CATEGORIES[n.category].color));
-    tex.colorSpace = THREE.SRGBColorSpace;
-    tex.anisotropy = 4;
-    n.illusTex = tex;
-    if (showIllustrations) {
-      n.sprite.material.map = tex;
-      n.sprite.material.needsUpdate = true;
-    }
-    n.vis.opacity = 0; // fade the finished painting in
+performance.mark('app:sprites');
+// Each ingredient shows a soft wash until its painting is ready; the most common ones are painted first.
+function paintIngredientNode(n) {
+  if (n.illusTex) return;
+  invalidate();
+  const tex = new THREE.CanvasTexture(paintIngredient(n.name, CATEGORIES[n.category].color));
+  tex.colorSpace = THREE.SRGBColorSpace;
+  tex.anisotropy = 1; // sprites always face the camera, so anisotropic filtering buys nothing
+  n.illusTex = tex;
+  if (showIllustrations) {
+    n.sprite.material.map = tex;
+    n.sprite.material.needsUpdate = true;
   }
-  if (paintQueue.length) setTimeout(() => paintSome(14), 0);
+  n.vis.opacity = 0; // fade the finished painting in
 }
-setTimeout(() => paintSome(2000), 30);
+for (const n of [...nodes].sort((a, b) => b.count - a.count)) whenIdle(() => paintIngredientNode(n), true);
 function setIllustrations(on, { persist = true } = {}) {
   showIllustrations = on;
+  invalidate();
   for (const n of nodes) {
     n.sprite.material.map = on && n.illusTex ? n.illusTex : n.blobTex;
     n.sprite.material.needsUpdate = true;
   }
   for (const m of cuisineMarks) {
-    m.dot.material.map = on && m.illusTex ? m.illusTex : m.blobTex;
-    m.dot.material.needsUpdate = true;
+    if (m.ready) {
+      m.dot.material.map = on ? m.illusTex : m.blobTex;
+      m.dot.material.needsUpdate = true;
+    }
     m.dot.scale.setScalar(on ? CUISINE_PIN_SIZE : 6);
   }
   const btn = document.getElementById('illus-toggle');
@@ -228,9 +288,39 @@ function setHighlightEdges(list) {
   hiLinesShared = build(list.filter((e) => e.shared), hiMatShared, -0.9, list.some((e) => e.casing));
 }
 
+// ---------------------------------------------------------------- render only when something changes
+// The scene is redrawn while something is moving (camera, fades, hover) and otherwise left alone,
+// so an idle page costs next to nothing. invalidate() asks for one more frame.
+let needsRender = true;
+const invalidate = () => { needsRender = true; };
+
+// ---------------------------------------------------------------- performance readout
+// Rolling averages of what each frame spends its time on. Add ?perf to the address for a live readout.
+const perf = {
+  n: 0, update: 0, render: 0, labels: 0, longTasks: 0, longTaskMs: 0, frames: 0,
+  add(u, r, l) { const k = 0.1; this.update += (u - this.update) * k; this.render += (r - this.render) * k; this.labels += (l - this.labels) * k; this.frames++; },
+};
+try {
+  new PerformanceObserver((list) => { for (const e of list.getEntries()) { perf.longTasks++; perf.longTaskMs += e.duration; } }).observe({ type: 'longtask', buffered: true });
+} catch { /* long-task timing not supported */ }
+if (new URLSearchParams(location.search).has('perf')) {
+  const hud = document.createElement('div');
+  hud.style.cssText = 'position:fixed;left:12px;top:92px;z-index:50;padding:6px 10px;border-radius:8px;background:rgba(40,28,20,.82);color:#fdf3e2;font:12px/1.4 ui-monospace,monospace;pointer-events:none;white-space:pre';
+  document.body.appendChild(hud);
+  let last = performance.now(), fr = 0;
+  setInterval(() => {
+    const now = performance.now();
+    const fps = ((perf.frames - fr) * 1000) / (now - last);
+    fr = perf.frames; last = now;
+    hud.textContent = `${fps.toFixed(0)} fps · pixel ratio ${renderer.getPixelRatio().toFixed(2)}\nupdate ${perf.update.toFixed(2)} ms\nrender ${perf.render.toFixed(2)} ms\nlabels ${perf.labels.toFixed(2)} ms\nlong tasks ${perf.longTasks} (${perf.longTaskMs.toFixed(0)} ms)`;
+  }, 500);
+}
+
 // ---------------------------------------------------------------- HTML labels
 const labelLayer = document.getElementById('labels');
 const ranked = [...nodes].sort((a, b) => b.count - a.count);
+let labelsDirty = true; // the set of ingredients that may carry a label must be recomputed
+let showSetCache = null;
 let HOME_LABELS = new Set(ranked.slice(0, 55).map((n) => n.id));
 for (const n of nodes) {
   const el = document.createElement('div');
@@ -246,8 +336,10 @@ let sizeByPopularity = true;
 try { sizeByPopularity = localStorage.getItem('tt-size-popularity') !== '0'; } catch { /* storage unavailable */ }
 function setSizeByPopularity(on, { persist = true } = {}) {
   sizeByPopularity = on;
+  invalidate();
   for (const n of nodes) {
-    n.label.style.fontSize = on ? `${12 + 16 * n.commonness * n.commonness + 4 * n.commonness}px` : '15px';
+    n.fontPx = on ? 12 + 16 * n.commonness * n.commonness + 4 * n.commonness : 15;
+    n.label.style.fontSize = `${n.fontPx}px`;
     n.label.classList.toggle('major', on && n.commonness > 0.55);
   }
   document.getElementById('size-toggle').setAttribute('aria-checked', String(on));
@@ -262,27 +354,27 @@ const cuisineMarks = Object.entries(CUISINES).map(([name, c]) => {
   el.style.color = c.color;
   el.addEventListener('click', () => (compare.open ? togglePick(name) : go({ type: 'cuisine', name })));
   labelLayer.appendChild(el);
-  const dot = new THREE.Sprite(new THREE.SpriteMaterial({ map: paintBlob(c.color, name.length * 17 + 3, 128), transparent: true, depthWrite: false }));
+  const dot = new THREE.Sprite(new THREE.SpriteMaterial({ transparent: true, depthWrite: false, opacity: 0 }));
+  dot.visible = false; // pins only appear while their cuisine is highlighted
   dot.position.copy(p);
   dot.scale.setScalar(CUISINE_PIN_SIZE); // every cuisine pin is the same size
   scene.add(dot);
-  return { name, pos: p, el, dot, blobTex: dot.material.map, illusTex: null, vis: 1, fade: 0 };
-});
-
-// Cuisines get a small watercolor map of their country, painted just after the ingredients.
-function paintCuisines() {
-  for (const m of cuisineMarks) {
-    const tex = new THREE.CanvasTexture(paintCuisine(m.name, CUISINES[m.name].color));
-    tex.colorSpace = THREE.SRGBColorSpace;
-    tex.anisotropy = 4;
-    m.illusTex = tex;
-    if (showIllustrations) {
-      m.dot.material.map = tex;
-      m.dot.material.needsUpdate = true;
-    }
-  }
+  return { name, pos: p, el, dot, blobTex: null, illusTex: null, ready: false, vis: 1, fade: 0 };
+});// A cuisine's textures (country painting and plain dot) are made the first time they are needed.
+function ensureCuisineTex(m) {
+  if (m.ready) return;
+  invalidate();
+  m.ready = true;
+  const c = CUISINES[m.name];
+  m.blobTex = paintBlob(c.color, m.name.length * 17 + 3, 96);
+  m.illusTex = new THREE.CanvasTexture(paintCuisine(m.name, c.color));
+  m.illusTex.colorSpace = THREE.SRGBColorSpace;
+  m.illusTex.anisotropy = 1;
+  m.dot.material.map = showIllustrations ? m.illusTex : m.blobTex;
+  m.dot.material.needsUpdate = true;
 }
-setTimeout(paintCuisines, 80);
+for (const m of cuisineMarks) whenIdle(() => ensureCuisineTex(m), true); // ready before anyone asks
+
 
 // ---------------------------------------------------------------- compare cuisines (state + drawing helpers)
 // Okabe–Ito colors: distinguishable for most kinds of color vision.
@@ -425,6 +517,8 @@ const nodeByName = new Map(nodes.map((n) => [n.name, n]));
 const dishIngredientIds = (did) => DISHES[did].ingredients.map((nm) => nodeByName.get(nm).id);
 
 function go(next, { push = true, quiet = false } = {}) {
+  invalidate();
+  labelsDirty = true;
   if (push && !(next.type === view.type && JSON.stringify(next) === JSON.stringify(view))) history.push(view);
   view = next;
   controls.autoRotate = next.type === 'home';
@@ -527,6 +621,7 @@ function go(next, { push = true, quiet = false } = {}) {
   if (hi) hi = new Set([...hi].filter((id) => !gone(id)));
   focus = new Set([...focus].filter((id) => !gone(id)));
   edgesHi = edgesHi.filter((e) => !gone(e.a) && !gone(e.b));
+  if (hi && hi.size < 150) for (const id of hi) paintIngredientNode(nodes[id]); // never show a wash when a painting is due
   highlight = hi;
   focusIds = focus;
   setHighlightEdges(edgesHi);
@@ -582,15 +677,15 @@ function back() {
 // ---------------------------------------------------------------- panel
 const panel = document.getElementById('panel-inner');
 const bar = (pct, color) => `<div class="bar"><i style="width:${Math.max(3, pct)}%;background:${color}"></i></div>`;
-const ingChip = (n, extra = '') => `<button class="chip" data-go="ingredient:${n.id}"><img src="${icon(n)}" alt="">${esc(n.name)}${extra}</button>`;
-const cuisineChip = (name, extra = '') => `<button class="chip${activeCuisines.has(name) ? ' active' : ''}" data-go="cuisine:${esc(name)}"><img class="cico" src="${cuisineIcon(name)}" alt="">${esc(name)}${extra}</button>`;
+const ingChip = (n, extra = '') => `<button class="chip" data-go="ingredient:${n.id}">${ingIco(n)}${esc(n.name)}${extra}</button>`;
+const cuisineChip = (name, extra = '') => `<button class="chip${activeCuisines.has(name) ? ' active' : ''}" data-go="cuisine:${esc(name)}">${cuiIco(name)}${esc(name)}${extra}</button>`;
 const dishRows = (ids, max = 99) => `<ul class="rows">${ids.slice(0, max).map((id) => {
   const d = DISHES[id];
   return `<li data-go="dish:${id}"><span class="nm">${esc(d.name)} <em>${esc(d.cuisine)}</em></span><span class="val">${d.popularity}</span>${bar(d.popularity, CUISINES[d.cuisine].color)}</li>`;
 }).join('')}</ul>`;
 const ingRows = (list, valFn, max = 99, maxVal) => {
   const mv = maxVal || Math.max(...list.map(valFn));
-  return `<ul class="rows">${list.slice(0, max).map((n) => `<li data-go="ingredient:${n.id}"><span class="nm"><img src="${icon(n)}" alt="">${esc(n.name)}</span><span class="val">${valFn(n)}</span>${bar((valFn(n) / mv) * 100, CATEGORIES[n.category].color)}</li>`).join('')}</ul>`;
+  return `<ul class="rows">${list.slice(0, max).map((n) => `<li data-go="ingredient:${n.id}"><span class="nm">${ingIco(n, 28)}${esc(n.name)}</span><span class="val">${valFn(n)}</span>${bar((valFn(n) / mv) * 100, CATEGORIES[n.category].color)}</li>`).join('')}</ul>`;
 };
 
 function crumbs() {
@@ -614,13 +709,13 @@ function renderPanel() {
       <p class="lede">Ingredients are linked whenever they meet in the same dish, and the map currently includes ${totalDishes} dishes from ${Object.keys(CUISINES).length} cuisines. Universal staples tend to be toward the center, with regional ingredients on the outskirts.</p>
       <h3>Most common ingredients</h3>${ingRows(ranked, (n) => n.count, 10)}
       <h3>Most popular dishes</h3>${dishRows(topDishes, 8)}
-      <h3>Ingredient families</h3><div class="chips">${Object.entries(CATEGORIES).map(([k, c], i) => `<button class="chip" data-go="category:${k}"><img src="${familyIcon(k)}" alt="">${c.label}</button>`).join('')}</div>
+      <h3>Ingredient families</h3><div class="chips">${Object.entries(CATEGORIES).map(([k, c], i) => `<button class="chip" data-go="category:${k}">${famIco(k)}${c.label}</button>`).join('')}</div>
       <p class="fine">Blob size shows how common an ingredient is. Popularity scores are illustrative estimates of worldwide recognition.</p>`;
   } else if (v.type === 'ingredient') {
     const n = nodes[v.id];
     const companions = [...adjacency[n.id].entries()].sort((a, b) => b[1].weight - a[1].weight).map(([id, e]) => ({ n: nodes[id], w: e.weight }));
     const cuisines = [...n.cuisines.entries()].sort((a, b) => b[1] - a[1]);
-    h = `${crumbs()}<div class="title-row"><img src="${icon(n)}" alt=""><div><div class="kicker">${esc(CATEGORIES[n.category].label.toLowerCase())}</div><h2>${esc(n.name)}</h2></div></div>
+    h = `${crumbs()}<div class="title-row">${ingIco(n, 76)}<div><div class="kicker">${esc(CATEGORIES[n.category].label.toLowerCase())}</div><h2>${esc(n.name)}</h2></div></div>
       <div class="stats"><div class="stat"><b>${n.count}</b><span>dishes</span></div><div class="stat"><b>${n.cuisines.size}</b><span>cuisines</span></div><div class="stat"><b>${n.popularity}</b><span>popularity</span></div></div>
       <h3>Found in</h3><div class="chips">${cuisines.map(([c, k]) => cuisineChip(c, ` <small>${k}</small>`)).join('')}</div>
       <h3>Best companions</h3>${ingRows(companions.map((c) => Object.assign(Object.create(c.n), { _w: c.w })), (x) => x._w, 8)}
@@ -653,7 +748,7 @@ function renderPanel() {
       return { k, s: inter / new Set([...sig, ...s2]).size };
     }).sort((a, b) => b.s - a.s).slice(0, 4);
     const avg = Math.round(dishes.reduce((s, d) => s + d.popularity, 0) / dishes.length);
-    h = `${crumbs()}<div class="title-row"><img src="${cuisineIcon(v.name)}" alt=""><div><div class="kicker" style="color:${c.color}">cuisine</div><h2>${esc(v.name)}</h2></div></div>
+    h = `${crumbs()}<div class="title-row">${cuiIco(v.name, 76)}<div><div class="kicker" style="color:${c.color}">cuisine</div><h2>${esc(v.name)}</h2></div></div>
       <div class="chips" style="margin-top:6px"><button class="chip" data-go="region:${esc(c.region)}"><span class="dot" style="background:${c.color}"></span>${esc(c.country)} · ${esc(c.region)}</button></div>
       <div class="stats"><div class="stat"><b>${dishes.length}</b><span>dishes</span></div><div class="stat"><b>${freq.size}</b><span>ingredients</span></div><div class="stat"><b>${avg}</b><span>avg popularity</span></div></div>
       <h3>Signature ingredients</h3><div class="chips">${signature.map(({ n }) => ingChip(n)).join('')}</div>
@@ -696,10 +791,11 @@ function renderPanel() {
     }
   } else if (v.type === 'category') {
     const list = nodes.filter((n) => n.category === v.key).sort((a, b) => b.count - a.count);
-    h = `${crumbs()}<div class="title-row"><img src="${familyIcon(v.key)}" alt=""><div><div class="kicker">ingredient family</div><h2>${esc(CATEGORIES[v.key].label)}</h2></div></div>
+    h = `${crumbs()}<div class="title-row">${famIco(v.key, 76)}<div><div class="kicker">ingredient family</div><h2>${esc(CATEGORIES[v.key].label)}</h2></div></div>
       <h3>By number of dishes</h3>${ingRows(list, (n) => n.count)}`;
   }
   panel.innerHTML = `<div class="panel">${h}</div>`;
+  fillIcons(panel);
   panel.scrollTop = 0;
   panel.style.animation = 'none';
   void panel.offsetWidth;
@@ -771,13 +867,13 @@ function renderCompareView(v) {
   h += `<h3>Distinctive to each</h3>` + names.map((n, i) => {
     const p = profiles.get(n);
     const only = [...p.ingredients.keys()].filter((nm) => info.masks.get(nodeByName.get(nm).id) === 1 << i || names.length === 1).sort((x, y) => p.vector.get(y) - p.vector.get(x)).slice(0, 6);
-    return `<div class="cmp-block"><div class="cmp-h">${cdot(i)}${esc(n)}</div><div class="chips">${only.map((nm) => `<button class="chip" data-go="ingredient:${nodeByName.get(nm).id}"><img src="${icon(nodeByName.get(nm))}" alt="">${esc(nm)}</button>`).join('')}</div></div>`;
+    return `<div class="cmp-block"><div class="cmp-h">${cdot(i)}${esc(n)}</div><div class="chips">${only.map((nm) => `<button class="chip" data-go="ingredient:${nodeByName.get(nm).id}">${ingIco(nodeByName.get(nm))}${esc(nm)}</button>`).join('')}</div></div>`;
   }).join('');
 
   // nearest neighbours, as a way to explore
   h += `<h3>Closest cuisines</h3>` + names.map((n, i) => {
     const near = matrix.neighbours(n).filter((x) => !names.includes(x.name)).slice(0, 5);
-    return `<div class="cmp-block"><div class="cmp-h">${cdot(i)}${esc(n)}</div><div class="chips">${near.map((x) => `<button class="chip" data-compare-add="${esc(x.name)}" ${full ? 'disabled title="Remove one cuisine first"' : ''}><img class="cico" src="${cuisineIcon(x.name)}" alt="">${esc(x.name)} <small>${pct(x.overall)}</small></button>`).join('')}</div></div>`;
+    return `<div class="cmp-block"><div class="cmp-h">${cdot(i)}${esc(n)}</div><div class="chips">${near.map((x) => `<button class="chip" data-compare-add="${esc(x.name)}" ${full ? 'disabled title="Remove one cuisine first"' : ''}>${cuiIco(x.name)}${esc(x.name)} <small>${pct(x.overall)}</small></button>`).join('')}</div></div>`;
   }).join('');
   h += `<p class="fine">Scores: 50% flavor profile (cosine similarity of ingredient frequencies, weighting rare ingredients up), 25% shared ingredients and 25% shared pairings (both Jaccard overlap), compared against all ${matrix.names.length} cuisines.</p>`;
   return h;
@@ -825,14 +921,23 @@ document.addEventListener('click', (e) => {
 // ---------------------------------------------------------------- atlas legend
 const atlasBody = document.getElementById('atlas-body');
 const regions = [...new Set(Object.values(CUISINES).map((c) => c.region))];
+const atlasToggle = document.getElementById('atlas-toggle');
+let atlasStale = true;
 function renderAtlas() {
+  // the legend is 65 chips with icons: only build it while it is open
+  if (atlasToggle.getAttribute('aria-expanded') !== 'true') {
+    atlasStale = true;
+    return;
+  }
+  atlasStale = false;
   atlasBody.innerHTML = regions.map((r) => `<div class="region"><button class="region-name" data-go="region:${esc(r)}">${esc(r)}</button><div class="chips">${Object.keys(CUISINES).filter((k) => CUISINES[k].region === r).map((k) => cuisineChip(k)).join('')}</div></div>`).join('');
+  fillIcons(atlasBody);
 }
 // with many cuisines the legend is tall; start it folded on shorter screens
-if (innerHeight < 1000) document.getElementById('atlas-toggle').setAttribute('aria-expanded', 'false');
-document.getElementById('atlas-toggle').addEventListener('click', (e) => {
-  const b = e.currentTarget;
-  b.setAttribute('aria-expanded', b.getAttribute('aria-expanded') === 'true' ? 'false' : 'true');
+if (innerHeight < 1000) atlasToggle.setAttribute('aria-expanded', 'false');
+atlasToggle.addEventListener('click', () => {
+  atlasToggle.setAttribute('aria-expanded', atlasToggle.getAttribute('aria-expanded') === 'true' ? 'false' : 'true');
+  if (atlasStale) renderAtlas();
 });
 // ---------------------------------------------------------------- dish-type filter strip
 const filtersEl = document.getElementById('filters');
@@ -889,6 +994,8 @@ hideSlider.addEventListener('input', () => applyHideCommon(+hideSlider.value));
 
 function applyDensity(level) {
   densityLevel = level;
+  invalidate();
+  labelsDirty = true;
   const d = DENSITY[level];
   const keepTop = new Set(ranked.slice(0, Math.ceil(nodes.length * d.nodes)).map((n) => n.id));
   for (const n of nodes) n.densityKeep = keepTop.has(n.id) && !n.hidden;
@@ -951,9 +1058,10 @@ function renderComparePane() {
     if (!members.length) return '';
     return `<div class="region"><span class="region-name">${esc(r)}</span><div class="chips">${members.map((k) => {
       const i = compare.picks.indexOf(k);
-      return `<button class="chip${i >= 0 ? ' sel' : ''}" ${i >= 0 ? `style="--c:${COMPARE_COLORS[i]}"` : ''} data-compare-pick="${esc(k)}" aria-pressed="${i >= 0}" ${full && i < 0 ? 'data-full="1"' : ''}><img class="cico" src="${cuisineIcon(k)}" alt="">${esc(k)}</button>`;
+      return `<button class="chip${i >= 0 ? ' sel' : ''}" ${i >= 0 ? `style="--c:${COMPARE_COLORS[i]}"` : ''} data-compare-pick="${esc(k)}" aria-pressed="${i >= 0}" ${full && i < 0 ? 'data-full="1"' : ''}>${cuiIco(k)}${esc(k)}</button>`;
     }).join('')}</div></div>`;
   }).join('') || '<p class="note">No cuisine by that name.</p>';
+  fillIcons(compareList);
 }
 function applyPicks(picks) {
   compare.picks = picks;
@@ -1041,11 +1149,11 @@ window.addEventListener('keydown', (e) => {
 const input = document.getElementById('search-input');
 const results = document.getElementById('search-results');
 const index = [
-  ...nodes.map((n) => ({ name: n.name, sub: `${CATEGORIES[n.category].label} · ${n.count} dish${n.count > 1 ? 'es' : ''}`, type: 'ingredient', weight: n.count * 6, img: () => icon(n), go: { type: 'ingredient', id: n.id } })),
+  ...nodes.map((n) => ({ name: n.name, sub: `${CATEGORIES[n.category].label} · ${n.count} dish${n.count > 1 ? 'es' : ''}`, type: 'ingredient', weight: n.count * 6, ico: ['ing', n.id], go: { type: 'ingredient', id: n.id } })),
   ...DISHES.map((d) => ({ name: d.name, sub: `${d.cuisine} · popularity ${d.popularity}`, type: 'dish', weight: d.popularity, color: CUISINES[d.cuisine].color, go: { type: 'dish', id: d.id } })),
-  ...Object.entries(CUISINES).map(([k, c]) => ({ name: k, sub: `${c.country} · ${c.region}`, type: 'cuisine', weight: 200, color: c.color, img: () => cuisineIcon(k), go: { type: 'cuisine', name: k }, alt: [c.country] })),
+  ...Object.entries(CUISINES).map(([k, c]) => ({ name: k, sub: `${c.country} · ${c.region}`, type: 'cuisine', weight: 200, color: c.color, ico: ['cui', k], go: { type: 'cuisine', name: k }, alt: [c.country] })),
   ...regions.map((r) => ({ name: r, sub: Object.keys(CUISINES).filter((k) => CUISINES[k].region === r).join(', '), type: 'region', weight: 150, go: { type: 'region', name: r } })),
-  ...Object.entries(CATEGORIES).map(([k, c]) => ({ name: c.label, sub: 'ingredient family', type: 'family', weight: 50, img: () => familyIcon(k), go: { type: 'category', key: k } })),
+  ...Object.entries(CATEGORIES).map(([k, c]) => ({ name: c.label, sub: 'ingredient family', type: 'family', weight: 50, ico: ['fam', k], go: { type: 'category', key: k } })),
 ].map((it) => ({ ...it, keys: [it.name, ...(it.alt || [])].map(norm) }));
 let hits = [], active = 0;
 
@@ -1074,8 +1182,9 @@ function runSearch() {
     .map((h) => h.it);
   active = 0;
   results.innerHTML = hits.length
-    ? hits.map((h, i) => `<li role="option" data-i="${i}" class="${i === active ? 'active' : ''}">${h.img ? `<img src="${h.img()}" width="26" height="26" alt="">` : `<span class="dot" style="width:12px;height:12px;border-radius:50%;margin:0 4px;background:${h.color || 'var(--ink-faint)'}"></span>`}<span><span class="r-name">${highlightMatch(h.name, q)}</span> <span class="r-sub">${esc(h.sub)}</span></span><span class="r-type">${h.type}</span></li>`).join('')
+    ? hits.map((h, i) => `<li role="option" data-i="${i}" class="${i === active ? 'active' : ''}">${h.ico ? ico(h.ico[0], h.ico[1], 26) : `<span class="dot" style="width:12px;height:12px;border-radius:50%;margin:0 4px;background:${h.color || 'var(--ink-faint)'}"></span>`}<span><span class="r-name">${highlightMatch(h.name, q)}</span> <span class="r-sub">${esc(h.sub)}</span></span><span class="r-type">${h.type}</span></li>`).join('')
     : `<li class="empty">Nothing on the menu for “${esc(input.value)}”</li>`;
+  fillIcons(results);
   results.classList.add('open');
 }
 function closeResults() {
@@ -1146,9 +1255,10 @@ function pick(ev) {
   }
   return best;
 }
-renderer.domElement.addEventListener('pointermove', (ev) => {
+function handlePointerMove(ev) {
   const n = pick(ev);
   if (n !== hovered) {
+    invalidate();
     hovered = n;
     stage.classList.toggle('pointing', !!n);
   }
@@ -1159,8 +1269,20 @@ renderer.domElement.addEventListener('pointermove', (ev) => {
     tooltip.style.top = `${ev.clientY + 14}px`;
     tooltip.classList.add('show');
   } else tooltip.classList.remove('show');
+}
+// picking runs at most once per frame, and not while the globe is being dragged
+let lastMove = null, moveQueued = false;
+renderer.domElement.addEventListener('pointermove', (ev) => {
+  lastMove = ev;
+  if (moveQueued) return;
+  moveQueued = true;
+  requestAnimationFrame(() => {
+    moveQueued = false;
+    if (lastMove.buttons === 0) handlePointerMove(lastMove);
+  });
 });
 renderer.domElement.addEventListener('pointerleave', () => {
+  invalidate();
   hovered = null;
   tooltip.classList.remove('show');
 });
@@ -1180,16 +1302,20 @@ const v3 = new THREE.Vector3();
 const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
 const clock = new THREE.Clock();
 function updateLabels() {
+  let fading = false;
   const W = innerWidth, H = innerHeight;
   const camDist = camera.position.distanceTo(controls.target);
   const tanHalf = Math.tan((camera.fov * Math.PI) / 360);
   // decide which ingredient labels to show
-  let showSet;
-  if (!highlight) showSet = HOME_LABELS;
-  else {
-    const cand = [...highlight].sort((a, b) => nodes[b].count - nodes[a].count);
-    showSet = new Set([...focusIds, ...cand.slice(0, view.type === 'ingredient' ? 26 : 40)]);
+  if (labelsDirty || !showSetCache) {
+    labelsDirty = false;
+    if (!highlight) showSetCache = HOME_LABELS;
+    else {
+      const cand = [...highlight].sort((a, b) => nodes[b].count - nodes[a].count);
+      showSetCache = new Set([...focusIds, ...cand.slice(0, view.type === 'ingredient' ? 26 : 40)]);
+    }
   }
+  const showSet = showSetCache;
   // project candidates, then place greedily by priority so labels never collide
   const cands = [];
   for (const n of nodes) {
@@ -1203,7 +1329,7 @@ function updateLabels() {
     const rPx = (n.sprite.scale.x * 0.4) / (d * tanHalf) * (H / 2);
     const isFocus = focusIds.has(n.id) && view.type === 'ingredient';
     const scale = THREE.MathUtils.clamp(260 / d, 0.75, 1.5) * (isFocus ? 1.6 : view.type === 'dish' && focusIds.has(n.id) ? 1.25 : 1);
-    const fs = parseFloat(n.label.style.fontSize) * scale;
+    const fs = n.fontPx * scale;
     const w = n.name.length * fs * 0.5, h = fs;
     const x = (v3.x * 0.5 + 0.5) * W, y = (-v3.y * 0.5 + 0.5) * H + rPx + 2;
     const pri = (n === hovered ? 1e6 : 0) + (focusIds.has(n.id) ? 1e5 : 0) + n.count * 10 - d * 0.01;
@@ -1218,14 +1344,19 @@ function updateLabels() {
     placed.push(box);
     const el = c.n.label;
     const depthFade = THREE.MathUtils.clamp(1.35 - (c.d - 120) / 380, 0.25, 1);
-    el.style.transform = `translate(${c.x}px, ${c.y}px) translate(-50%, 0) scale(${c.scale.toFixed(3)})`;
-    el.style.opacity = (c.n.vis.opacity * depthFade).toFixed(3);
-    el.style.zIndex = String(focusIds.has(c.n.id) ? 2000 : 1000 - Math.round(c.d));
-    el.classList.toggle('focus', focusIds.has(c.n.id) && view.type === 'ingredient');
+    // only touch the DOM for values that changed
+    const tf = `translate(${c.x.toFixed(1)}px, ${c.y.toFixed(1)}px) translate(-50%, 0) scale(${c.scale.toFixed(2)})`;
+    if (el._tf !== tf) { el.style.transform = tf; el._tf = tf; }
+    const op = (c.n.vis.opacity * depthFade).toFixed(2);
+    if (el._op !== op) { el.style.opacity = op; el._op = op; }
+    const z = focusIds.has(c.n.id) ? 2000 : 1000 - Math.round(c.d / 4);
+    if (el._z !== z) { el.style.zIndex = z; el._z = z; }
+    const fo = focusIds.has(c.n.id) && view.type === 'ingredient';
+    if (el._fo !== fo) { el.classList.toggle('focus', fo); el._fo = fo; }
   }
   for (const n of nodes) {
     const want = n.labelOn ? '' : 'none';
-    if (n.label.style.display !== want) n.label.style.display = want;
+    if (n.label._disp !== want) { n.label.style.display = want; n.label._disp = want; }
   }
   // cuisine names: front-facing and active ones claim space first
   const marks = cuisineMarks.map((m) => {
@@ -1234,7 +1365,9 @@ function updateLabels() {
     const on = !activeCuisines.size || activeCuisines.has(m.name);
     const visible = !(v3.z > 1 || Math.abs(v3.x) > 1.05 || Math.abs(v3.y) > 1.05);
     // the country painting is only shown while its cuisine is highlighted (it fades in and out)
-    m.fade += ((activeCuisines.has(m.name) ? 1 : 0) - m.fade) * 0.18;
+    if (!m.ready && activeCuisines.has(m.name)) ensureCuisineTex(m);
+    const fadeTarget = activeCuisines.has(m.name) ? 1 : 0;
+    if (Math.abs(fadeTarget - m.fade) > 0.004) { m.fade += (fadeTarget - m.fade) * 0.18; fading = true; } else m.fade = fadeTarget;
     const rPx = 3 + (m.dot.scale.x * 0.45) / (camera.position.distanceTo(m.pos) * tanHalf) * (H / 2) * m.fade;
     return { m, behind, on, visible, rPx, x: (v3.x * 0.5 + 0.5) * W, y: (-v3.y * 0.5 + 0.5) * H };
   }).sort((p, q) => (q.on - p.on) * 2 + (p.behind - q.behind));
@@ -1248,43 +1381,61 @@ function updateLabels() {
     const box = [c.x - w / 2, top - h, c.x + w / 2, top];
     const hits = (list) => list.some((p) => box[0] < p[2] && box[2] > p[0] && box[1] < p[3] && box[3] > p[1]);
     const clash = hits(cuisineBoxes) || (!activeCuisines.has(m.name) && hits(placed));
+    const el = m.el;
     if (!c.visible || clash) {
-      m.el.style.display = 'none';
+      if (el._disp !== 'none') { el.style.display = 'none'; el._disp = 'none'; }
       continue;
     }
     cuisineBoxes.push(box);
-    m.el.style.display = '';
-    m.el.style.transform = `translate(${c.x}px, ${top}px) translate(-50%, -100%)`;
-    m.el.style.opacity = String((c.behind ? 0.25 : 0.95) * (c.on ? 1 : 0.12));
-    m.el.style.pointerEvents = c.behind ? 'none' : 'auto';
+    if (el._disp !== '') { el.style.display = ''; el._disp = ''; }
+    const tf = `translate(${c.x.toFixed(1)}px, ${top.toFixed(1)}px) translate(-50%, -100%)`;
+    if (el._tf !== tf) { el.style.transform = tf; el._tf = tf; }
+    const op = String(((c.behind ? 0.25 : 0.95) * (c.on ? 1 : 0.12)).toFixed(2));
+    if (el._op !== op) { el.style.opacity = op; el._op = op; }
+    const pe = c.behind ? 'none' : 'auto';
+    if (el._pe !== pe) { el.style.pointerEvents = pe; el._pe = pe; }
   }
+  return fading;
 }
 
-function animate() {
-  requestAnimationFrame(animate);
-  frame(clock.getDelta());
-}
+const IDLE = 0, AUTO = 1, MOVING = 2; // what the last frame left behind
 function frame(rawDt) {
+  const t0 = performance.now();
   const dt = Math.min(rawDt, 0.05);
   const time = clock.elapsedTime;
+  let moving = false;
   if (camTween.t < 1) {
     camTween.t = Math.min(1, camTween.t + Math.min(rawDt, 0.25) / 1.1);
     const k = ease(camTween.t);
     controls.target.lerpVectors(camTween.fromTarget, camTween.toTarget, k);
     camera.position.lerpVectors(camTween.fromPos, camTween.toPos, k);
+    moving = true;
   }
-  controls.update();
+  // with auto-rotate on, the camera only ever moves because of it; otherwise it moves with the person's hand
+  ownControlsUpdate = true;
+  const cameraMoved = controls.update();
+  ownControlsUpdate = false;
+  if (cameraMoved && !controls.autoRotate) moving = true;
   const camDist = camera.position.distanceTo(controls.target);
   scene.fog.near = camDist - 60;
   scene.fog.far = camDist + 260;
   const lerp = 1 - Math.pow(0.001, dt);
   for (const n of nodes) {
     const v = n.vis;
-    const hov = n === hovered ? 1.22 : 1;
-    v.scale += (v.tScale * hov - v.scale) * lerp;
-    v.opacity += (v.tOpacity - v.opacity) * lerp;
-    const breathe = 1 + Math.sin(time * 0.8 + n.id) * 0.015;
-    v.base += ((sizeByPopularity ? n.baseScale : UNIFORM_SCALE) - v.base) * lerp;
+    const targetScale = v.tScale * (n === hovered ? 1.22 : 1);
+    const targetBase = sizeByPopularity ? n.baseScale : UNIFORM_SCALE;
+    if (Math.abs(targetScale - v.scale) > 0.002 || Math.abs(v.tOpacity - v.opacity) > 0.002 || Math.abs(targetBase - v.base) > 0.01) {
+      v.scale += (targetScale - v.scale) * lerp;
+      v.opacity += (v.tOpacity - v.opacity) * lerp;
+      v.base += (targetBase - v.base) * lerp;
+      moving = true;
+    } else {
+      v.scale = targetScale;
+      v.opacity = v.tOpacity;
+      v.base = targetBase;
+    }
+    // a gentle "breathing" only while the globe is turning by itself, so a still page can truly rest
+    const breathe = controls.autoRotate ? 1 + Math.sin(time * 0.8 + n.id) * 0.015 : 1;
     // plain dots are drawn much smaller than the paintings (a sixth of the size, with a floor)
     const size = v.base * v.scale * breathe;
     n.sprite.scale.setScalar(showIllustrations ? size : Math.max(size / 6, 2));
@@ -1301,18 +1452,60 @@ function frame(rawDt) {
     }
   }
   const haloNode = hovered || (view.type === 'ingredient' ? nodes[view.id] : null);
+  const haloTarget = haloNode ? 0.9 : 0;
   if (haloNode) {
     halo.position.copy(haloNode.sprite.position);
     halo.scale.setScalar(haloNode.sprite.scale.x * 1.35);
-    halo.material.rotation = time * 0.15;
-    halo.material.opacity += (0.9 - halo.material.opacity) * lerp;
-  } else halo.material.opacity += (0 - halo.material.opacity) * lerp;
+  }
+  if (Math.abs(haloTarget - halo.material.opacity) > 0.004) {
+    halo.material.opacity += (haloTarget - halo.material.opacity) * lerp;
+    moving = true;
+  } else halo.material.opacity = haloTarget;
+  const t1 = performance.now();
   renderer.render(scene, camera);
-  updateLabels();
+  const t2 = performance.now();
+  if (updateLabels()) moving = true;
+  const t3 = performance.now();
+  perf.add(t1 - t0, t2 - t1, t3 - t2);
+  return moving ? MOVING : controls.autoRotate ? AUTO : IDLE;
+}
+
+// If frames come too slowly, draw at a lower resolution; if there is plenty of headroom, win it back.
+const MAX_RATIO = Math.min(window.devicePixelRatio || 1, 2);
+let frameGapEma = 16, lastAdjust = 0;
+function adaptResolution(gap, now) {
+  frameGapEma += (gap - frameGapEma) * 0.1;
+  const ratio = renderer.getPixelRatio();
+  let next = ratio;
+  if (now - lastAdjust > 1500 && frameGapEma > 24 && ratio > 1) next = Math.max(1, ratio - 0.25);
+  else if (now - lastAdjust > 8000 && frameGapEma < 11 && ratio < MAX_RATIO) next = Math.min(MAX_RATIO, ratio + 0.25);
+  if (next !== ratio) {
+    lastAdjust = now;
+    renderer.setPixelRatio(next);
+    renderer.setSize(innerWidth, innerHeight);
+    frameGapEma = 16;
+    invalidate();
+  }
+}
+
+let loopState = MOVING, lastRender = 0;
+function animate() {
+  requestAnimationFrame(animate);
+  tick(performance.now());
+}
+function tick(now, dtOverride) {
+  if (!needsRender && loopState === IDLE) { clock.getDelta(); return; } // nothing is changing: leave the screen alone
+  if (!needsRender && loopState === AUTO && now - lastRender < 32) { clock.getDelta(); return; } // the slow idle turn needs only ~30 fps
+  needsRender = false;
+  const gap = now - lastRender;
+  lastRender = now;
+  loopState = frame(dtOverride ?? clock.getDelta());
+  if (loopState === MOVING && gap < 100) adaptResolution(gap, now); // only judge frames that arrived back to back
 }
 
 // keep the globe centred in the open space between the atlas and the panel
 function fitViewport() {
+  invalidate();
   camera.aspect = innerWidth / innerHeight;
   const wide = innerWidth > 900;
   camera.setViewOffset(innerWidth, innerHeight, wide ? 70 : 0, wide ? 0 : innerHeight * 0.14, innerWidth, innerHeight);
@@ -1325,9 +1518,11 @@ function fitViewport() {
 window.addEventListener('resize', fitViewport);
 fitViewport();
 
+performance.mark('app:before-first-view');
 go({ type: 'home' }, { push: false });
+performance.mark('app:first-view');
 camTween.t = 1;
 if (camera.aspect < 1) camera.position.multiplyScalar(1.25);
 animate();
 // expose for debugging
-window.__atlas = { nodes, edges, go, camera, controls, cuisineMarks, step: (k = 30) => { for (let i = 0; i < k; i++) frame(0.05); } };
+window.__atlas = { nodes, edges, go, camera, controls, cuisineMarks, perf, renderer, tick, loop: () => ({ state: ['idle', 'auto-rotate', 'moving'][loopState], needsRender }), step: (k = 30) => { for (let i = 0; i < k; i++) frame(0.05); } };

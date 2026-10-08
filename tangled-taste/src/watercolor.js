@@ -44,7 +44,7 @@ function blobPath(ctx, cx, cy, R, rand, wobble = 0.12, harmonics = 6) {
   return pts;
 }
 
-export function paintBlob(hex, seed, size = 256) {
+export function paintBlobCanvas(hex, seed, size = 256) {
   const rand = mulberry32(seed);
   const c = document.createElement('canvas');
   c.width = c.height = size;
@@ -126,10 +126,11 @@ export function paintBlob(hex, seed, size = 256) {
   ctx.lineCap = 'round';
   ctx.stroke();
   ctx.restore();
-
-  const tex = new THREE.CanvasTexture(c);
+  return c;
+}
+export function paintBlob(hex, seed, size = 256) {
+  const tex = new THREE.CanvasTexture(paintBlobCanvas(hex, seed, size));
   tex.colorSpace = THREE.SRGBColorSpace;
-  tex.anisotropy = 4;
   return tex;
 }
 
@@ -150,24 +151,19 @@ export function paintHalo(size = 256) {
   return tex;
 }
 
-// cold-press paper texture as a data URL for the page background
-export function paintPaper(size = 512) {
+// Cold-press paper: a small tile of speckles and fibres drawn with plain fills (reading pixels
+// back from a canvas is slow), which the page repeats as a pattern.
+export function paintPaperTile(size = 256) {
   const c = document.createElement('canvas');
   c.width = c.height = size;
   const ctx = c.getContext('2d');
-  ctx.fillStyle = '#f5eee0';
-  ctx.fillRect(0, 0, size, size);
-  const img = ctx.getImageData(0, 0, size, size);
   const rand = mulberry32(5);
-  for (let i = 0; i < img.data.length; i += 4) {
-    const n = (rand() - 0.5) * 14;
-    img.data[i] += n;
-    img.data[i + 1] += n;
-    img.data[i + 2] += n * 0.9;
+  for (let i = 0; i < size * 22; i++) {
+    const light = rand() > 0.5;
+    ctx.fillStyle = light ? `rgba(255,252,244,${0.05 + rand() * 0.1})` : `rgba(120,95,60,${0.03 + rand() * 0.07})`;
+    ctx.fillRect(rand() * size, rand() * size, 1 + (rand() > 0.85 ? 1 : 0), 1);
   }
-  ctx.putImageData(img, 0, 0);
-  // fibres
-  for (let i = 0; i < 260; i++) {
+  for (let i = 0; i < 120; i++) {
     ctx.strokeStyle = `rgba(120,95,60,${rand() * 0.05})`;
     ctx.lineWidth = 0.6;
     ctx.beginPath();
@@ -176,11 +172,5 @@ export function paintPaper(size = 512) {
     ctx.quadraticCurveTo(x + Math.cos(a) * l * 0.5 + rand() * 3, y + Math.sin(a) * l * 0.5, x + Math.cos(a) * l, y + Math.sin(a) * l);
     ctx.stroke();
   }
-  return c.toDataURL('image/png');
-}
-
-// small inline watercolor swatch for UI chips
-export function swatchDataURL(hex, seed, size = 48) {
-  const tex = paintBlob(hex, seed, size * 2);
-  return tex.image.toDataURL('image/png');
+  return c;
 }

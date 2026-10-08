@@ -5,7 +5,7 @@
   --ink-soft: #6d5646;
   --ink-faint: #a38d7a;
   --rule: rgba(80, 55, 35, 0.18);
-  --card: rgba(251, 247, 238, 0.86);
+  --card: rgba(251, 247, 238, 0.95); /* solid enough that no backdrop blur is needed (blurring a moving canvas every frame is costly) */
   --accent: #b5543c;
   --serif: 'Cormorant Garamond', 'Cormorant', Georgia, 'Times New Roman', serif;
   --hand: 'Caveat', 'Segoe Print', cursive;
@@ -24,8 +24,9 @@ html, body {
 }
 body { background-size: 512px 512px; }
 
+#paper { position: fixed; inset: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
 #washes { position: fixed; inset: 0; pointer-events: none; overflow: hidden; }
-#washes img { position: absolute; filter: blur(10px) saturate(0.9); opacity: 0.22; }
+#washes canvas, #washes img { position: absolute; filter: blur(10px) saturate(0.9); opacity: 0.22; }
 #washes::after {
   content: '';
   position: absolute;
@@ -39,7 +40,7 @@ body { background-size: 512px 512px; }
 #stage.pointing canvas { cursor: pointer; }
 
 /* ---------- 3D labels ---------- */
-#labels { position: fixed; inset: 0; pointer-events: none; overflow: hidden; }
+#labels { position: fixed; inset: 0; pointer-events: none; overflow: hidden; contain: strict; }
 .label {
   position: absolute;
   left: 0;
@@ -94,7 +95,7 @@ body { background-size: 512px 512px; }
   display: inline-flex; align-items: center; gap: 7px;
   padding: 9px 16px 9px 13px;
   border: 1px solid var(--rule); border-radius: 999px;
-  background: var(--card); backdrop-filter: blur(6px);
+  background: var(--card);
   font: inherit; font-size: 17px; font-weight: 600; color: var(--ink);
   cursor: pointer;
   box-shadow: 0 2px 14px rgba(90, 60, 30, 0.08);
@@ -118,7 +119,7 @@ body { background-size: 512px 512px; }
   border: 1px solid var(--rule);
   border-radius: 999px;
   background: var(--card);
-  backdrop-filter: blur(6px);
+ 
   font: inherit;
   font-size: 18px;
   color: var(--ink);
@@ -157,6 +158,7 @@ body { background-size: 512px 512px; }
   padding: 7px 10px; border-radius: 10px; cursor: pointer;
 }
 #search-results li.active, #search-results li:hover { background: rgba(181, 84, 60, 0.09); }
+#search-results canvas.ico { width: 26px; height: 26px; flex: none; }
 #search-results .r-name { font-size: 18px; font-weight: 600; }
 #search-results .r-sub { color: var(--ink-soft); font-style: italic; font-size: 15px; }
 #search-results .r-type { margin-left: auto; font-family: var(--hand); font-size: 17px; color: var(--ink-faint); }
@@ -173,7 +175,7 @@ body { background-size: 512px 512px; }
   pointer-events: auto;
   font: inherit; font-size: 15px; color: var(--ink);
   padding: 2px 11px; border: 1px solid var(--rule); border-radius: 999px;
-  background: var(--card); backdrop-filter: blur(6px); cursor: pointer;
+  background: var(--card); cursor: pointer;
   transition: background 0.15s, border-color 0.15s, color 0.15s;
 }
 .ftype small { margin-left: 6px; color: var(--ink-faint); font-size: 13px; }
@@ -203,7 +205,7 @@ body { background-size: 512px 512px; }
   align-self: flex-start;
   padding: 22px 24px 26px;
   background: var(--card);
-  backdrop-filter: blur(8px);
+ 
   border: 1px solid var(--rule);
   border-radius: 6px 22px 8px 20px / 20px 8px 22px 6px;
   box-shadow: 0 10px 40px rgba(90, 60, 30, 0.12);
@@ -225,7 +227,7 @@ body { background-size: 512px 512px; }
 .panel h3::after { content: ''; flex: 1; height: 1px; background: var(--rule); }
 .lede { margin: 6px 0 0; font-style: italic; color: var(--ink-soft); font-size: 18px; line-height: 1.3; }
 .title-row { display: flex; align-items: center; gap: 12px; }
-.title-row img { width: 76px; height: 76px; flex: none; margin: -8px -4px -8px -8px; }
+.title-row img, .title-row canvas.ico { width: 76px; height: 76px; flex: none; margin: -8px -4px -8px -8px; }
 .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 14px; }
 .stat { text-align: center; padding: 8px 4px; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
 .stat b { display: block; font-size: 28px; font-weight: 600; line-height: 1; }
@@ -238,7 +240,7 @@ body { background-size: 512px 512px; }
 }
 .rows li:hover { background: rgba(181, 84, 60, 0.07); }
 .rows .nm { font-size: 17px; font-weight: 600; display: flex; align-items: center; gap: 7px; min-width: 0; }
-.rows .nm img { width: 28px; height: 28px; flex: none; margin: -5px 0; }
+.rows .nm img, .rows .nm canvas.ico { width: 28px; height: 28px; flex: none; margin: -5px 0; }
 .rows .nm em { font-weight: 400; color: var(--ink-soft); font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .rows .val { font-family: var(--hand); font-size: 18px; color: var(--ink-soft); }
 .bar { grid-column: 1 / -1; height: 6px; margin-top: 3px; position: relative; }
@@ -257,8 +259,8 @@ body { background-size: 512px 512px; }
   transition: background 0.15s, border-color 0.15s;
 }
 .chip:hover { background: rgba(181, 84, 60, 0.08); border-color: rgba(181, 84, 60, 0.35); }
-.chip img { width: 26px; height: 26px; margin: -4px 0; }
-.chip img.cico { width: 24px; height: 24px; margin: -4px 0 -4px -2px; }
+.chip img, .chip canvas.ico { width: 26px; height: 26px; margin: -4px 0; }
+.chip img.cico, .chip canvas.ico.cico { width: 24px; height: 24px; margin: -4px 0 -4px -2px; }
 .chip .dot { width: 10px; height: 10px; border-radius: 50%; margin-left: 3px; }
 .chip small { color: var(--ink-faint); font-size: 14px; }
 
@@ -273,7 +275,7 @@ body { background-size: 512px 512px; }
 /* ---------- atlas (cuisine legend) ---------- */
 #atlas {
   position: fixed; left: 20px; bottom: 20px; z-index: 4; width: 280px;
-  background: var(--card); backdrop-filter: blur(8px);
+  background: var(--card);
   border: 1px solid var(--rule); border-radius: 20px 6px 18px 8px / 8px 18px 6px 20px;
   box-shadow: 0 10px 30px rgba(90, 60, 30, 0.1);
   padding: 10px 16px 12px;
@@ -296,7 +298,7 @@ body { background-size: 512px 512px; }
 #settings {
   position: fixed; top: 92px; right: 392px; z-index: 8; width: 320px; /* just left of the 360px sidebar (20px + 360px + 12px gap) */
   padding: 14px 18px 14px;
-  background: rgba(251, 247, 238, 0.98); backdrop-filter: blur(8px);
+  background: rgba(251, 247, 238, 0.98);
   border: 1px solid var(--rule); border-radius: 8px 20px 8px 20px / 20px 8px 20px 8px;
   box-shadow: 0 14px 44px rgba(90, 60, 30, 0.22);
   animation: rise 0.25s ease;
@@ -325,7 +327,7 @@ body { background-size: 512px 512px; }
 /* ---------- compare pane ---------- */
 #compare {
   position: fixed; left: 320px; bottom: 20px; z-index: 4; width: 340px;
-  background: var(--card); backdrop-filter: blur(8px);
+  background: var(--card);
   border: 1px solid var(--rule); border-radius: 8px 20px 6px 18px / 18px 6px 20px 8px;
   box-shadow: 0 10px 30px rgba(90, 60, 30, 0.1);
   padding: 10px 16px 12px; max-height: calc(100vh - 140px); overflow-y: auto; scrollbar-width: thin;

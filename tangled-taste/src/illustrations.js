@@ -2124,19 +2124,8 @@ export function paintCuisine(name, color = '#c9a46a') {
   cache.set(key, out);
   return out;
 }
-const cuisineIcons = new Map();
-export function cuisineIconURL(name, color) {
-  if (cuisineIcons.has(name)) return cuisineIcons.get(name);
-  const src = paintCuisine(name, color);
-  const c = document.createElement('canvas');
-  c.width = c.height = 72;
-  const g = c.getContext('2d');
-  g.imageSmoothingQuality = 'high';
-  g.drawImage(src, 0, 0, 72, 72);
-  const url = c.toDataURL('image/png');
-  cuisineIcons.set(name, url);
-  return url;
-}
+// True once a painting has been made, so asking for it again is free.
+export const isPainted = (key) => cache.has(key);
 
 export function hasIllustration(name) {
   return name in D;
@@ -2158,17 +2147,4 @@ export function paintIngredient(name, fallbackColor = '#c9a46a') {
   const out = underlay(c);
   cache.set(name, out);
   return out;
-}
-const icons = new Map();
-export function iconURL(name, fallbackColor) {
-  if (icons.has(name)) return icons.get(name);
-  const src = paintIngredient(name, fallbackColor);
-  const c = document.createElement('canvas');
-  c.width = c.height = 72;
-  const g = c.getContext('2d');
-  g.imageSmoothingQuality = 'high';
-  g.drawImage(src, 0, 0, 72, 72);
-  const url = c.toDataURL('image/png');
-  icons.set(name, url);
-  return url;
 }

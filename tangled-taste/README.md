@@ -43,3 +43,13 @@ pnpm validate   # sanity-check the dataset (run in CI before every deploy)
 - `scripts/build-country-shapes.mjs` turns Natural Earth country outlines into the small shapes in `src/data/countryShapes.js` (mainland France, the contiguous US, and the Hawaiian islands for Hawaiian, for example). Run it with the path to `ne_50m_admin_0_countries.geojson` when you add a cuisine; `pnpm validate` fails if a cuisine has no outline. Country outlines: [Natural Earth](https://www.naturalearthdata.com), public domain.
 - `src/watercolor.js` paints the paper texture, the background washes and the cuisine map pins.
 - `src/main.js` handles the scene, labels with collision avoidance, the views, the filters, the search and the panel.
+
+## Performance
+
+- **Draws only when something changes.** The scene is redrawn while the camera, a fade or the hover highlight is moving, and otherwise left alone, so a still page uses almost no CPU or GPU. The slow idle rotation on the home view renders at about 30 fps.
+- **Adapts to the device.** If frames arrive too slowly the canvas drops to a lower resolution (down to 1×) and recovers when there is headroom. Anti-aliasing is skipped on high-density screens, where it isn't needed.
+- **Fast first screen.** The 226 food paintings and 65 country paintings are made in ~8 ms slices after the first frame (most common first; anything on screen is painted immediately). Small icons are drawn straight into canvases and the cuisine legend is only built when opened. The paper texture and colour washes are drawn without reading pixels back, which is slow on many GPUs.
+- **Less work per frame.** Label layout is cached, DOM styles are only written when a value changes, hover picking runs at most once per frame, and the panels use solid translucent backgrounds rather than a live backdrop blur over the moving map.
+- **Delivery.** three.js is a separate cached chunk; fonts load without blocking the first paint.
+- **Measure it.** Add `?perf` to the address for a live readout of fps, pixel ratio and where each frame's time goes.
+
