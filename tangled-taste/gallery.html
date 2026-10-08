@@ -19,13 +19,23 @@
 <h1>Ingredient gallery</h1>
 <div id="grid"></div>
 <script type="module">
-  import { INGREDIENT_CATEGORY, CATEGORIES } from './src/data.js';
-  import { paintIngredient, hasIllustration } from './src/illustrations.js';
+  import { INGREDIENT_CATEGORY, CATEGORIES, CUISINES } from './src/data.js';
+  import { paintIngredient, hasIllustration, paintCuisine } from './src/illustrations.js';
   const grid = document.getElementById('grid');
   const params = new URLSearchParams(location.search);
   const filter = params.get('cat');
   const only = params.get('names')?.split(',');
   const t0 = performance.now();
+  if (params.get('cuisines')) {
+    for (const [name, c] of Object.entries(CUISINES)) {
+      const fig = document.createElement('figure');
+      fig.appendChild(paintCuisine(name, c.color));
+      const cap = document.createElement('figcaption');
+      cap.innerHTML = `${name}<small>${c.country}</small>`;
+      fig.appendChild(cap);
+      grid.appendChild(fig);
+    }
+  } else
   for (const [name, cat] of Object.entries(INGREDIENT_CATEGORY)) {
     if (filter && cat !== filter) continue;
     if (only && !only.includes(name)) continue;

@@ -258,6 +258,7 @@ body { background-size: 512px 512px; }
 }
 .chip:hover { background: rgba(181, 84, 60, 0.08); border-color: rgba(181, 84, 60, 0.35); }
 .chip img { width: 26px; height: 26px; margin: -4px 0; }
+.chip img.cico { width: 24px; height: 24px; margin: -4px 0 -4px -2px; }
 .chip .dot { width: 10px; height: 10px; border-radius: 50%; margin-left: 3px; }
 .chip small { color: var(--ink-faint); font-size: 14px; }
 

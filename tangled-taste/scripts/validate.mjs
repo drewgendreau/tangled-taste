@@ -2,7 +2,7 @@
 // Hard problems fail the run; "goals" only warn unless --strict is passed.
 // Hard rules include: every cuisine has 6+ dishes and every ingredient is used by 2+ dishes.
 import { CATEGORIES, CUISINES, DISH_TYPES, DISHES, INGREDIENTS, INGREDIENT_CATEGORY } from '../src/data.js';
-import { hasIllustration } from '../src/illustrations.js';
+import { hasCountryShape, hasIllustration } from '../src/illustrations.js';
 
 const strict = process.argv.includes('--strict');
 const MIN_DISHES_PER_CUISINE = 6; // hard rule
@@ -33,6 +33,7 @@ for (const [name, c] of Object.entries(CUISINES)) {
   if (!(c.lat >= -90 && c.lat <= 90 && c.lng >= -180 && c.lng <= 180)) err(`cuisine ${name}: bad coordinates`);
   if (!/^#[0-9a-f]{6}$/i.test(c.color)) err(`cuisine ${name}: bad colour ${c.color}`);
   if (!c.country || !c.region) err(`cuisine ${name}: missing country or region`);
+  if (!hasCountryShape(name)) err(`cuisine ${name}: no country outline (add it to scripts/build-country-shapes.mjs and run it)`);
 }
 
 // ---- near-duplicate ingredient names (typos, plurals, spacing)

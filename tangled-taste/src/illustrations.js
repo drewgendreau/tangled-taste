@@ -4,6 +4,8 @@
 // wet-in-wet blotches, granulation, pigment pooling at the edges, a crisp
 // highlight and a loose ink liner.
 
+import COUNTRY_SHAPES from './data/countryShapes.js';
+
 export const SIZE = 256;
 const TAU = Math.PI * 2;
 const INK = '#3b2a20';
@@ -2079,6 +2081,65 @@ const D = {
 
 // ---------------------------------------------------------------- public API
 const cache = new Map();
+
+// A soft, opaque paper-coloured underlay beneath a painting keeps the translucent washes
+// luminous and stops network threads showing through.
+function underlay(c) {
+  const out = document.createElement('canvas');
+  out.width = out.height = SIZE;
+  const o = out.getContext('2d');
+  o.filter = 'blur(3px)';
+  for (let i = 0; i < 3; i++) o.drawImage(c, 0, 0);
+  o.filter = 'none';
+  o.globalCompositeOperation = 'source-in';
+  o.fillStyle = '#f7f1e4';
+  o.fillRect(0, 0, SIZE, SIZE);
+  o.globalCompositeOperation = 'source-over';
+  o.drawImage(c, 0, 0);
+  return out;
+}
+
+// A cuisine is painted as a small map vignette of its country: a pale sea wash with the
+// country's outline in the cuisine's colour.
+export const hasCountryShape = (name) => name in COUNTRY_SHAPES;
+export function paintCuisine(name, color = '#c9a46a') {
+  const key = `cuisine:${name}`;
+  if (cache.has(key)) return cache.get(key);
+  const c = document.createElement('canvas');
+  c.width = c.height = SIZE;
+  ctx = c.getContext('2d');
+  rand = mulberry32(hash(name));
+  ctx.lineCap = 'round';
+  paint(E(128, 128, 106, 102, 0, 0.05), '#a6c3d2', { liner: false, gloss: false, light: 0.4, shade: 0.28, edge: 0.3, wash: 0.55, glaze: 1 });
+  const shapes = COUNTRY_SHAPES[name];
+  if (shapes) {
+    const half = 74;
+    const rings = shapes.map((r) => r.map(([x, y]) => [128 + x * half, 128 + y * half]));
+    ctx.save();
+    ctx.filter = 'blur(4px)'; // a whisper of shadow so the land sits on the water
+    ctx.fillStyle = 'rgba(70,90,110,0.22)';
+    for (const r of rings) ctx.fill(pathOf(r.map(([x, y]) => [x + 3, y + 4])));
+    ctx.restore();
+    rings.forEach((r, i) => paint(r, color, { gloss: i === 0, light: 0.45, shade: 0.5, glaze: 2, liner: i === 0 }));
+  } else paint(E(128, 128, 54, 54), color, { gloss: true });
+  const out = underlay(c);
+  cache.set(key, out);
+  return out;
+}
+const cuisineIcons = new Map();
+export function cuisineIconURL(name, color) {
+  if (cuisineIcons.has(name)) return cuisineIcons.get(name);
+  const src = paintCuisine(name, color);
+  const c = document.createElement('canvas');
+  c.width = c.height = 72;
+  const g = c.getContext('2d');
+  g.imageSmoothingQuality = 'high';
+  g.drawImage(src, 0, 0, 72, 72);
+  const url = c.toDataURL('image/png');
+  cuisineIcons.set(name, url);
+  return url;
+}
+
 export function hasIllustration(name) {
   return name in D;
 }
@@ -2096,19 +2157,7 @@ export function paintIngredient(name, fallbackColor = '#c9a46a') {
     ctx.clearRect(0, 0, SIZE, SIZE);
     powderBowl(fallbackColor);
   }
-  // Lay a soft, opaque paper-coloured underlay beneath the painting so the
-  // translucent washes stay luminous and network threads don't show through.
-  const out = document.createElement('canvas');
-  out.width = out.height = SIZE;
-  const o = out.getContext('2d');
-  o.filter = 'blur(3px)';
-  for (let i = 0; i < 3; i++) o.drawImage(c, 0, 0);
-  o.filter = 'none';
-  o.globalCompositeOperation = 'source-in';
-  o.fillStyle = '#f7f1e4';
-  o.fillRect(0, 0, SIZE, SIZE);
-  o.globalCompositeOperation = 'source-over';
-  o.drawImage(c, 0, 0);
+  const out = underlay(c);
   cache.set(name, out);
   return out;
 }

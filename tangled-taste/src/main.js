@@ -6,7 +6,7 @@ import { LineMaterial } from 'three/examples/jsm/lines/LineMaterial.js';
 import { CATEGORIES, CUISINES, DISHES, DISH_TYPES } from './data.js';
 import { buildGraph, latLngToVec, GLOBE_RADIUS } from './graph.js';
 import { paintBlob, paintHalo, paintPaper, swatchDataURL } from './watercolor.js';
-import { paintIngredient, iconURL } from './illustrations.js';
+import { paintIngredient, iconURL, paintCuisine, cuisineIconURL } from './illustrations.js';
 import { buildProfiles, buildMatrix, compareSets, describe } from './similarity.js';
 
 const PAPER = new THREE.Color('#f5eee0');
@@ -84,6 +84,7 @@ let showIllustrations = true;
 try { showIllustrations = localStorage.getItem('tt-illustrations') !== '0'; } catch { /* storage unavailable */ }
 const REP = { vegetable: 'tomato', herb: 'basil', fruit: 'lemon', spice: 'cinnamon', meat: 'beef', seafood: 'fish', dairy: 'egg', grain: 'bread', legume: 'chickpeas', nut: 'walnut', pantry: 'olive oil' };
 const icon = (n) => iconURL(n.name, CATEGORIES[n.category].color);
+const cuisineIcon = (name) => cuisineIconURL(name, CUISINES[name].color);
 const familyIcon = (k) => iconURL(REP[k], CATEGORIES[k].color);
 const nodeGroup = new THREE.Group();
 scene.add(nodeGroup);
@@ -122,6 +123,11 @@ function setIllustrations(on) {
   for (const n of nodes) {
     n.sprite.material.map = on && n.illusTex ? n.illusTex : n.blobTex;
     n.sprite.material.needsUpdate = true;
+  }
+  for (const m of cuisineMarks) {
+    m.dot.material.map = on && m.illusTex ? m.illusTex : m.blobTex;
+    m.dot.material.needsUpdate = true;
+    m.dot.scale.setScalar(on ? CUISINE_PIN_SIZE : 6);
   }
   const btn = document.getElementById('illus-toggle');
   btn.setAttribute('aria-checked', String(on));
@@ -247,6 +253,7 @@ function setSizeByPopularity(on) {
   document.getElementById('size-toggle').setAttribute('aria-checked', String(on));
   try { localStorage.setItem('tt-size-popularity', on ? '1' : '0'); } catch { /* storage unavailable */ }
 }
+const CUISINE_PIN_SIZE = 17;
 const cuisineMarks = Object.entries(CUISINES).map(([name, c]) => {
   const p = new THREE.Vector3(...latLngToVec(c.lat, c.lng, GLOBE_RADIUS * 1.18));
   const el = document.createElement('div');
@@ -257,10 +264,25 @@ const cuisineMarks = Object.entries(CUISINES).map(([name, c]) => {
   labelLayer.appendChild(el);
   const dot = new THREE.Sprite(new THREE.SpriteMaterial({ map: paintBlob(c.color, name.length * 17 + 3, 128), transparent: true, depthWrite: false }));
   dot.position.copy(p);
-  dot.scale.setScalar(6);
+  dot.scale.setScalar(CUISINE_PIN_SIZE); // every cuisine pin is the same size
   scene.add(dot);
-  return { name, pos: p, el, dot, vis: 1 };
+  return { name, pos: p, el, dot, blobTex: dot.material.map, illusTex: null, vis: 1 };
 });
+
+// Cuisines get a small watercolor map of their country, painted just after the ingredients.
+function paintCuisines() {
+  for (const m of cuisineMarks) {
+    const tex = new THREE.CanvasTexture(paintCuisine(m.name, CUISINES[m.name].color));
+    tex.colorSpace = THREE.SRGBColorSpace;
+    tex.anisotropy = 4;
+    m.illusTex = tex;
+    if (showIllustrations) {
+      m.dot.material.map = tex;
+      m.dot.material.needsUpdate = true;
+    }
+  }
+}
+setTimeout(paintCuisines, 80);
 
 // ---------------------------------------------------------------- compare cuisines (state + drawing helpers)
 // Okabe–Ito colors: distinguishable for most kinds of color vision.
@@ -548,7 +570,7 @@ function back() {
 const panel = document.getElementById('panel-inner');
 const bar = (pct, color) => `<div class="bar"><i style="width:${Math.max(3, pct)}%;background:${color}"></i></div>`;
 const ingChip = (n, extra = '') => `<button class="chip" data-go="ingredient:${n.id}"><img src="${icon(n)}" alt="">${esc(n.name)}${extra}</button>`;
-const cuisineChip = (name, extra = '') => `<button class="chip${activeCuisines.has(name) ? ' active' : ''}" data-go="cuisine:${esc(name)}"><span class="dot" style="background:${CUISINES[name].color}"></span>${esc(name)}${extra}</button>`;
+const cuisineChip = (name, extra = '') => `<button class="chip${activeCuisines.has(name) ? ' active' : ''}" data-go="cuisine:${esc(name)}"><img class="cico" src="${cuisineIcon(name)}" alt="">${esc(name)}${extra}</button>`;
 const dishRows = (ids, max = 99) => `<ul class="rows">${ids.slice(0, max).map((id) => {
   const d = DISHES[id];
   return `<li data-go="dish:${id}"><span class="nm">${esc(d.name)} <em>${esc(d.cuisine)}</em></span><span class="val">${d.popularity}</span>${bar(d.popularity, CUISINES[d.cuisine].color)}</li>`;
@@ -618,7 +640,7 @@ function renderPanel() {
       return { k, s: inter / new Set([...sig, ...s2]).size };
     }).sort((a, b) => b.s - a.s).slice(0, 4);
     const avg = Math.round(dishes.reduce((s, d) => s + d.popularity, 0) / dishes.length);
-    h = `${crumbs()}<div class="kicker" style="color:${c.color}">cuisine</div><h2>${esc(v.name)}</h2>
+    h = `${crumbs()}<div class="title-row"><img src="${cuisineIcon(v.name)}" alt=""><div><div class="kicker" style="color:${c.color}">cuisine</div><h2>${esc(v.name)}</h2></div></div>
       <div class="chips" style="margin-top:6px"><button class="chip" data-go="region:${esc(c.region)}"><span class="dot" style="background:${c.color}"></span>${esc(c.country)} · ${esc(c.region)}</button></div>
       <div class="stats"><div class="stat"><b>${dishes.length}</b><span>dishes</span></div><div class="stat"><b>${freq.size}</b><span>ingredients</span></div><div class="stat"><b>${avg}</b><span>avg popularity</span></div></div>
       <h3>Signature ingredients</h3><div class="chips">${signature.map(({ n }) => ingChip(n)).join('')}</div>
@@ -742,7 +764,7 @@ function renderCompareView(v) {
   // nearest neighbours, as a way to explore
   h += `<h3>Closest cuisines</h3>` + names.map((n, i) => {
     const near = matrix.neighbours(n).filter((x) => !names.includes(x.name)).slice(0, 5);
-    return `<div class="cmp-block"><div class="cmp-h">${cdot(i)}${esc(n)}</div><div class="chips">${near.map((x) => `<button class="chip" data-compare-add="${esc(x.name)}" ${full ? 'disabled title="Remove one cuisine first"' : ''}><span class="dot" style="background:${CUISINES[x.name].color}"></span>${esc(x.name)} <small>${pct(x.overall)}</small></button>`).join('')}</div></div>`;
+    return `<div class="cmp-block"><div class="cmp-h">${cdot(i)}${esc(n)}</div><div class="chips">${near.map((x) => `<button class="chip" data-compare-add="${esc(x.name)}" ${full ? 'disabled title="Remove one cuisine first"' : ''}><img class="cico" src="${cuisineIcon(x.name)}" alt="">${esc(x.name)} <small>${pct(x.overall)}</small></button>`).join('')}</div></div>`;
   }).join('');
   h += `<p class="fine">Scores: 50% flavor profile (cosine similarity of ingredient frequencies, weighting rare ingredients up), 25% shared ingredients and 25% shared pairings (both Jaccard overlap), compared against all ${matrix.names.length} cuisines.</p>`;
   return h;
@@ -878,7 +900,7 @@ function renderComparePane() {
     if (!members.length) return '';
     return `<div class="region"><span class="region-name">${esc(r)}</span><div class="chips">${members.map((k) => {
       const i = compare.picks.indexOf(k);
-      return `<button class="chip${i >= 0 ? ' sel' : ''}" ${i >= 0 ? `style="--c:${COMPARE_COLORS[i]}"` : ''} data-compare-pick="${esc(k)}" aria-pressed="${i >= 0}" ${full && i < 0 ? 'data-full="1"' : ''}><span class="dot" style="background:${i >= 0 ? COMPARE_COLORS[i] : CUISINES[k].color}"></span>${esc(k)}</button>`;
+      return `<button class="chip${i >= 0 ? ' sel' : ''}" ${i >= 0 ? `style="--c:${COMPARE_COLORS[i]}"` : ''} data-compare-pick="${esc(k)}" aria-pressed="${i >= 0}" ${full && i < 0 ? 'data-full="1"' : ''}><img class="cico" src="${cuisineIcon(k)}" alt="">${esc(k)}</button>`;
     }).join('')}</div></div>`;
   }).join('') || '<p class="note">No cuisine by that name.</p>';
 }
@@ -947,7 +969,7 @@ const results = document.getElementById('search-results');
 const index = [
   ...nodes.map((n) => ({ name: n.name, sub: `${CATEGORIES[n.category].label} · ${n.count} dish${n.count > 1 ? 'es' : ''}`, type: 'ingredient', weight: n.count * 6, img: () => icon(n), go: { type: 'ingredient', id: n.id } })),
   ...DISHES.map((d) => ({ name: d.name, sub: `${d.cuisine} · popularity ${d.popularity}`, type: 'dish', weight: d.popularity, color: CUISINES[d.cuisine].color, go: { type: 'dish', id: d.id } })),
-  ...Object.entries(CUISINES).map(([k, c]) => ({ name: k, sub: `${c.country} · ${c.region}`, type: 'cuisine', weight: 200, color: c.color, go: { type: 'cuisine', name: k }, alt: [c.country] })),
+  ...Object.entries(CUISINES).map(([k, c]) => ({ name: k, sub: `${c.country} · ${c.region}`, type: 'cuisine', weight: 200, color: c.color, img: () => cuisineIcon(k), go: { type: 'cuisine', name: k }, alt: [c.country] })),
   ...regions.map((r) => ({ name: r, sub: Object.keys(CUISINES).filter((k) => CUISINES[k].region === r).join(', '), type: 'region', weight: 150, go: { type: 'region', name: r } })),
   ...Object.entries(CATEGORIES).map(([k, c]) => ({ name: c.label, sub: 'ingredient family', type: 'family', weight: 50, img: () => familyIcon(k), go: { type: 'category', key: k } })),
 ].map((it) => ({ ...it, keys: [it.name, ...(it.alt || [])].map(norm) }));
@@ -1137,14 +1159,16 @@ function updateLabels() {
     const behind = camera.position.distanceTo(m.pos) > camera.position.length() + 10;
     const on = !activeCuisines.size || activeCuisines.has(m.name);
     const visible = !(v3.z > 1 || Math.abs(v3.x) > 1.05 || Math.abs(v3.y) > 1.05);
-    return { m, behind, on, visible, x: (v3.x * 0.5 + 0.5) * W, y: (-v3.y * 0.5 + 0.5) * H };
+    const rPx = (m.dot.scale.x * 0.45) / (camera.position.distanceTo(m.pos) * tanHalf) * (H / 2);
+    return { m, behind, on, visible, rPx, x: (v3.x * 0.5 + 0.5) * W, y: (-v3.y * 0.5 + 0.5) * H };
   }).sort((p, q) => (q.on - p.on) * 2 + (p.behind - q.behind));
   const cuisineBoxes = [];
   for (const c of marks) {
     const { m } = c;
-    m.dot.material.opacity = c.on ? 0.9 : 0.25;
+    m.dot.material.opacity = (c.on ? 0.95 : 0.3) * (c.behind ? 0.5 : 1);
     const w = m.name.length * 9 + 8, h = 24;
-    const box = [c.x - w / 2, c.y - h * 1.3, c.x + w / 2, c.y - h * 0.3];
+    const top = c.y - c.rPx - 2;
+    const box = [c.x - w / 2, top - h, c.x + w / 2, top];
     const hits = (list) => list.some((p) => box[0] < p[2] && box[2] > p[0] && box[1] < p[3] && box[3] > p[1]);
     const clash = hits(cuisineBoxes) || (!activeCuisines.has(m.name) && hits(placed));
     if (!c.visible || clash) {
@@ -1153,7 +1177,7 @@ function updateLabels() {
     }
     cuisineBoxes.push(box);
     m.el.style.display = '';
-    m.el.style.transform = `translate(${c.x}px, ${c.y}px) translate(-50%, -130%)`;
+    m.el.style.transform = `translate(${c.x}px, ${top}px) translate(-50%, -100%)`;
     m.el.style.opacity = String((c.behind ? 0.25 : 0.95) * (c.on ? 1 : 0.35));
     m.el.style.pointerEvents = c.behind ? 'none' : 'auto';
   }
