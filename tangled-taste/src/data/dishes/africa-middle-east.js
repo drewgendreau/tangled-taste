@@ -15,6 +15,7 @@ export default [
   ['Chicken Pastilla', 'Moroccan', 44, 'chicken, flour, almond, egg, onion, cinnamon, saffron, sugar, butter, parsley', 'Sweet-savoury pie dusted with cinnamon sugar.', 'bread & pastry'],
   ['Zaalouk', 'Moroccan', 46, 'eggplant, tomato, garlic, cumin, paprika, olive oil, cilantro', 'Smoky eggplant and tomato salad.', 'salad & side'],
   ['Kefta Tagine', 'Moroccan', 56, 'beef, egg, tomato, onion, cumin, paprika, cilantro, parsley', 'Meatballs and eggs in tomato sauce.', 'soup & stew'],
+  ['Sardine Chermoula', 'Moroccan', 42, 'sardine, cilantro, parsley, garlic, cumin, paprika, lemon, olive oil', 'Sardines stuffed with chermoula, grilled or fried.', 'main'],
 
   // Ethiopian
   ['Doro Wat', 'Ethiopian', 50, 'chicken, onion, berbere, butter, garlic, ginger, egg, cardamom', 'Slow-simmered chicken in berbere.', 'soup & stew'],
@@ -37,6 +38,7 @@ export default [
   ['Tahdig', 'Persian', 54, 'rice, butter, saffron, yogurt, vegetable oil', 'The prized golden crust of the rice pot.', 'rice & noodles'],
   ['Kuku Sabzi', 'Persian', 40, 'egg, parsley, cilantro, dill, walnut, turmeric, onion', 'A frittata that is mostly herbs.', 'main'],
   ['Joojeh Kabab', 'Persian', 52, 'chicken, saffron, lemon, onion, yogurt, butter', 'Saffron chicken skewers.', 'main'],
+  ['Ash Reshteh', 'Persian', 44, 'kidney beans, noodles, spinach, parsley, cilantro, dill, onion, lentils, yogurt', 'Herb and noodle soup for Nowruz.', 'soup & stew'],
 
   // West African
   ['Jollof Rice', 'West African', 78, 'rice, tomato, bell pepper, onion, chili, vegetable oil, thyme, bay leaf, stock', 'Party rice — and the subject of friendly rivalry.', 'rice & noodles'],

@@ -33,6 +33,7 @@ export const INGREDIENTS = {
     'shallot',
     'kale',
     'pumpkin',
+    'leek',
   ],
   herb: [
     'basil',
@@ -46,6 +47,9 @@ export const INGREDIENTS = {
     'lemongrass',
     'curry leaves',
     'pandan',
+    'rosemary',
+    'sage',
+    'chives',
   ],
   fruit: [
     'lemon',
@@ -110,6 +114,11 @@ export const INGREDIENTS = {
     'sausage',
     'goat',
     'ham',
+    'turkey',
+    'rabbit',
+    'liver',
+    'prosciutto',
+    'chorizo',
   ],
   seafood: [
     'fish',
@@ -117,6 +126,14 @@ export const INGREDIENTS = {
     'shellfish',
     'salmon',
     'lobster',
+    'tuna',
+    'cod',
+    'squid',
+    'octopus',
+    'crab',
+    'mussels',
+    'sardine',
+    'anchovy',
   ],
   dairy: [
     'egg',
@@ -161,6 +178,8 @@ export const INGREDIENTS = {
     'soy sauce',
     'black-eyed peas',
     'fava beans',
+    'kidney beans',
+    'white beans',
   ],
   nut: [
     'peanut',

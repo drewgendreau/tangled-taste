@@ -9,6 +9,8 @@ export default [
   ['Chiles en Nogada', 'Mexican', 40, 'chili, pork, walnut, pomegranate, cream, apple, onion, garlic, parsley', 'Stuffed poblanos in walnut sauce.', 'main'],
   ['Chilaquiles', 'Mexican', 62, 'corn, chili, tomato, onion, queso fresco, cream, egg, cilantro', 'Tortilla chips simmered in salsa for breakfast.', 'breakfast'],
   ['Elote', 'Mexican', 70, 'corn, mayonnaise, queso fresco, chili, lime', 'Street corn slathered and dusted with chili.', 'street & snack'],
+  ['Caesar Salad', 'Mexican', 72, 'lettuce, bread, anchovy, parmesan, egg, olive oil, lemon, garlic', 'Born in Tijuana in 1924 and adopted by the world.', 'salad & side'],
+  ['Huevos con Chorizo', 'Mexican', 52, 'egg, chorizo, corn, onion, chili, tomato', 'Scrambled eggs with spicy sausage and warm tortillas.', 'breakfast'],
 
   // American
   ['Hamburger', 'American', 96, 'beef, bread, lettuce, tomato, onion, cheddar, pickle, salt', 'The world’s favourite sandwich.', 'street & snack'],
@@ -20,6 +22,13 @@ export default [
   ['Pancakes', 'American', 84, 'flour, milk, egg, butter, sugar, maple syrup', 'Fluffy stacks under maple syrup.', 'breakfast'],
   ['Pecan Pie', 'American', 66, 'pecan, sugar, butter, egg, maple syrup, vanilla, flour', 'Southern holiday pie with a gooey heart.', 'dessert'],
   ['Lobster Roll', 'American', 64, 'lobster, bread, mayonnaise, butter, celery, lemon', 'New England summer in a toasted bun.', 'street & snack'],
+  ['Crab Cakes', 'American', 58, 'crab, bread, egg, mayonnaise, mustard, parsley, lemon, butter', 'Chesapeake Bay classics, light on filler.', 'main'],
+  ['Cioppino', 'American', 46, 'crab, mussels, fish, tomato, white wine, garlic, bay leaf, onion', 'San Francisco’s seafood stew.', 'soup & stew'],
+  ['Roast Turkey', 'American', 66, 'turkey, butter, sage, thyme, rosemary, onion, celery, bread, stock', 'Thanksgiving centerpiece with herb stuffing.', 'main'],
+  ['Turkey Club Sandwich', 'American', 56, 'turkey, bacon, bread, lettuce, tomato, mayonnaise', 'Triple-decker deli classic.', 'street & snack'],
+  ['Chili con Carne', 'American', 66, 'beef, kidney beans, tomato, onion, garlic, chili, cumin, paprika, bell pepper', 'Texas-style bowl of red with beans.', 'soup & stew'],
+  ['Tuna Salad Sandwich', 'American', 52, 'tuna, mayonnaise, bread, celery, lemon, onion', 'Lunch-counter staple.', 'street & snack'],
+  ['Loaded Baked Potato', 'American', 60, 'potato, butter, sour cream, cheddar, bacon, chives', 'Steakhouse side with all the toppings.', 'salad & side'],
 
   // Peruvian
   ['Ceviche', 'Peruvian', 78, 'fish, lime, chili, onion, cilantro, sweet potato, corn, salt', 'Raw fish cured in tiger’s milk.', 'salad & side'],
@@ -34,6 +43,10 @@ export default [
   ['Pão de Queijo', 'Brazilian', 58, 'tapioca, parmesan, egg, milk, vegetable oil, salt', 'Chewy cheese bread from Minas Gerais.', 'bread & pastry'],
   ['Moqueca', 'Brazilian', 50, 'fish, coconut milk, tomato, onion, bell pepper, cilantro, lime, palm oil, garlic', 'Bahian fish stew with dendê oil.', 'soup & stew'],
   ['Brigadeiro', 'Brazilian', 60, 'cocoa, sugar, butter, milk', 'Fudgy chocolate truffles for every party.', 'dessert'],
+  ['Coxinha', 'Brazilian', 66, 'chicken, flour, butter, milk, onion, parsley, egg, bread, vegetable oil', 'Teardrop fritters of shredded chicken.', 'street & snack'],
+  ['Acarajé', 'Brazilian', 46, 'black-eyed peas, onion, shrimp, palm oil, chili, ginger', 'Bahian black-eyed pea fritters fried in dendê oil.', 'street & snack'],
+  ['Churrasco', 'Brazilian', 70, 'beef, pork, sausage, chicken, salt, garlic', 'Grilled meats carved at the table.', 'main'],
+  ['Farofa', 'Brazilian', 44, 'cassava, bacon, onion, butter, egg, parsley', 'Toasted cassava flour with bacon and egg.', 'salad & side'],
 
   // Jamaican
   ['Jerk Chicken', 'Jamaican', 80, 'chicken, allspice, chili, scallion, thyme, garlic, ginger, lime, soy sauce, sugar, cinnamon, nutmeg', 'Smoky, fiery and fragrant with pimento.', 'main'],
@@ -47,18 +60,30 @@ export default [
   ['Empanadas', 'Argentine', 78, 'flour, beef, onion, egg, olive, cumin, paprika, butter', 'Hand pies, crimped by region.', 'street & snack'],
   ['Milanesa', 'Argentine', 64, 'beef, bread, egg, garlic, parsley, lemon, vegetable oil', 'Breaded cutlet, an Italian import.', 'main'],
   ['Alfajores', 'Argentine', 66, 'flour, butter, sugar, egg, dulce de leche, coconut', 'Sandwich cookies filled with dulce de leche.', 'dessert'],
+  ['Provoleta', 'Argentine', 44, 'mozzarella, oregano, olive oil, chili, bread', 'Grilled cheese with oregano, crisp at the edges.', 'street & snack'],
+  ['Locro', 'Argentine', 46, 'corn, white beans, pumpkin, beef, pork, sausage, onion, garlic, paprika, cumin', 'Hearty national stew of corn, beans and pumpkin.', 'soup & stew'],
+  ['Chimichurri', 'Argentine', 52, 'parsley, garlic, oregano, olive oil, vinegar, chili, bay leaf', 'The herb sauce that goes on everything off the grill.', 'sauce & dip'],
+  ['Choripán', 'Argentine', 62, 'chorizo, bread, parsley, garlic, olive oil, vinegar, oregano', 'Grilled chorizo in a roll with chimichurri.', 'street & snack'],
 
   // Cuban
   ['Cubano', 'Cuban', 70, 'bread, pork, ham, gruyère, pickle, mustard, butter', 'Pressed sandwich born between Havana and Tampa.', 'street & snack'],
   ['Ropa Vieja', 'Cuban', 64, 'beef, bell pepper, onion, tomato, garlic, cumin, olive, white wine', '"Old clothes" — shredded braised beef.', 'main'],
   ['Moros y Cristianos', 'Cuban', 52, 'beans, rice, onion, bell pepper, garlic, cumin, bay leaf', 'Black beans and white rice cooked together.', 'rice & noodles'],
   ['Lechón Asado', 'Cuban', 56, 'pork, orange, lime, garlic, oregano, cumin', 'Roast pork in sour-orange mojo.', 'main'],
+  ['Picadillo', 'Cuban', 52, 'beef, onion, bell pepper, tomato, garlic, olive, raisins, cumin, white wine', 'Sweet-savory beef hash with olives and raisins.', 'main'],
+  ['Tostones', 'Cuban', 54, 'plantain, vegetable oil, salt, garlic', 'Twice-fried green plantain slices.', 'salad & side'],
+  ['Flan de Leche', 'Cuban', 50, 'milk, egg, sugar, vanilla', 'Silky baked custard under liquid caramel.', 'dessert'],
+  ['Arroz con Pollo', 'Cuban', 54, 'rice, chicken, tomato, bell pepper, onion, garlic, peas, beer, cumin', 'Chicken and rice cooked in beer and sofrito.', 'rice & noodles'],
 
   // Colombian
   ['Bandeja Paisa', 'Colombian', 60, 'beans, rice, pork, beef, sausage, egg, plantain, avocado, corn', 'A platter big enough for a mule driver.', 'main'],
   ['Arepas', 'Colombian', 74, 'corn, butter, queso fresco, salt', 'Griddled corn cakes, split and filled.', 'street & snack'],
   ['Ajiaco', 'Colombian', 54, 'chicken, potato, corn, oregano, cream, avocado', 'Bogotá’s three-potato chicken soup.', 'soup & stew'],
   ['Sancocho', 'Colombian', 52, 'chicken, plantain, cassava, corn, potato, cilantro, onion, garlic', 'Hearty Sunday stew.', 'soup & stew'],
+  ['Empanadas Colombianas', 'Colombian', 52, 'corn, beef, potato, onion, vegetable oil, cumin, cilantro', 'Golden corn-flour turnovers with beef and potato.', 'street & snack'],
+  ['Changua', 'Colombian', 36, 'milk, egg, scallion, cilantro, bread', 'Andean breakfast soup of milk and poached egg.', 'soup & stew'],
+  ['Buñuelos', 'Colombian', 48, 'queso fresco, corn, egg, sugar, vegetable oil', 'Crisp-shelled cheese fritters, a Christmas staple.', 'street & snack'],
+  ['Tamal Colombiano', 'Colombian', 50, 'corn, chicken, pork, potato, peas, egg, onion, cilantro', 'Corn dough steamed in banana leaves with meat and vegetables.', 'main'],
 
   // Canadian
   ['Poutine', 'Canadian', 76, 'potato, cheese curds, stock, butter, flour, vegetable oil', 'Fries, squeaky curds and gravy.', 'street & snack'],

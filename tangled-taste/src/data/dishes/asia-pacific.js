@@ -9,6 +9,8 @@ export default [
   ['Okonomiyaki', 'Japanese', 45, 'flour, cabbage, egg, pork, scallion, mayonnaise, seaweed', 'Savory pancake, "grilled as you like it".', 'street & snack'],
   ['Tonkatsu', 'Japanese', 70, 'pork, flour, egg, bread, cabbage, rice, vegetable oil', 'Panko-crusted pork cutlet.', 'main'],
   ['Yakitori', 'Japanese', 72, 'chicken, scallion, soy sauce, mirin, sugar', 'Charcoal-grilled chicken skewers.', 'street & snack'],
+  ['Sashimi', 'Japanese', 70, 'tuna, salmon, soy sauce, wasabi, radish, ginger', 'Fresh-sliced raw fish with wasabi and soy.', 'main'],
+  ['Takoyaki', 'Japanese', 66, 'octopus, flour, egg, scallion, ginger, mayonnaise, seaweed, vegetable oil', 'Osaka’s crisp octopus balls.', 'street & snack'],
 
   // Chinese
   ['Kung Pao Chicken', 'Chinese', 80, 'chicken, peanut, chili, sichuan pepper, soy sauce, garlic, ginger, scallion, vinegar, sugar', 'Sichuan stir-fry with numbing heat.', 'main'],
@@ -18,6 +20,7 @@ export default [
   ['Fried Rice', 'Chinese', 85, 'rice, egg, scallion, soy sauce, garlic, peas, carrot, sesame oil', 'Day-old rice, wok-tossed.', 'rice & noodles'],
   ['Hot and Sour Soup', 'Chinese', 55, 'tofu, mushroom, egg, vinegar, black pepper, soy sauce, bamboo shoot', 'Peppery, tangy and warming.', 'soup & stew'],
   ['Char Siu', 'Chinese', 72, 'pork, hoisin, honey, soy sauce, five-spice, garlic, sugar', 'Cantonese barbecued pork.', 'main'],
+  ['Salt and Pepper Squid', 'Chinese', 50, 'squid, flour, chili, scallion, garlic, salt, black pepper, vegetable oil', 'Crisp wok-tossed squid with chili and garlic.', 'street & snack'],
 
   // Korean
   ['Kimchi', 'Korean', 76, 'cabbage, chili, garlic, ginger, fish sauce, scallion, radish, sugar', 'Fermented napa cabbage.', 'salad & side'],
@@ -26,6 +29,7 @@ export default [
   ['Tteokbokki', 'Korean', 60, 'rice, gochujang, fish, scallion, sugar, egg, cabbage', 'Chewy rice cakes in red chili sauce.', 'street & snack'],
   ['Japchae', 'Korean', 64, 'noodles, beef, spinach, carrot, mushroom, onion, soy sauce, sesame oil, sugar, garlic', 'Glass noodles stir-fried with vegetables.', 'rice & noodles'],
   ['Samgyeopsal', 'Korean', 70, 'pork, garlic, lettuce, gochujang, sesame oil, cabbage, chili', 'Grilled pork belly wrapped in lettuce.', 'main'],
+  ['Ojingeo Bokkeum', 'Korean', 40, 'squid, gochujang, onion, garlic, scallion, sesame oil, cabbage', 'Fiery stir-fried squid.', 'main'],
 
   // Thai
   ['Pad Thai', 'Thai', 92, 'noodles, shrimp, egg, tofu, peanut, fish sauce, tamarind, lime, bean sprouts, garlic, sugar', 'Stir-fried rice noodles, sweet-sour-salty.', 'rice & noodles'],
@@ -40,6 +44,10 @@ export default [
   ['Bánh Mì', 'Vietnamese', 80, 'bread, pork, carrot, radish, cilantro, cucumber, chili, mayonnaise, soy sauce', 'French baguette, Vietnamese fillings.', 'street & snack'],
   ['Gỏi Cuốn', 'Vietnamese', 64, 'rice, shrimp, pork, lettuce, mint, noodles, peanut, hoisin', 'Fresh summer rolls in rice paper.', 'street & snack'],
   ['Bún Chả', 'Vietnamese', 62, 'pork, noodles, fish sauce, sugar, garlic, lettuce, mint, lime, chili, vinegar', 'Grilled pork with noodles and herbs, Hanoi style.', 'main'],
+  ['Bánh Xèo', 'Vietnamese', 62, 'rice, coconut milk, turmeric, shrimp, pork, bean sprouts, mint, lettuce, fish sauce, lime', 'Sizzling turmeric crêpes wrapped in lettuce and herbs.', 'street & snack'],
+  ['Cà Phê Sữa Đá', 'Vietnamese', 64, 'coffee, milk, sugar', 'Strong drip coffee over sweet condensed milk and ice.', 'drink'],
+  ['Cơm Tấm', 'Vietnamese', 52, 'rice, pork, egg, scallion, fish sauce, cucumber, tomato, sugar', 'Broken rice with grilled pork, egg and pickles.', 'rice & noodles'],
+  ['Canh Chua', 'Vietnamese', 46, 'fish, tamarind, pineapple, tomato, bean sprouts, okra, cilantro, lime', 'Sweet-and-sour fish soup of the Mekong Delta.', 'soup & stew'],
 
   // Indian
   ['Butter Chicken', 'Indian', 90, 'chicken, tomato, butter, cream, garam masala, ginger, garlic, chili, yogurt, fenugreek', 'Murgh makhani, born in Delhi.', 'soup & stew'],
@@ -52,12 +60,19 @@ export default [
   ['Rogan Josh', 'Indian', 70, 'lamb, yogurt, chili, garlic, ginger, cardamom, cinnamon, onion, garam masala', 'Kashmiri lamb in a deep red gravy.', 'soup & stew'],
   ['Gulab Jamun', 'Indian', 74, 'milk, flour, sugar, cardamom, ghee, saffron', 'Milk dumplings soaked in fragrant syrup.', 'dessert'],
   ['Masala Chai', 'Indian', 80, 'tea, milk, sugar, ginger, cardamom, cinnamon, cloves, black pepper', 'Spiced milky tea from every street corner.', 'drink'],
+  ['Paneer Tikka', 'Indian', 70, 'paneer, yogurt, bell pepper, onion, garam masala, chili, lemon, ginger, garlic', 'Tandoori-charred paneer and peppers.', 'main'],
+  ['Mango Lassi', 'Indian', 72, 'mango, yogurt, milk, sugar, cardamom', 'Cooling mango and yogurt drink.', 'drink'],
+  ['Rajma', 'Indian', 62, 'kidney beans, tomato, onion, garlic, ginger, cumin, garam masala, chili, ghee', 'Punjabi kidney bean curry, eaten with rice.', 'soup & stew'],
 
   // Indonesian
   ['Nasi Goreng', 'Indonesian', 80, 'rice, egg, shallot, garlic, chili, soy sauce, shrimp paste, shrimp, cucumber', 'Sweet-soy fried rice.', 'rice & noodles'],
   ['Rendang', 'Indonesian', 78, 'beef, coconut milk, lemongrass, galangal, ginger, chili, shallot, garlic, turmeric, coconut', 'Beef slow-cooked until the coconut caramelises.', 'soup & stew'],
   ['Satay', 'Indonesian', 76, 'chicken, peanut, soy sauce, garlic, shallot, coriander, turmeric, lime, sugar, chili', 'Skewers with peanut sauce.', 'street & snack'],
   ['Gado-Gado', 'Indonesian', 54, 'cabbage, bean sprouts, potato, egg, tofu, peanut, chili, lime, green beans, cucumber', 'Vegetable salad in peanut dressing.', 'salad & side'],
+  ['Soto Ayam', 'Indonesian', 58, 'chicken, turmeric, lemongrass, ginger, garlic, shallot, noodles, egg, lime, celery', 'Golden turmeric chicken soup.', 'soup & stew'],
+  ['Mie Goreng', 'Indonesian', 62, 'noodles, egg, shrimp, cabbage, soy sauce, garlic, shallot, chili, bean sprouts', 'Sweet, smoky fried noodles.', 'rice & noodles'],
+  ['Sambal Terasi', 'Indonesian', 50, 'chili, shrimp paste, tomato, lime, sugar, shallot, garlic', 'Fiery chili relish pounded with fermented shrimp paste.', 'sauce & dip'],
+  ['Martabak Manis', 'Indonesian', 48, 'flour, egg, sugar, milk, peanut, chocolate, butter, yeast', 'Thick street pancake stuffed with chocolate and peanuts.', 'dessert'],
 
   // Filipino
   ['Chicken Adobo', 'Filipino', 74, 'chicken, pork, vinegar, soy sauce, garlic, bay leaf, black pepper', 'Braised in vinegar and soy — the national dish.', 'main'],
@@ -72,6 +87,7 @@ export default [
   ['Roti Canai', 'Malaysian', 68, 'flour, ghee, egg, sugar, salt', 'Flaky griddled flatbread with curry.', 'bread & pastry'],
   ['Char Kway Teow', 'Malaysian', 66, 'noodles, shrimp, egg, bean sprouts, soy sauce, chili, garlic, scallion, sausage', 'Smoky wok-fried flat noodles.', 'rice & noodles'],
   ['Kaya Toast', 'Malaysian', 54, 'bread, coconut milk, egg, sugar, pandan, butter', 'Coconut jam toast with soft eggs.', 'breakfast'],
+  ['Chili Crab', 'Malaysian', 56, 'crab, tomato, chili, garlic, ginger, egg, soy sauce, sugar', 'Messy, glorious crab in sweet chili-tomato sauce.', 'main'],
 
   // Sri Lankan
   ['Hoppers', 'Sri Lankan', 58, 'rice, coconut milk, yeast, sugar, egg', 'Bowl-shaped crêpes with crisp lacy edges.', 'bread & pastry'],
@@ -95,16 +111,28 @@ export default [
   ['Samsa', 'Uzbek', 58, 'flour, lamb, onion, cumin, butter, sesame', 'Tandoor-baked meat pastries.', 'bread & pastry'],
   ['Lagman', 'Uzbek', 56, 'noodles, beef, bell pepper, tomato, onion, garlic, radish, cumin', 'Hand-pulled noodles with a rich stew.', 'rice & noodles'],
   ['Shashlik', 'Uzbek', 60, 'lamb, onion, vinegar, cumin, coriander', 'Silk Road skewers over vine-wood coals.', 'main'],
+  ['Manti', 'Uzbek', 50, 'flour, lamb, onion, pumpkin, cumin, black pepper, butter, yogurt', 'Steamed lamb dumplings topped with yogurt.', 'street & snack'],
+  ['Shurpa', 'Uzbek', 44, 'lamb, potato, carrot, tomato, onion, cumin, coriander, cilantro', 'Fragrant lamb and vegetable soup.', 'soup & stew'],
+  ['Non', 'Uzbek', 52, 'flour, yeast, sesame, salt, vegetable oil', 'Round tandoor bread stamped with a pattern.', 'bread & pastry'],
+  ['Achichuk', 'Uzbek', 36, 'tomato, onion, chili, cilantro, salt', 'Razor-thin tomato and onion salad served with plov.', 'salad & side'],
 
   // Burmese
   ['Mohinga', 'Burmese', 60, 'noodles, fish, lemongrass, chickpeas, onion, garlic, ginger, fish sauce, egg, lime', 'Fish and rice-noodle soup, the national breakfast.', 'soup & stew'],
   ['Lahpet Thoke', 'Burmese', 54, 'tea, cabbage, tomato, peanut, sesame, garlic, chili, lime, fish sauce', 'Fermented tea leaf salad with crunchy beans.', 'salad & side'],
   ['Shan Noodles', 'Burmese', 50, 'noodles, chicken, tomato, garlic, peanut, soy sauce, chili, scallion', 'Sticky rice noodles in a tomato-chicken sauce.', 'rice & noodles'],
   ['Ohn No Khao Swè', 'Burmese', 48, 'noodles, chicken, coconut milk, chickpeas, onion, garlic, turmeric, egg, lime, chili', 'Coconut chicken noodle soup.', 'soup & stew'],
+  ['Nan Gyi Thoke', 'Burmese', 40, 'noodles, chicken, chili, vegetable oil, peanut, chickpeas, egg, cilantro', 'Thick rice noodles tossed with chicken curry and chickpea powder.', 'rice & noodles'],
+  ['Samusa Thoke', 'Burmese', 36, 'flour, potato, onion, cabbage, mint, cilantro, lime, chili, chickpeas', 'Crushed samosas dressed as a salad.', 'salad & side'],
+  ['Shwe Yin Aye', 'Burmese', 34, 'tapioca, coconut milk, sugar, bread, jackfruit', 'Cooling coconut dessert with tapioca pearls and jackfruit.', 'dessert'],
+  ['Wetthar Hin', 'Burmese', 44, 'pork, onion, garlic, ginger, turmeric, chili, vegetable oil, fish sauce', 'Slow-cooked Burmese pork curry.', 'soup & stew'],
 
   // Nepali
   ['Momo', 'Nepali', 72, 'flour, beef, onion, garlic, ginger, cilantro, cumin, tomato, chili, sesame', 'Pleated dumplings with a fiery tomato achar.', 'street & snack'],
   ['Dal Bhat', 'Nepali', 66, 'lentils, rice, turmeric, cumin, garlic, ginger, ghee, spinach, tomato', '"Dal bhat power, 24 hour."', 'rice & noodles'],
   ['Sel Roti', 'Nepali', 46, 'rice, sugar, ghee, banana, cardamom', 'Ring-shaped festival bread.', 'bread & pastry'],
   ['Thukpa', 'Nepali', 54, 'noodles, chicken, carrot, cabbage, garlic, ginger, tomato, chili, cilantro', 'Himalayan noodle soup.', 'soup & stew'],
+  ['Choila', 'Nepali', 38, 'goat, ginger, garlic, chili, mustard seed, cumin, cilantro, scallion', 'Newari spiced grilled meat salad.', 'salad & side'],
+  ['Aloo Tama', 'Nepali', 40, 'bamboo shoot, potato, beans, turmeric, cumin, garlic, ginger, chili', 'Sour bamboo shoot and potato curry.', 'soup & stew'],
+  ['Yomari', 'Nepali', 36, 'rice, sugar, sesame, ghee, milk', 'Steamed rice-flour dumplings filled with sesame and molasses.', 'dessert'],
+  ['Chatamari', 'Nepali', 38, 'rice, goat, egg, onion, tomato, chili, cilantro', 'Newari rice-flour crêpe, the “Nepali pizza”.', 'street & snack'],
 ];

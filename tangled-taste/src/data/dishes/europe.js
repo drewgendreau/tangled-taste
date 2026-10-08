@@ -11,6 +11,14 @@ export default [
   ['Osso Buco', 'Italian', 55, 'veal, onion, carrot, celery, white wine, tomato, garlic, lemon, parsley, butter', 'Braised veal shanks with gremolata.', 'main'],
   ['Arancini', 'Italian', 72, 'rice, mozzarella, peas, beef, egg, bread, tomato, parmesan', 'Sicilian fried rice balls with a molten heart.', 'street & snack'],
   ['Panna Cotta', 'Italian', 68, 'cream, milk, sugar, vanilla, strawberry', 'Cooked cream, barely set.', 'dessert'],
+  ['Amatriciana', 'Italian', 70, 'pasta, guanciale, pecorino, tomato, chili, white wine', 'Roman pasta with cured pork cheek and tomato.', 'rice & noodles'],
+  ['Cacio e Pepe', 'Italian', 74, 'pasta, pecorino, black pepper', 'Three ingredients, one creamy Roman sauce.', 'rice & noodles'],
+  ['Pasta con le Sarde', 'Italian', 40, 'pasta, sardine, fennel, pine nuts, raisins, anchovy, onion, olive oil', 'Sicilian pasta of sardines, wild fennel and sweet raisins.', 'rice & noodles'],
+  ['Vitello Tonnato', 'Italian', 42, 'veal, tuna, anchovy, mayonnaise, olive oil, lemon, white wine', 'Cold sliced veal under a creamy tuna sauce.', 'main'],
+  ['Saltimbocca', 'Italian', 54, 'veal, prosciutto, sage, butter, white wine, flour', '“Jumps in the mouth” — veal, ham and sage.', 'main'],
+  ['Coniglio alla Cacciatora', 'Italian', 36, 'rabbit, tomato, white wine, rosemary, garlic, olive, olive oil', 'Hunter-style braised rabbit.', 'main'],
+  ['Fegato alla Veneziana', 'Italian', 36, 'liver, onion, butter, white wine, sage, parsley', 'Venice’s liver with slow-cooked onions.', 'main'],
+  ['Tortellini in Brodo', 'Italian', 46, 'pasta, prosciutto, pork, parmesan, nutmeg, stock, egg', 'Tiny stuffed pasta floating in clear broth.', 'soup & stew'],
 
   // French
   ['Coq au Vin', 'French', 65, 'chicken, red wine, mushroom, onion, bacon, garlic, thyme, butter, bay leaf', 'Chicken braised slowly in Burgundy wine.', 'soup & stew'],
@@ -23,6 +31,14 @@ export default [
   ['Beef Bourguignon', 'French', 68, 'beef, red wine, onion, carrot, mushroom, bacon, garlic, thyme, bay leaf', 'Beef stewed in red wine with pearl onions.', 'soup & stew'],
   ['Salade Niçoise', 'French', 58, 'fish, egg, potato, green beans, olive, tomato, lettuce, olive oil, vinegar, mustard', 'The composed salad of Nice.', 'salad & side'],
   ['Crêpes', 'French', 82, 'flour, milk, egg, butter, sugar, salt', 'Paper-thin Breton pancakes.', 'breakfast'],
+  ['Duck Confit', 'French', 62, 'duck, thyme, garlic, salt, bay leaf, potato, black pepper', 'Duck slow-cooked in its own fat until it falls off the bone.', 'main'],
+  ['Moules Marinières', 'French', 66, 'mussels, white wine, shallot, butter, parsley, garlic, cream', 'Mussels steamed in white wine, served with frites.', 'main'],
+  ['Cassoulet', 'French', 56, 'white beans, duck, pork, sausage, onion, garlic, thyme, bay leaf, tomato', 'Slow-baked beans and meats from Languedoc.', 'soup & stew'],
+  ['Vichyssoise', 'French', 44, 'leek, potato, cream, butter, stock, chives', 'Chilled leek and potato soup.', 'soup & stew'],
+  ['Pissaladière', 'French', 40, 'flour, yeast, onion, anchovy, olive, thyme, olive oil', 'Niçois tart of sweet onions, anchovies and olives.', 'bread & pastry'],
+  ['Brandade de Morue', 'French', 40, 'cod, potato, garlic, milk, olive oil, cream', 'Salt cod whipped with garlic and olive oil.', 'sauce & dip'],
+  ['Lapin à la Moutarde', 'French', 34, 'rabbit, mustard, cream, white wine, shallot, thyme', 'Rabbit braised in a mustard cream sauce.', 'main'],
+  ['Pâté de Campagne', 'French', 44, 'liver, pork, butter, shallot, thyme, red wine, bread', 'Rustic country pâté with liver and pork.', 'sauce & dip'],
 
   // Spanish
   ['Paella', 'Spanish', 85, 'rice, saffron, chicken, shrimp, tomato, bell pepper, paprika, olive oil, garlic, peas, green beans', 'Saffron rice cooked wide and shallow in Valencia.', 'rice & noodles'],
@@ -31,6 +47,10 @@ export default [
   ['Patatas Bravas', 'Spanish', 66, 'potato, paprika, tomato, garlic, olive oil, chili, mayonnaise', 'Crisp potatoes with a smoky, spicy sauce.', 'salad & side'],
   ['Churros con Chocolate', 'Spanish', 75, 'flour, sugar, vegetable oil, cinnamon, chocolate, milk, salt', 'Fried dough dipped in thick hot chocolate.', 'dessert'],
   ['Crema Catalana', 'Spanish', 52, 'milk, egg, sugar, cinnamon, lemon', 'Catalonia’s citrus-scented custard.', 'dessert'],
+  ['Calamares Fritos', 'Spanish', 62, 'squid, flour, vegetable oil, lemon, salt, parsley', 'Crisp fried squid rings with lemon.', 'street & snack'],
+  ['Gambas al Ajillo', 'Spanish', 66, 'shrimp, garlic, chili, olive oil, white wine, parsley', 'Shrimp sizzling in garlic and chili oil.', 'street & snack'],
+  ['Fabada Asturiana', 'Spanish', 46, 'white beans, chorizo, pork, bacon, onion, garlic, paprika, saffron', 'Asturias’ rich bean and sausage stew.', 'soup & stew'],
+  ['Pulpo a la Gallega', 'Spanish', 56, 'octopus, potato, paprika, olive oil, salt', 'Galician octopus with potatoes and smoked paprika.', 'main'],
 
   // Greek
   ['Moussaka', 'Greek', 64, 'eggplant, lamb, tomato, onion, garlic, cinnamon, milk, butter, flour, nutmeg, egg', 'Layers of eggplant, spiced lamb and béchamel.', 'main'],
@@ -39,6 +59,9 @@ export default [
   ['Spanakopita', 'Greek', 55, 'spinach, feta, flour, onion, dill, egg, olive oil, butter', 'Spinach and feta in crisp phyllo.', 'bread & pastry'],
   ['Tzatziki', 'Greek', 60, 'yogurt, cucumber, garlic, dill, olive oil, lemon', 'Cool yogurt and cucumber dip.', 'sauce & dip'],
   ['Avgolemono', 'Greek', 48, 'chicken, rice, egg, lemon, stock, dill', 'Silky egg-lemon soup.', 'soup & stew'],
+  ['Gigantes Plaki', 'Greek', 40, 'white beans, tomato, onion, garlic, dill, olive oil, parsley', 'Giant beans baked in tomato and dill.', 'salad & side'],
+  ['Htapodi sti Skara', 'Greek', 50, 'octopus, olive oil, lemon, oregano, vinegar', 'Charcoal-grilled octopus dressed with lemon and oregano.', 'main'],
+  ['Stifado', 'Greek', 38, 'rabbit, onion, red wine, tomato, cinnamon, bay leaf, vinegar, olive oil', 'Rabbit stewed with pearl onions and warm spices.', 'soup & stew'],
 
   // German
   ['Wiener Schnitzel', 'German', 76, 'veal, flour, egg, bread, lemon, butter, salt', 'Thin, golden, breaded veal.', 'main'],
@@ -51,30 +74,54 @@ export default [
   ['Goulash', 'Hungarian', 72, 'beef, paprika, onion, potato, carrot, caraway, tomato, bell pepper, garlic', 'The herdsman’s paprika soup.', 'soup & stew'],
   ['Chicken Paprikash', 'Hungarian', 58, 'chicken, paprika, onion, sour cream, flour, butter, bell pepper', 'Chicken in a creamy paprika sauce.', 'soup & stew'],
   ['Lángos', 'Hungarian', 50, 'flour, yeast, garlic, sour cream, cheddar, milk, vegetable oil', 'Fried dough with garlic, sour cream and cheese.', 'street & snack'],
+  ['Halászlé', 'Hungarian', 52, 'fish, paprika, onion, tomato, bell pepper, chili', 'Fisherman’s soup of the Danube, fiery red with paprika.', 'soup & stew'],
+  ['Töltött Káposzta', 'Hungarian', 54, 'cabbage, pork, rice, paprika, onion, sour cream, bacon', 'Cabbage rolls stuffed with pork and rice, simmered in paprika.', 'main'],
+  ['Dobos Torte', 'Hungarian', 46, 'flour, egg, sugar, butter, chocolate, vanilla', 'Thin sponge layers stacked under a glassy caramel crown.', 'dessert'],
+  ['Lecsó', 'Hungarian', 46, 'bell pepper, tomato, onion, paprika, sausage, egg', 'Summer stew of peppers and tomatoes, finished with egg.', 'soup & stew'],
+  ['Túrós Csusza', 'Hungarian', 44, 'noodles, queso fresco, sour cream, bacon, butter', 'Noodles tossed with curd cheese, sour cream and crisp bacon.', 'rice & noodles'],
 
   // British
   ['Fish and Chips', 'British', 82, 'fish, potato, flour, beer, vegetable oil, salt, vinegar, peas', 'Seaside supper wrapped in paper.', 'main'],
   ['Shepherd’s Pie', 'British', 66, 'lamb, potato, onion, carrot, peas, butter, milk, stock, thyme', 'Lamb mince under mashed potato.', 'main'],
   ['Full English Breakfast', 'British', 70, 'egg, bacon, sausage, beans, tomato, mushroom, bread, butter', 'The classic fry-up with all the trimmings.', 'breakfast'],
   ['Scones', 'British', 62, 'flour, butter, milk, sugar, egg, strawberry, cream', 'With jam and clotted cream, in that order (or not).', 'bread & pastry'],
+  ['Sunday Roast', 'British', 66, 'beef, potato, carrot, flour, egg, milk, rosemary, onion', 'Roast beef, crisp potatoes and a puffed Yorkshire pudding.', 'main'],
+  ['Sticky Toffee Pudding', 'British', 62, 'flour, butter, sugar, egg, cream, raisins, milk', 'Dark fruit-studded sponge drenched in warm toffee sauce.', 'dessert'],
+  ['Cornish Pasty', 'British', 56, 'flour, butter, beef, potato, onion, black pepper, salt', 'Crimped pastry parcel that fed generations of tin miners.', 'street & snack'],
+  ['Kedgeree', 'British', 40, 'rice, cod, egg, butter, turmeric, parsley, lemon', 'Smoked fish, rice and eggs — a colonial breakfast.', 'breakfast'],
+  ['Cullen Skink', 'British', 40, 'cod, potato, onion, leek, milk, butter, cream, chives', 'Thick Scottish soup of smoked haddock and potato.', 'soup & stew'],
+  ['Cock-a-Leekie', 'British', 36, 'chicken, leek, rice, stock, bacon, thyme', 'Scotland’s chicken and leek soup.', 'soup & stew'],
 
   // Russian
   ['Borscht', 'Russian', 66, 'beet, cabbage, potato, carrot, onion, dill, sour cream, beef, vinegar', 'Ruby beet soup.', 'soup & stew'],
   ['Beef Stroganoff', 'Russian', 72, 'beef, mushroom, onion, sour cream, butter, mustard, noodles', 'Seared beef in mustard sour cream.', 'main'],
   ['Pelmeni', 'Russian', 60, 'flour, egg, pork, beef, onion, sour cream, black pepper', 'Siberian dumplings, frozen by the hundred.', 'street & snack'],
   ['Blini', 'Russian', 58, 'flour, milk, egg, butter, yeast, sour cream, fish', 'Yeasted pancakes for Maslenitsa.', 'breakfast'],
+  ['Olivier Salad', 'Russian', 56, 'potato, carrot, egg, pickle, peas, mayonnaise, ham, dill', 'The creamy diced-vegetable salad of every New Year’s table.', 'salad & side'],
+  ['Pirozhki', 'Russian', 52, 'flour, yeast, beef, onion, egg, butter, dill', 'Small baked or fried buns with a savory filling.', 'street & snack'],
+  ['Syrniki', 'Russian', 46, 'queso fresco, flour, egg, sugar, sour cream, raisins, butter', 'Pan-fried curd-cheese pancakes served with sour cream.', 'breakfast'],
+  ['Chicken Kiev', 'Russian', 58, 'chicken, butter, egg, bread, garlic, parsley, dill, flour', 'Breaded chicken that bursts with garlic butter.', 'main'],
+  ['Pashtet', 'Russian', 38, 'liver, butter, onion, carrot, bread, cream, black pepper', 'Smooth liver pâté spread on dark bread.', 'sauce & dip'],
 
   // Swedish
   ['Swedish Meatballs', 'Swedish', 74, 'beef, pork, onion, bread, milk, egg, allspice, cream, lingonberry, potato', 'Köttbullar with lingonberries and cream sauce.', 'main'],
   ['Gravlax', 'Swedish', 58, 'salmon, dill, sugar, salt, black pepper', 'Salmon cured under dill.', 'main'],
   ['Kanelbullar', 'Swedish', 66, 'flour, butter, sugar, cinnamon, cardamom, yeast, milk', 'Cardamom-scented cinnamon buns for fika.', 'bread & pastry'],
   ['Jansson’s Temptation', 'Swedish', 40, 'potato, onion, cream, fish, bread', 'Potato and sprat gratin at Christmas.', 'main'],
+  ['Räksmörgås', 'Swedish', 44, 'bread, shrimp, egg, mayonnaise, dill, lemon, butter', 'Open-faced shrimp sandwich piled high.', 'street & snack'],
+  ['Ärtsoppa', 'Swedish', 40, 'peas, ham, onion, carrot, thyme, mustard', 'Thursday’s yellow pea soup, served with mustard.', 'soup & stew'],
+  ['Semla', 'Swedish', 56, 'flour, yeast, milk, butter, sugar, cardamom, almond, cream', 'Cardamom bun filled with almond paste and whipped cream.', 'bread & pastry'],
+  ['Sill', 'Swedish', 46, 'fish, vinegar, sugar, onion, dill, allspice, bay leaf', 'Pickled herring, the heart of the midsummer table.', 'salad & side'],
 
   // Polish
   ['Pierogi', 'Polish', 74, 'flour, egg, potato, onion, sour cream, butter', 'Half-moon dumplings, boiled then fried.', 'street & snack'],
   ['Bigos', 'Polish', 50, 'cabbage, sausage, pork, mushroom, onion, tomato, bay leaf, allspice, red wine', 'Hunter’s stew of cabbage and meats.', 'soup & stew'],
   ['Żurek', 'Polish', 44, 'rye, sausage, egg, potato, garlic, oregano', 'Sour rye soup, often served in bread.', 'soup & stew'],
   ['Gołąbki', 'Polish', 48, 'cabbage, beef, rice, onion, tomato', 'Cabbage rolls in tomato sauce.', 'main'],
+  ['Kotlet Schabowy', 'Polish', 56, 'pork, flour, egg, bread, butter, lemon, potato', 'Breaded pork cutlet with buttery potatoes.', 'main'],
+  ['Placki Ziemniaczane', 'Polish', 48, 'potato, onion, egg, flour, sour cream, vegetable oil', 'Crisp grated-potato pancakes with sour cream.', 'street & snack'],
+  ['Sernik', 'Polish', 52, 'queso fresco, egg, sugar, butter, flour, vanilla, raisins', 'Baked cheesecake made from twaróg curd.', 'dessert'],
+  ['Zapiekanka', 'Polish', 50, 'bread, mushroom, cheddar, onion, mayonnaise, tomato', 'Open-faced baguette baked with mushrooms and cheese.', 'street & snack'],
 
   // Portuguese
   ['Bacalhau à Brás', 'Portuguese', 54, 'fish, potato, egg, onion, olive, parsley, olive oil', 'Salt cod scrambled with matchstick potatoes.', 'main'],
@@ -82,6 +129,8 @@ export default [
   ['Caldo Verde', 'Portuguese', 52, 'kale, potato, onion, sausage, olive oil, garlic', 'Green kale soup with chouriço.', 'soup & stew'],
   ['Francesinha', 'Portuguese', 50, 'bread, beef, ham, sausage, cheddar, beer, tomato, egg', 'Porto’s gloriously excessive sandwich.', 'street & snack'],
   ['Piri-Piri Chicken', 'Portuguese', 70, 'chicken, chili, garlic, lemon, paprika, olive oil, oregano', 'Flame-grilled bird with African bird’s-eye chili.', 'main'],
+  ['Sardinhas Assadas', 'Portuguese', 50, 'sardine, salt, olive oil, bread, tomato', 'Grilled sardines on bread, the taste of Lisbon’s June festivals.', 'main'],
+  ['Mexilhões à Bulhão Pato', 'Portuguese', 40, 'mussels, garlic, cilantro, olive oil, white wine, lemon', 'Mussels steamed in garlic, cilantro and wine.', 'main'],
 
   // Georgian
   ['Khachapuri', 'Georgian', 72, 'flour, yeast, mozzarella, feta, egg, butter', 'Cheese-filled bread boat crowned with an egg.', 'bread & pastry'],

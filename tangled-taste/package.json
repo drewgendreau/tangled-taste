@@ -8,7 +8,8 @@
     "preview": "vite preview",
     "validate": "node scripts/validate.mjs",
     "validate:strict": "node scripts/validate.mjs --strict",
-    "bake": "node scripts/bake-layout.mjs"
+    "bake": "node scripts/bake-layout.mjs",
+    "format:data": "node scripts/format-data.mjs"
   },
   "keywords": [],
   "author": "",
