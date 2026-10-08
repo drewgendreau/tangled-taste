@@ -3,11 +3,12 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { LineSegments2 } from 'three/examples/jsm/lines/LineSegments2.js';
 import { LineSegmentsGeometry } from 'three/examples/jsm/lines/LineSegmentsGeometry.js';
 import { LineMaterial } from 'three/examples/jsm/lines/LineMaterial.js';
-import { CATEGORIES, CUISINES, DISHES, DISH_TYPES } from './data.js';
+import { CATEGORIES, CUISINES, DISHES, DISH_TYPES, INGREDIENT_NOTES } from './data.js';
 import { buildGraph, latLngToVec, GLOBE_RADIUS } from './graph.js';
 import { paintBlob, paintBlobCanvas, paintHalo, paintPaperTile } from './watercolor.js';
 import { paintIngredient, paintCuisine, isPainted } from './illustrations.js';
 import { buildProfiles, buildMatrix, compareSets, describe } from './similarity.js';
+import { buildIndex, analyze, describeLift } from './overlap.js';
 
 performance.mark('app:module-start');
 const PAPER = new THREE.Color('#f5eee0');
@@ -330,7 +331,7 @@ for (const n of nodes) {
   labelLayer.appendChild(el);
   n.label = el;
 }
-// Size by popularity: common ingredients are drawn (and labelled) larger. Off: one medium-small size.
+// Size by commonality: common ingredients are drawn (and labelled) larger. Off: one medium-small size.
 const UNIFORM_SCALE = 13;
 let sizeByPopularity = true;
 try { sizeByPopularity = localStorage.getItem('tt-size-popularity') !== '0'; } catch { /* storage unavailable */ }
@@ -458,6 +459,15 @@ function analyzeCompare(names) {
   });
   return { names, masks, counts, pairs };
 }
+
+// ---------------------------------------------------------------- ingredient overlap (state)
+// Ctrl/⌘-click ingredients to pick several and see what drives the overlap between them.
+const PICK_COLORS = ['#D55E00', '#0072B2', '#009E73', '#CC79A7', '#E69F00', '#56B4E9'];
+const MAX_PICKS = 6;
+let overlapIndexCache = null;
+const overlapIndex = () => overlapIndexCache || (overlapIndexCache = buildIndex(DISHES));
+let overlapInfo = null;
+let multiAdd = false; // "add ingredients" mode: plain clicks add instead of navigating (no Ctrl key on touch screens)
 
 // ---------------------------------------------------------------- view state
 let view = { type: 'home' };
@@ -595,6 +605,25 @@ function go(next, { push = true, quiet = false } = {}) {
       }
       break;
     }
+    case 'overlap': {
+      const ids = next.ids;
+      overlapInfo = analyze(overlapIndex(), ids.map((id) => nodes[id].name));
+      const bridges = overlapInfo.bridges.slice(0, 24);
+      const bridgeIds = bridges.map((b) => nodeByName.get(b.name).id);
+      hi = new Set([...ids, ...bridgeIds]);
+      focus = new Set(ids);
+      // cuisines that use every one of them light up (or, failing that, those using at least two)
+      (overlapInfo.cuisinesAll.length ? overlapInfo.cuisinesAll : overlapInfo.cuisines.filter((c) => c.usedCount >= 2)).forEach((c) => activeCuisines.add(c.name));
+      // thick striped lines where two picks meet in a dish, thin coloured lines through the bridge ingredients
+      for (const p of overlapInfo.pairs) if (p.co) edgesHi.push({ a: ids[p.ai], b: ids[p.bi], colors: [PICK_COLORS[p.ai], PICK_COLORS[p.bi]], shared: true, casing: true, strength: 1 });
+      const wmax = Math.max(1, ...bridges.flatMap((b) => b.links));
+      bridges.forEach((b, k) => b.links.forEach((n, i) => { if (n) edgesHi.push({ a: bridgeIds[k], b: ids[i], color: PICK_COLORS[i], strength: Math.pow(n / wmax, 0.5) }); }));
+      hiMat.linewidth = 1.6;
+      hiMat.opacity = 0.75;
+      const { c, r } = centroid([...hi]);
+      flyTo(c, Math.max(200, r * 2.4));
+      break;
+    }
     case 'filter': {
       filter.cuisines.forEach((c) => activeCuisines.add(c));
       const dishIds = filteredDishes().map((d) => d.id);
@@ -616,8 +645,8 @@ function go(next, { push = true, quiet = false } = {}) {
     }
   }
   // ingredients hidden in Settings stay off the map (except one you picked on purpose)
-  const exempt = next.type === 'ingredient' ? next.id : -1;
-  const gone = (id) => nodes[id].hidden && id !== exempt;
+  const exempt = new Set(next.type === 'ingredient' ? [next.id] : next.type === 'overlap' ? next.ids : []);
+  const gone = (id) => nodes[id].hidden && !exempt.has(id);
   if (hi) hi = new Set([...hi].filter((id) => !gone(id)));
   focus = new Set([...focus].filter((id) => !gone(id)));
   edgesHi = edgesHi.filter((e) => !gone(e.a) && !gone(e.b));
@@ -634,6 +663,7 @@ function go(next, { push = true, quiet = false } = {}) {
     n.sprite.renderOrder = focus.has(n.id) ? 10 : 0;
     n.sprite.material.depthTest = !focus.has(n.id);
     // compare: shared ingredients grow with the number of cuisines that use them, and get a ring
+    n.ringOn = false;
     if (next.type === 'compare') {
       const m = compareInfo.masks.get(n.id) || 0;
       if (m && hi.has(n.id)) {
@@ -641,8 +671,20 @@ function go(next, { push = true, quiet = false } = {}) {
         const ring = ensureRing(n);
         ring.material.map = ringTexture(maskColors(m));
         ring.material.needsUpdate = true;
+        n.ringOn = true;
       }
       n.label.style.color = m && bitCount(m) === 1 ? maskColors(m)[0] : '';
+    } else if (next.type === 'overlap') {
+      // each picked ingredient gets its own colour; bridge ingredients stay plain
+      const slot = next.ids.indexOf(n.id);
+      if (slot >= 0) {
+        n.vis.tScale = 1.4;
+        const ring = ensureRing(n);
+        ring.material.map = ringTexture([PICK_COLORS[slot]]);
+        ring.material.needsUpdate = true;
+        n.ringOn = true;
+        n.label.style.color = PICK_COLORS[slot];
+      } else n.label.style.color = '';
     } else n.label.style.color = '';
   }
   halo.renderOrder = 11;
@@ -651,7 +693,6 @@ function go(next, { push = true, quiet = false } = {}) {
   if (quiet) return; // a settings change redraws the map only
   renderPanel();
   renderAtlas();
-  renderFilters();
   renderComparePane();
 }
 
@@ -690,7 +731,7 @@ const ingRows = (list, valFn, max = 99, maxVal) => {
 
 function crumbs() {
   const trail = [...history.slice(-3), view].filter((v, i, arr) => i === arr.length - 1 || v.type !== 'home');
-  const name = (v) => (v.type === 'home' ? 'Atlas' : v.type === 'ingredient' ? nodes[v.id].name : v.type === 'dish' ? DISHES[v.id].name : v.type === 'category' ? CATEGORIES[v.key].label : v.type === 'filter' ? 'Filtered' : v.type === 'compare' ? 'Compare' : v.name);
+  const name = (v) => (v.type === 'home' ? 'Atlas' : v.type === 'ingredient' ? nodes[v.id].name : v.type === 'dish' ? DISHES[v.id].name : v.type === 'category' ? CATEGORIES[v.key].label : v.type === 'filter' ? 'Filtered' : v.type === 'compare' ? 'Compare' : v.type === 'overlap' ? 'Overlap' : v.name);
   const parts = [`<button data-go="home">Atlas</button>`];
   trail.forEach((v, i) => {
     if (v.type === 'home') return;
@@ -716,7 +757,9 @@ function renderPanel() {
     const companions = [...adjacency[n.id].entries()].sort((a, b) => b[1].weight - a[1].weight).map(([id, e]) => ({ n: nodes[id], w: e.weight }));
     const cuisines = [...n.cuisines.entries()].sort((a, b) => b[1] - a[1]);
     h = `${crumbs()}<div class="title-row">${ingIco(n, 76)}<div><div class="kicker">${esc(CATEGORIES[n.category].label.toLowerCase())}</div><h2>${esc(n.name)}</h2></div></div>
+      ${INGREDIENT_NOTES[n.name] ? `<p class="note">${esc(INGREDIENT_NOTES[n.name])}</p>` : ''}
       <div class="stats"><div class="stat"><b>${n.count}</b><span>dishes</span></div><div class="stat"><b>${n.cuisines.size}</b><span>cuisines</span></div><div class="stat"><b>${n.popularity}</b><span>popularity</span></div></div>
+      ${multiHint(true)}
       <h3>Found in</h3><div class="chips">${cuisines.map(([c, k]) => cuisineChip(c, ` <small>${k}</small>`)).join('')}</div>
       <h3>Best companions</h3>${ingRows(companions.map((c) => Object.assign(Object.create(c.n), { _w: c.w })), (x) => x._w, 8)}
       <h3>Dishes</h3>${dishRows(n.dishes)}`;
@@ -731,6 +774,7 @@ function renderPanel() {
     h = `${crumbs()}<div class="kicker">${esc(d.cuisine)} dish</div><h2>${esc(d.name)}</h2>
       <div class="chips" style="margin-top:6px">${cuisineChip(d.cuisine)}<button class="chip" data-go="region:${esc(c.region)}">${esc(c.country)} · ${esc(c.region)}</button></div>
       <p class="note">${esc(d.note)}</p>
+      <a class="ext-link" href="https://www.google.com/search?q=${encodeURIComponent(`${d.name} recipe`)}" target="_blank" rel="noopener noreferrer">Search for recipes<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6" /><path d="M20 4l-9 9" /><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" /></svg><span class="sr">(opens Google in a new tab)</span></a>
       <div class="meter"><span>popularity</span><div class="track"><i style="width:${d.popularity}%;background:${c.color}"></i></div><b>${d.popularity}</b></div>
       <h3>Ingredients · ${ings.length}</h3><div class="chips">${ings.sort((a, b) => b.count - a.count).map((n) => ingChip(n, ` <small>${n.count}</small>`)).join('')}</div>
       <h3>Kindred dishes</h3><ul class="rows">${similar.map(({ o, s }) => `<li data-go="dish:${o.id}"><span class="nm">${esc(o.name)} <em>${esc(o.cuisine)}</em></span><span class="val">${Math.round(s * 100)}% shared</span>${bar(s * 100, CUISINES[o.cuisine].color)}</li>`).join('')}</ul>`;
@@ -764,6 +808,8 @@ function renderPanel() {
       <h3>Cuisines</h3><div class="chips">${cs.map((k) => cuisineChip(k, ` <small>${esc(CUISINES[k].country)}</small>`)).join('')}</div>
       <h3>Most used ingredients</h3>${ingRows(top, (x) => x._k, 10)}
       <h3>Dishes</h3>${dishRows(dishes.map((d) => d.id))}`;
+  } else if (v.type === 'overlap') {
+    h = renderOverlapView(v);
   } else if (v.type === 'compare') {
     h = renderCompareView(v);
   } else if (v.type === 'filter') {
@@ -879,6 +925,100 @@ function renderCompareView(v) {
   return h;
 }
 
+const multiHint = (single) => `<div class="multi-hint">${multiAdd
+  ? 'Click ingredients on the map to add or remove them.'
+  : single
+    ? 'See what it shares with another ingredient: hold <kbd>Ctrl</kbd> (<kbd>⌘</kbd> on a Mac) and click one.'
+    : 'Hold <kbd>Ctrl</kbd> (<kbd>⌘</kbd> on a Mac) and click more ingredients to add them.'}
+  <button class="link" data-multi-toggle>${multiAdd ? 'Done' : '＋ Add ingredients'}</button></div>`;
+
+function renderOverlapView(v) {
+  const info = overlapInfo;
+  const names = info.names, k = names.length;
+  const dot = (i) => `<i class="cdot" style="background:${PICK_COLORS[i]}"></i>`;
+  const dishes = (n) => `${n} dish${n === 1 ? '' : 'es'}`;
+  const cuisinesN = (n) => `${n} cuisine${n === 1 ? '' : 's'}`;
+  const nodeOf = (nm) => nodeByName.get(nm);
+  const together = new Set(info.all.map((d) => d.cuisine)).size;
+
+  let h = `${crumbs()}<div class="kicker">ingredient overlap</div>
+    <h2 class="cmp-title">${names.map((nm, i) => `${dot(i)}${esc(nm)}`).join('<span class="vs">+</span>')}</h2>
+    <div class="chips cmp-chips">${names.map((nm, i) => `<span class="cchip" style="--c:${PICK_COLORS[i]}"><button class="cname" data-go="ingredient:${v.ids[i]}" title="Show ${esc(nm)} on its own">${esc(nm)}</button><button data-pick-remove="${v.ids[i]}" aria-label="Remove ${esc(nm)}">×</button></span>`).join('')}</div>
+    ${multiHint(false)}`;
+
+  // the headline: how much do they overlap, and is that more than luck?
+  let summary;
+  if (info.all.length) {
+    summary = `They appear together in <b>${dishes(info.all.length)}</b> (${(info.all.length / info.total * 100).toFixed(1)}% of all ${info.total}), across <b>${cuisinesN(together)}</b>.`;
+    if (k === 2) summary += ` That is <b>${info.pairs[0].lift.toFixed(1)}×</b> as often as chance — ${describeLift(info.pairs[0].lift, info.pairs[0].co)}.`;
+  } else {
+    summary = `No dish uses all ${k} of them.`;
+    if (info.several.length) summary += ` ${dishes(info.several.length)} use at least two.`;
+    summary += info.cuisinesAll.length ? ` ${cuisinesN(info.cuisinesAll.length)} use every one of them, just in different dishes.` : ' No single cuisine uses all of them.';
+  }
+  h += `<p class="takeaway">${summary}</p>
+    <div class="stats"><div class="stat"><b>${info.all.length}</b><span>dishes with all</span></div><div class="stat"><b>${info.cuisinesAll.length}</b><span>cuisines use all</span></div><div class="stat"><b>${info.bridges.length}</b><span>bridging</span></div></div>`;
+
+  // pair by pair
+  const pairs = [...info.pairs].sort((a, b) => b.co - a.co || b.lift - a.lift);
+  h += `<h3>Pair by pair</h3><ul class="pairs">${pairs.slice(0, 8).map((p) => `<li><div class="ptop">${dot(p.ai)}${esc(p.a)}<span class="vs">+</span>${dot(p.bi)}${esc(p.b)}<b>${p.co}</b></div>
+      <div class="sub"><span>${dishes(p.co)} together</span><span>${pct(p.jaccard)}% overlap</span><span><b>${p.lift.toFixed(1)}×</b> chance</span></div>
+      <div class="rank">${esc(describeLift(p.lift, p.co))}${p.co ? ` · ${pct(p.bGivenA)}% of ${esc(p.a)} dishes use ${esc(p.b)}, ${pct(p.aGivenB)}% of ${esc(p.b)} dishes use ${esc(p.a)}` : ''}</div></li>`).join('')}</ul>${pairs.length > 8 ? `<p class="fine">Showing the 8 strongest of ${pairs.length} pairs.</p>` : ''}`;
+  const common = names.filter((_, i) => info.counts[i] / info.total > 0.2);
+  if (common.length) h += `<p class="fine">${common.map(esc).join(' and ')} ${common.length === 1 ? 'is' : 'are'} in more than a fifth of all dishes, so some overlap is expected by luck alone; the “× chance” figures show what is left over.</p>`;
+
+  // cuisines
+  const maxAll = Math.max(1, ...info.cuisines.map((c) => c.dishesAll));
+  h += `<h3>Cuisines</h3><ul class="rows">${info.cuisines.slice(0, 10).map((c) => {
+    const note = c.useAll ? (c.dishesAll ? 'uses all, together' : 'uses all, separately') : `uses ${c.usedCount} of ${k}`;
+    const width = c.dishesAll ? (c.dishesAll / maxAll) * 100 : (c.usedCount / k) * 30;
+    return `<li data-go="cuisine:${esc(c.name)}"><span class="nm">${cuiIco(c.name)}${esc(c.name)} <em>${note}</em></span><span class="val">${c.dishesAll ? dishes(c.dishesAll) : ''}</span>${bar(Math.max(width, 4), CUISINES[c.name].color)}</li>`;
+  }).join('')}</ul>${info.cuisines.length > 10 ? `<p class="fine">Showing 10 of ${info.cuisines.length} cuisines that use at least one.</p>` : ''}`;
+
+  // dishes
+  if (info.all.length) h += `<h3>Dishes in common</h3>${dishRows(info.all.map((d) => d.id), 10)}${info.all.length > 10 ? `<p class="fine">Showing 10 of ${info.all.length}.</p>` : ''}`;
+  else if (info.several.length) h += `<h3>Closest dishes</h3><ul class="rows">${info.several.slice(0, 8).map(({ dish, count }) => `<li data-go="dish:${dish.id}"><span class="nm">${esc(dish.name)} <em>${esc(dish.cuisine)}</em></span><span class="val">${count} of ${k}</span>${bar((count / k) * 100, CUISINES[dish.cuisine].color)}</li>`).join('')}</ul>`;
+
+  // what ties them together
+  const bridges = info.bridges.slice(0, 14);
+  h += `<h3>What ties them together</h3>`;
+  h += bridges.length
+    ? `<p class="note">Ingredients that turn up alongside ${k === 2 ? 'both' : 'several'} of them${info.all.length ? '' : ' — how they are linked without sharing a dish'}:</p><div class="chips">${bridges.map((b) => ingChip(nodeOf(b.name), ` <small>${b.connected}/${k}</small>`)).join('')}</div>`
+    : '<p class="note">No other ingredient links them.</p>';
+  if (info.types.length) h += `<h3>Kinds of dish</h3><div class="chips">${info.types.slice(0, 5).map(([t, n]) => `<span class="pairchip">${esc(DISH_TYPES[t].label)} <small>${n}</small></span>`).join('')}</div>`;
+  return h;
+}
+
+// ---------------------------------------------------------------- choosing several ingredients
+const toastEl = document.getElementById('toast');
+let toastTimer = 0;
+function toast(message) {
+  toastEl.textContent = message;
+  toastEl.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => toastEl.classList.remove('show'), 2800);
+}
+const selectionOf = () => (view.type === 'overlap' ? view.ids.slice() : view.type === 'ingredient' ? [view.id] : []);
+// add the ingredient to the picks, or take it out if it is already there
+function toggleIngredient(id) {
+  let ids = selectionOf();
+  if (ids.includes(id)) ids = ids.filter((x) => x !== id);
+  else if (ids.length >= MAX_PICKS) return toast(`You can compare up to ${MAX_PICKS} ingredients — remove one first.`);
+  else ids.push(id);
+  if (!ids.length) go({ type: 'home' });
+  else if (ids.length === 1) go({ type: 'ingredient', id: ids[0] }, { push: view.type !== 'overlap' });
+  else go({ type: 'overlap', ids }, { push: view.type !== 'overlap' });
+}
+const hintEl = document.getElementById('hint');
+const HINT_DEFAULT = hintEl.innerHTML;
+function setMultiAdd(on) {
+  if (multiAdd === on) return;
+  multiAdd = on;
+  document.body.classList.toggle('multi-add', on);
+  hintEl.innerHTML = on ? 'adding ingredients · click one to add or remove it · <span>esc</span> or Done to stop' : HINT_DEFAULT;
+  if (view.type === 'ingredient' || view.type === 'overlap') renderPanel();
+}
+
 function parseGo(s) {
   if (s === 'home') return { type: 'home' };
   const i = s.indexOf(':');
@@ -908,8 +1048,16 @@ document.addEventListener('click', (e) => {
     if (kind === 'type') return applyFilter(toggleIn(filter.types, arg), filter.cuisines);
     if (kind === 'cuisine') return applyFilter(filter.types, toggleIn(filter.cuisines, arg));
   }
+  const mt = e.target.closest('[data-multi-toggle]');
+  if (mt) return setMultiAdd(!multiAdd);
+  const pr = e.target.closest('[data-pick-remove]');
+  if (pr) return toggleIngredient(+pr.dataset.pickRemove);
   const t = e.target.closest('[data-go],[data-back]');
   if (!t) return;
+  if (t.dataset.go?.startsWith('ingredient:') && (e.ctrlKey || e.metaKey || multiAdd)) {
+    e.preventDefault();
+    return toggleIngredient(+t.dataset.go.slice('ingredient:'.length));
+  }
   if (t.dataset.back) {
     let k = +t.dataset.back;
     let v = view;
@@ -939,14 +1087,6 @@ atlasToggle.addEventListener('click', () => {
   atlasToggle.setAttribute('aria-expanded', atlasToggle.getAttribute('aria-expanded') === 'true' ? 'false' : 'true');
   if (atlasStale) renderAtlas();
 });
-// ---------------------------------------------------------------- dish-type filter strip
-const filtersEl = document.getElementById('filters');
-const typeCounts = {};
-for (const d of DISHES) typeCounts[d.type] = (typeCounts[d.type] || 0) + 1;
-function renderFilters() {
-  const anyActive = filter.types.size || filter.cuisines.size;
-  filtersEl.innerHTML = Object.entries(DISH_TYPES).filter(([k]) => typeCounts[k]).map(([k, t]) => `<button class="ftype${filter.types.has(k) ? ' on' : ''}" data-filter="type:${esc(k)}" aria-pressed="${filter.types.has(k)}">${esc(t.label)}<small>${typeCounts[k]}</small></button>`).join('') + (anyActive ? '<button class="ftype clear" data-filter="clear">Clear</button>' : '');
-}
 // ---------------------------------------------------------------- settings pane
 const DENSITY = [
   { label: 'High', nodes: 1, minWeight: 1 }, // everything, as drawn originally
@@ -1116,6 +1256,7 @@ compareSearch.addEventListener('input', () => {
 // Reset: clear search and history, and return to the starting atlas view
 function resetAll() {
   if (compare.open) setCompareOpen(false);
+  setMultiAdd(false);
   input.value = '';
   closeResults();
   history.length = 0;
@@ -1191,10 +1332,11 @@ function closeResults() {
   results.classList.remove('open');
   hits = [];
 }
-function choose(i) {
+function choose(i, multi = false) {
   const h = hits[i];
   if (!h) return;
-  go(h.go);
+  if ((multi || multiAdd) && h.go.type === 'ingredient') toggleIngredient(h.go.id);
+  else go(h.go);
   input.value = '';
   closeResults();
   input.blur();
@@ -1209,7 +1351,7 @@ input.addEventListener('keydown', (e) => {
     active = (active + (e.key === 'ArrowDown' ? 1 : -1) + hits.length) % hits.length;
     [...results.children].forEach((li, i) => li.classList.toggle('active', i === active));
     results.children[active].scrollIntoView({ block: 'nearest' });
-  } else if (e.key === 'Enter') choose(active);
+  } else if (e.key === 'Enter') choose(active, e.ctrlKey || e.metaKey);
   else if (e.key === 'Escape') {
     input.value = '';
     closeResults();
@@ -1221,7 +1363,7 @@ results.addEventListener('mousedown', (e) => {
   const li = e.target.closest('li[data-i]');
   if (li) {
     e.preventDefault();
-    choose(+li.dataset.i);
+    choose(+li.dataset.i, e.ctrlKey || e.metaKey);
   }
 });
 window.addEventListener('keydown', (e) => {
@@ -1229,6 +1371,7 @@ window.addEventListener('keydown', (e) => {
     e.preventDefault();
     input.focus();
   } else if (e.key === 'Escape' && !settingsPane.hidden) setSettingsOpen(false);
+  else if (e.key === 'Escape' && multiAdd) setMultiAdd(false);
   else if (e.key === 'Escape' && document.activeElement !== input) back();
 });
 
@@ -1293,7 +1436,9 @@ renderer.domElement.addEventListener('pointerdown', (ev) => {
 renderer.domElement.addEventListener('pointerup', (ev) => {
   if (!downAt || Math.hypot(ev.clientX - downAt[0], ev.clientY - downAt[1]) > 5) return;
   const n = pick(ev);
-  if (n) go({ type: 'ingredient', id: n.id });
+  if (!n) return;
+  if (ev.ctrlKey || ev.metaKey || multiAdd) toggleIngredient(n.id);
+  else go({ type: 'ingredient', id: n.id });
 });
 controls.addEventListener('start', () => (controls.autoRotate = false));
 
@@ -1441,12 +1586,10 @@ function frame(rawDt) {
     n.sprite.scale.setScalar(showIllustrations ? size : Math.max(size / 6, 2));
     n.sprite.material.opacity = v.opacity;
   }
-  const comparing = view.type === 'compare' && compareInfo;
   for (const n of nodes) {
     if (!n.ring) continue;
-    const m = comparing ? compareInfo.masks.get(n.id) : 0;
-    n.ring.visible = !!m;
-    if (m) {
+    n.ring.visible = !!n.ringOn;
+    if (n.ringOn) {
       n.ring.scale.setScalar(n.sprite.scale.x * 1.5);
       n.ring.material.opacity = n.vis.opacity;
     }

@@ -45,8 +45,6 @@
       </div>
     </header>
 
-    <div id="filters" role="group" aria-label="Filter by dish type"></div>
-
     <section id="settings" role="dialog" aria-label="Settings" hidden>
       <header class="set-head">
         <h2>Settings</h2>
@@ -57,8 +55,8 @@
         <button id="illus-toggle" class="sw" type="button" role="switch" aria-checked="true" aria-label="Illustrations"><i class="switch" aria-hidden="true"></i></button>
       </div>
       <div class="setting">
-        <div class="txt"><b>Size by popularity</b><small>On: common ingredients are drawn larger. Off: everything is one size.</small></div>
-        <button id="size-toggle" class="sw" type="button" role="switch" aria-checked="true" aria-label="Size by popularity"><i class="switch" aria-hidden="true"></i></button>
+        <div class="txt"><b>Size by commonality</b><small>On: common ingredients are drawn larger. Off: everything is one size.</small></div>
+        <button id="size-toggle" class="sw" type="button" role="switch" aria-checked="true" aria-label="Size by commonality"><i class="switch" aria-hidden="true"></i></button>
       </div>
       <div class="setting col">
         <div class="row"><label for="density"><b>Density</b></label><output id="density-label" for="density">High</output></div>
@@ -94,7 +92,8 @@
     </nav>
 
     <div id="tooltip"></div>
-    <div id="hint">drag to turn the globe · scroll to zoom · click an ingredient to explore · <span>esc</span> to step back</div>
+    <div id="hint">drag to turn the globe · scroll to zoom · click an ingredient to explore · <span>ctrl</span>+click to compare ingredients · <span>esc</span> to step back</div>
+    <div id="toast" role="status" aria-live="polite"></div>
     <script type="module" src="./src/main.js"></script>
   </body>
 </html>
