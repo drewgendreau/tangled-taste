@@ -11,6 +11,7 @@ export default [
   ['Elote', 'Mexican', 70, 'corn, mayonnaise, queso fresco, chili, lime', 'Street corn slathered and dusted with chili.', 'street & snack'],
   ['Caesar Salad', 'Mexican', 72, 'lettuce, bread, anchovy, parmesan, egg, olive oil, lemon, garlic', 'Born in Tijuana in 1924 and adopted by the world.', 'salad & side'],
   ['Huevos con Chorizo', 'Mexican', 52, 'egg, chorizo, corn, onion, chili, tomato', 'Scrambled eggs with spicy sausage and warm tortillas.', 'breakfast'],
+  ['Agua de Jamaica', 'Mexican', 50, 'hibiscus, sugar, lime, cinnamon', 'Tart hibiscus agua fresca.', 'drink'],
 
   // American
   ['Hamburger', 'American', 96, 'beef, bread, lettuce, tomato, onion, cheddar, pickle, salt', 'The world’s favourite sandwich.', 'street & snack'],
@@ -63,6 +64,7 @@ export default [
   ['Rice and Peas', 'Jamaican', 60, 'rice, beans, coconut milk, scallion, thyme, allspice, garlic, chili', 'Kidney beans and rice in coconut milk.', 'rice & noodles'],
   ['Curry Goat', 'Jamaican', 56, 'goat, turmeric, cumin, coriander, potato, onion, garlic, chili, thyme, allspice', 'Sunday curry, slow and rich.', 'soup & stew'],
   ['Fried Plantain', 'Jamaican', 58, 'plantain, vegetable oil, salt', 'Sweet, caramel-edged ripe plantain.', 'salad & side'],
+  ['Escovitch Fish', 'Jamaican', 40, 'fish, vinegar, onion, bell pepper, chili, allspice, thyme, vegetable oil', 'Fried fish under spicy pickled vegetables.', 'main'],
 
   // Argentine
   ['Asado', 'Argentine', 74, 'beef, sausage, salt, black pepper, parsley, garlic, oregano, vinegar, chili, olive oil', 'The ritual of the grill, with chimichurri.', 'main'],
@@ -108,4 +110,19 @@ export default [
   ['Empanadas de Pino', 'Chilean', 60, 'flour, beef, onion, egg, olive, raisins, cumin, paprika', 'Baked turnovers for Fiestas Patrias.', 'street & snack'],
   ['Sopaipillas', 'Chilean', 50, 'pumpkin, flour, butter, salt, vegetable oil', 'Pumpkin fritters for rainy days.', 'street & snack'],
   ['Completo', 'Chilean', 54, 'bread, sausage, avocado, tomato, mayonnaise', 'A hot dog buried in avocado.', 'street & snack'],
+  ['Mote con Huesillo', 'Chilean', 40, 'barley, apricot, sugar, cinnamon', 'Summer drink of peaches and wheat berries.', 'drink'],
+
+  // Venezuelan
+  ['Reina Pepiada', 'Venezuelan', 60, 'corn, chicken, avocado, mayonnaise, cilantro, butter', 'Arepa stuffed with chicken-avocado salad.', 'street & snack'],
+  ['Pabellón Criollo', 'Venezuelan', 56, 'beef, rice, beans, plantain, onion, garlic, tomato, cumin', 'National plate of shredded beef, beans and rice.', 'main'],
+  ['Hallacas', 'Venezuelan', 44, 'corn, beef, pork, olive, raisins, bell pepper, onion, capers', 'Christmas tamales wrapped in banana leaves.', 'main'],
+  ['Tequeños', 'Venezuelan', 62, 'flour, queso fresco, butter, egg, vegetable oil', 'Cheese sticks wrapped in dough and fried.', 'street & snack'],
+  ['Cachapas', 'Venezuelan', 50, 'corn, queso fresco, butter, sugar, milk', 'Sweet corn pancakes folded over cheese.', 'breakfast'],
+
+  // Puerto Rican
+  ['Mofongo', 'Puerto Rican', 60, 'plantain, garlic, bacon, olive oil, salt, stock', 'Mashed fried plantain with garlic.', 'main'],
+  ['Arroz con Gandules', 'Puerto Rican', 60, 'rice, peas, pork, onion, bell pepper, garlic, cilantro, olive, tomato', 'Rice with pigeon peas and sofrito.', 'rice & noodles'],
+  ['Pernil', 'Puerto Rican', 58, 'pork, garlic, oregano, olive oil, vinegar, black pepper, salt', 'Slow-roasted pork shoulder with crackling.', 'main'],
+  ['Pasteles', 'Puerto Rican', 38, 'plantain, pork, olive, raisins, chickpeas, garlic, onion', 'Holiday plantain parcels steamed in leaves.', 'main'],
+  ['Coquito', 'Puerto Rican', 46, 'coconut milk, milk, cinnamon, cloves, vanilla, sugar', 'Creamy coconut holiday drink.', 'drink'],
 ];

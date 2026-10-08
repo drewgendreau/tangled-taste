@@ -22,6 +22,8 @@ export default [
   ['Hot and Sour Soup', 'Chinese', 55, 'tofu, mushroom, egg, vinegar, black pepper, soy sauce, bamboo shoot', 'Peppery, tangy and warming.', 'soup & stew'],
   ['Char Siu', 'Chinese', 72, 'pork, hoisin, honey, soy sauce, five-spice, garlic, sugar', 'Cantonese barbecued pork.', 'main'],
   ['Salt and Pepper Squid', 'Chinese', 50, 'squid, flour, chili, scallion, garlic, salt, black pepper, vegetable oil', 'Crisp wok-tossed squid with chili and garlic.', 'street & snack'],
+  ['Garlic Bok Choy', 'Chinese', 48, 'bok choy, garlic, ginger, sesame oil, soy sauce, vegetable oil', 'Quick stir-fry of crisp greens.', 'salad & side'],
+  ['Wonton Soup', 'Chinese', 66, 'flour, pork, shrimp, bok choy, ginger, scallion, soy sauce, sesame oil, stock', 'Delicate dumplings in clear broth.', 'soup & stew'],
 
   // Korean
   ['Kimchi', 'Korean', 76, 'cabbage, chili, garlic, ginger, fish sauce, scallion, radish, sugar', 'Fermented napa cabbage.', 'salad & side'],
@@ -59,7 +61,7 @@ export default [
   ['Samosa', 'Indian', 82, 'flour, potato, peas, cumin, coriander, chili, ginger, vegetable oil', 'Crisp pastry pockets of spiced potato.', 'street & snack'],
   ['Masala Dosa', 'Indian', 68, 'rice, lentils, potato, mustard seed, turmeric, onion, chili, curry leaves, coconut', 'Crisp fermented crêpe from the South.', 'breakfast'],
   ['Rogan Josh', 'Indian', 70, 'lamb, yogurt, chili, garlic, ginger, cardamom, cinnamon, onion, garam masala', 'Kashmiri lamb in a deep red gravy.', 'soup & stew'],
-  ['Gulab Jamun', 'Indian', 74, 'milk, flour, sugar, cardamom, ghee, saffron', 'Milk dumplings soaked in fragrant syrup.', 'dessert'],
+  ['Gulab Jamun', 'Indian', 74, 'milk, flour, sugar, cardamom, ghee, saffron, rose water', 'Milk dumplings soaked in fragrant syrup.', 'dessert'],
   ['Masala Chai', 'Indian', 80, 'tea, milk, sugar, ginger, cardamom, cinnamon, cloves, black pepper', 'Spiced milky tea from every street corner.', 'drink'],
   ['Paneer Tikka', 'Indian', 70, 'paneer, yogurt, bell pepper, onion, garam masala, chili, lemon, ginger, garlic', 'Tandoori-charred paneer and peppers.', 'main'],
   ['Mango Lassi', 'Indian', 72, 'mango, yogurt, milk, sugar, cardamom', 'Cooling mango and yogurt drink.', 'drink'],
@@ -136,4 +138,39 @@ export default [
   ['Aloo Tama', 'Nepali', 40, 'bamboo shoot, potato, beans, turmeric, cumin, garlic, ginger, chili', 'Sour bamboo shoot and potato curry.', 'soup & stew'],
   ['Yomari', 'Nepali', 36, 'rice, sugar, sesame, ghee, milk', 'Steamed rice-flour dumplings filled with sesame and molasses.', 'dessert'],
   ['Chatamari', 'Nepali', 38, 'rice, goat, egg, onion, tomato, chili, cilantro', 'Newari rice-flour crêpe, the “Nepali pizza”.', 'street & snack'],
+
+  // Singaporean
+  ['Hainanese Chicken Rice', 'Singaporean', 76, 'chicken, rice, ginger, garlic, cucumber, scallion, sesame oil, soy sauce, chili, stock', 'Poached chicken with fragrant rice and chili sauce.', 'rice & noodles'],
+  ['Bak Kut Teh', 'Singaporean', 56, 'pork, garlic, black pepper, star anise, cinnamon, cloves, soy sauce, stock', 'Peppery pork-rib soup, eaten at breakfast.', 'soup & stew'],
+  ['Chai Tow Kway', 'Singaporean', 50, 'radish, flour, egg, garlic, scallion, soy sauce, chili, vegetable oil', 'Pan-fried radish cake, known as “carrot cake”.', 'street & snack'],
+  ['Kopi', 'Singaporean', 52, 'coffee, milk, sugar', 'Kopitiam coffee, thick and sweet.', 'drink'],
+  ['Ice Kachang', 'Singaporean', 44, 'corn, beans, coconut milk, sugar, jackfruit', 'Shaved-ice mountain with beans, corn and syrup.', 'dessert'],
+
+  // Cambodian
+  ['Fish Amok', 'Cambodian', 56, 'fish, coconut milk, lemongrass, galangal, turmeric, chili, fish sauce, egg, basil', 'Steamed fish curry mousse in banana leaf.', 'main'],
+  ['Lok Lak', 'Cambodian', 52, 'beef, lime, black pepper, tomato, lettuce, onion, soy sauce, egg, rice', 'Stir-fried beef with lime-pepper dipping sauce.', 'main'],
+  ['Nom Banh Chok', 'Cambodian', 44, 'noodles, fish, lemongrass, turmeric, cucumber, mint, bean sprouts', 'Khmer noodles in green fish curry.', 'rice & noodles'],
+  ['Kuy Teav', 'Cambodian', 40, 'noodles, pork, shrimp, bean sprouts, garlic, scallion, stock, lime', 'Phnom Penh breakfast noodle soup.', 'soup & stew'],
+  ['Bai Sach Chrouk', 'Cambodian', 46, 'rice, pork, garlic, coconut milk, pickle, egg', 'Grilled pork and rice for breakfast.', 'breakfast'],
+
+  // Taiwanese
+  ['Beef Noodle Soup', 'Taiwanese', 72, 'beef, noodles, star anise, soy sauce, ginger, garlic, scallion, bok choy, chili bean paste', 'Taiwan’s national bowl of braised beef.', 'soup & stew'],
+  ['Gua Bao', 'Taiwanese', 66, 'flour, pork, peanut, cilantro, pickle, sugar, soy sauce, star anise', 'Steamed bun folded around braised pork belly.', 'street & snack'],
+  ['Scallion Pancake', 'Taiwanese', 64, 'flour, scallion, sesame oil, vegetable oil, salt', 'Flaky, chewy griddled flatbread.', 'street & snack'],
+  ['Bubble Tea', 'Taiwanese', 76, 'tea, milk, tapioca, sugar', 'Milk tea with chewy tapioca pearls.', 'drink'],
+  ['Lu Rou Fan', 'Taiwanese', 60, 'pork, rice, soy sauce, shallot, five-spice, egg, sugar, garlic', 'Braised pork rice, Taiwan’s comfort food.', 'main'],
+
+  // Pakistani
+  ['Nihari', 'Pakistani', 52, 'beef, ginger, garlic, onion, ghee, garam masala, flour, chili, cilantro', 'Slow-cooked beef stew for breakfast.', 'soup & stew'],
+  ['Chicken Karahi', 'Pakistani', 60, 'chicken, tomato, ginger, garlic, chili, cumin, coriander, cilantro, vegetable oil', 'Chicken cooked fast in a wok-like pan.', 'main'],
+  ['Seekh Kebab', 'Pakistani', 58, 'lamb, onion, ginger, garlic, chili, cumin, cilantro, garam masala', 'Spiced minced lamb grilled on skewers.', 'main'],
+  ['Haleem', 'Pakistani', 46, 'lentils, beef, barley, ghee, ginger, garam masala, onion, lemon', 'Hours-long porridge of grains, lentils and meat.', 'soup & stew'],
+  ['Kheer', 'Pakistani', 56, 'rice, milk, sugar, cardamom, almond, pistachio, saffron, rose water', 'Creamy rice pudding scented with cardamom.', 'dessert'],
+
+  // Australian
+  ['Meat Pie', 'Australian', 66, 'beef, flour, butter, onion, stock, tomato', 'The footy-night hand pie.', 'street & snack'],
+  ['Lamington', 'Australian', 62, 'flour, egg, sugar, butter, chocolate, coconut, milk', 'Sponge squares dipped in chocolate and coconut.', 'dessert'],
+  ['Pavlova', 'Australian', 68, 'egg, sugar, cream, strawberry, vinegar, vanilla', 'Crisp meringue shell with cream and fruit.', 'dessert'],
+  ['Barramundi', 'Australian', 44, 'fish, lemon, butter, olive oil, parsley', 'Pan-seared barramundi with lemon butter.', 'main'],
+  ['Anzac Biscuits', 'Australian', 54, 'oats, flour, coconut, sugar, butter, honey', 'Chewy oat and coconut biscuits.', 'dessert'],
 ];

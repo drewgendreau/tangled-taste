@@ -2033,6 +2033,48 @@ const D = {
     paint(leaf(190, 100, 50, 18, -0.4), '#5c8a3a', { liner: false });
     ink([[190, 100], [150, 120]], { color: '#5a7a3a', a: 0.8, w: 1.6 });
   },
+
+  // ---- batch 3 ingredients
+  'bok choy'() {
+    shadow(128, 224, 56, 8);
+    for (let k = 0; k < 5; k++) {
+      const a = -Math.PI / 2 + (k - 2) * 0.2;
+      const x = 128 + (k - 2) * 9;
+      paint(band([x, 226], [x + (k - 2) * 4, 160], [x + (k - 2) * 8, 110], 11, 15, 20), '#e6efd0', { gloss: true, liner: true, shade: 0.35 });
+      paint(leaf(x + (k - 2) * 8, 112, 84, 30, a * 1.4 - Math.PI / 2 + Math.PI / 2 - 0.0, { skew: 0.55 }), k % 2 ? '#3f7a3a' : '#4f8a44', { gloss: true, liner: false });
+    }
+    ink(curve([128, 222], [128, 160], [128, 110]), { color: '#b8cc90', a: 0.5, w: 1.2 });
+  },
+  hibiscus() {
+    shadow(128, 206, 80, 10);
+    for (let k = 0; k < 5; k++) {
+      const a = (k / 5) * TAU - Math.PI / 2;
+      paint(rotate(E(128, 82, 34, 54, 0, 0.06), 128, 136, a + 0.0), k % 2 ? '#c4203e' : '#d4304a', { gloss: false, light: 0.5 });
+    }
+    for (let k = 0; k < 5; k++) {
+      const a = (k / 5) * TAU - Math.PI / 2;
+      ink(rotate([[128, 128], [128, 96]], 128, 136, a), { color: '#7a1428', a: 0.45, w: 1.4 });
+    }
+    paint(E(128, 136, 14, 14), '#7a1428', { small: true });
+    ink([[128, 136], [136, 100], [142, 86]], { color: '#f0d050', a: 1, w: 3 });
+    for (let k = 0; k < 6; k++) dot(142 + R(5), 86 + R(5), 2.4, '#e8a030', 0.95);
+    paint(leaf(60, 190, 46, 14, -0.4), '#4f8a3e', { small: true });
+  },
+  harissa() {
+    jar('#bc2c1c', '#d9a83a', { w: 100, extra: (cx, top) => {
+      paint(band([cx + 60, 214], [cx + 80, 190], [cx + 70, 160], 9, 2), '#c8302a', { small: true, gloss: true });
+      ink([[cx + 60, 214], [cx + 54, 222]], { color: '#4f7a33', a: 0.9, w: 2.4 });
+    } });
+  },
+  'rose water'() {
+    bottle('slim', '#f4bcc8', { glass: '#efe4e8', cap: '#c86a8a', level: 100, labelColor: '#f8e8ec' });
+    for (let k = 0; k < 5; k++) {
+      const a = (k / 5) * TAU;
+      paint(E(190 + Math.cos(a) * 9, 196 + Math.sin(a) * 9, 11, 9, a), k % 2 ? '#e08aa0' : '#ec9fb2', { small: true, liner: false });
+    }
+    paint(E(190, 196, 6, 6), '#c8607e', { small: true });
+    paint(leaf(204, 210, 26, 8, 0.3), '#5c9444', { small: true });
+  },
 };
 
 // ---------------------------------------------------------------- public API

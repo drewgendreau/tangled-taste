@@ -241,4 +241,11 @@ export default [
   ['Poronkäristys', 'Finnish', 40, 'venison, butter, onion, lingonberry, potato, cream, black pepper', 'Sautéed reindeer with mashed potatoes and lingonberries.', 'main'],
   ['Leipäjuusto', 'Finnish', 34, 'cheese curds, cream, lingonberry, sugar', 'Squeaky baked “bread cheese” with berry jam.', 'dessert'],
   ['Lanttulaatikko', 'Finnish', 34, 'turnip, cream, butter, bread, nutmeg, honey', 'Sweet baked rutabaga casserole for Christmas.', 'salad & side'],
+
+  // Armenian
+  ['Dolma', 'Armenian', 56, 'grape, rice, lamb, onion, parsley, dill, tomato, black pepper', 'Grape leaves stuffed with rice and lamb.', 'main'],
+  ['Khorovats', 'Armenian', 54, 'pork, onion, tomato, eggplant, bell pepper, salt, black pepper', 'Open-fire barbecue shared outdoors.', 'main'],
+  ['Lavash', 'Armenian', 52, 'flour, salt, sesame', 'Thin flatbread baked on tandoor walls.', 'bread & pastry'],
+  ['Ghapama', 'Armenian', 44, 'pumpkin, rice, almond, raisins, apricot, honey, butter, cinnamon', 'Pumpkin baked with sweet rice and dried fruit.', 'main'],
+  ['Spas', 'Armenian', 38, 'yogurt, egg, flour, rice, mint, butter, onion', 'Warm yogurt soup with mint.', 'soup & stew'],
 ];

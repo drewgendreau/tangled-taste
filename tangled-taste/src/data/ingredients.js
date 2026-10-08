@@ -37,6 +37,7 @@ export const INGREDIENTS = {
     'sauerkraut',
     'turnip',
     'asparagus',
+    'bok choy',
   ],
   herb: [
     'basil',
@@ -54,6 +55,7 @@ export const INGREDIENTS = {
     'sage',
     'chives',
     'tarragon',
+    'hibiscus',
   ],
   fruit: [
     'lemon',
@@ -243,5 +245,7 @@ export const INGREDIENTS = {
     'maple syrup',
     'tea',
     'capers',
+    'harissa',
+    'rose water',
   ],
 };
