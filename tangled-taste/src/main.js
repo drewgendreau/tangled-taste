@@ -213,13 +213,30 @@ function curvePoints(a, b, bend = 0.82, SEG = 10) {
 const maxW = Math.max(...edges.map((e) => e.weight));
 const baseEdgeMat = new THREE.LineBasicMaterial({ vertexColors: true, transparent: true, opacity: 0.75, depthWrite: false, fog: true });
 let baseEdges = null;
+let baseThick = []; // heavier links, drawn as fat lines while "Show Relationship Strength" is on
+let baseOpacity = 0.75;
+let baseArgs = { minWeight: 1, keep: null };
+let showStrength = false;
+try { showStrength = localStorage.getItem('tt-strength') === '1'; } catch { /* storage unavailable */ }
+// link width in pixels by how many dishes two ingredients share (1 dish stays a hairline)
+const STRENGTH_STEPS = [[5, 3], [3, 2.2], [2, 1.6]];
+const strengthWidth = (w) => { for (const [min, px] of STRENGTH_STEPS) if (w >= min) return px; return 0; };
+function setBaseOpacity(v) {
+  baseOpacity = v;
+  baseEdgeMat.opacity = v;
+  for (const l of baseThick) l.material.opacity = v;
+}
 // The ambient web of connections. `keep` limits it to a set of ingredients; minWeight drops weak links.
 function buildBaseEdges(minWeight = 1, keep = null) {
+  baseArgs = { minWeight, keep };
   if (baseEdges) {
     scene.remove(baseEdges);
     baseEdges.geometry.dispose();
   }
+  for (const l of baseThick) { scene.remove(l); l.geometry.dispose(); l.material.dispose(); }
+  baseThick = [];
   const pos = [], col = [];
+  const thick = new Map(); // px -> { pos, col }
   const tmp = new THREE.Color();
   for (const e of edges) {
     if (e.weight < minWeight || (keep && !(keep.has(e.source) && keep.has(e.target)))) continue;
@@ -227,9 +244,15 @@ function buildBaseEdges(minWeight = 1, keep = null) {
     const pts = curvePoints(a, b);
     const strength = 0.10 + 0.5 * Math.pow(e.weight / maxW, 0.6);
     tmp.copy(PAPER).lerp(INK, strength);
+    const px = showStrength ? strengthWidth(e.weight) : 0;
+    let P = pos, C = col;
+    if (px) {
+      if (!thick.has(px)) thick.set(px, { pos: [], col: [] });
+      ({ pos: P, col: C } = thick.get(px));
+    }
     for (let i = 0; i < SEG; i++) {
-      pos.push(pts[i].x, pts[i].y, pts[i].z, pts[i + 1].x, pts[i + 1].y, pts[i + 1].z);
-      col.push(tmp.r, tmp.g, tmp.b, tmp.r, tmp.g, tmp.b);
+      P.push(pts[i].x, pts[i].y, pts[i].z, pts[i + 1].x, pts[i + 1].y, pts[i + 1].z);
+      C.push(tmp.r, tmp.g, tmp.b, tmp.r, tmp.g, tmp.b);
     }
   }
   const g = new THREE.BufferGeometry();
@@ -237,6 +260,17 @@ function buildBaseEdges(minWeight = 1, keep = null) {
   g.setAttribute('color', new THREE.Float32BufferAttribute(col, 3));
   baseEdges = new THREE.LineSegments(g, baseEdgeMat);
   scene.add(baseEdges);
+  for (const [px, d] of thick) {
+    const sg = new LineSegmentsGeometry();
+    sg.setPositions(d.pos);
+    sg.setColors(d.col);
+    const m = new LineMaterial({ vertexColors: true, linewidth: px, transparent: true, opacity: baseOpacity, depthWrite: false, worldUnits: false });
+    m.resolution.set(innerWidth, innerHeight);
+    const l = new LineSegments2(sg, m);
+    l.renderOrder = -1.5;
+    scene.add(l);
+    baseThick.push(l);
+  }
 }
 
 // highlighted edges: fat lines rebuilt per view
@@ -253,9 +287,14 @@ const colorCache = new Map();
 const colorOf = (hex) => colorCache.get(hex) || (colorCache.set(hex, new THREE.Color(hex)), colorCache.get(hex));
 // items: { a, b, color | colors[], strength, shared }. Edges with several colors are
 // drawn as barber-pole stripes in thicker lines, so shared connections read at a glance.
+let lastHiList = [];
+let hiExtra = []; // extra widths of the plain highlight lines while relationship strength is shown
 function setHighlightEdges(list) {
-  for (const l of [hiLines, hiLinesShared, hiLinesCasing]) if (l) { scene.remove(l); l.geometry.dispose(); }
+  lastHiList = list;
+  for (const l of [hiLines, hiLinesShared, hiLinesCasing, ...hiExtra]) if (l) { scene.remove(l); l.geometry.dispose(); }
+  for (const l of hiExtra) l.material.dispose();
   hiLines = hiLinesShared = hiLinesCasing = null;
+  hiExtra = [];
   if (!list.length) return;
   const build = (items, material, order, casing = false) => {
     if (!items.length) return null;
@@ -287,7 +326,19 @@ function setHighlightEdges(list) {
     }
     return lines;
   };
-  hiLines = build(list.filter((e) => !e.shared), hiMat, -1);
+  const plain = list.filter((e) => !e.shared);
+  if (showStrength) {
+    // four width classes, from the base width up to roughly twice it
+    for (let k = 0; k < 4; k++) {
+      const items = plain.filter((e) => Math.min(3, Math.floor(e.strength * 4)) === k);
+      if (!items.length) continue;
+      const m = hiMat.clone();
+      m.linewidth = hiMat.linewidth * (1 + 0.3 * k);
+      m.resolution.set(innerWidth, innerHeight);
+      const l = build(items, m, -1);
+      if (l) hiExtra.push(l);
+    }
+  } else hiLines = build(plain, hiMat, -1);
   hiLinesShared = build(list.filter((e) => e.shared), hiMatShared, -0.9, list.some((e) => e.casing));
 }
 
@@ -657,7 +708,7 @@ function go(next, { push = true, quiet = false } = {}) {
   highlight = hi;
   focusIds = focus;
   setHighlightEdges(edgesHi);
-  baseEdgeMat.opacity = next.type === 'compare' ? 0 : hi ? 0.18 : 0.75; // compare: no background lines at all
+  setBaseOpacity(next.type === 'compare' ? 0 : hi ? 0.18 : 0.75); // compare: no background lines at all
   for (const n of nodes) {
     const on = hi ? hi.has(n.id) : n.densityKeep;
     n.vis.tOpacity = gone(n.id) ? 0 : on ? 1 : next.type === 'compare' ? 0.04 : n.densityKeep ? 0.09 : 0; // thinned-out ingredients vanish unless highlighted
@@ -1290,6 +1341,7 @@ function resetSettings() {
   compareSize.auto = false;
   setIllustrations(true);
   setShowCuisines(true);
+  setShowStrength(false);
   setSizeByPopularity(false);
   applyHideCommon(0);
   applyDensity(3);
@@ -1305,8 +1357,21 @@ function setShowCuisines(on) {
   document.getElementById('cuisine-toggle').setAttribute('aria-checked', String(on));
   try { localStorage.setItem('tt-cuisines', on ? '1' : '0'); } catch { /* storage unavailable */ }
 }
+function setShowStrength(on) {
+  const changed = on !== showStrength;
+  showStrength = on;
+  invalidate();
+  document.getElementById('strength-toggle').setAttribute('aria-checked', String(on));
+  try { localStorage.setItem('tt-strength', on ? '1' : '0'); } catch { /* storage unavailable */ }
+  if (changed) {
+    buildBaseEdges(baseArgs.minWeight, baseArgs.keep);
+    setHighlightEdges(lastHiList);
+  }
+}
+document.getElementById('strength-toggle').addEventListener('click', () => setShowStrength(!showStrength));
 document.getElementById('cuisine-toggle').addEventListener('click', () => setShowCuisines(!showCuisines));
 setShowCuisines(showCuisines);
+setShowStrength(showStrength);
 document.getElementById('size-toggle').addEventListener('click', () => {
   compareSize.auto = false; // the person's own choice always wins
   setSizeByPopularity(!sizeByPopularity);
@@ -1318,8 +1383,7 @@ window.addEventListener('keydown', (e) => {
 });
 
 // ---------------------------------------------------------------- search
-document.getElementById('lucky').addEventListener('click', (e) => {
-  e.preventDefault();
+document.getElementById('lucky').addEventListener('click', () => {
   let id;
   do id = Math.floor(Math.random() * DISHES.length); while (view.type === 'dish' && view.id === id && DISHES.length > 1);
   go({ type: 'dish', id });
@@ -1694,6 +1758,7 @@ function fitViewport() {
   hiMat.resolution.set(innerWidth, innerHeight);
   hiMatShared.resolution.set(innerWidth, innerHeight);
   hiMatCasing.resolution.set(innerWidth, innerHeight);
+  for (const l of [...baseThick, ...hiExtra]) l.material.resolution.set(innerWidth, innerHeight);
 }
 window.addEventListener('resize', fitViewport);
 fitViewport();

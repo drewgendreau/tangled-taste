@@ -135,8 +135,16 @@ body { background-size: 512px 512px; }
 #search-input:focus { border-color: rgba(181, 84, 60, 0.5); box-shadow: 0 2px 22px rgba(181, 84, 60, 0.15); }
 #search-input::-webkit-search-cancel-button { display: none; }
 .search-icon { position: absolute; left: 16px; top: 50%; width: 18px; height: 18px; transform: translateY(-50%); fill: none; stroke: var(--ink-soft); stroke-width: 1.6; stroke-linecap: round; }
-#lucky { position: absolute; top: 100%; left: 0; right: 0; margin-top: 5px; text-align: center; width: max-content; margin-inline: auto; font-size: 14px; letter-spacing: 0.04em; color: var(--ink-soft); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; cursor: pointer; }
-#lucky:hover { color: var(--accent); }
+#lucky {
+  all: unset; box-sizing: border-box; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); margin-top: 8px;
+  display: flex; align-items: center; gap: 7px; padding: 5px 14px 5px 11px; white-space: nowrap; cursor: pointer;
+  font-family: var(--serif); font-size: 14px; letter-spacing: 0.03em; color: var(--ink-soft);
+  background: var(--card); border: 1px solid var(--rule); border-radius: 999px;
+}
+#lucky svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linejoin: round; }
+#lucky svg circle { fill: currentColor; stroke: none; }
+#lucky:hover, #lucky:focus-visible { color: var(--accent); border-color: rgba(181, 84, 60, 0.45); }
+#lucky:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 #search kbd {
   position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
   font-family: var(--serif); font-size: 14px; color: var(--ink-faint);

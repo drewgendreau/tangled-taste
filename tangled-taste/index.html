@@ -32,7 +32,7 @@
         <input id="search-input" type="search" placeholder="Search ingredients, dishes, cuisines, places…" autocomplete="off" spellcheck="false" />
         <kbd>/</kbd>
         <ul id="search-results" role="listbox"></ul>
-        <a id="lucky" href="#">I’m feeling lucky</a>
+        <button id="lucky" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="3.5" /><circle cx="8.5" cy="8.5" r="1.1" /><circle cx="15.5" cy="8.5" r="1.1" /><circle cx="12" cy="12" r="1.1" /><circle cx="8.5" cy="15.5" r="1.1" /><circle cx="15.5" cy="15.5" r="1.1" /></svg><span>I’m feeling lucky</span></button>
       </div>
       <div id="topright">
         <button id="settings-btn" type="button" aria-expanded="false" aria-controls="settings" title="Settings">
@@ -58,6 +58,10 @@
       <div class="setting">
         <div class="txt"><b>Show Cuisines on Graph</b><small>Off: cuisine names and country paintings are never drawn on the map.</small></div>
         <button id="cuisine-toggle" class="sw" type="button" role="switch" aria-checked="true" aria-label="Show Cuisines on Graph"><i class="switch" aria-hidden="true"></i></button>
+      </div>
+      <div class="setting">
+        <div class="txt"><b>Show Relationship Strength</b><small>On: links between ingredients that share more dishes are drawn slightly thicker.</small></div>
+        <button id="strength-toggle" class="sw" type="button" role="switch" aria-checked="false" aria-label="Show Relationship Strength"><i class="switch" aria-hidden="true"></i></button>
       </div>
       <div class="setting">
         <div class="txt"><b>Size by commonality</b><small>On: common ingredients are drawn larger. Off: everything is one size.</small></div>
