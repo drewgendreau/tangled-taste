@@ -22,10 +22,13 @@
   import { INGREDIENT_CATEGORY, CATEGORIES } from './src/data.js';
   import { paintIngredient, hasIllustration } from './src/illustrations.js';
   const grid = document.getElementById('grid');
-  const filter = new URLSearchParams(location.search).get('cat');
+  const params = new URLSearchParams(location.search);
+  const filter = params.get('cat');
+  const only = params.get('names')?.split(',');
   const t0 = performance.now();
   for (const [name, cat] of Object.entries(INGREDIENT_CATEGORY)) {
     if (filter && cat !== filter) continue;
+    if (only && !only.includes(name)) continue;
     const fig = document.createElement('figure');
     fig.appendChild(paintIngredient(name, CATEGORIES[cat].color));
     const cap = document.createElement('figcaption');

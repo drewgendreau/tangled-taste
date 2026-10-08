@@ -453,6 +453,8 @@ const regions = [...new Set(Object.values(CUISINES).map((c) => c.region))];
 function renderAtlas() {
   atlasBody.innerHTML = regions.map((r) => `<div class="region"><button class="region-name" data-go="region:${esc(r)}">${esc(r)}</button><div class="chips">${Object.keys(CUISINES).filter((k) => CUISINES[k].region === r).map((k) => cuisineChip(k)).join('')}</div></div>`).join('');
 }
+// with many cuisines the legend is tall; start it folded on shorter screens
+if (innerHeight < 1000) document.getElementById('atlas-toggle').setAttribute('aria-expanded', 'false');
 document.getElementById('atlas-toggle').addEventListener('click', (e) => {
   const b = e.currentTarget;
   b.setAttribute('aria-expanded', b.getAttribute('aria-expanded') === 'true' ? 'false' : 'true');
@@ -637,20 +639,31 @@ function updateLabels() {
     const want = n.labelOn ? '' : 'none';
     if (n.label.style.display !== want) n.label.style.display = want;
   }
-  for (const m of cuisineMarks) {
+  // cuisine names: front-facing and active ones claim space first
+  const marks = cuisineMarks.map((m) => {
     v3.copy(m.pos).project(camera);
     const behind = camera.position.distanceTo(m.pos) > camera.position.length() + 10;
     const on = !activeCuisines.size || activeCuisines.has(m.name);
-    if (v3.z > 1 || Math.abs(v3.x) > 1.05 || Math.abs(v3.y) > 1.05) {
+    const visible = !(v3.z > 1 || Math.abs(v3.x) > 1.05 || Math.abs(v3.y) > 1.05);
+    return { m, behind, on, visible, x: (v3.x * 0.5 + 0.5) * W, y: (-v3.y * 0.5 + 0.5) * H };
+  }).sort((p, q) => (q.on - p.on) * 2 + (p.behind - q.behind));
+  const cuisineBoxes = [];
+  for (const c of marks) {
+    const { m } = c;
+    m.dot.material.opacity = c.on ? 0.9 : 0.25;
+    const w = m.name.length * 9 + 8, h = 24;
+    const box = [c.x - w / 2, c.y - h * 1.3, c.x + w / 2, c.y - h * 0.3];
+    const hits = (list) => list.some((p) => box[0] < p[2] && box[2] > p[0] && box[1] < p[3] && box[3] > p[1]);
+    const clash = hits(cuisineBoxes) || (!activeCuisines.has(m.name) && hits(placed));
+    if (!c.visible || clash) {
       m.el.style.display = 'none';
       continue;
     }
+    cuisineBoxes.push(box);
     m.el.style.display = '';
-    const x = (v3.x * 0.5 + 0.5) * W, y = (-v3.y * 0.5 + 0.5) * H;
-    m.el.style.transform = `translate(${x}px, ${y}px) translate(-50%, -130%)`;
-    m.el.style.opacity = String((behind ? 0.25 : 0.95) * (on ? 1 : 0.35));
-    m.el.style.pointerEvents = behind ? 'none' : 'auto';
-    m.dot.material.opacity = on ? 0.9 : 0.25;
+    m.el.style.transform = `translate(${c.x}px, ${c.y}px) translate(-50%, -130%)`;
+    m.el.style.opacity = String((c.behind ? 0.25 : 0.95) * (c.on ? 1 : 0.35));
+    m.el.style.pointerEvents = c.behind ? 'none' : 'auto';
   }
 }
 

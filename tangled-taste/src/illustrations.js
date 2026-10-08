@@ -1309,6 +1309,133 @@ const D = {
     paint(arc(cx + 70, y + 40, 34, 26, 0, Math.PI, 16).concat(arc(cx + 70, y + 40, 34, 10, Math.PI, 0, 16)), '#6a4a30', { small: false });
     paint(E(cx + 70, y + 40, 30, 8), '#f6f1e6', { small: true });
   }),
+
+  // ---- added ingredients
+  beet() {
+    for (let i = 0; i < 3; i++) {
+      const a = -Math.PI / 2 + (i - 1) * 0.45;
+      ink([[128, 92], [128 + Math.cos(a) * 40, 92 + Math.sin(a) * 40]], { color: '#a8324a', a: 0.9, w: 3 });
+      paint(leaf(128 + Math.cos(a) * 34, 92 + Math.sin(a) * 34, 58, 18, a), '#4f7a3a', { liner: false });
+    }
+    roundFruit(128, 144, 58, '#8a1f45', { sy: 0.92 });
+    paint(band([128, 196], [132, 214], [124, 236], 8, 1), '#9a3a55', { liner: false, gran: false });
+    ink(arc(128, 144, 30, 30, 0.3, 2.6, 14), { color: '#c96a8a', a: 0.4, w: 1.2 });
+  },
+  cassava() {
+    shadow(128, 188, 100, 12);
+    paint(band([28, 172], [120, 120], [214, 112], 8, 26, 30, (t) => 0.6 + Math.sin(Math.PI * Math.min(1, t * 1.15)) * 0.5), '#7a5236');
+    for (let i = 0; i < 12; i++) line(50 + i * 13, 150 - i * 3 + R(6), 56 + i * 13, 140 - i * 3 + R(6), { color: '#4a2a1a', a: 0.35, w: 1 });
+    paint(E(212, 112, 18, 26, 0.2), '#f3ead6', { gran: false, liner: true });
+    ink(arc(212, 112, 16, 24, 0, TAU, 24), { color: '#a8603a', a: 0.6, w: 2.5 });
+  },
+  okra() {
+    for (let i = 0; i < 3; i++) {
+      const ox = i * 30 - 30;
+      const p0 = [96 + ox, 66 + Math.abs(ox) * 0.3], p2 = [142 + ox * 1.4, 214];
+      paint(band(p0, [110 + ox, 150], p2, 15, 2), i === 1 ? '#5e9a3a' : '#6faa48', { gloss: true });
+      ink(curve(p0, [114 + ox, 150], p2), { color: '#3e6a26', a: 0.35, w: 1 });
+      paint(rrect(p0[0] - 9, p0[1] - 14, 18, 16, 5), '#8a9a4a', { small: true });
+    }
+  },
+  shallot() {
+    for (const [x, y, s] of [[96, 140, 1], [166, 156, 0.85]]) {
+      shadow(x, y + 66 * s, 40 * s, 7);
+      const pts = sym(x, [[2, y - 74 * s], [10 * s, y - 52 * s], [34 * s, y - 20 * s], [44 * s, y + 20 * s], [32 * s, y + 52 * s], [4, y + 62 * s]]);
+      paint(pts, '#b8705a', { gloss: true });
+      for (const k of [-0.6, 0, 0.6]) ink(curve([x, y - 64 * s], [x + k * 60 * s, y], [x + k * 22 * s, y + 60 * s]), { a: 0.3, w: 1 });
+      ink([[x, y - 72 * s], [x - 3, y - 88 * s]], { color: '#8a5a3a', a: 0.8, w: 2 });
+    }
+  },
+  plantain() {
+    shadow(128, 184, 100, 12);
+    const pts = band([30, 150], [128, 200], [226, 120], 10, 8, 30, (t) => 1 + 1.6 * Math.sin(Math.PI * t));
+    paint(pts, '#e0b83a', { gloss: true });
+    ctx.save();
+    ctx.clip(pathOf(pts));
+    for (let i = 0; i < 9; i++) paint(E(50 + rand() * 160, 150 + rand() * 40, 8 + rand() * 10, 4 + rand() * 5, rand()), '#3a2a1a', { small: true, wash: 0.5 });
+    ctx.restore();
+    paint(E(30, 150, 7, 8), '#3a2a1a', { small: true });
+    paint(rrect(218, 106, 18, 12, 4, -0.7), '#5a4a2a', { small: true });
+  },
+  ackee() {
+    shadow(128, 200, 80, 12);
+    for (let i = 0; i < 3; i++) {
+      const a = -Math.PI / 2 + (i - 1) * 2.1;
+      paint(leaf(128, 150, 74, 34, a, { skew: 0.6 }), '#d8442e', { gloss: true });
+    }
+    for (const [x, y, a] of [[110, 160, -0.5], [146, 150, 0.6], [126, 188, 1.6]]) {
+      paint(E(x, y, 15, 19, a), '#f2d76a', { gloss: false, liner: false });
+      paint(E(x + Math.cos(a - 1.57) * 14, y + Math.sin(a - 1.57) * 14, 6, 7, a), '#1f1a1a', { gloss: true, small: true });
+    }
+  },
+  cherry() {
+    ink(curve([100, 160], [110, 90], [150, 46]), { color: '#5a6e2e', a: 0.9, w: 2.6 });
+    ink(curve([168, 170], [160, 100], [150, 46]), { color: '#5a6e2e', a: 0.9, w: 2.6 });
+    paint(leaf(150, 46, 64, 18, -0.3), greenLeaf, { gloss: true });
+    roundFruit(96, 176, 36, '#a8182a');
+    roundFruit(168, 184, 34, '#b8202e');
+  },
+  strawberry() {
+    shadow(128, 212, 64, 9);
+    const pts = sym(128, [[10, 70], [56, 78], [72, 110], [62, 150], [36, 192], [6, 214]]);
+    paint(pts, '#d8303a', { gloss: true });
+    for (let i = 0; i < 34; i++) {
+      const y = 90 + rand() * 110, w = 60 * (1 - (y - 80) / 150);
+      paint(leaf(128 + R(w) - 2, y, 6, 2.4, -Math.PI / 2), '#f2d76a', { small: true });
+    }
+    for (let i = 0; i < 6; i++) paint(leaf(128, 72, 36, 10, Math.PI + (i / 5) * Math.PI), '#4f8a3e', { liner: false });
+    ink([[128, 70], [130, 50]], { color: '#4f7a33', a: 0.9, w: 3.5 });
+  },
+  caraway() {
+    shadow(128, 196, 96, 12);
+    pile(200, 128, 196, 96, 104, (x, y) => {
+      const a = rand() * TAU;
+      ink([[x - Math.cos(a) * 7, y - Math.sin(a) * 7], [x + R(2), y + R(2)], [x + Math.cos(a) * 7, y + Math.sin(a) * 7]], { color: '#5a3e26', a: 0.9, w: 2.6 });
+    });
+  },
+  sumac: () => powderBowl('#8a2a3a'),
+  allspice() {
+    bowl((cx, y, rx) => pile(60, cx, y + 2, rx * 0.78, 36, (x, yy) => paint(E(x, yy, 7, 7, 0, 0.12), '#6a4430', { small: true, gloss: true })), { rx: 80, rimY: 140, depth: 60, stripe: '#8a5a3a' });
+  },
+  goat() {
+    shadow(128, 196, 88, 12);
+    paint(rrect(150, 50, 18, 90, 8, 0.5), '#efe3cc', { liner: true });
+    paint(E(118, 148, 78, 52, 0.15, 0.1), '#f1e2cf');
+    paint(E(112, 152, 64, 40, 0.15, 0.09), '#a8524a', { gloss: true });
+    for (let i = 0; i < 6; i++) ink([[70 + rand() * 80, 130 + rand() * 30], [80 + rand() * 80, 140 + rand() * 30]], { color: '#f6e6d6', a: 0.5, w: 1.2 });
+  },
+  'sour cream': () => bowl((cx, y, rx) => {
+    paint(E(cx, y + 2, rx * 0.9, 18), '#fbf8f0', { shade: 0.2, gran: false, liner: false });
+    paint(densify([[cx - 50, y + 6], [cx - 30, y - 24], [cx, y - 40], [cx + 22, y - 22], [cx + 46, y + 6]], 5), '#fffcf4', { shade: 0.3 });
+    for (let i = 0; i < 10; i++) paint(rrect(cx - 40 + rand() * 80, y - 30 + rand() * 30, 8, 3, 1.5, rand() * 3), '#5a9a3a', { small: true });
+  }, { color: '#e8eef4', stripe: '#4d77a6' }),
+  'black-eyed peas'() {
+    shadow(128, 190, 92, 12);
+    pile(40, 128, 186, 86, 72, (x, y) => {
+      const a = rand() * TAU;
+      paint(E(x, y, 12, 9, a), '#ede2c6', { small: false, liner: false, gran: false, blot: false, shade: 0.35 });
+      paint(E(x + Math.cos(a + 1.57) * 3, y + Math.sin(a + 1.57) * 3, 4, 2.6, a), '#1f1a1a', { small: true });
+    });
+  },
+  'shrimp paste'() {
+    cube(58, 120, 88, '#9a6a62', '#8a5a52', '#6a3e38');
+    paint(rotate(rrect(40, 196, 176, 16, 4), 128, 204, 0.02), '#d9c79f', { liner: false, gran: false });
+  },
+  'dulce de leche': () => jar('#b8743a', '#e8d9b8', { extra: (cx, top) => {
+    ink(curve([cx + 20, top - 8], [cx + 34, top + 20], [cx + 30, top + 40]), { color: '#b8743a', a: 0.9, w: 6 });
+  } }),
+  mustard: () => jar('#d9b02a', '#4a6a8a', { w: 92 }),
+  beer() {
+    shadow(118, 214, 66, 9);
+    ink(arc(178, 150, 30, 40, -1.4, 1.4, 16), { color: '#d8cdbb', a: 0.9, w: 9 });
+    paint(rrect(62, 82, 114, 132, 12), '#d99a2a', { gloss: true, light: 0.5 });
+    for (let i = 0; i < 14; i++) dot(80 + rand() * 80, 110 + rand() * 90, 1.6, '#fff4d0', 0.8);
+    paint(densify([[56, 92], [66, 64], [92, 58], [118, 52], [146, 58], [172, 62], [182, 92], [120, 100]], 5), '#fbf6ea', { shade: 0.2, gran: false });
+  },
+  'maple syrup'() {
+    bottle('cruet', '#b8661a', { glass: '#e6dccc', cap: '#7a3a1a', level: 110 });
+    for (let i = 0; i < 5; i++) paint(leaf(128, 186, 14, 6, -Math.PI / 2 + (i - 2) * 0.7), '#c0392b', { small: true });
+  },
 };
 
 // ---------------------------------------------------------------- public API
