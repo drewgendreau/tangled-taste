@@ -459,7 +459,26 @@ document.getElementById('atlas-toggle').addEventListener('click', (e) => {
   const b = e.currentTarget;
   b.setAttribute('aria-expanded', b.getAttribute('aria-expanded') === 'true' ? 'false' : 'true');
 });
-document.getElementById('brand').addEventListener('click', () => go({ type: 'home' }));
+// Reset: clear search and history, and return to the starting atlas view
+function resetAll() {
+  input.value = '';
+  closeResults();
+  history.length = 0;
+  hovered = null;
+  tooltip.classList.remove('show');
+  go({ type: 'home' }, { push: false });
+  camTween.fromPos.copy(camera.position);
+  camTween.fromTarget.copy(controls.target);
+  camTween.toTarget.set(0, 0, 0);
+  camTween.toPos.copy(HOME_POS).multiplyScalar(camera.aspect < 1 ? 1.25 : 1);
+  camTween.t = 0;
+  controls.autoRotate = true;
+}
+document.getElementById('brand').addEventListener('click', resetAll);
+document.getElementById('reset').addEventListener('click', resetAll);
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'Home' && document.activeElement !== input) resetAll();
+});
 
 // ---------------------------------------------------------------- search
 const input = document.getElementById('search-input');

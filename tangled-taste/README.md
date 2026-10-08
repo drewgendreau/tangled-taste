@@ -16,11 +16,12 @@ pnpm build    # static site in dist/
 - **Click a dish**: its ingredients light up as a linked constellation; the panel shows popularity and kindred dishes.
 - **Cuisine names on the globe** and the *Cuisines of the world* legend open a cuisine or region view.
 - **Drag / scroll** to orbit and zoom; **Esc** or the breadcrumbs step back.
+- **Reset view** (top right, or the Home key) clears the search and returns to the full atlas.
 
 ## How it's built
 
-- `src/data.js` holds the curated dataset: 155 dishes, 28 cuisines and 160 ingredients. Popularity scores are illustrative estimates, not measured data.
+- `src/data.js` holds the curated dataset: 181 dishes, 33 cuisines and 166 ingredients. Popularity scores are illustrative estimates, not measured data.
 - `src/graph.js` builds the co-occurrence graph and a 3D force layout. Each ingredient is pulled toward the globe position of its cuisines, so staples sit at the center and regional ingredients drift outward.
-- `src/illustrations.js` paints all 160 ingredient illustrations in code, in a watercolor style: layered washes, soft form shading, pigment pooling at the edges, granulation, crisp highlights and loose ink liners. To see them all on one page, open `/gallery.html` (add `?cat=herb`, `?cat=spice` and so on to filter).
+- `src/illustrations.js` paints all 166 ingredient illustrations in code, in a watercolor style: layered washes, soft form shading, pigment pooling at the edges, granulation, crisp highlights and loose ink liners. To see them all on one page, open `/gallery.html` (add `?cat=herb`, `?cat=spice` and so on to filter).
 - `src/watercolor.js` paints the paper texture, the background washes and the cuisine map pins.
 - `src/main.js` handles the scene, labels with collision avoidance, the views, the search and the panel.

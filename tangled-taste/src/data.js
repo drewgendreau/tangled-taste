@@ -44,27 +44,32 @@ export const CUISINES = {
   Hungarian: { country: 'Hungary', region: 'Central Europe', lat: 47.2, lng: 19.5, color: '#b8452e' },
   British: { country: 'United Kingdom', region: 'Northern Europe', lat: 54.0, lng: -2.5, color: '#a05a6a' },
   Russian: { country: 'Russia', region: 'Eastern Europe', lat: 55.7, lng: 37.6, color: '#5a7a9a' },
+  Swedish: { country: 'Sweden', region: 'Northern Europe', lat: 60.1, lng: 18.6, color: '#4a7ab0' },
+  Polish: { country: 'Poland', region: 'Eastern Europe', lat: 51.9, lng: 19.1, color: '#c0475a' },
+  Portuguese: { country: 'Portugal', region: 'Southern Europe', lat: 39.4, lng: -8.2, color: '#2f8a6a' },
+  Cuban: { country: 'Cuba', region: 'Caribbean', lat: 21.5, lng: -77.8, color: '#d9703a' },
+  Malaysian: { country: 'Malaysia', region: 'Southeast Asia', lat: 4.2, lng: 101.9, color: '#9a5aa0' },
 };
 
 const I = (category, ...names) => names.map((n) => [n, category]);
 export const INGREDIENT_CATEGORY = Object.fromEntries([
   ...I('vegetable', 'tomato', 'onion', 'garlic', 'carrot', 'celery', 'potato', 'eggplant', 'zucchini',
     'bell pepper', 'mushroom', 'cucumber', 'cabbage', 'spinach', 'lettuce', 'scallion', 'sweet potato',
-    'radish', 'bean sprouts', 'green beans', 'peas', 'fennel', 'bamboo shoot', 'olive', 'avocado', 'pickle', 'seaweed', 'beet', 'cassava', 'okra', 'shallot'),
+    'radish', 'bean sprouts', 'green beans', 'peas', 'fennel', 'bamboo shoot', 'olive', 'avocado', 'pickle', 'seaweed', 'beet', 'cassava', 'okra', 'shallot', 'kale'),
   ...I('herb', 'basil', 'parsley', 'cilantro', 'mint', 'dill', 'thyme', 'oregano', 'bay leaf',
-    'lemongrass', 'curry leaves'),
+    'lemongrass', 'curry leaves', 'pandan'),
   ...I('fruit', 'lemon', 'lime', 'orange', 'apple', 'pineapple', 'mango', 'papaya', 'pear',
-    'pomegranate', 'apricot', 'coconut', 'tamarind', 'plantain', 'ackee', 'cherry', 'strawberry'),
+    'pomegranate', 'apricot', 'coconut', 'tamarind', 'plantain', 'ackee', 'cherry', 'strawberry', 'lingonberry'),
   ...I('spice', 'black pepper', 'chili', 'paprika', 'cumin', 'coriander', 'cinnamon', 'nutmeg',
     'saffron', 'turmeric', 'ginger', 'galangal', 'garam masala', 'cardamom', 'star anise',
     'sichuan pepper', 'five-spice', 'fenugreek', 'mustard seed', 'berbere', 'wasabi', 'vanilla',
     'caraway', 'sumac', 'allspice'),
-  ...I('meat', 'beef', 'pork', 'chicken', 'lamb', 'veal', 'duck', 'bacon', 'guanciale', 'sausage', 'goat'),
-  ...I('seafood', 'fish', 'shrimp', 'shellfish'),
+  ...I('meat', 'beef', 'pork', 'chicken', 'lamb', 'veal', 'duck', 'bacon', 'guanciale', 'sausage', 'goat', 'ham'),
+  ...I('seafood', 'fish', 'shrimp', 'shellfish', 'salmon'),
   ...I('dairy', 'egg', 'butter', 'milk', 'cream', 'parmesan', 'mozzarella', 'pecorino', 'mascarpone',
     'gruyère', 'feta', 'cheddar', 'queso fresco', 'yogurt', 'paneer', 'ghee', 'sour cream'),
   ...I('grain', 'flour', 'rice', 'pasta', 'noodles', 'bread', 'corn', 'flatbread', 'bulgur',
-    'couscous', 'tapioca', 'yeast'),
+    'couscous', 'tapioca', 'yeast', 'rye'),
   ...I('legume', 'chickpeas', 'lentils', 'beans', 'tofu', 'miso', 'soy sauce', 'black-eyed peas'),
   ...I('nut', 'peanut', 'almond', 'walnut', 'pistachio', 'pine nuts', 'sesame', 'tahini'),
   ...I('pantry', 'olive oil', 'vegetable oil', 'sesame oil', 'palm oil', 'salt', 'sugar', 'honey',
@@ -259,6 +264,38 @@ const D = [
   ['Beef Stroganoff', 'Russian', 72, 'beef, mushroom, onion, sour cream, butter, mustard, noodles', 'Seared beef in mustard sour cream.'],
   ['Pelmeni', 'Russian', 60, 'flour, egg, pork, beef, onion, sour cream, black pepper', 'Siberian dumplings, frozen by the hundred.'],
   ['Blini', 'Russian', 58, 'flour, milk, egg, butter, yeast, sour cream, fish', 'Yeasted pancakes for Maslenitsa.'],
+
+  ['Tibs', 'Ethiopian', 52, 'beef, onion, thyme, chili, butter, garlic, bell pepper', 'Sizzling sautéed beef, served to honour guests.'],
+  ['Gomen', 'Ethiopian', 38, 'kale, onion, garlic, ginger, butter, chili', 'Collard-style greens in spiced butter.'],
+  ['Zaalouk', 'Moroccan', 46, 'eggplant, tomato, garlic, cumin, paprika, olive oil, cilantro', 'Smoky eggplant and tomato salad.'],
+  ['Kefta Tagine', 'Moroccan', 56, 'beef, egg, tomato, onion, cumin, paprika, cilantro, parsley', 'Meatballs and eggs in tomato sauce.'],
+
+  ['Swedish Meatballs', 'Swedish', 74, 'beef, pork, onion, bread, milk, egg, allspice, cream, lingonberry, potato', 'Köttbullar with lingonberries and cream sauce.'],
+  ['Gravlax', 'Swedish', 58, 'salmon, dill, sugar, salt, black pepper', 'Salmon cured under dill.'],
+  ['Kanelbullar', 'Swedish', 66, 'flour, butter, sugar, cinnamon, cardamom, yeast, milk', 'Cardamom-scented cinnamon buns for fika.'],
+  ['Jansson’s Temptation', 'Swedish', 40, 'potato, onion, cream, fish, bread', 'Potato and sprat gratin at Christmas.'],
+
+  ['Pierogi', 'Polish', 74, 'flour, egg, potato, onion, sour cream, butter', 'Half-moon dumplings, boiled then fried.'],
+  ['Bigos', 'Polish', 50, 'cabbage, sausage, pork, mushroom, onion, tomato, bay leaf, allspice, red wine', 'Hunter’s stew of cabbage and meats.'],
+  ['Żurek', 'Polish', 44, 'rye, sausage, egg, potato, garlic, oregano', 'Sour rye soup, often served in bread.'],
+  ['Gołąbki', 'Polish', 48, 'cabbage, beef, rice, onion, tomato', 'Cabbage rolls in tomato sauce.'],
+
+  ['Bacalhau à Brás', 'Portuguese', 54, 'fish, potato, egg, onion, olive, parsley, olive oil', 'Salt cod scrambled with matchstick potatoes.'],
+  ['Pastel de Nata', 'Portuguese', 84, 'flour, egg, sugar, cream, cinnamon, lemon, butter', 'Blistered custard tarts from Belém.'],
+  ['Caldo Verde', 'Portuguese', 52, 'kale, potato, onion, sausage, olive oil, garlic', 'Green kale soup with chouriço.'],
+  ['Francesinha', 'Portuguese', 50, 'bread, beef, ham, sausage, cheddar, beer, tomato, egg', 'Porto’s gloriously excessive sandwich.'],
+  ['Piri-Piri Chicken', 'Portuguese', 70, 'chicken, chili, garlic, lemon, paprika, olive oil, oregano', 'Flame-grilled bird with African bird’s-eye chili.'],
+
+  ['Cubano', 'Cuban', 70, 'bread, pork, ham, gruyère, pickle, mustard, butter', 'Pressed sandwich born between Havana and Tampa.'],
+  ['Ropa Vieja', 'Cuban', 64, 'beef, bell pepper, onion, tomato, garlic, cumin, olive, white wine', '"Old clothes" — shredded braised beef.'],
+  ['Moros y Cristianos', 'Cuban', 52, 'beans, rice, onion, bell pepper, garlic, cumin, bay leaf', 'Black beans and white rice cooked together.'],
+  ['Lechón Asado', 'Cuban', 56, 'pork, orange, lime, garlic, oregano, cumin', 'Roast pork in sour-orange mojo.'],
+
+  ['Nasi Lemak', 'Malaysian', 76, 'rice, coconut milk, pandan, fish, peanut, cucumber, egg, chili, shrimp paste', 'Coconut rice with sambal — the national breakfast.'],
+  ['Laksa', 'Malaysian', 78, 'noodles, coconut milk, shrimp, tofu, lemongrass, chili, shrimp paste, bean sprouts, egg', 'Spicy coconut noodle soup.'],
+  ['Roti Canai', 'Malaysian', 68, 'flour, ghee, egg, sugar, salt', 'Flaky griddled flatbread with curry.'],
+  ['Char Kway Teow', 'Malaysian', 66, 'noodles, shrimp, egg, bean sprouts, soy sauce, chili, garlic, scallion, sausage', 'Smoky wok-fried flat noodles.'],
+  ['Kaya Toast', 'Malaysian', 54, 'bread, coconut milk, egg, sugar, pandan, butter', 'Coconut jam toast with soft eggs.'],
 ];
 
 export const DISHES = D.map(([name, cuisine, popularity, ingr, note], id) => ({

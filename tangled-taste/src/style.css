@@ -89,6 +89,20 @@ body { background-size: 512px 512px; }
 .brand-sub { font-family: var(--hand); font-size: 19px; color: var(--ink-soft); margin-top: 2px; }
 
 #search { position: relative; pointer-events: auto; grid-column: 2; }
+#reset {
+  pointer-events: auto;
+  justify-self: end;
+  display: inline-flex; align-items: center; gap: 7px;
+  padding: 9px 16px 9px 13px;
+  border: 1px solid var(--rule); border-radius: 999px;
+  background: var(--card); backdrop-filter: blur(6px);
+  font: inherit; font-size: 17px; font-weight: 600; color: var(--ink);
+  cursor: pointer;
+  box-shadow: 0 2px 14px rgba(90, 60, 30, 0.08);
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+#reset:hover { border-color: rgba(181, 84, 60, 0.45); color: var(--accent); background: rgba(251, 247, 238, 0.95); }
+#reset svg { width: 17px; height: 17px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 #search-input {
   width: 100%;
   padding: 11px 44px 11px 44px;
@@ -267,6 +281,10 @@ body { background-size: 512px 512px; }
 @media (max-width: 900px) {
   #topbar { grid-template-columns: 1fr; padding: 12px 16px; gap: 8px; }
   #search { grid-column: 1; }
+  #topbar { grid-template-columns: 1fr auto; }
+  #brand { grid-column: 1; }
+  #reset { grid-column: 2; grid-row: 1; padding: 7px 12px; font-size: 15px; }
+  #search { grid-column: 1 / -1; }
   .brand-title { font-size: 24px; }
   .brand-sub { display: none; }
   #panel { top: auto; left: 16px; right: 16px; width: auto; bottom: 16px; height: 42vh; }
