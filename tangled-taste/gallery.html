@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ingredient Gallery</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400&display=swap" rel="stylesheet" />
+<style>
+  body { margin: 0; padding: 24px; background: #f5eee0; font-family: 'Cormorant Garamond', Georgia, serif; color: #3b2a20; }
+  h1 { font-style: italic; font-weight: 600; margin: 0 0 16px; }
+  #grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
+  figure { margin: 0; text-align: center; }
+  canvas { width: 100%; height: auto; }
+  figcaption { font-size: 17px; font-weight: 600; margin-top: -6px; }
+  figcaption small { display: block; font-weight: 400; font-style: italic; color: #8a7462; font-size: 13px; }
+</style>
+</head>
+<body>
+<h1>Ingredient gallery</h1>
+<div id="grid"></div>
+<script type="module">
+  import { INGREDIENT_CATEGORY, CATEGORIES } from './src/data.js';
+  import { paintIngredient, hasIllustration } from './src/illustrations.js';
+  const grid = document.getElementById('grid');
+  const filter = new URLSearchParams(location.search).get('cat');
+  const t0 = performance.now();
+  for (const [name, cat] of Object.entries(INGREDIENT_CATEGORY)) {
+    if (filter && cat !== filter) continue;
+    const fig = document.createElement('figure');
+    fig.appendChild(paintIngredient(name, CATEGORIES[cat].color));
+    const cap = document.createElement('figcaption');
+    cap.innerHTML = `${name}<small>${hasIllustration(name) ? cat : 'MISSING'}</small>`;
+    fig.appendChild(cap);
+    grid.appendChild(fig);
+  }
+  console.log('painted in', Math.round(performance.now() - t0), 'ms');
+</script>
+</body>
+</html>

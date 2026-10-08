@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tangled Taste</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600&family=Caveat:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./src/style.css" />
+  </head>
+  <body>
+    <div id="washes" aria-hidden="true"></div>
+    <div id="stage"></div>
+    <div id="labels" aria-hidden="true"></div>
+
+    <header id="topbar">
+      <div id="brand" role="button" tabindex="0" title="Back to the whole atlas">
+        <span class="brand-title">Tangled Taste</span>
+        <span class="brand-sub">ingredients that share a plate</span>
+      </div>
+      <div id="search">
+        <svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" /><path d="M15.5 15.5 21 21" /></svg>
+        <input id="search-input" type="search" placeholder="Search ingredients, dishes, cuisines, places…" autocomplete="off" spellcheck="false" />
+        <kbd>/</kbd>
+        <ul id="search-results" role="listbox"></ul>
+      </div>
+    </header>
+
+    <aside id="panel"><div id="panel-inner"></div></aside>
+
+    <nav id="atlas">
+      <button id="atlas-toggle" aria-expanded="true">Cuisines of the world</button>
+      <div id="atlas-body"></div>
+    </nav>
+
+    <div id="tooltip"></div>
+    <div id="hint">drag to turn the globe · scroll to zoom · click an ingredient to explore · <span>esc</span> to step back</div>
+    <script type="module" src="./src/main.js"></script>
+  </body>
+</html>
