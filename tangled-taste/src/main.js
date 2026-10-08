@@ -1033,11 +1033,22 @@ const pointer = new THREE.Vector2();
 const tooltip = document.getElementById('tooltip');
 let hovered = null;
 let downAt = null;
+const pickVec = new THREE.Vector3();
 function pick(ev) {
   pointer.set((ev.clientX / innerWidth) * 2 - 1, -(ev.clientY / innerHeight) * 2 + 1);
   raycaster.setFromCamera(pointer, camera);
   const hitsR = raycaster.intersectObjects(nodeGroup.children, false).filter((h) => h.object.userData.node.vis.opacity > 0.3);
-  return hitsR.length ? hitsR[0].object.userData.node : null;
+  if (hitsR.length) return hitsR[0].object.userData.node;
+  // tiny dots are hard to hit exactly, so accept the nearest visible one within a few pixels
+  let best = null, bestD = 11;
+  for (const n of nodes) {
+    if (n.vis.opacity <= 0.3) continue;
+    pickVec.copy(n.sprite.position).project(camera);
+    if (pickVec.z > 1) continue;
+    const d = Math.hypot((pickVec.x * 0.5 + 0.5) * innerWidth - ev.clientX, (-pickVec.y * 0.5 + 0.5) * innerHeight - ev.clientY);
+    if (d < bestD) { bestD = d; best = n; }
+  }
+  return best;
 }
 renderer.domElement.addEventListener('pointermove', (ev) => {
   const n = pick(ev);
@@ -1173,9 +1184,9 @@ function frame(rawDt) {
     v.opacity += (v.tOpacity - v.opacity) * lerp;
     const breathe = 1 + Math.sin(time * 0.8 + n.id) * 0.015;
     v.base += ((sizeByPopularity ? n.baseScale : UNIFORM_SCALE) - v.base) * lerp;
-    // plain dots are drawn much smaller than the paintings (with a floor so they stay clickable)
+    // plain dots are drawn much smaller than the paintings (a sixth of the size, with a floor)
     const size = v.base * v.scale * breathe;
-    n.sprite.scale.setScalar(showIllustrations ? size : Math.max(size * 0.5, 6));
+    n.sprite.scale.setScalar(showIllustrations ? size : Math.max(size / 6, 2));
     n.sprite.material.opacity = v.opacity;
   }
   const comparing = view.type === 'compare' && compareInfo;
