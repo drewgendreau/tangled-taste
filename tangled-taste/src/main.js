@@ -1308,6 +1308,12 @@ window.addEventListener('keydown', (e) => {
 });
 
 // ---------------------------------------------------------------- search
+document.getElementById('lucky').addEventListener('click', (e) => {
+  e.preventDefault();
+  let id;
+  do id = Math.floor(Math.random() * DISHES.length); while (view.type === 'dish' && view.id === id && DISHES.length > 1);
+  go({ type: 'dish', id });
+});
 const input = document.getElementById('search-input');
 const results = document.getElementById('search-results');
 const index = [
