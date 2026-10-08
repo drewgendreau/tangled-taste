@@ -957,8 +957,7 @@ function crumbs() {
 const PREVIEW_PX = (window.devicePixelRatio || 1) > 1.5 ? 1024 : 768; // painted at this size, so it stays crisp on big screens
 function dishPreview(d) {
   if (hasDishArt(d.name)) return `<figure class="dish-art"><canvas data-dish-art="${d.id}" width="${PREVIEW_PX}" height="${PREVIEW_PX}" role="img" aria-label="Watercolor painting of ${esc(d.name)}"></canvas></figure>`;
-  const c = CUISINES[d.cuisine].color;
-  return `<figure class="dish-art empty" style="--c:${c}"><div><b>${esc(d.name)}</b><span>Watercolor coming soon</span></div></figure>`;
+  return '';
 }
 function fillDishArt(root) {
   for (const c of root.querySelectorAll('canvas[data-dish-art]')) {
