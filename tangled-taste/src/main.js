@@ -143,10 +143,17 @@ function curvePoints(a, b, bend = 0.82, SEG = 10) {
 }
 const maxW = Math.max(...edges.map((e) => e.weight));
 const baseEdgeMat = new THREE.LineBasicMaterial({ vertexColors: true, transparent: true, opacity: 0.75, depthWrite: false, fog: true });
-{
+let baseEdges = null;
+// The ambient web of connections. `keep` limits it to a set of ingredients; minWeight drops weak links.
+function buildBaseEdges(minWeight = 1, keep = null) {
+  if (baseEdges) {
+    scene.remove(baseEdges);
+    baseEdges.geometry.dispose();
+  }
   const pos = [], col = [];
   const tmp = new THREE.Color();
   for (const e of edges) {
+    if (e.weight < minWeight || (keep && !(keep.has(e.source) && keep.has(e.target)))) continue;
     const a = nodes[e.source].sprite.position, b = nodes[e.target].sprite.position;
     const pts = curvePoints(a, b);
     const strength = 0.10 + 0.5 * Math.pow(e.weight / maxW, 0.6);
@@ -159,7 +166,8 @@ const baseEdgeMat = new THREE.LineBasicMaterial({ vertexColors: true, transparen
   const g = new THREE.BufferGeometry();
   g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
   g.setAttribute('color', new THREE.Float32BufferAttribute(col, 3));
-  scene.add(new THREE.LineSegments(g, baseEdgeMat));
+  baseEdges = new THREE.LineSegments(g, baseEdgeMat);
+  scene.add(baseEdges);
 }
 
 // highlighted edges: fat lines rebuilt per view
@@ -322,7 +330,9 @@ let activeCuisines = new Set();
 const filter = { types: new Set(), cuisines: new Set() };
 const camTween = { t: 1, fromPos: new THREE.Vector3(), toPos: new THREE.Vector3(), fromTarget: new THREE.Vector3(), toTarget: new THREE.Vector3() };
 
+let freezeCamera = false;
 function flyTo(target, distance) {
+  if (freezeCamera) return;
   camTween.fromPos.copy(camera.position);
   camTween.fromTarget.copy(controls.target);
   camTween.toTarget.copy(target);
@@ -459,8 +469,8 @@ function go(next, { push = true } = {}) {
   setHighlightEdges(edgesHi);
   baseEdgeMat.opacity = hi ? 0.18 : 0.75;
   for (const n of nodes) {
-    const on = !hi || hi.has(n.id);
-    n.vis.tOpacity = on ? 1 : 0.09;
+    const on = hi ? hi.has(n.id) : n.densityKeep;
+    n.vis.tOpacity = on ? 1 : n.densityKeep ? 0.09 : 0; // thinned-out ingredients vanish unless highlighted
     n.vis.tScale = focus.has(n.id) ? (next.type === 'ingredient' ? 1.35 : 1.18) : on ? 1 : 0.8;
     // focused ingredients are painted over the big hubs so they are never buried
     n.sprite.renderOrder = focus.has(n.id) ? 10 : 0;
@@ -754,6 +764,47 @@ function renderFilters() {
   const anyActive = filter.types.size || filter.cuisines.size;
   filtersEl.innerHTML = Object.entries(DISH_TYPES).filter(([k]) => typeCounts[k]).map(([k, t]) => `<button class="ftype${filter.types.has(k) ? ' on' : ''}" data-filter="type:${esc(k)}" aria-pressed="${filter.types.has(k)}">${esc(t.label)}<small>${typeCounts[k]}</small></button>`).join('') + (anyActive ? '<button class="ftype clear" data-filter="clear">Clear</button>' : '');
 }
+// ---------------------------------------------------------------- settings pane
+const DENSITY = [
+  { label: 'High', nodes: 1, minWeight: 1 }, // everything, as drawn originally
+  { label: 'Medium', nodes: 0.7, minWeight: 2 },
+  { label: 'Low', nodes: 0.45, minWeight: 3 },
+  { label: 'Minimal', nodes: 0.25, minWeight: 4 },
+];
+let densityLevel = 0;
+try { densityLevel = Math.min(3, Math.max(0, parseInt(localStorage.getItem('tt-density') || '0', 10) || 0)); } catch { /* storage unavailable */ }
+const densitySlider = document.getElementById('density');
+function applyDensity(level) {
+  densityLevel = level;
+  const d = DENSITY[level];
+  const keep = new Set(ranked.slice(0, Math.ceil(nodes.length * d.nodes)).map((n) => n.id));
+  for (const n of nodes) n.densityKeep = keep.has(n.id);
+  buildBaseEdges(d.minWeight, level ? keep : null);
+  // refresh what is shown right now, without moving the camera
+  for (const n of nodes) {
+    const on = highlight ? highlight.has(n.id) : n.densityKeep;
+    n.vis.tOpacity = on ? 1 : n.densityKeep ? 0.09 : 0;
+  }
+  densitySlider.value = String(level);
+  document.getElementById('density-label').textContent = d.label;
+  document.querySelectorAll('.ticks span').forEach((t, i) => t.classList.toggle('on', i === level));
+  try { localStorage.setItem('tt-density', String(level)); } catch { /* storage unavailable */ }
+}
+densitySlider.addEventListener('input', () => applyDensity(+densitySlider.value));
+applyDensity(densityLevel);
+
+const settingsBtn = document.getElementById('settings-btn');
+const settingsPane = document.getElementById('settings');
+function setSettingsOpen(open) {
+  settingsPane.hidden = !open;
+  settingsBtn.setAttribute('aria-expanded', String(open));
+  if (open) settingsPane.querySelector('.sw').focus({ preventScroll: true });
+  else settingsBtn.focus({ preventScroll: true });
+}
+settingsBtn.addEventListener('click', () => setSettingsOpen(settingsPane.hidden));
+document.getElementById('settings-close').addEventListener('click', () => setSettingsOpen(false));
+document.getElementById('settings-done').addEventListener('click', () => setSettingsOpen(false));
+
 // ---------------------------------------------------------------- compare pane (bottom, off by default)
 const compareToggle = document.getElementById('compare-toggle');
 const compareSlots = document.getElementById('compare-slots');
@@ -928,7 +979,8 @@ window.addEventListener('keydown', (e) => {
   if (e.key === '/' && document.activeElement !== input) {
     e.preventDefault();
     input.focus();
-  } else if (e.key === 'Escape' && document.activeElement !== input) back();
+  } else if (e.key === 'Escape' && !settingsPane.hidden) setSettingsOpen(false);
+  else if (e.key === 'Escape' && document.activeElement !== input) back();
 });
 
 // ---------------------------------------------------------------- picking
@@ -990,7 +1042,7 @@ function updateLabels() {
   // project candidates, then place greedily by priority so labels never collide
   const cands = [];
   for (const n of nodes) {
-    const show = showSet.has(n.id) || n === hovered || (camDist < 140 && (!highlight || highlight.has(n.id)));
+    const show = n.vis.opacity > 0.05 && (showSet.has(n.id) || n === hovered || (camDist < 140 && (!highlight || highlight.has(n.id))));
     v3.copy(n.sprite.position).project(camera);
     if (!show || v3.z > 1 || Math.abs(v3.x) > 1.1 || Math.abs(v3.y) > 1.1) {
       n.labelOn = false;
@@ -1077,7 +1129,9 @@ function frame(rawDt) {
     v.opacity += (v.tOpacity - v.opacity) * lerp;
     const breathe = 1 + Math.sin(time * 0.8 + n.id) * 0.015;
     v.base += ((sizeByPopularity ? n.baseScale : UNIFORM_SCALE) - v.base) * lerp;
-    n.sprite.scale.setScalar(v.base * v.scale * breathe * (showIllustrations ? 1 : 1.15));
+    // plain dots are drawn much smaller than the paintings (with a floor so they stay clickable)
+    const size = v.base * v.scale * breathe;
+    n.sprite.scale.setScalar(showIllustrations ? size : Math.max(size * 0.5, 6));
     n.sprite.material.opacity = v.opacity;
   }
   const comparing = view.type === 'compare' && compareInfo;

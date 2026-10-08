@@ -18,7 +18,11 @@ pnpm validate   # sanity-check the dataset (run in CI before every deploy)
 - **Cuisine names on the globe** and the *Cuisines of the world* legend open a cuisine or region view.
 - **Dish-type chips** under the search bar (soups, desserts, drinks…) filter the whole atlas.
 - **Compare cuisines** (bottom pane, closed until you open it): pick up to three cuisines and their ingredients light up in three colors. Shared ingredients get a ring split into one arc per cuisine, and ingredient pairings shared by two or more cuisines are drawn as thick striped lines, one stripe color per cuisine. The side panel scores every pair out of 100 and shows a Venn diagram of their ingredients, their shared pairings and each cuisine's closest relatives. *Only what they share* hides everything unique to one cuisine.
-- **Illustrations** and **Size by popularity** switches (top right, left of *Reset view*): the first swaps the food paintings for plain watercolor dots; the second, when off, draws every ingredient and label at one medium-small size instead of scaling by how common the ingredient is. Both are remembered between visits.
+- **Settings** (top right, left of *Reset view*) opens a small pane, closed with *Done*, the × or Esc:
+  - *Illustrations* swaps the food paintings for much smaller plain watercolor dots.
+  - *Size by popularity*, when off, draws every ingredient and label at one medium-small size.
+  - *Density* (High → Medium → Low → Minimal) thins out the background map: lower settings keep only the most common ingredients and the strongest connections. Anything you select or focus on stays visible at every density.
+  Settings apply immediately and are remembered between visits.
 - **Drag / scroll** to orbit and zoom; **Esc** or the breadcrumbs step back.
 - **Reset view** (top right, or the Home key) clears the search and filters and returns to the full atlas.
 

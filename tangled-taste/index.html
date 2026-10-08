@@ -29,17 +29,11 @@
         <ul id="search-results" role="listbox"></ul>
       </div>
       <div id="topright">
-        <button id="size-toggle" type="button" role="switch" aria-checked="true" title="On: common ingredients are drawn larger. Off: every ingredient is the same size.">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="15" r="3.5" /><circle cx="16.5" cy="8.5" r="5.5" /></svg>
-          <span>Size by popularity</span>
-          <i class="switch" aria-hidden="true"></i>
+        <button id="settings-btn" type="button" aria-expanded="false" aria-controls="settings" title="Settings">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3.2" /><path d="M12 3v2.6M12 18.4V21M3 12h2.6M18.4 12H21M5.6 5.6l1.9 1.9M16.5 16.5l1.9 1.9M5.6 18.4l1.9-1.9M16.5 7.5l1.9-1.9" /></svg>
+          <span>Settings</span>
         </button>
-        <button id="illus-toggle" type="button" role="switch" aria-checked="true" title="Show or hide the food illustrations on the map">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19c0-8 5-13 14-14 0 9-5 14-13 14" /><path d="M5 19c3-5 6-8 10-10" /></svg>
-          <span>Illustrations</span>
-          <i class="switch" aria-hidden="true"></i>
-        </button>
-      <button id="reset" type="button" title="Return to the full atlas (Home)">
+        <button id="reset" type="button" title="Return to the full atlas (Home)">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3" /><path d="M4 4.5v4h4" /></svg>
           Reset view
         </button>
@@ -47,6 +41,28 @@
     </header>
 
     <div id="filters" role="group" aria-label="Filter by dish type"></div>
+
+    <section id="settings" role="dialog" aria-label="Settings" hidden>
+      <header class="set-head">
+        <h2>Settings</h2>
+        <button id="settings-close" type="button" aria-label="Close settings">×</button>
+      </header>
+      <div class="setting">
+        <div class="txt"><b>Illustrations</b><small>Show the watercolor food paintings. Off: plain colored dots.</small></div>
+        <button id="illus-toggle" class="sw" type="button" role="switch" aria-checked="true" aria-label="Illustrations"><i class="switch" aria-hidden="true"></i></button>
+      </div>
+      <div class="setting">
+        <div class="txt"><b>Size by popularity</b><small>On: common ingredients are drawn larger. Off: everything is one size.</small></div>
+        <button id="size-toggle" class="sw" type="button" role="switch" aria-checked="true" aria-label="Size by popularity"><i class="switch" aria-hidden="true"></i></button>
+      </div>
+      <div class="setting col">
+        <div class="row"><label for="density"><b>Density</b></label><output id="density-label" for="density">High</output></div>
+        <input id="density" type="range" min="0" max="3" step="1" value="0" aria-describedby="density-help" />
+        <div class="ticks" aria-hidden="true"><span>High</span><span>Medium</span><span>Low</span><span>Minimal</span></div>
+        <small id="density-help">How much of the background map is drawn. Lower densities keep the most common ingredients and strongest connections; whatever you select always stays visible.</small>
+      </div>
+      <footer class="set-foot"><button id="settings-done" type="button">Done</button></footer>
+    </section>
 
     <aside id="panel"><div id="panel-inner"></div></aside>
 
