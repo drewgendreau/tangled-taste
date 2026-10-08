@@ -34,6 +34,9 @@ export const INGREDIENTS = {
     'kale',
     'pumpkin',
     'leek',
+    'sauerkraut',
+    'turnip',
+    'asparagus',
   ],
   herb: [
     'basil',
@@ -50,6 +53,7 @@ export const INGREDIENTS = {
     'rosemary',
     'sage',
     'chives',
+    'tarragon',
   ],
   fruit: [
     'lemon',
@@ -74,6 +78,8 @@ export const INGREDIENTS = {
     'jackfruit',
     'raisins',
     'blueberry',
+    'plum',
+    'cranberry',
   ],
   spice: [
     'black pepper',
@@ -101,6 +107,8 @@ export const INGREDIENTS = {
     'sumac',
     'allspice',
     'cloves',
+    'juniper',
+    'horseradish',
   ],
   meat: [
     'beef',
@@ -119,6 +127,7 @@ export const INGREDIENTS = {
     'liver',
     'prosciutto',
     'chorizo',
+    'venison',
   ],
   seafood: [
     'fish',
@@ -134,6 +143,8 @@ export const INGREDIENTS = {
     'mussels',
     'sardine',
     'anchovy',
+    'herring',
+    'smoked salmon',
   ],
   dairy: [
     'egg',
@@ -153,6 +164,12 @@ export const INGREDIENTS = {
     'ghee',
     'sour cream',
     'cheese curds',
+    'gouda',
+    'emmental',
+    'buttermilk',
+    'goat cheese',
+    'blue cheese',
+    'ricotta',
   ],
   grain: [
     'flour',
@@ -168,6 +185,9 @@ export const INGREDIENTS = {
     'yeast',
     'rye',
     'quinoa',
+    'buckwheat',
+    'barley',
+    'oats',
   ],
   legume: [
     'chickpeas',
@@ -191,6 +211,8 @@ export const INGREDIENTS = {
     'tahini',
     'macadamia',
     'pecan',
+    'hazelnut',
+    'poppy seeds',
   ],
   pantry: [
     'olive oil',
@@ -220,5 +242,6 @@ export const INGREDIENTS = {
     'beer',
     'maple syrup',
     'tea',
+    'capers',
   ],
 };

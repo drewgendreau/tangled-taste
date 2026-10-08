@@ -3,7 +3,7 @@ export default [
   // Italian
   ['Margherita Pizza', 'Italian', 98, 'flour, yeast, tomato, mozzarella, basil, olive oil, salt', 'Naples, 1889 — the colours of the Italian flag.', 'main'],
   ['Spaghetti Carbonara', 'Italian', 92, 'pasta, egg, pecorino, guanciale, black pepper', 'A Roman classic; no cream required.', 'rice & noodles'],
-  ['Lasagna', 'Italian', 90, 'pasta, beef, tomato, onion, garlic, parmesan, mozzarella, milk, butter, flour', 'Layered pasta baked with ragù and béchamel.', 'rice & noodles'],
+  ['Lasagna', 'Italian', 90, 'pasta, beef, tomato, onion, garlic, parmesan, mozzarella, ricotta, milk, butter, flour', 'Layered pasta baked with ragù and béchamel.', 'rice & noodles'],
   ['Risotto alla Milanese', 'Italian', 70, 'rice, saffron, butter, parmesan, onion, white wine, stock', 'Golden saffron risotto from Milan.', 'rice & noodles'],
   ['Pesto Genovese', 'Italian', 78, 'basil, pine nuts, garlic, parmesan, pecorino, olive oil, pasta', 'Pounded basil sauce from Liguria.', 'rice & noodles'],
   ['Tiramisu', 'Italian', 88, 'egg, sugar, mascarpone, coffee, cocoa, flour', 'Coffee-soaked layers of mascarpone cream.', 'dessert'],
@@ -14,11 +14,16 @@ export default [
   ['Amatriciana', 'Italian', 70, 'pasta, guanciale, pecorino, tomato, chili, white wine', 'Roman pasta with cured pork cheek and tomato.', 'rice & noodles'],
   ['Cacio e Pepe', 'Italian', 74, 'pasta, pecorino, black pepper', 'Three ingredients, one creamy Roman sauce.', 'rice & noodles'],
   ['Pasta con le Sarde', 'Italian', 40, 'pasta, sardine, fennel, pine nuts, raisins, anchovy, onion, olive oil', 'Sicilian pasta of sardines, wild fennel and sweet raisins.', 'rice & noodles'],
-  ['Vitello Tonnato', 'Italian', 42, 'veal, tuna, anchovy, mayonnaise, olive oil, lemon, white wine', 'Cold sliced veal under a creamy tuna sauce.', 'main'],
+  ['Vitello Tonnato', 'Italian', 42, 'veal, tuna, anchovy, capers, mayonnaise, olive oil, lemon, white wine', 'Cold sliced veal under a creamy tuna sauce.', 'main'],
   ['Saltimbocca', 'Italian', 54, 'veal, prosciutto, sage, butter, white wine, flour', '“Jumps in the mouth” — veal, ham and sage.', 'main'],
   ['Coniglio alla Cacciatora', 'Italian', 36, 'rabbit, tomato, white wine, rosemary, garlic, olive, olive oil', 'Hunter-style braised rabbit.', 'main'],
   ['Fegato alla Veneziana', 'Italian', 36, 'liver, onion, butter, white wine, sage, parsley', 'Venice’s liver with slow-cooked onions.', 'main'],
   ['Tortellini in Brodo', 'Italian', 46, 'pasta, prosciutto, pork, parmesan, nutmeg, stock, egg', 'Tiny stuffed pasta floating in clear broth.', 'soup & stew'],
+  ['Cannoli', 'Italian', 62, 'flour, ricotta, sugar, chocolate, pistachio, vanilla, butter', 'Crisp Sicilian shells piped with sweet ricotta.', 'dessert'],
+  ['Spinach and Ricotta Ravioli', 'Italian', 58, 'pasta, ricotta, spinach, nutmeg, butter, sage, parmesan', 'Pasta pillows with sage butter.', 'rice & noodles'],
+  ['Caponata', 'Italian', 46, 'eggplant, celery, olive, capers, tomato, vinegar, sugar, pine nuts, onion, olive oil', 'Sicilian sweet-and-sour eggplant.', 'salad & side'],
+  ['Risotto agli Asparagi', 'Italian', 44, 'rice, asparagus, parmesan, butter, onion, white wine, stock', 'Spring risotto with tender asparagus.', 'rice & noodles'],
+  ['Gnocchi al Gorgonzola', 'Italian', 44, 'potato, flour, blue cheese, cream, walnut, butter', 'Potato gnocchi in blue cheese sauce.', 'rice & noodles'],
 
   // French
   ['Coq au Vin', 'French', 65, 'chicken, red wine, mushroom, onion, bacon, garlic, thyme, butter, bay leaf', 'Chicken braised slowly in Burgundy wine.', 'soup & stew'],
@@ -39,6 +44,13 @@ export default [
   ['Brandade de Morue', 'French', 40, 'cod, potato, garlic, milk, olive oil, cream', 'Salt cod whipped with garlic and olive oil.', 'sauce & dip'],
   ['Lapin à la Moutarde', 'French', 34, 'rabbit, mustard, cream, white wine, shallot, thyme', 'Rabbit braised in a mustard cream sauce.', 'main'],
   ['Pâté de Campagne', 'French', 44, 'liver, pork, butter, shallot, thyme, red wine, bread', 'Rustic country pâté with liver and pork.', 'sauce & dip'],
+  ['Sauce Béarnaise', 'French', 42, 'butter, egg, tarragon, shallot, vinegar, white wine', 'Emulsified butter sauce with tarragon.', 'sauce & dip'],
+  ['Poulet à l’Estragon', 'French', 44, 'chicken, tarragon, cream, white wine, butter, shallot', 'Chicken in a tarragon cream sauce.', 'main'],
+  ['Salade de Chèvre Chaud', 'French', 48, 'goat cheese, lettuce, bread, honey, walnut, olive oil, vinegar', 'Warm goat cheese toasts on greens.', 'salad & side'],
+  ['Goat Cheese Tart', 'French', 36, 'goat cheese, egg, cream, flour, butter, thyme', 'Savory tart with creamy goat cheese.', 'bread & pastry'],
+  ['Roquefort Salad', 'French', 38, 'blue cheese, lettuce, pear, walnut, vinegar, olive oil', 'Greens with pear, walnuts and blue cheese.', 'salad & side'],
+  ['Choucroute Garnie', 'French', 48, 'sauerkraut, pork, sausage, bacon, potato, white wine, juniper, bay leaf', 'Alsatian sauerkraut with a heap of meats.', 'main'],
+  ['Galette Bretonne', 'French', 52, 'buckwheat, egg, ham, emmental, butter', 'Buckwheat crêpe folded around ham, egg and cheese.', 'street & snack'],
 
   // Spanish
   ['Paella', 'Spanish', 85, 'rice, saffron, chicken, shrimp, tomato, bell pepper, paprika, olive oil, garlic, peas, green beans', 'Saffron rice cooked wide and shallow in Valencia.', 'rice & noodles'],
@@ -65,10 +77,15 @@ export default [
 
   // German
   ['Wiener Schnitzel', 'German', 76, 'veal, flour, egg, bread, lemon, butter, salt', 'Thin, golden, breaded veal.', 'main'],
-  ['Sauerbraten', 'German', 50, 'beef, vinegar, red wine, onion, carrot, bay leaf, sugar, allspice', 'Pot roast marinated for days.', 'main'],
+  ['Sauerbraten', 'German', 50, 'beef, vinegar, red wine, onion, carrot, bay leaf, sugar, allspice, juniper', 'Pot roast marinated for days.', 'main'],
   ['Kartoffelsalat', 'German', 56, 'potato, onion, vinegar, mustard, stock, bacon, vegetable oil', 'Warm potato salad, Swabian style.', 'salad & side'],
   ['Bratwurst', 'German', 70, 'sausage, mustard, bread, onion, caraway', 'Grilled sausage with mustard.', 'street & snack'],
   ['Black Forest Cake', 'German', 64, 'flour, cocoa, egg, sugar, cherry, cream, butter', 'Chocolate, cherries and clouds of cream.', 'dessert'],
+  ['Brezel', 'German', 66, 'flour, yeast, butter, salt, milk', 'Lye-dipped pretzel, chewy and glossy.', 'bread & pastry'],
+  ['Schweinshaxe', 'German', 56, 'pork, sauerkraut, beer, caraway, onion, bay leaf, potato', 'Roast pork knuckle with crackling.', 'main'],
+  ['Rollmops', 'German', 40, 'herring, vinegar, onion, pickle, mustard seed, bay leaf, sugar', 'Herring rolled around pickles and onion.', 'street & snack'],
+  ['Weißer Spargel', 'German', 44, 'asparagus, butter, egg, lemon, potato, ham, white wine', 'White asparagus with hollandaise.', 'salad & side'],
+  ['Zwetschgenkuchen', 'German', 44, 'plum, flour, butter, sugar, egg, yeast, cinnamon', 'Autumn plum cake on yeast dough.', 'dessert'],
 
   // Hungarian
   ['Goulash', 'Hungarian', 72, 'beef, paprika, onion, potato, carrot, caraway, tomato, bell pepper, garlic', 'The herdsman’s paprika soup.', 'soup & stew'],
@@ -85,12 +102,15 @@ export default [
   ['Shepherd’s Pie', 'British', 66, 'lamb, potato, onion, carrot, peas, butter, milk, stock, thyme', 'Lamb mince under mashed potato.', 'main'],
   ['Full English Breakfast', 'British', 70, 'egg, bacon, sausage, beans, tomato, mushroom, bread, butter', 'The classic fry-up with all the trimmings.', 'breakfast'],
   ['Scones', 'British', 62, 'flour, butter, milk, sugar, egg, strawberry, cream', 'With jam and clotted cream, in that order (or not).', 'bread & pastry'],
-  ['Sunday Roast', 'British', 66, 'beef, potato, carrot, flour, egg, milk, rosemary, onion', 'Roast beef, crisp potatoes and a puffed Yorkshire pudding.', 'main'],
+  ['Sunday Roast', 'British', 66, 'beef, potato, carrot, flour, egg, milk, rosemary, onion, horseradish', 'Roast beef, crisp potatoes and a puffed Yorkshire pudding.', 'main'],
   ['Sticky Toffee Pudding', 'British', 62, 'flour, butter, sugar, egg, cream, raisins, milk', 'Dark fruit-studded sponge drenched in warm toffee sauce.', 'dessert'],
   ['Cornish Pasty', 'British', 56, 'flour, butter, beef, potato, onion, black pepper, salt', 'Crimped pastry parcel that fed generations of tin miners.', 'street & snack'],
   ['Kedgeree', 'British', 40, 'rice, cod, egg, butter, turmeric, parsley, lemon', 'Smoked fish, rice and eggs — a colonial breakfast.', 'breakfast'],
   ['Cullen Skink', 'British', 40, 'cod, potato, onion, leek, milk, butter, cream, chives', 'Thick Scottish soup of smoked haddock and potato.', 'soup & stew'],
   ['Cock-a-Leekie', 'British', 36, 'chicken, leek, rice, stock, bacon, thyme', 'Scotland’s chicken and leek soup.', 'soup & stew'],
+  ['Porridge', 'British', 46, 'oats, milk, honey, salt', 'Scottish oats stirred with a spurtle.', 'breakfast'],
+  ['Scotch Broth', 'British', 38, 'lamb, barley, carrot, turnip, leek, onion, celery', 'Barley and lamb soup.', 'soup & stew'],
+  ['Venison Pie', 'British', 34, 'venison, flour, butter, onion, red wine, carrot, thyme, juniper', 'Game pie from the Highlands.', 'bread & pastry'],
 
   // Russian
   ['Borscht', 'Russian', 66, 'beet, cabbage, potato, carrot, onion, dill, sour cream, beef, vinegar', 'Ruby beet soup.', 'soup & stew'],
@@ -102,6 +122,9 @@ export default [
   ['Syrniki', 'Russian', 46, 'queso fresco, flour, egg, sugar, sour cream, raisins, butter', 'Pan-fried curd-cheese pancakes served with sour cream.', 'breakfast'],
   ['Chicken Kiev', 'Russian', 58, 'chicken, butter, egg, bread, garlic, parsley, dill, flour', 'Breaded chicken that bursts with garlic butter.', 'main'],
   ['Pashtet', 'Russian', 38, 'liver, butter, onion, carrot, bread, cream, black pepper', 'Smooth liver pâté spread on dark bread.', 'sauce & dip'],
+  ['Okroshka', 'Russian', 40, 'cucumber, potato, egg, radish, dill, scallion, ham, buttermilk', 'Chilled summer soup of raw vegetables.', 'soup & stew'],
+  ['Medovik', 'Russian', 54, 'honey, flour, sour cream, egg, sugar, butter, walnut', 'Layered honey cake with sour cream.', 'dessert'],
+  ['Kisel', 'Russian', 34, 'cranberry, sugar, lemon', 'Thick, tart berry drink.', 'drink'],
 
   // Swedish
   ['Swedish Meatballs', 'Swedish', 74, 'beef, pork, onion, bread, milk, egg, allspice, cream, lingonberry, potato', 'Köttbullar with lingonberries and cream sauce.', 'main'],
@@ -111,7 +134,7 @@ export default [
   ['Räksmörgås', 'Swedish', 44, 'bread, shrimp, egg, mayonnaise, dill, lemon, butter', 'Open-faced shrimp sandwich piled high.', 'street & snack'],
   ['Ärtsoppa', 'Swedish', 40, 'peas, ham, onion, carrot, thyme, mustard', 'Thursday’s yellow pea soup, served with mustard.', 'soup & stew'],
   ['Semla', 'Swedish', 56, 'flour, yeast, milk, butter, sugar, cardamom, almond, cream', 'Cardamom bun filled with almond paste and whipped cream.', 'bread & pastry'],
-  ['Sill', 'Swedish', 46, 'fish, vinegar, sugar, onion, dill, allspice, bay leaf', 'Pickled herring, the heart of the midsummer table.', 'salad & side'],
+  ['Sill', 'Swedish', 46, 'herring, vinegar, sugar, onion, dill, allspice, bay leaf', 'Pickled herring, the heart of the midsummer table.', 'salad & side'],
 
   // Polish
   ['Pierogi', 'Polish', 74, 'flour, egg, potato, onion, sour cream, butter', 'Half-moon dumplings, boiled then fried.', 'street & snack'],
@@ -122,6 +145,8 @@ export default [
   ['Placki Ziemniaczane', 'Polish', 48, 'potato, onion, egg, flour, sour cream, vegetable oil', 'Crisp grated-potato pancakes with sour cream.', 'street & snack'],
   ['Sernik', 'Polish', 52, 'queso fresco, egg, sugar, butter, flour, vanilla, raisins', 'Baked cheesecake made from twaróg curd.', 'dessert'],
   ['Zapiekanka', 'Polish', 50, 'bread, mushroom, cheddar, onion, mayonnaise, tomato', 'Open-faced baguette baked with mushrooms and cheese.', 'street & snack'],
+  ['Chłodnik', 'Polish', 38, 'beet, buttermilk, cucumber, dill, radish, egg, scallion', 'Pink chilled beet soup.', 'soup & stew'],
+  ['Makowiec', 'Polish', 44, 'flour, poppy seeds, butter, sugar, milk, yeast, egg, honey, raisins, walnut', 'Rolled yeast cake with poppy seed filling.', 'dessert'],
 
   // Portuguese
   ['Bacalhau à Brás', 'Portuguese', 54, 'fish, potato, egg, onion, olive, parsley, olive oil', 'Salt cod scrambled with matchstick potatoes.', 'main'],
@@ -138,6 +163,9 @@ export default [
   ['Pkhali', 'Georgian', 42, 'spinach, beet, walnut, garlic, cilantro, pomegranate, coriander', 'Vegetable and walnut pâtés.', 'salad & side'],
   ['Chakhokhbili', 'Georgian', 44, 'chicken, tomato, onion, garlic, cilantro, basil, fenugreek, chili', 'Herby chicken and tomato stew.', 'soup & stew'],
   ['Churchkhela', 'Georgian', 40, 'grape, walnut, flour', 'Walnuts dipped in thickened grape must.', 'dessert'],
+  ['Lobio', 'Georgian', 46, 'kidney beans, onion, walnut, garlic, coriander, cilantro, fenugreek, vinegar', 'Spiced kidney beans with walnuts.', 'soup & stew'],
+  ['Satsivi', 'Georgian', 46, 'chicken, walnut, garlic, coriander, fenugreek, turmeric, cinnamon, vinegar, onion', 'Cold chicken in walnut sauce.', 'main'],
+  ['Tarkhuna', 'Georgian', 32, 'tarragon, sugar, lime', 'Bright green tarragon lemonade.', 'drink'],
 
   // Irish
   ['Irish Stew', 'Irish', 64, 'lamb, potato, onion, carrot, thyme, stock, parsley', 'Mutton, potatoes and patience.', 'soup & stew'],
@@ -145,4 +173,72 @@ export default [
   ['Soda Bread', 'Irish', 56, 'flour, milk, salt, butter', 'Quick bread marked with a cross.', 'bread & pastry'],
   ['Boxty', 'Irish', 40, 'potato, flour, milk, egg, butter', 'Potato pancakes from the north-west.', 'main'],
   ['Beef and Stout Stew', 'Irish', 60, 'beef, beer, onion, carrot, potato, thyme, tomato', 'Beef braised dark and rich in stout.', 'soup & stew'],
+  ['Champ', 'Irish', 44, 'potato, scallion, butter, milk', 'Mash with spring onions and a pool of butter.', 'salad & side'],
+  ['Barmbrack', 'Irish', 40, 'flour, yeast, tea, raisins, sugar, egg, butter, cinnamon, nutmeg', 'Tea-soaked fruit bread for Halloween.', 'bread & pastry'],
+  ['Dublin Coddle', 'Irish', 40, 'sausage, bacon, potato, onion, stock, parsley', 'Sausage and bacon simmered with potatoes.', 'soup & stew'],
+
+  // Ukrainian
+  ['Varenyky', 'Ukrainian', 66, 'flour, potato, cheddar, onion, butter, sour cream', 'Boiled dumplings stuffed with potato and cheese.', 'street & snack'],
+  ['Holubtsi', 'Ukrainian', 56, 'cabbage, rice, pork, onion, carrot, tomato, sour cream', 'Cabbage rolls simmered in tomato sauce.', 'main'],
+  ['Pampushky', 'Ukrainian', 52, 'flour, yeast, garlic, butter, milk, dill, vegetable oil', 'Soft garlic rolls served with borscht.', 'bread & pastry'],
+  ['Kutia', 'Ukrainian', 46, 'barley, poppy seeds, honey, walnut, raisins', 'Sweet grain pudding for Christmas Eve.', 'dessert'],
+  ['Kasha with Mushrooms', 'Ukrainian', 44, 'buckwheat, mushroom, onion, butter, dill', 'Toasted buckwheat with fried mushrooms and onions.', 'main'],
+  ['Kyiv Cake', 'Ukrainian', 50, 'hazelnut, egg, sugar, butter, cream, chocolate', 'Airy hazelnut meringue layers with buttercream.', 'dessert'],
+
+  // Czech
+  ['Svíčková', 'Czech', 60, 'beef, carrot, celery, onion, cream, bread, cranberry, lemon, butter', 'Marinated beef in a velvety root-vegetable cream sauce.', 'main'],
+  ['Vepřo Knedlo Zelo', 'Czech', 62, 'pork, sauerkraut, flour, bread, yeast, egg, caraway, onion', 'Roast pork with bread dumplings and sauerkraut.', 'main'],
+  ['Smažený Sýr', 'Czech', 56, 'gouda, flour, egg, bread, vegetable oil, mayonnaise', 'Fried cheese in breadcrumbs, a pub favorite.', 'street & snack'],
+  ['Kulajda', 'Czech', 40, 'potato, mushroom, cream, dill, egg, vinegar, flour', 'Creamy dill soup with mushrooms and a poached egg.', 'soup & stew'],
+  ['Koláče', 'Czech', 46, 'flour, yeast, butter, queso fresco, poppy seeds, plum, sugar, egg', 'Round sweet pastries with fruit or curd filling.', 'bread & pastry'],
+  ['Švestkové Knedlíky', 'Czech', 46, 'plum, flour, potato, egg, butter, sugar, cinnamon', 'Potato dumplings stuffed with whole plums.', 'dessert'],
+
+  // Austrian
+  ['Tafelspitz', 'Austrian', 56, 'beef, carrot, celery, onion, potato, horseradish, apple, parsley, bay leaf, stock', 'Boiled beef served with apple-horseradish.', 'main'],
+  ['Sachertorte', 'Austrian', 66, 'chocolate, flour, egg, sugar, butter, apricot', 'Dense chocolate cake with apricot jam.', 'dessert'],
+  ['Apfelstrudel', 'Austrian', 70, 'apple, flour, butter, raisins, cinnamon, sugar, bread', 'Paper-thin pastry rolled around spiced apples.', 'dessert'],
+  ['Käsespätzle', 'Austrian', 56, 'flour, egg, emmental, onion, butter, milk, nutmeg', 'Egg noodles baked with melted cheese and crisp onions.', 'rice & noodles'],
+  ['Hirschgulasch', 'Austrian', 38, 'venison, onion, red wine, juniper, paprika, flour, butter, cranberry', 'Venison goulash with juniper and red wine.', 'soup & stew'],
+  ['Kaiserschmarrn', 'Austrian', 60, 'flour, egg, milk, sugar, butter, raisins, plum', 'Shredded fluffy pancake with plum compote.', 'dessert'],
+  ['Wiener Melange', 'Austrian', 52, 'coffee, milk', 'The coffee-house classic, espresso with steamed milk.', 'drink'],
+
+  // Swiss
+  ['Cheese Fondue', 'Swiss', 74, 'emmental, gruyère, white wine, garlic, bread, black pepper, nutmeg', 'Bubbling melted cheese for dipping bread.', 'main'],
+  ['Raclette', 'Swiss', 62, 'gruyère, potato, pickle, onion, black pepper, bread', 'Scraped molten cheese over potatoes and pickles.', 'main'],
+  ['Rösti', 'Swiss', 60, 'potato, butter, onion, salt, bacon', 'Crisp grated-potato cake.', 'salad & side'],
+  ['Birchermüesli', 'Swiss', 56, 'oats, apple, yogurt, milk, hazelnut, honey, lemon, raisins', 'Soaked oats with grated apple and nuts.', 'breakfast'],
+  ['Basler Läckerli', 'Swiss', 36, 'hazelnut, almond, honey, flour, sugar, cinnamon, cloves', 'Spiced honey-nut biscuits from Basel.', 'dessert'],
+  ['Älplermagronen', 'Swiss', 40, 'pasta, potato, emmental, cream, onion, butter, apple', 'Alpine macaroni with potatoes, cheese and apple sauce.', 'main'],
+
+  // Dutch
+  ['Stroopwafel', 'Dutch', 70, 'flour, butter, sugar, egg, yeast, cinnamon, milk, honey', 'Two thin waffles glued with warm caramel.', 'street & snack'],
+  ['Haring', 'Dutch', 46, 'herring, onion, pickle, bread', 'Raw herring with onions, eaten by the tail.', 'street & snack'],
+  ['Erwtensoep', 'Dutch', 50, 'peas, pork, sausage, celery, carrot, leek, potato, onion', 'Thick split-pea soup you can stand a spoon in.', 'soup & stew'],
+  ['Stamppot', 'Dutch', 52, 'potato, kale, sausage, bacon, butter, milk, mustard', 'Mashed potatoes and kale with smoked sausage.', 'main'],
+  ['Kaassoufflé', 'Dutch', 42, 'gouda, flour, egg, bread, vegetable oil', 'Deep-fried cheese pastry from the snack bar.', 'street & snack'],
+  ['Poffertjes', 'Dutch', 54, 'flour, yeast, milk, egg, butter, sugar', 'Tiny fluffy pancakes dusted with sugar.', 'street & snack'],
+
+  // Belgian
+  ['Moules-Frites', 'Belgian', 74, 'mussels, potato, white wine, celery, shallot, butter, cream, vegetable oil, mayonnaise', 'Mussels and fries, the national dish.', 'main'],
+  ['Carbonnade Flamande', 'Belgian', 62, 'beef, beer, onion, bread, mustard, sugar, thyme, bay leaf, vinegar', 'Beef stewed in beer with mustard-coated bread.', 'soup & stew'],
+  ['Waterzooi', 'Belgian', 48, 'chicken, leek, carrot, celery, potato, cream, egg, butter, thyme', 'Ghent’s creamy chicken and vegetable stew.', 'soup & stew'],
+  ['Belgian Waffles', 'Belgian', 80, 'flour, egg, milk, butter, sugar, yeast, vanilla', 'Light, deep-pocketed yeast waffles.', 'dessert'],
+  ['Pralines', 'Belgian', 58, 'chocolate, cream, butter, hazelnut', 'Filled chocolates invented in Brussels.', 'dessert'],
+  ['Asperges à la Flamande', 'Belgian', 40, 'asparagus, egg, butter, parsley, nutmeg, potato', 'White asparagus with chopped egg and butter.', 'salad & side'],
+
+  // Norwegian
+  ['Fårikål', 'Norwegian', 52, 'lamb, cabbage, black pepper, flour, salt', 'Layers of lamb and cabbage simmered for hours.', 'soup & stew'],
+  ['Smørbrød', 'Norwegian', 52, 'smoked salmon, rye, butter, dill, egg, cucumber, lemon', 'Open-faced sandwich with smoked salmon.', 'street & snack'],
+  ['Bergensk Fiskesuppe', 'Norwegian', 44, 'cod, carrot, leek, cream, egg, butter, flour, parsley', 'Creamy fish soup from Bergen.', 'soup & stew'],
+  ['Pinnekjøtt', 'Norwegian', 40, 'lamb, salt, potato, turnip, stock', 'Steamed salted lamb ribs for Christmas.', 'main'],
+  ['Kjøttkaker', 'Norwegian', 52, 'beef, pork, flour, milk, onion, nutmeg, potato, cream, lingonberry', 'Meat cakes in brown gravy with lingonberries.', 'main'],
+  ['Vafler', 'Norwegian', 54, 'flour, egg, milk, butter, sugar, sour cream, cardamom', 'Heart-shaped waffles with sour cream and jam.', 'dessert'],
+
+  // Finnish
+  ['Lohikeitto', 'Finnish', 58, 'salmon, potato, carrot, leek, cream, butter, dill, onion, black pepper', 'Creamy salmon soup.', 'soup & stew'],
+  ['Karjalanpiirakka', 'Finnish', 52, 'rye, rice, butter, egg, milk, salt', 'Rye pasties filled with rice porridge.', 'bread & pastry'],
+  ['Mustikkapiirakka', 'Finnish', 46, 'blueberry, flour, butter, sugar, egg, cream, vanilla', 'Blueberry pie from the forest.', 'dessert'],
+  ['Poronkäristys', 'Finnish', 40, 'venison, butter, onion, lingonberry, potato, cream, black pepper', 'Sautéed reindeer with mashed potatoes and lingonberries.', 'main'],
+  ['Leipäjuusto', 'Finnish', 34, 'cheese curds, cream, lingonberry, sugar', 'Squeaky baked “bread cheese” with berry jam.', 'dessert'],
+  ['Lanttulaatikko', 'Finnish', 34, 'turnip, cream, butter, bread, nutmeg, honey', 'Sweet baked rutabaga casserole for Christmas.', 'salad & side'],
 ];

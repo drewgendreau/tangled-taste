@@ -45,4 +45,12 @@ export const CUISINES = {
   'South African': { country: 'South Africa', region: 'Southern Africa', lat: -30.6, lng: 22.9, color: '#4a8a5a' },
   Canadian: { country: 'Canada', region: 'North America', lat: 56.1, lng: -106.3, color: '#b5303a' },
   Chilean: { country: 'Chile', region: 'South America', lat: -35.7, lng: -71.5, color: '#3a5aa8' },
+  Ukrainian: { country: 'Ukraine', region: 'Eastern Europe', lat: 49, lng: 31.4, color: '#d4b030' },
+  Czech: { country: 'Czechia', region: 'Central Europe', lat: 49.8, lng: 15.5, color: '#c0402e' },
+  Austrian: { country: 'Austria', region: 'Central Europe', lat: 47.5, lng: 14.5, color: '#b83a5a' },
+  Swiss: { country: 'Switzerland', region: 'Central Europe', lat: 46.8, lng: 8.2, color: '#e24a4a' },
+  Dutch: { country: 'Netherlands', region: 'Western Europe', lat: 52.2, lng: 5.3, color: '#e0782e' },
+  Belgian: { country: 'Belgium', region: 'Western Europe', lat: 50.6, lng: 4.6, color: '#c9a02e' },
+  Norwegian: { country: 'Norway', region: 'Northern Europe', lat: 61, lng: 8.5, color: '#3a5a98' },
+  Finnish: { country: 'Finland', region: 'Northern Europe', lat: 63, lng: 26, color: '#4a8ad0' },
 };

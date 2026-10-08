@@ -1840,6 +1840,199 @@ const D = {
     paint(sym(128, [[18, 100], [22, 130], [20, 160]]), '#9cc070', { liner: false, wash: 0.3, small: true });
     for (let k = 0; k < 12; k++) line(124 + k * 1.2, 214, 112 + k * 4.5, 232 + R(3), { color: '#d8cfb0', a: 0.8, w: 1 });
   },
+
+  // ---- batch 2 ingredients
+  sauerkraut: () => bowl((cx, y, rx) => {
+    mound('#e8e4a8', cx, y, rx, 40, { gran: false });
+    for (let k = 0; k < 40; k++) ink(curve([cx - rx * 0.7 + rand() * rx * 1.4, y - rand() * 30], [cx + R(30), y - 20 - rand() * 18], [cx - rx * 0.6 + rand() * rx * 1.2, y - rand() * 36]), { color: k % 2 ? '#f4f0c0' : '#c8c880', a: 0.8, w: 1.6 });
+  }, { color: '#ece6d6', stripe: '#8a9a4a' }),
+  turnip() {
+    for (let k = 0; k < 4; k++) paint(leaf(128, 84, 70, 15, -Math.PI / 2 + (k - 1.5) * 0.4, { serr: 5 }), '#5c9444', { liner: false });
+    roundFruit(128, 138, 56, '#f3ecf0', { sy: 0.9 });
+    ctx.save();
+    ctx.clip(pathOf(E(128, 138, 56, 50)));
+    ctx.filter = 'blur(10px)';
+    ctx.beginPath();
+    ctx.ellipse(128, 100, 52, 22, 0, 0, TAU);
+    ctx.fillStyle = 'rgba(150,70,150,0.5)';
+    ctx.fill();
+    ctx.restore();
+    paint(band([128, 186], [130, 208], [126, 232], 9, 1), '#e8e0e0', { liner: false, gran: false });
+  },
+  asparagus() {
+    shadow(128, 214, 80, 9);
+    for (let k = 0; k < 6; k++) {
+      const x = 76 + k * 20, c = k % 2 ? '#8ab05a' : '#a4c06a';
+      paint(band([x, 228], [x + (k - 2.5) * 3, 130], [x + (k - 2.5) * 6, 52], 7, 5), c, { gloss: true, liner: false });
+      paint(E(x + (k - 2.5) * 6, 48, 7, 14, (k - 2.5) * 0.08), '#6a8a46', { small: true });
+      for (let m = 0; m < 4; m++) ink([[x + (k - 2.5) * 5, 58 + m * 9], [x + (k - 2.5) * 5 + 6, 54 + m * 9]], { color: '#5a7a3a', a: 0.6, w: 1 });
+    }
+    ink([[70, 190], [186, 190]], { color: '#c9a46a', a: 0.9, w: 5 });
+  },
+  tarragon() {
+    sprig('#5a9a52', (x, y, a, k) => paint(leaf(x, y, 44 * k, 7 * k, a, { skew: 0.5 }), '#5a9a52', { liner: false }), { n: 12, opposite: true, spread: 0.7, taper: 0.3, stemW: 2, p0: [100, 232], p1: [122, 140], p2: [150, 36] });
+  },
+  plum() {
+    shadow(128, 208, 80, 10);
+    roundFruit(104, 140, 56, '#5a2e6a');
+    ink(curve([104, 90], [112, 140], [102, 194]), { color: '#2a1030', a: 0.5, w: 1.4 });
+    ctx.save();
+    ctx.filter = 'blur(2px)';
+    ctx.beginPath();
+    ctx.ellipse(94, 120, 24, 36, 0.3, 0, TAU);
+    ctx.fillStyle = 'rgba(220,200,240,0.35)';
+    ctx.fill();
+    ctx.restore();
+    paint(leaf(110, 84, 40, 12, -0.8), greenLeaf, { gloss: true });
+    paint(E(180, 174, 36, 34), '#e8a050', { gloss: true });
+    paint(E(180, 174, 12, 16, 0.3), '#7a4a2a', { gloss: true, small: true });
+    ink(arc(180, 174, 36, 34, 0, TAU, 28), { color: '#5a2e6a', a: 0.8, w: 3 });
+  },
+  cranberry() {
+    shadow(128, 194, 84, 12);
+    pile(32, 128, 190, 80, 80, (x, y) => paint(E(x, y, 13, 13), rand() > 0.4 ? '#b0182e' : '#c82a3a', { small: false, liner: false, gran: false, blot: false, gloss: true }));
+    paint(leaf(180, 200, 36, 11, 2.7), greenLeaf, { gloss: true });
+  },
+  juniper() {
+    const stem = curve([70, 220], [110, 150], [180, 56], 30);
+    ink(stem, { color: '#6a5a3a', a: 0.95, w: 3 });
+    for (let k = 2; k < 30; k++) {
+      const [x, y] = stem[k];
+      for (const sd of [-1, 1]) ink([[x, y], [x + sd * 22 - 6, y - 16 + rand() * 6]], { color: k % 2 ? '#4a7a68' : '#3e6a5a', a: 0.95, w: 2.2 });
+    }
+    for (const [x, y] of [[110, 156], [132, 126], [152, 98], [100, 124]]) paint(E(x, y, 11, 11), '#3a4a7a', { gloss: true, liner: false, small: false });
+  },
+  horseradish() {
+    shadow(128, 200, 92, 10);
+    paint(band([30, 150], [100, 120], [214, 110], 12, 22, 30, (t) => 1 + 0.12 * Math.sin(t * 14)), '#cdb48a', { gloss: false });
+    for (let k = 0; k < 12; k++) ink([[40 + k * 14, 140 - k * 3 + R(6)], [46 + k * 14, 148 - k * 3 + R(6)]], { color: '#8a6a40', a: 0.5, w: 1.2 });
+    paint(E(214, 110, 16, 24, 0.1), '#f6f2e4', { gran: false });
+    for (let k = 0; k < 3; k++) paint(leaf(212, 90, 44, 12, -1.2 + k * 0.5), '#5c9444', { small: true });
+  },
+  venison() {
+    shadow(128, 198, 92, 12);
+    paint(E(130, 140, 94, 60, -0.12, 0.08), '#e6d4c0', { liner: true, gran: false });
+    paint(E(126, 144, 82, 48, -0.12, 0.07), '#7a2430', { gloss: true, shade: 0.6 });
+    for (let k = 0; k < 7; k++) ink([[66 + rand() * 100, 118 + rand() * 40], [78 + rand() * 100, 128 + rand() * 40]], { color: '#c0707a', a: 0.4, w: 1.2 });
+    paint(E(166, 124, 16, 14), '#efe3cc', { small: true });
+  },
+  herring() {
+    shadow(128, 196, 96, 10);
+    const fish = (cx, cy, rot) => {
+      const body = rotate(densify([[cx - 74, cy], [cx - 40, cy - 20], [cx + 20, cy - 20], [cx + 58, cy - 6], [cx + 64, cy], [cx + 58, cy + 6], [cx + 20, cy + 18], [cx - 40, cy + 17]], 5), cx, cy, rot);
+      paint(body, '#6f90a0', { gloss: true, shade: 0.55 });
+      paint(rotate(densify([[cx - 70, cy + 2], [cx - 30, cy + 10], [cx + 22, cy + 10], [cx + 60, cy + 3], [cx + 20, cy + 18], [cx - 40, cy + 17]], 5), cx, cy, rot), '#e0e8ea', { liner: false, gran: false, wash: 0.65 });
+      paint(rotate(poly([[cx - 74, cy], [cx - 98, cy - 20], [cx - 90, cy], [cx - 98, cy + 20]]), cx, cy, rot), '#5a7888', { liner: false });
+      const eye = rotate([[cx + 50, cy - 5]], cx, cy, rot)[0];
+      dot(eye[0], eye[1], 3.6, '#f4f1e6', 1);
+      dot(eye[0] + 0.6, eye[1], 1.9, '#1f2a30', 1);
+      ink(rotate([[cx - 40, cy - 14], [cx + 30, cy - 15]], cx, cy, rot), { color: '#2a4a60', a: 0.5, w: 2 });
+    };
+    fish(130, 114, -0.1);
+    fish(126, 164, 0.1);
+  },
+  'smoked salmon'() {
+    shadow(128, 200, 92, 10);
+    for (let k = 0; k < 3; k++) {
+      const rib = [], rib2 = [];
+      for (let m = 0; m <= 30; m++) {
+        const t = m / 30;
+        rib.push([40 + t * 160, 96 + k * 34 + Math.sin(t * TAU * 1.2 + k) * 10 - 18]);
+        rib2.push([40 + t * 160, 96 + k * 34 + Math.sin(t * TAU * 1.2 + k) * 10 + 18]);
+      }
+      paint(rib.concat(rib2.reverse()), '#ee8a5a', { gloss: true, shade: 0.45 });
+      for (let q = 0; q < 4; q++) ink([[56 + q * 38, 90 + k * 34], [72 + q * 38, 104 + k * 34]], { color: '#fbd0b0', a: 0.5, w: 1.3 });
+    }
+    paint(wedgeShape(), '#f0d84a', { gloss: true });
+    paint(leaf(52, 214, 40, 9, -0.2), '#5c9444', { small: true });
+    function wedgeShape() { return poly([[170, 196], [214, 196], [192, 168]]); }
+  },
+  gouda() {
+    shadow(128, 204, 96, 12);
+    paint(rrect(34, 130, 188, 62, 18), '#c0392b', { gloss: true, shade: 0.5 });
+    paint(E(128, 130, 94, 34), '#c0392b', { liner: true });
+    paint(E(128, 128, 82, 26), '#f2c254', { gloss: false, light: 0.5 });
+    paint(poly([[128, 128], [214, 118], [210, 168], [128, 188]]), '#eab24a', { liner: true, shade: 0.35 });
+    for (let k = 0; k < 4; k++) paint(E(150 + rand() * 50, 140 + rand() * 30, 3, 2.4), '#c68c2a', { small: true });
+  },
+  emmental() {
+    wedge('#b89048', '#f2d97c', { holes: false });
+    for (const [x, y, r] of [[96, 190, 10], [140, 170, 8], [182, 160, 12], [120, 205, 6], [196, 190, 7], [84, 176, 6]]) paint(E(x, y, r, r * 0.85), '#d4b050', { small: false, liner: false, gran: false, blot: false, shade: 0.7 });
+  },
+  buttermilk() {
+    shadow(128, 216, 56, 9);
+    const glass = sym(128, [[46, 70], [50, 120], [42, 190], [36, 214], [2, 214]]);
+    paint(glass, '#dfe8ec', { wash: 0.3, shade: 0.3, liner: false, gran: false, blot: false });
+    ctx.save();
+    ctx.clip(pathOf(glass));
+    paint(densify([[70, 100], [186, 100], [176, 216], [80, 216]], 6), '#fbf8ef', { shade: 0.3, liner: false, gloss: true });
+    ctx.restore();
+    ink(arc(128, 70, 46, 8, 0, TAU, 20), { a: 0.5, w: 1.2 });
+    ink([[96, 84], [92, 190]], { color: '#fffefa', a: 0.8, w: 4 });
+    for (let k = 0; k < 4; k++) dot(110 + rand() * 40, 120 + rand() * 70, 1.3, '#ffffff', 0.9);
+    paint(E(190, 196, 12, 8, 0.2), '#fbf6ea', { small: true });
+  },
+  'goat cheese'() {
+    shadow(128, 200, 92, 12);
+    paint(rotate(rrect(40, 104, 150, 58, 26), 115, 133, -0.1), '#f8f4ea', { gloss: false, shade: 0.4 });
+    for (let k = 0; k < 20; k++) dot(60 + rand() * 120, 114 + rand() * 40, 1.6, k % 3 ? '#5a8a3e' : '#c8a45a', 0.7);
+    for (let k = 0; k < 2; k++) {
+      paint(E(190 + k * 10, 178 + k * 12, 24, 14), '#f8f4ea', { shade: 0.4 });
+      ink(arc(190 + k * 10, 178 + k * 12, 18, 9, 0, TAU, 14), { color: '#e0d8c4', a: 0.7, w: 1 });
+    }
+    paint(leaf(60, 176, 30, 9, -0.5), '#5c9444', { small: true });
+  },
+  'blue cheese'() {
+    wedge('#e6dcc2', '#f6eed8', { holes: false });
+    for (let k = 0; k < 14; k++) {
+      const x = 80 + rand() * 130, y = 150 + rand() * 50;
+      ink([[x, y], [x + 8 + rand() * 8, y + R(6)], [x + 14 + rand() * 10, y + R(8)]], { color: '#4a7a8a', a: 0.8, w: 2.4 });
+    }
+  },
+  ricotta: () => bowl((cx, y, rx) => {
+    mound('#fcf9f1', cx, y, rx, 44, { gran: false });
+    for (let k = 0; k < 50; k++) dot(cx - rx * 0.6 + rand() * rx * 1.2, y - 4 - rand() * 36, 1.6, '#e6dec8', 0.7);
+    ink(curve([cx - 30, y - 22], [cx, y - 40], [cx + 30, y - 20]), { color: '#e6dec8', a: 0.8, w: 1.6 });
+  }, { color: '#e8ecf0', stripe: '#c25a4a' }),
+  buckwheat() {
+    shadow(128, 192, 92, 12);
+    pile(120, 128, 190, 84, 76, (x, y) => paint(poly([[x - 4, y + 4], [x, y - 5], [x + 4, y + 4]]), rand() > 0.5 ? '#8a6a46' : '#6a4e34', { small: true, gloss: true }));
+    for (const [x, y] of [[196, 190], [210, 178]]) paint(E(x, y, 6, 5), '#e8b0c0', { small: true });
+  },
+  barley() {
+    shadow(128, 196, 92, 12);
+    pile(70, 128, 192, 82, 62, (x, y) => {
+      const a = rand() * TAU;
+      paint(E(x, y, 9, 6, a), '#e6d4a0', { small: true, gloss: true });
+      ink(rotate([[x - 5, y], [x + 5, y]], x, y, a), { color: '#b89c5a', a: 0.6, w: 0.8 });
+    });
+    for (const x of [86, 122, 160]) {
+      ink(curve([x, 120], [x + 4, 80], [x + 8, 34]), { color: '#c9a45a', a: 0.9, w: 2 });
+      for (let k = 0; k < 9; k++) paint(leaf(x + 6, 40 + k * 7, 18, 4, -Math.PI / 2 + (k % 2 ? 0.45 : -0.45)), '#d9b86a', { small: true });
+    }
+  },
+  oats: () => grainBowl('#e8d9b4', (x, y) => paint(E(x, y, 5.5, 3.6, rand() * 3), '#efe2c0', { small: true }), 80),
+  hazelnut() {
+    shadow(128, 196, 92, 12);
+    for (const [x, y, r] of [[94, 150, 36], [152, 140, 34], [130, 186, 32]]) {
+      roundFruit(x, y, r, '#a8703a', { sy: 1, paint: { gloss: true } });
+      paint(E(x, y - r * 0.55, r * 0.7, r * 0.34), '#d4b078', { small: true, liner: false });
+    }
+    paint(leaf(176, 196, 40, 12, 2.6), greenLeaf, { small: true });
+  },
+  'poppy seeds'() {
+    bowl((cx, y, rx) => pile(260, cx, y + 2, rx * 0.8, 30, (x, yy) => dot(x, yy, 1.3, rand() > 0.3 ? '#1f2a3e' : '#3a4a68', 0.95)), { rx: 76, rimY: 150, depth: 56, color: '#f1ece0', inside: '#d8d0bc', stripe: '#7a5aa0' });
+    roundFruit(190, 74, 22, '#9aaa7a', { sy: 1.1 });
+    paint(E(190, 54, 16, 6), '#7a8a5a', { small: true });
+    ink([[190, 96], [188, 130]], { color: '#6a8a4a', a: 0.9, w: 2.4 });
+  },
+  capers() {
+    shadow(128, 198, 80, 10);
+    pile(46, 128, 194, 70, 66, (x, y) => paint(E(x, y, 9, 8.5), rand() > 0.5 ? '#6f8a3a' : '#7d9a46', { small: true, gloss: true }));
+    for (const [x, y] of [[196, 120], [212, 148]]) paint(E(x, y, 9, 8.5), '#7d9a46', { small: true, gloss: true });
+    paint(leaf(190, 100, 50, 18, -0.4), '#5c8a3a', { liner: false });
+    ink([[190, 100], [150, 120]], { color: '#5a7a3a', a: 0.8, w: 1.6 });
+  },
 };
 
 // ---------------------------------------------------------------- public API

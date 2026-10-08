@@ -11,6 +11,7 @@ export default [
   ['Yakitori', 'Japanese', 72, 'chicken, scallion, soy sauce, mirin, sugar', 'Charcoal-grilled chicken skewers.', 'street & snack'],
   ['Sashimi', 'Japanese', 70, 'tuna, salmon, soy sauce, wasabi, radish, ginger', 'Fresh-sliced raw fish with wasabi and soy.', 'main'],
   ['Takoyaki', 'Japanese', 66, 'octopus, flour, egg, scallion, ginger, mayonnaise, seaweed, vegetable oil', 'Osaka’s crisp octopus balls.', 'street & snack'],
+  ['Zaru Soba', 'Japanese', 62, 'buckwheat, soy sauce, mirin, scallion, seaweed, wasabi', 'Chilled buckwheat noodles with dipping sauce.', 'rice & noodles'],
 
   // Chinese
   ['Kung Pao Chicken', 'Chinese', 80, 'chicken, peanut, chili, sichuan pepper, soy sauce, garlic, ginger, scallion, vinegar, sugar', 'Sichuan stir-fry with numbing heat.', 'main'],
