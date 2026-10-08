@@ -2,3 +2,4 @@ node_modules/
 dist/
 .DS_Store
 .claude/
+src/data/layout.generated.json

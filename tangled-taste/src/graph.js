@@ -8,7 +8,9 @@ export function latLngToVec(lat, lng, r) {
   return [r * Math.cos(phi) * Math.sin(lam), r * Math.sin(phi), r * Math.cos(phi) * Math.cos(lam)];
 }
 
-export function buildGraph() {
+// `baked` is an optional { ingredient: [x, y, z] } map produced by scripts/bake-layout.mjs.
+// When it covers every ingredient the slow force simulation is skipped.
+export function buildGraph(baked) {
   const byName = new Map();
   const nodes = [];
   for (const d of DISHES) {
@@ -55,7 +57,8 @@ export function buildGraph() {
     n.dishes.sort((a, b) => DISHES[b].popularity - DISHES[a].popularity);
   });
 
-  layout(nodes, edges);
+  if (baked && nodes.every((n) => baked[n.name])) nodes.forEach((n) => (n.pos = baked[n.name].slice()));
+  else layout(nodes, edges);
   return { nodes, edges, adjacency, byName };
 }
 

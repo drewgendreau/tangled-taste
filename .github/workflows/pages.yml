@@ -31,6 +31,7 @@ jobs:
           cache: pnpm
           cache-dependency-path: tangled-taste/pnpm-lock.yaml
       - run: pnpm install --frozen-lockfile
+      - run: pnpm validate
       - run: pnpm build
       - uses: actions/upload-pages-artifact@v3
         with:

@@ -3,14 +3,16 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { LineSegments2 } from 'three/examples/jsm/lines/LineSegments2.js';
 import { LineSegmentsGeometry } from 'three/examples/jsm/lines/LineSegmentsGeometry.js';
 import { LineMaterial } from 'three/examples/jsm/lines/LineMaterial.js';
-import { CATEGORIES, CUISINES, DISHES } from './data.js';
+import { CATEGORIES, CUISINES, DISHES, DISH_TYPES } from './data.js';
 import { buildGraph, latLngToVec, GLOBE_RADIUS } from './graph.js';
 import { paintBlob, paintHalo, paintPaper, swatchDataURL } from './watercolor.js';
 import { paintIngredient, iconURL } from './illustrations.js';
 
 const PAPER = new THREE.Color('#f5eee0');
 const INK = new THREE.Color('#5a4030');
-const { nodes, edges, adjacency } = buildGraph();
+// Positions are computed once at build time (scripts/bake-layout.mjs); without them we simulate on load.
+const baked = Object.values(import.meta.glob('./data/layout.generated.json', { eager: true, import: 'default' }))[0];
+const { nodes, edges, adjacency } = buildGraph(baked);
 const totalDishes = DISHES.length;
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
 const norm = (s) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
@@ -204,6 +206,9 @@ const history = [];
 let highlight = null; // Set of node ids or null (=all)
 let focusIds = new Set();
 let activeCuisines = new Set();
+// Filters belong to the 'filter' view: dish types and (optionally several) cuisines.
+const filter = { types: new Set(), cuisines: new Set() };
+let multiSelect = false;
 const camTween = { t: 1, fromPos: new THREE.Vector3(), toPos: new THREE.Vector3(), fromTarget: new THREE.Vector3(), toTarget: new THREE.Vector3() };
 
 function flyTo(target, distance) {
@@ -232,7 +237,7 @@ function centroid(ids) {
 function cliqueEdges(dishIds, color) {
   const seen = new Map();
   for (const did of dishIds) {
-    const ids = DISHES[did].ingredients.map((nm) => nodes.find((n) => n.name === nm).id);
+    const ids = dishIngredientIds(did);
     for (let i = 0; i < ids.length; i++) {
       for (let j = i + 1; j < ids.length; j++) {
         const key = Math.min(ids[i], ids[j]) * 10000 + Math.max(ids[i], ids[j]);
@@ -256,6 +261,8 @@ function go(next, { push = true } = {}) {
   view = next;
   controls.autoRotate = next.type === 'home';
   activeCuisines = new Set();
+  filter.types = new Set(next.type === 'filter' ? next.types : []);
+  filter.cuisines = new Set(next.type === 'filter' ? next.cuisines : []);
   let hi = null, edgesHi = [], focus = new Set();
   hiMat.linewidth = 2;
   switch (next.type) {
@@ -295,6 +302,18 @@ function go(next, { push = true } = {}) {
       flyTo(c, Math.max(190, r * 2.7));
       break;
     }
+    case 'filter': {
+      filter.cuisines.forEach((c) => activeCuisines.add(c));
+      const dishIds = filteredDishes().map((d) => d.id);
+      hi = new Set(dishIds.flatMap(dishIngredientIds));
+      edgesHi = cliqueEdges(dishIds, (did) => CUISINES[DISHES[did].cuisine].color);
+      if (edgesHi.length > 700) edgesHi = edgesHi.sort((a, b) => b.w - a.w).slice(0, 700);
+      if (hi.size) {
+        const { c, r } = centroid([...hi]);
+        flyTo(c, Math.max(230, r * 2.6));
+      }
+      break;
+    }
     case 'category': {
       const ids = nodes.filter((n) => n.category === next.key).map((n) => n.id);
       hi = new Set(ids);
@@ -319,6 +338,21 @@ function go(next, { push = true } = {}) {
   halo.material.depthTest = false;
   renderPanel();
   renderAtlas();
+  renderFilters();
+}
+
+function filteredDishes() {
+  return DISHES.filter((d) => (!filter.types.size || filter.types.has(d.type)) && (!filter.cuisines.size || filter.cuisines.has(d.cuisine)));
+}
+// Change the filters and show the result (or the plain atlas when nothing is selected)
+function applyFilter(types, cuisines) {
+  const next = types.size || cuisines.size ? { type: 'filter', types: [...types], cuisines: [...cuisines] } : { type: 'home' };
+  go(next, { push: view.type !== 'filter' && next.type !== 'home' });
+}
+function toggleIn(set, value) {
+  const copy = new Set(set);
+  copy.has(value) ? copy.delete(value) : copy.add(value);
+  return copy;
 }
 
 function back() {
@@ -342,7 +376,7 @@ const ingRows = (list, valFn, max = 99, maxVal) => {
 
 function crumbs() {
   const trail = [...history.slice(-3), view].filter((v, i, arr) => i === arr.length - 1 || v.type !== 'home');
-  const name = (v) => (v.type === 'home' ? 'Atlas' : v.type === 'ingredient' ? nodes[v.id].name : v.type === 'dish' ? DISHES[v.id].name : v.type === 'category' ? CATEGORIES[v.key].label : v.name);
+  const name = (v) => (v.type === 'home' ? 'Atlas' : v.type === 'ingredient' ? nodes[v.id].name : v.type === 'dish' ? DISHES[v.id].name : v.type === 'category' ? CATEGORIES[v.key].label : v.type === 'filter' ? 'Filtered' : v.name);
   const parts = [`<button data-go="home">Atlas</button>`];
   trail.forEach((v, i) => {
     if (v.type === 'home') return;
@@ -416,6 +450,29 @@ function renderPanel() {
       <h3>Cuisines</h3><div class="chips">${cs.map((k) => cuisineChip(k, ` <small>${esc(CUISINES[k].country)}</small>`)).join('')}</div>
       <h3>Most used ingredients</h3>${ingRows(top, (x) => x._k, 10)}
       <h3>Dishes</h3>${dishRows(dishes.map((d) => d.id))}`;
+  } else if (v.type === 'filter') {
+    const ds = filteredDishes().sort((a, b) => b.popularity - a.popularity);
+    const typeChips = [...filter.types].map((t) => `<button class="chip active" data-filter="type:${esc(t)}">${esc(DISH_TYPES[t].label)} <small>×</small></button>`);
+    const cuisineChips = [...filter.cuisines].map((c) => `<button class="chip active" data-filter="cuisine:${esc(c)}"><span class="dot" style="background:${CUISINES[c].color}"></span>${esc(c)} <small>×</small></button>`);
+    const freq = new Map(), byCuisine = new Map();
+    for (const d of ds) for (const nm of d.ingredients) {
+      freq.set(nm, (freq.get(nm) || 0) + 1);
+      if (!byCuisine.has(nm)) byCuisine.set(nm, new Set());
+      byCuisine.get(nm).add(d.cuisine);
+    }
+    const topIng = [...freq.entries()].sort((a, b) => b[1] - a[1]).slice(0, 10).map(([nm, k]) => Object.assign(Object.create(nodeByName.get(nm)), { _k: k }));
+    const nC = new Set(ds.map((d) => d.cuisine)).size;
+    h = `${crumbs()}<div class="kicker">filtered atlas</div><h2>${ds.length} dish${ds.length === 1 ? '' : 'es'}</h2>
+      <div class="chips" style="margin-top:8px">${typeChips.concat(cuisineChips).join('')}<button class="chip" data-filter="clear">Clear filters</button></div>`;
+    if (!ds.length) h += `<p class="lede">No dishes match that combination — try removing a filter.</p>`;
+    else {
+      h += `<div class="stats"><div class="stat"><b>${ds.length}</b><span>dishes</span></div><div class="stat"><b>${freq.size}</b><span>ingredients</span></div><div class="stat"><b>${nC}</b><span>cuisines</span></div></div>`;
+      if (filter.cuisines.size >= 2) {
+        const shared = [...byCuisine.entries()].map(([nm, set]) => ({ nm, k: set.size })).filter((x) => x.k >= 2).sort((a, b) => b.k - a.k || freq.get(b.nm) - freq.get(a.nm)).slice(0, 12);
+        h += `<h3>Common ground</h3>` + (shared.length ? `<div class="chips">${shared.map(({ nm, k }) => ingChip(nodeByName.get(nm), ` <small>${k}/${filter.cuisines.size}</small>`)).join('')}</div>` : `<p class="note">These cuisines share no ingredients in the dataset.</p>`);
+      }
+      h += `<h3>Most used ingredients</h3>${ingRows(topIng, (x) => x._k, 10)}<h3>Dishes</h3>${dishRows(ds.map((d) => d.id), 60)}${ds.length > 60 ? `<p class="fine">Showing the 60 most popular of ${ds.length}.</p>` : ''}`;
+    }
   } else if (v.type === 'category') {
     const list = nodes.filter((n) => n.category === v.key).sort((a, b) => b.count - a.count);
     h = `${crumbs()}<div class="title-row"><img src="${familyIcon(v.key)}" alt=""><div><div class="kicker">ingredient family</div><h2>${esc(CATEGORIES[v.key].label)}</h2></div></div>
@@ -437,8 +494,27 @@ function parseGo(s) {
   return { type, name: arg };
 }
 document.addEventListener('click', (e) => {
+  const f = e.target.closest('[data-filter]');
+  if (f) {
+    const [kind, arg] = f.dataset.filter.split(/:(.*)/s);
+    if (kind === 'clear') return applyFilter(new Set(), new Set());
+    if (kind === 'type') return applyFilter(toggleIn(filter.types, arg), filter.cuisines);
+    if (kind === 'cuisine') return applyFilter(filter.types, toggleIn(filter.cuisines, arg));
+  }
   const t = e.target.closest('[data-go],[data-back]');
   if (!t) return;
+  // in "compare" mode the legend toggles cuisines instead of opening one
+  if (multiSelect && t.closest('#atlas-body') && t.dataset.go) {
+    const [kind, arg] = t.dataset.go.split(/:(.*)/s);
+    if (kind === 'cuisine') return applyFilter(filter.types, toggleIn(filter.cuisines, arg));
+    if (kind === 'region') {
+      const members = Object.keys(CUISINES).filter((k) => CUISINES[k].region === arg);
+      const all = members.every((m) => filter.cuisines.has(m));
+      const next = new Set(filter.cuisines);
+      members.forEach((m) => (all ? next.delete(m) : next.add(m)));
+      return applyFilter(filter.types, next);
+    }
+  }
   if (t.dataset.back) {
     let k = +t.dataset.back;
     let v = view;
@@ -451,19 +527,33 @@ document.addEventListener('click', (e) => {
 const atlasBody = document.getElementById('atlas-body');
 const regions = [...new Set(Object.values(CUISINES).map((c) => c.region))];
 function renderAtlas() {
-  atlasBody.innerHTML = regions.map((r) => `<div class="region"><button class="region-name" data-go="region:${esc(r)}">${esc(r)}</button><div class="chips">${Object.keys(CUISINES).filter((k) => CUISINES[k].region === r).map((k) => cuisineChip(k)).join('')}</div></div>`).join('');
+  atlasBody.innerHTML = `<label class="multi"><input type="checkbox" id="multi" ${multiSelect ? 'checked' : ''}> Select several to compare</label>` + regions.map((r) => `<div class="region"><button class="region-name" data-go="region:${esc(r)}">${esc(r)}</button><div class="chips">${Object.keys(CUISINES).filter((k) => CUISINES[k].region === r).map((k) => cuisineChip(k)).join('')}</div></div>`).join('');
 }
+atlasBody.addEventListener('change', (e) => {
+  if (e.target.id !== 'multi') return;
+  multiSelect = e.target.checked;
+  renderAtlas();
+});
 // with many cuisines the legend is tall; start it folded on shorter screens
 if (innerHeight < 1000) document.getElementById('atlas-toggle').setAttribute('aria-expanded', 'false');
 document.getElementById('atlas-toggle').addEventListener('click', (e) => {
   const b = e.currentTarget;
   b.setAttribute('aria-expanded', b.getAttribute('aria-expanded') === 'true' ? 'false' : 'true');
 });
+// ---------------------------------------------------------------- dish-type filter strip
+const filtersEl = document.getElementById('filters');
+const typeCounts = {};
+for (const d of DISHES) typeCounts[d.type] = (typeCounts[d.type] || 0) + 1;
+function renderFilters() {
+  const anyActive = filter.types.size || filter.cuisines.size;
+  filtersEl.innerHTML = Object.entries(DISH_TYPES).filter(([k]) => typeCounts[k]).map(([k, t]) => `<button class="ftype${filter.types.has(k) ? ' on' : ''}" data-filter="type:${esc(k)}" aria-pressed="${filter.types.has(k)}">${esc(t.label)}<small>${typeCounts[k]}</small></button>`).join('') + (anyActive ? '<button class="ftype clear" data-filter="clear">Clear</button>' : '');
+}
 // Reset: clear search and history, and return to the starting atlas view
 function resetAll() {
   input.value = '';
   closeResults();
   history.length = 0;
+  multiSelect = false;
   hovered = null;
   tooltip.classList.remove('show');
   go({ type: 'home' }, { push: false });
