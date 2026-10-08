@@ -2099,8 +2099,7 @@ function underlay(c) {
   return out;
 }
 
-// A cuisine is painted as a small map vignette of its country: a pale sea wash with the
-// country's outline in the cuisine's colour.
+// A cuisine is painted as a small watercolor map of its country, in the cuisine's colour.
 export const hasCountryShape = (name) => name in COUNTRY_SHAPES;
 export function paintCuisine(name, color = '#c9a46a') {
   const key = `cuisine:${name}`;
@@ -2110,15 +2109,14 @@ export function paintCuisine(name, color = '#c9a46a') {
   ctx = c.getContext('2d');
   rand = mulberry32(hash(name));
   ctx.lineCap = 'round';
-  paint(E(128, 128, 106, 102, 0, 0.05), '#a6c3d2', { liner: false, gloss: false, light: 0.4, shade: 0.28, edge: 0.3, wash: 0.55, glaze: 1 });
   const shapes = COUNTRY_SHAPES[name];
   if (shapes) {
-    const half = 74;
+    const half = 104; // the country fills most of the canvas
     const rings = shapes.map((r) => r.map(([x, y]) => [128 + x * half, 128 + y * half]));
     ctx.save();
     ctx.filter = 'blur(4px)'; // a whisper of shadow so the land sits on the water
     ctx.fillStyle = 'rgba(70,90,110,0.22)';
-    for (const r of rings) ctx.fill(pathOf(r.map(([x, y]) => [x + 3, y + 4])));
+    for (const r of rings) ctx.fill(pathOf(r.map(([x, y]) => [x + 3.5, y + 5])));
     ctx.restore();
     rings.forEach((r, i) => paint(r, color, { gloss: i === 0, light: 0.45, shade: 0.5, glaze: 2, liner: i === 0 }));
   } else paint(E(128, 128, 54, 54), color, { gloss: true });

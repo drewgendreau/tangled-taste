@@ -1179,7 +1179,7 @@ function updateLabels() {
   const cuisineBoxes = [];
   for (const c of marks) {
     const { m } = c;
-    m.dot.material.opacity = (c.on ? 0.95 : 0.3) * (c.behind ? 0.5 : 1);
+    m.dot.material.opacity = (c.on ? 0.95 : 0.07) * (c.behind ? 0.5 : 1); // unselected countries nearly vanish
     const w = m.name.length * 9 + 8, h = 24;
     const top = c.y - c.rPx - 2;
     const box = [c.x - w / 2, top - h, c.x + w / 2, top];
@@ -1192,7 +1192,7 @@ function updateLabels() {
     cuisineBoxes.push(box);
     m.el.style.display = '';
     m.el.style.transform = `translate(${c.x}px, ${top}px) translate(-50%, -100%)`;
-    m.el.style.opacity = String((c.behind ? 0.25 : 0.95) * (c.on ? 1 : 0.35));
+    m.el.style.opacity = String((c.behind ? 0.25 : 0.95) * (c.on ? 1 : 0.12));
     m.el.style.pointerEvents = c.behind ? 'none' : 'auto';
   }
 }
