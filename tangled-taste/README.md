@@ -20,8 +20,8 @@ pnpm build    # static site in dist/
 
 ## How it's built
 
-- `src/data.js` holds the curated dataset: 217 dishes, 39 cuisines and 173 ingredients. Popularity scores are illustrative estimates, not measured data.
+- `src/data.js` holds the curated dataset: 251 dishes, 45 cuisines and 180 ingredients. Popularity scores are illustrative estimates, not measured data.
 - `src/graph.js` builds the co-occurrence graph and a 3D force layout. Each ingredient is pulled toward the globe position of its cuisines, so staples sit at the center and regional ingredients drift outward.
-- `src/illustrations.js` paints all 173 ingredient illustrations in code, in a watercolor style: layered washes, soft form shading, pigment pooling at the edges, granulation, crisp highlights and loose ink liners. To see them all on one page, open `/gallery.html` (add `?cat=herb`, `?cat=spice` and so on to filter).
+- `src/illustrations.js` paints all 180 ingredient illustrations in code, in a watercolor style: layered washes, soft form shading, pigment pooling at the edges, granulation, crisp highlights and loose ink liners. To see them all on one page, open `/gallery.html` (add `?cat=herb`, `?cat=spice` and so on to filter).
 - `src/watercolor.js` paints the paper texture, the background washes and the cuisine map pins.
 - `src/main.js` handles the scene, labels with collision avoidance, the views, the search and the panel.

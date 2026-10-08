@@ -55,6 +55,12 @@ export const CUISINES = {
   Hawaiian: { country: 'United States (Hawaii)', region: 'Pacific', lat: 20.8, lng: -156.3, color: '#3aa0a0' },
   Egyptian: { country: 'Egypt', region: 'North Africa', lat: 26.8, lng: 30.8, color: '#c9a040' },
   Irish: { country: 'Ireland', region: 'Northern Europe', lat: 53.4, lng: -8.2, color: '#3f8a4a' },
+  Uzbek: { country: 'Uzbekistan', region: 'Central Asia', lat: 41.4, lng: 64.6, color: '#2f8aa8' },
+  Burmese: { country: 'Myanmar', region: 'Southeast Asia', lat: 21.9, lng: 95.9, color: '#b8862a' },
+  Nepali: { country: 'Nepal', region: 'South Asia', lat: 28.4, lng: 84.1, color: '#b04a4a' },
+  'South African': { country: 'South Africa', region: 'Southern Africa', lat: -30.6, lng: 22.9, color: '#4a8a5a' },
+  Canadian: { country: 'Canada', region: 'North America', lat: 56.1, lng: -106.3, color: '#b5303a' },
+  Chilean: { country: 'Chile', region: 'South America', lat: -35.7, lng: -71.5, color: '#3a5aa8' },
 };
 
 const I = (category, ...names) => names.map((n) => [n, category]);
@@ -65,23 +71,23 @@ export const INGREDIENT_CATEGORY = Object.fromEntries([
   ...I('herb', 'basil', 'parsley', 'cilantro', 'mint', 'dill', 'thyme', 'oregano', 'bay leaf',
     'lemongrass', 'curry leaves', 'pandan'),
   ...I('fruit', 'lemon', 'lime', 'orange', 'apple', 'pineapple', 'mango', 'papaya', 'pear',
-    'pomegranate', 'apricot', 'coconut', 'tamarind', 'plantain', 'ackee', 'cherry', 'strawberry', 'lingonberry', 'grape', 'banana', 'jackfruit'),
+    'pomegranate', 'apricot', 'coconut', 'tamarind', 'plantain', 'ackee', 'cherry', 'strawberry', 'lingonberry', 'grape', 'banana', 'jackfruit', 'raisins', 'blueberry'),
   ...I('spice', 'black pepper', 'chili', 'paprika', 'cumin', 'coriander', 'cinnamon', 'nutmeg',
     'saffron', 'turmeric', 'ginger', 'galangal', 'garam masala', 'cardamom', 'star anise',
     'sichuan pepper', 'five-spice', 'fenugreek', 'mustard seed', 'berbere', 'wasabi', 'vanilla',
     'caraway', 'sumac', 'allspice', 'cloves'),
   ...I('meat', 'beef', 'pork', 'chicken', 'lamb', 'veal', 'duck', 'bacon', 'guanciale', 'sausage', 'goat', 'ham'),
-  ...I('seafood', 'fish', 'shrimp', 'shellfish', 'salmon'),
+  ...I('seafood', 'fish', 'shrimp', 'shellfish', 'salmon', 'lobster'),
   ...I('dairy', 'egg', 'butter', 'milk', 'cream', 'parmesan', 'mozzarella', 'pecorino', 'mascarpone',
-    'gruyère', 'feta', 'cheddar', 'queso fresco', 'yogurt', 'paneer', 'ghee', 'sour cream'),
+    'gruyère', 'feta', 'cheddar', 'queso fresco', 'yogurt', 'paneer', 'ghee', 'sour cream', 'cheese curds'),
   ...I('grain', 'flour', 'rice', 'pasta', 'noodles', 'bread', 'corn', 'flatbread', 'bulgur',
-    'couscous', 'tapioca', 'yeast', 'rye'),
+    'couscous', 'tapioca', 'yeast', 'rye', 'quinoa'),
   ...I('legume', 'chickpeas', 'lentils', 'beans', 'tofu', 'miso', 'soy sauce', 'black-eyed peas', 'fava beans'),
-  ...I('nut', 'peanut', 'almond', 'walnut', 'pistachio', 'pine nuts', 'sesame', 'tahini', 'macadamia'),
+  ...I('nut', 'peanut', 'almond', 'walnut', 'pistachio', 'pine nuts', 'sesame', 'tahini', 'macadamia', 'pecan'),
   ...I('pantry', 'olive oil', 'vegetable oil', 'sesame oil', 'palm oil', 'salt', 'sugar', 'honey',
     'vinegar', 'white wine', 'red wine', 'stock', 'coffee', 'cocoa', 'chocolate', 'fish sauce',
     'hoisin', 'mirin', 'gochujang', 'chili bean paste', 'mayonnaise', 'coconut milk',
-    'shrimp paste', 'dulce de leche', 'mustard', 'beer', 'maple syrup'),
+    'shrimp paste', 'dulce de leche', 'mustard', 'beer', 'maple syrup', 'tea'),
 ]);
 
 // [dish, cuisine, popularity, ingredients, short note]
@@ -345,6 +351,47 @@ const D = [
   ['Soda Bread', 'Irish', 56, 'flour, milk, salt, butter', 'Quick bread marked with a cross.'],
   ['Boxty', 'Irish', 40, 'potato, flour, milk, egg, butter', 'Potato pancakes from the north-west.'],
   ['Beef and Stout Stew', 'Irish', 60, 'beef, beer, onion, carrot, potato, thyme, tomato', 'Beef braised dark and rich in stout.'],
+
+  ['Masala Chai', 'Indian', 80, 'tea, milk, sugar, ginger, cardamom, cinnamon, cloves, black pepper', 'Spiced milky tea from every street corner.'],
+  ['Pecan Pie', 'American', 66, 'pecan, sugar, butter, egg, maple syrup, vanilla, flour', 'Southern holiday pie with a gooey heart.'],
+  ['Lobster Roll', 'American', 64, 'lobster, bread, mayonnaise, butter, celery, lemon', 'New England summer in a toasted bun.'],
+  ['Solterito', 'Peruvian', 40, 'fava beans, corn, queso fresco, tomato, onion, olive, chili, lime', 'Arequipa’s bright bean and cheese salad.'],
+  ['Quinoa Soup', 'Peruvian', 44, 'quinoa, potato, carrot, corn, onion, garlic, cilantro, queso fresco', 'Andean comfort in a bowl.'],
+
+  ['Plov', 'Uzbek', 72, 'rice, lamb, carrot, onion, cumin, garlic, chickpeas, vegetable oil, raisins', 'Rice cooked in a vast kazan for weddings.'],
+  ['Samsa', 'Uzbek', 58, 'flour, lamb, onion, cumin, butter, sesame', 'Tandoor-baked meat pastries.'],
+  ['Lagman', 'Uzbek', 56, 'noodles, beef, bell pepper, tomato, onion, garlic, radish, cumin', 'Hand-pulled noodles with a rich stew.'],
+  ['Shashlik', 'Uzbek', 60, 'lamb, onion, vinegar, cumin, coriander', 'Silk Road skewers over vine-wood coals.'],
+
+  ['Mohinga', 'Burmese', 60, 'noodles, fish, lemongrass, chickpeas, onion, garlic, ginger, fish sauce, egg, lime', 'Fish and rice-noodle soup, the national breakfast.'],
+  ['Lahpet Thoke', 'Burmese', 54, 'tea, cabbage, tomato, peanut, sesame, garlic, chili, lime, fish sauce', 'Fermented tea leaf salad with crunchy beans.'],
+  ['Shan Noodles', 'Burmese', 50, 'noodles, chicken, tomato, garlic, peanut, soy sauce, chili, scallion', 'Sticky rice noodles in a tomato-chicken sauce.'],
+  ['Ohn No Khao Swè', 'Burmese', 48, 'noodles, chicken, coconut milk, chickpeas, onion, garlic, turmeric, egg, lime, chili', 'Coconut chicken noodle soup.'],
+
+  ['Momo', 'Nepali', 72, 'flour, beef, onion, garlic, ginger, cilantro, cumin, tomato, chili, sesame', 'Pleated dumplings with a fiery tomato achar.'],
+  ['Dal Bhat', 'Nepali', 66, 'lentils, rice, turmeric, cumin, garlic, ginger, ghee, spinach, tomato', '"Dal bhat power, 24 hour."'],
+  ['Sel Roti', 'Nepali', 46, 'rice, sugar, ghee, banana, cardamom', 'Ring-shaped festival bread.'],
+  ['Thukpa', 'Nepali', 54, 'noodles, chicken, carrot, cabbage, garlic, ginger, tomato, chili, cilantro', 'Himalayan noodle soup.'],
+
+  ['Bobotie', 'South African', 58, 'beef, bread, milk, egg, onion, garlic, turmeric, raisins, apricot, bay leaf, almond', 'Spiced mince baked under a savoury custard.'],
+  ['Bunny Chow', 'South African', 60, 'bread, chicken, potato, tomato, onion, garlic, ginger, garam masala, chili, curry leaves', 'Durban curry served in a hollowed loaf.'],
+  ['Boerewors', 'South African', 56, 'sausage, coriander, cloves, nutmeg, vinegar', 'Coiled farmer’s sausage for the braai.'],
+  ['Chakalaka', 'South African', 48, 'beans, carrot, bell pepper, onion, tomato, chili, garlic, ginger, turmeric', 'Spicy township relish.'],
+  ['Malva Pudding', 'South African', 52, 'flour, sugar, egg, butter, apricot, milk, cream, vinegar', 'Sticky apricot sponge with hot cream sauce.'],
+  ['Biltong', 'South African', 58, 'beef, vinegar, coriander, salt, black pepper', 'Air-dried, spice-cured beef.'],
+
+  ['Poutine', 'Canadian', 76, 'potato, cheese curds, stock, butter, flour, vegetable oil', 'Fries, squeaky curds and gravy.'],
+  ['Butter Tarts', 'Canadian', 58, 'flour, butter, sugar, maple syrup, egg, raisins', 'Runny, buttery and fiercely debated.'],
+  ['Tourtière', 'Canadian', 50, 'flour, butter, pork, beef, onion, potato, cinnamon, cloves, allspice', 'Québécois spiced meat pie for Christmas Eve.'],
+  ['Nanaimo Bars', 'Canadian', 54, 'cocoa, butter, sugar, egg, coconut, walnut, milk, chocolate', 'No-bake three-layer bars.'],
+  ['Maple-Glazed Salmon', 'Canadian', 56, 'salmon, maple syrup, soy sauce, garlic, mustard', 'West-coast salmon with a sweet glaze.'],
+  ['Blueberry Pie', 'Canadian', 52, 'blueberry, flour, butter, sugar, lemon', 'Wild Maritime blueberries under a lattice.'],
+
+  ['Pastel de Choclo', 'Chilean', 58, 'corn, beef, onion, egg, olive, raisins, chicken, basil, cumin, paprika', 'Sweet-corn crust over a spiced filling.'],
+  ['Cazuela', 'Chilean', 52, 'chicken, potato, pumpkin, corn, rice, green beans, carrot, cilantro', 'A clear soup with a bit of everything.'],
+  ['Empanadas de Pino', 'Chilean', 60, 'flour, beef, onion, egg, olive, raisins, cumin, paprika', 'Baked turnovers for Fiestas Patrias.'],
+  ['Sopaipillas', 'Chilean', 50, 'pumpkin, flour, butter, salt, vegetable oil', 'Pumpkin fritters for rainy days.'],
+  ['Completo', 'Chilean', 54, 'bread, sausage, avocado, tomato, mayonnaise', 'A hot dog buried in avocado.'],
 ];
 
 export const DISHES = D.map(([name, cuisine, popularity, ingr, note], id) => ({
