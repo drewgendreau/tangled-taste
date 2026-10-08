@@ -118,7 +118,7 @@ function paintSome(budgetMs) {
   if (paintQueue.length) setTimeout(() => paintSome(14), 0);
 }
 setTimeout(() => paintSome(2000), 30);
-function setIllustrations(on) {
+function setIllustrations(on, { persist = true } = {}) {
   showIllustrations = on;
   for (const n of nodes) {
     n.sprite.material.map = on && n.illusTex ? n.illusTex : n.blobTex;
@@ -131,7 +131,7 @@ function setIllustrations(on) {
   }
   const btn = document.getElementById('illus-toggle');
   btn.setAttribute('aria-checked', String(on));
-  try { localStorage.setItem('tt-illustrations', on ? '1' : '0'); } catch { /* storage unavailable */ }
+  if (persist) try { localStorage.setItem('tt-illustrations', on ? '1' : '0'); } catch { /* storage unavailable */ }
 }
 const halo = new THREE.Sprite(new THREE.SpriteMaterial({ map: paintHalo(), transparent: true, depthWrite: false, opacity: 0 }));
 scene.add(halo);
@@ -288,6 +288,9 @@ setTimeout(paintCuisines, 80);
 // Okabe–Ito colors: distinguishable for most kinds of color vision.
 const COMPARE_COLORS = ['#D55E00', '#0072B2', '#009E73'];
 const compare = { open: false, picks: [], query: '' };
+// Comparing starts with the food illustrations off (easier to read); closing it puts things back
+// unless the person changed the switch themselves in the meantime.
+const compareIllus = { auto: false, previous: true };
 let compareInfo = null; // analysis of the cuisines currently being compared
 let simCache = null;
 function getSim() {
@@ -922,6 +925,14 @@ function togglePick(name, add = false) {
   applyPicks([...compare.picks, name]);
 }
 function setCompareOpen(open) {
+  if (open && !compare.open) {
+    compareIllus.previous = showIllustrations;
+    compareIllus.auto = true;
+    if (showIllustrations) setIllustrations(false, { persist: false });
+  } else if (!open && compare.open && compareIllus.auto) {
+    compareIllus.auto = false;
+    if (compareIllus.previous !== showIllustrations) setIllustrations(compareIllus.previous, { persist: false });
+  }
   compare.open = open;
   if (!open) {
     compare.picks = [];
@@ -955,7 +966,10 @@ function resetAll() {
 }
 document.getElementById('brand').addEventListener('click', resetAll);
 document.getElementById('reset').addEventListener('click', resetAll);
-document.getElementById('illus-toggle').addEventListener('click', () => setIllustrations(!showIllustrations));
+document.getElementById('illus-toggle').addEventListener('click', () => {
+  compareIllus.auto = false; // the person's own choice always wins
+  setIllustrations(!showIllustrations);
+});
 document.getElementById('size-toggle').addEventListener('click', () => setSizeByPopularity(!sizeByPopularity));
 setSizeByPopularity(sizeByPopularity);
 setIllustrations(showIllustrations);
