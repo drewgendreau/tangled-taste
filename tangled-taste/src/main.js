@@ -1542,7 +1542,7 @@ function updateLabels() {
     const { m } = c;
     m.dot.material.opacity = m.fade * 0.95 * (c.behind ? 0.5 : 1);
     m.dot.visible = showCuisines && m.fade > 0.01;
-    const w = m.name.length * 9 + 8, h = 24;
+    const w = m.name.length * 11 + 8, h = 22;
     const top = c.y - c.rPx - 2;
     const box = [c.x - w / 2, top - h, c.x + w / 2, top];
     const hits = (list) => list.some((p) => box[0] < p[2] && box[2] > p[0] && box[1] < p[3] && box[3] > p[1]);
