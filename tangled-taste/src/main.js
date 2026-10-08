@@ -120,6 +120,8 @@ const blobs = {};
 Object.entries(CATEGORIES).forEach(([key, { color }], ci) => (blobs[key] = [0, 1, 2].map((v) => paintBlob(color, ci * 101 + v * 17 + 1, 96))));
 let showIllustrations = true;
 try { showIllustrations = localStorage.getItem('tt-illustrations') !== '0'; } catch { /* storage unavailable */ }
+let showCuisines = true;
+try { showCuisines = localStorage.getItem('tt-cuisines') !== '0'; } catch { /* storage unavailable */ }
 const REP = { vegetable: 'tomato', herb: 'basil', fruit: 'lemon', spice: 'cinnamon', meat: 'beef', seafood: 'fish', dairy: 'egg', grain: 'bread', legume: 'chickpeas', nut: 'walnut', pantry: 'olive oil' };
 // Small icons are drawn straight into <canvas> elements from the artwork that is already painted
 // (no PNG encoding): the markup goes in first and fillIcons() puts the pixels in as time allows.
@@ -1097,7 +1099,7 @@ const DENSITY = [
 let densityLevel = 0;
 try { densityLevel = Math.min(3, Math.max(0, parseInt(localStorage.getItem('tt-density') || '0', 10) || 0)); } catch { /* storage unavailable */ }
 const densitySlider = document.getElementById('density');
-// "Hide top common ingredients": which ingredients count as common is worked out from the
+// "Hide Common Ingredients": which ingredients count as common is worked out from the
 // data itself (how many dishes use each), so it follows the dataset as it grows.
 const COMMON_SHARES = [0, 0.05, 0.2]; // share of all ingredients, most-used first
 const COMMON_LABELS = ['Show all', 'Hide some', 'Hide most'];
@@ -1276,6 +1278,14 @@ document.getElementById('illus-toggle').addEventListener('click', () => {
   compareIllus.auto = false; // the person's own choice always wins
   setIllustrations(!showIllustrations);
 });
+function setShowCuisines(on) {
+  showCuisines = on;
+  invalidate();
+  document.getElementById('cuisine-toggle').setAttribute('aria-checked', String(on));
+  try { localStorage.setItem('tt-cuisines', on ? '1' : '0'); } catch { /* storage unavailable */ }
+}
+document.getElementById('cuisine-toggle').addEventListener('click', () => setShowCuisines(!showCuisines));
+setShowCuisines(showCuisines);
 document.getElementById('size-toggle').addEventListener('click', () => {
   compareSize.auto = false; // the person's own choice always wins
   setSizeByPopularity(!sizeByPopularity);
@@ -1520,14 +1530,14 @@ function updateLabels() {
   for (const c of marks) {
     const { m } = c;
     m.dot.material.opacity = m.fade * 0.95 * (c.behind ? 0.5 : 1);
-    m.dot.visible = m.fade > 0.01;
+    m.dot.visible = showCuisines && m.fade > 0.01;
     const w = m.name.length * 9 + 8, h = 24;
     const top = c.y - c.rPx - 2;
     const box = [c.x - w / 2, top - h, c.x + w / 2, top];
     const hits = (list) => list.some((p) => box[0] < p[2] && box[2] > p[0] && box[1] < p[3] && box[3] > p[1]);
     const clash = hits(cuisineBoxes) || (!activeCuisines.has(m.name) && hits(placed));
     const el = m.el;
-    if (!c.visible || clash) {
+    if (!showCuisines || !c.visible || clash) {
       if (el._disp !== 'none') { el.style.display = 'none'; el._disp = 'none'; }
       continue;
     }
