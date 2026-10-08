@@ -27,7 +27,8 @@ pnpm validate   # sanity-check the dataset (run in CI before every deploy)
   - `cuisines.js`, `ingredients.js`, `categories.js`, `dish-types.js`
   - Popularity scores are illustrative estimates, not measured data.
 - `src/data.js` aggregates the dataset for the app.
-- `scripts/validate.mjs` checks for unknown or near-duplicate ingredients, missing illustrations, duplicate dishes and thin cuisines (`--strict` makes the goals fail too).
+- `scripts/validate.mjs` fails on unknown or near-duplicate ingredients, missing illustrations, duplicate dishes, any cuisine with fewer than 6 dishes and any ingredient used by fewer than 2 dishes. Ingredients used by only two dishes are reported as soft goals (`--strict` makes them fail too).
+- `scripts/format-data.mjs` regroups the dish files by cuisine after you append new dishes (`pnpm format:data`).
 - `scripts/bake-layout.mjs` runs the force-directed layout once at build time so the page doesn't have to simulate it on load.
 - `src/graph.js` builds the co-occurrence graph and the 3D layout. Each ingredient is pulled toward the globe position of its cuisines, so staples sit at the center and regional ingredients drift outward.
 - `src/illustrations.js` paints every ingredient illustration in code, in a watercolor style: layered washes, soft form shading, pigment pooling at the edges, granulation, crisp highlights and loose ink liners. To see them all on one page, open `/gallery.html` (add `?cat=herb`, `?names=beet,okra` and so on to filter).

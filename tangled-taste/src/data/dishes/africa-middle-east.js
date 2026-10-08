@@ -7,6 +7,7 @@ export default [
   ['Tabbouleh', 'Levantine', 60, 'bulgur, parsley, mint, tomato, onion, lemon, olive oil', 'A parsley salad, not a grain salad.', 'salad & side'],
   ['Baklava', 'Levantine', 74, 'flour, walnut, pistachio, butter, honey, sugar, cinnamon, rose water', 'Honeyed layers of nuts and phyllo.', 'dessert'],
   ['Shakshuka', 'Levantine', 78, 'egg, tomato, bell pepper, onion, garlic, cumin, paprika, chili, olive oil', 'Eggs poached in spiced tomato.', 'breakfast'],
+  ['Kibbeh', 'Levantine', 62, 'bulgur, lamb, onion, pine nuts, cumin, cinnamon, allspice, vegetable oil', 'Torpedo-shaped bulgur shells stuffed with spiced lamb.', 'street & snack'],
 
   // Moroccan
   ['Lamb Tagine', 'Moroccan', 66, 'lamb, onion, garlic, ginger, cinnamon, cumin, saffron, apricot, almond, honey, olive oil', 'Slow-cooked under a conical lid.', 'soup & stew'],
@@ -83,6 +84,7 @@ export default [
   ['Ojja', 'Tunisian', 48, 'egg, tomato, chili, garlic, cumin, sausage, bell pepper, olive oil, harissa', 'Eggs poached in spicy tomato with sausage.', 'breakfast'],
   ['Salade Méchouia', 'Tunisian', 42, 'bell pepper, tomato, garlic, olive oil, chili, tuna, caraway, lemon', 'Grilled pepper and tomato salad.', 'salad & side'],
   ['Makroud', 'Tunisian', 40, 'couscous, honey, butter, cinnamon, cloves, orange', 'Diamond-shaped semolina pastries soaked in honey.', 'dessert'],
+  ['Fricassé', 'Tunisian', 40, 'flour, yeast, tuna, egg, olive, harissa, potato, capers, vegetable oil', 'Fried bread rolls stuffed with tuna and harissa.', 'street & snack'],
 
   // Senegalese
   ['Thieboudienne', 'Senegalese', 70, 'fish, rice, tomato, carrot, cassava, cabbage, eggplant, onion, chili, garlic, tamarind', 'Senegal’s national dish of fish and tomato rice.', 'rice & noodles'],
@@ -90,6 +92,7 @@ export default [
   ['Mafé', 'Senegalese', 54, 'beef, peanut, tomato, onion, sweet potato, cabbage, chili, palm oil', 'Rich peanut stew.', 'soup & stew'],
   ['Bissap', 'Senegalese', 46, 'hibiscus, sugar, mint, lime, ginger', 'Ruby hibiscus cooler.', 'drink'],
   ['Thiakry', 'Senegalese', 36, 'couscous, milk, yogurt, sugar, vanilla, raisins, nutmeg', 'Sweet millet pudding with yogurt.', 'dessert'],
+  ['Fataya', 'Senegalese', 44, 'flour, fish, onion, chili, parsley, vegetable oil, black pepper', 'Crescent-shaped fish pastries.', 'street & snack'],
 
   // Kenyan
   ['Nyama Choma', 'Kenyan', 56, 'goat, salt, onion, tomato, chili, lime, cilantro', 'Grilled meat shared with friends.', 'main'],

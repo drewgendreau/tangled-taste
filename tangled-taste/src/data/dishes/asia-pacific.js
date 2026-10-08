@@ -83,6 +83,8 @@ export default [
   ['Lumpia', 'Filipino', 62, 'flour, pork, carrot, cabbage, onion, garlic, soy sauce, vegetable oil', 'Crisp, slender spring rolls.', 'street & snack'],
   ['Pancit', 'Filipino', 58, 'noodles, chicken, cabbage, carrot, soy sauce, garlic, onion, lime', 'Birthday noodles for long life.', 'rice & noodles'],
   ['Lechon', 'Filipino', 60, 'pork, garlic, lemongrass, salt, black pepper, bay leaf', 'Whole spit-roasted pig.', 'main'],
+  ['Atchara', 'Filipino', 38, 'papaya, carrot, vinegar, sugar, ginger, garlic, bell pepper, salt', 'Pickled green papaya, the Filipino table’s tangy side.', 'salad & side'],
+  ['Halo-Halo', 'Filipino', 56, 'milk, sugar, jackfruit, banana, beans, coconut, tapioca', 'Shaved ice layered with sweet beans, fruit and milk.', 'dessert'],
 
   // Malaysian
   ['Nasi Lemak', 'Malaysian', 76, 'rice, coconut milk, pandan, fish, peanut, cucumber, egg, chili, shrimp paste', 'Coconut rice with sambal — the national breakfast.', 'rice & noodles'],
@@ -145,6 +147,7 @@ export default [
   ['Chai Tow Kway', 'Singaporean', 50, 'radish, flour, egg, garlic, scallion, soy sauce, chili, vegetable oil', 'Pan-fried radish cake, known as “carrot cake”.', 'street & snack'],
   ['Kopi', 'Singaporean', 52, 'coffee, milk, sugar', 'Kopitiam coffee, thick and sweet.', 'drink'],
   ['Ice Kachang', 'Singaporean', 44, 'corn, beans, coconut milk, sugar, jackfruit', 'Shaved-ice mountain with beans, corn and syrup.', 'dessert'],
+  ['Pandan Chiffon Cake', 'Singaporean', 52, 'flour, egg, sugar, coconut milk, pandan, vegetable oil', 'Airy green cake perfumed with pandan.', 'dessert'],
 
   // Cambodian
   ['Fish Amok', 'Cambodian', 56, 'fish, coconut milk, lemongrass, galangal, turmeric, chili, fish sauce, egg, basil', 'Steamed fish curry mousse in banana leaf.', 'main'],
@@ -152,6 +155,7 @@ export default [
   ['Nom Banh Chok', 'Cambodian', 44, 'noodles, fish, lemongrass, turmeric, cucumber, mint, bean sprouts', 'Khmer noodles in green fish curry.', 'rice & noodles'],
   ['Kuy Teav', 'Cambodian', 40, 'noodles, pork, shrimp, bean sprouts, garlic, scallion, stock, lime', 'Phnom Penh breakfast noodle soup.', 'soup & stew'],
   ['Bai Sach Chrouk', 'Cambodian', 46, 'rice, pork, garlic, coconut milk, pickle, egg', 'Grilled pork and rice for breakfast.', 'breakfast'],
+  ['Samlor Machu Trey', 'Cambodian', 36, 'fish, tamarind, pineapple, tomato, lemongrass, bean sprouts, chili, fish sauce', 'Sweet-and-sour Cambodian fish soup.', 'soup & stew'],
 
   // Taiwanese
   ['Beef Noodle Soup', 'Taiwanese', 72, 'beef, noodles, star anise, soy sauce, ginger, garlic, scallion, bok choy, chili bean paste', 'Taiwan’s national bowl of braised beef.', 'soup & stew'],
@@ -159,6 +163,7 @@ export default [
   ['Scallion Pancake', 'Taiwanese', 64, 'flour, scallion, sesame oil, vegetable oil, salt', 'Flaky, chewy griddled flatbread.', 'street & snack'],
   ['Bubble Tea', 'Taiwanese', 76, 'tea, milk, tapioca, sugar', 'Milk tea with chewy tapioca pearls.', 'drink'],
   ['Lu Rou Fan', 'Taiwanese', 60, 'pork, rice, soy sauce, shallot, five-spice, egg, sugar, garlic', 'Braised pork rice, Taiwan’s comfort food.', 'main'],
+  ['Popcorn Chicken', 'Taiwanese', 60, 'chicken, flour, egg, five-spice, garlic, basil, vegetable oil, salt', 'Crisp bites of fried chicken with fried basil.', 'street & snack'],
 
   // Pakistani
   ['Nihari', 'Pakistani', 52, 'beef, ginger, garlic, onion, ghee, garam masala, flour, chili, cilantro', 'Slow-cooked beef stew for breakfast.', 'soup & stew'],
@@ -166,6 +171,7 @@ export default [
   ['Seekh Kebab', 'Pakistani', 58, 'lamb, onion, ginger, garlic, chili, cumin, cilantro, garam masala', 'Spiced minced lamb grilled on skewers.', 'main'],
   ['Haleem', 'Pakistani', 46, 'lentils, beef, barley, ghee, ginger, garam masala, onion, lemon', 'Hours-long porridge of grains, lentils and meat.', 'soup & stew'],
   ['Kheer', 'Pakistani', 56, 'rice, milk, sugar, cardamom, almond, pistachio, saffron, rose water', 'Creamy rice pudding scented with cardamom.', 'dessert'],
+  ['Chapli Kebab', 'Pakistani', 44, 'beef, onion, tomato, coriander, cumin, chili, egg, flour, pomegranate', 'Flat spiced patties fried to a crisp.', 'street & snack'],
 
   // Australian
   ['Meat Pie', 'Australian', 66, 'beef, flour, butter, onion, stock, tomato', 'The footy-night hand pie.', 'street & snack'],
@@ -173,4 +179,5 @@ export default [
   ['Pavlova', 'Australian', 68, 'egg, sugar, cream, strawberry, vinegar, vanilla', 'Crisp meringue shell with cream and fruit.', 'dessert'],
   ['Barramundi', 'Australian', 44, 'fish, lemon, butter, olive oil, parsley', 'Pan-seared barramundi with lemon butter.', 'main'],
   ['Anzac Biscuits', 'Australian', 54, 'oats, flour, coconut, sugar, butter, honey', 'Chewy oat and coconut biscuits.', 'dessert'],
+  ['Macadamia Cookies', 'Australian', 48, 'macadamia, flour, butter, sugar, egg, chocolate, vanilla', 'Buttery cookies with native Australian nuts.', 'dessert'],
 ];

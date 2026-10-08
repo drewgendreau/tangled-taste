@@ -24,6 +24,7 @@ export default [
   ['Caponata', 'Italian', 46, 'eggplant, celery, olive, capers, tomato, vinegar, sugar, pine nuts, onion, olive oil', 'Sicilian sweet-and-sour eggplant.', 'salad & side'],
   ['Risotto agli Asparagi', 'Italian', 44, 'rice, asparagus, parmesan, butter, onion, white wine, stock', 'Spring risotto with tender asparagus.', 'rice & noodles'],
   ['Gnocchi al Gorgonzola', 'Italian', 44, 'potato, flour, blue cheese, cream, walnut, butter', 'Potato gnocchi in blue cheese sauce.', 'rice & noodles'],
+  ['Pear and Mascarpone Tart', 'Italian', 36, 'pear, mascarpone, flour, butter, sugar, egg, vanilla', 'Crisp tart with creamy mascarpone and poached pears.', 'dessert'],
 
   // French
   ['Coq au Vin', 'French', 65, 'chicken, red wine, mushroom, onion, bacon, garlic, thyme, butter, bay leaf', 'Chicken braised slowly in Burgundy wine.', 'soup & stew'],
@@ -51,6 +52,8 @@ export default [
   ['Roquefort Salad', 'French', 38, 'blue cheese, lettuce, pear, walnut, vinegar, olive oil', 'Greens with pear, walnuts and blue cheese.', 'salad & side'],
   ['Choucroute Garnie', 'French', 48, 'sauerkraut, pork, sausage, bacon, potato, white wine, juniper, bay leaf', 'Alsatian sauerkraut with a heap of meats.', 'main'],
   ['Galette Bretonne', 'French', 52, 'buckwheat, egg, ham, emmental, butter', 'Buckwheat crêpe folded around ham, egg and cheese.', 'street & snack'],
+  ['Cherry Clafoutis', 'French', 50, 'cherry, egg, flour, milk, sugar, butter, vanilla', 'Baked custard batter studded with cherries.', 'dessert'],
+  ['Lobster Bisque', 'French', 50, 'lobster, cream, butter, white wine, tomato, onion, celery, carrot, stock, paprika', 'Velvety shellfish soup.', 'soup & stew'],
 
   // Spanish
   ['Paella', 'Spanish', 85, 'rice, saffron, chicken, shrimp, tomato, bell pepper, paprika, olive oil, garlic, peas, green beans', 'Saffron rice cooked wide and shallow in Valencia.', 'rice & noodles'],
@@ -248,4 +251,5 @@ export default [
   ['Lavash', 'Armenian', 52, 'flour, salt, sesame', 'Thin flatbread baked on tandoor walls.', 'bread & pastry'],
   ['Ghapama', 'Armenian', 44, 'pumpkin, rice, almond, raisins, apricot, honey, butter, cinnamon', 'Pumpkin baked with sweet rice and dried fruit.', 'main'],
   ['Spas', 'Armenian', 38, 'yogurt, egg, flour, rice, mint, butter, onion', 'Warm yogurt soup with mint.', 'soup & stew'],
+  ['Basturma', 'Armenian', 38, 'beef, fenugreek, paprika, garlic, cumin, salt', 'Air-cured spiced beef sliced thin.', 'street & snack'],
 ];

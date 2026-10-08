@@ -39,6 +39,7 @@ export default [
   ['Beef and Barley Soup', 'American', 48, 'beef, barley, carrot, celery, onion, tomato, thyme', 'Homey winter soup.', 'soup & stew'],
   ['Oatmeal', 'American', 52, 'oats, milk, butter, raisins, cinnamon, honey', 'Warm bowl of oats.', 'breakfast'],
   ['Beet and Goat Cheese Salad', 'American', 52, 'beet, goat cheese, walnut, olive oil, vinegar, lettuce, honey', 'Roasted beets with tangy goat cheese.', 'salad & side'],
+  ['Pecan Pralines', 'American', 44, 'pecan, sugar, butter, cream, vanilla', 'New Orleans candy of toasted pecans and caramel.', 'dessert'],
 
   // Peruvian
   ['Ceviche', 'Peruvian', 78, 'fish, lime, chili, onion, cilantro, sweet potato, corn, salt', 'Raw fish cured in tiger’s milk.', 'salad & side'],
@@ -47,6 +48,7 @@ export default [
   ['Causa Limeña', 'Peruvian', 44, 'potato, chili, lime, chicken, avocado, mayonnaise, egg', 'Layered terrine of chili-spiked potato.', 'salad & side'],
   ['Solterito', 'Peruvian', 40, 'fava beans, corn, queso fresco, tomato, onion, olive, chili, lime', 'Arequipa’s bright bean and cheese salad.', 'salad & side'],
   ['Quinoa Soup', 'Peruvian', 44, 'quinoa, potato, carrot, corn, onion, garlic, cilantro, queso fresco', 'Andean comfort in a bowl.', 'soup & stew'],
+  ['Quinoa Chaufa', 'Peruvian', 40, 'quinoa, egg, scallion, soy sauce, garlic, ginger, sesame oil, carrot', 'Peruvian-Chinese fried grain made with quinoa.', 'rice & noodles'],
 
   // Brazilian
   ['Feijoada', 'Brazilian', 62, 'beans, pork, sausage, onion, garlic, bay leaf, orange, rice, bacon', 'Black bean and pork stew.', 'soup & stew'],
@@ -65,6 +67,7 @@ export default [
   ['Curry Goat', 'Jamaican', 56, 'goat, turmeric, cumin, coriander, potato, onion, garlic, chili, thyme, allspice', 'Sunday curry, slow and rich.', 'soup & stew'],
   ['Fried Plantain', 'Jamaican', 58, 'plantain, vegetable oil, salt', 'Sweet, caramel-edged ripe plantain.', 'salad & side'],
   ['Escovitch Fish', 'Jamaican', 40, 'fish, vinegar, onion, bell pepper, chili, allspice, thyme, vegetable oil', 'Fried fish under spicy pickled vegetables.', 'main'],
+  ['Ackee Patty', 'Jamaican', 36, 'flour, ackee, onion, chili, thyme, butter, turmeric', 'Golden pastry stuffed with seasoned ackee.', 'street & snack'],
 
   // Argentine
   ['Asado', 'Argentine', 74, 'beef, sausage, salt, black pepper, parsley, garlic, oregano, vinegar, chili, olive oil', 'The ritual of the grill, with chimichurri.', 'main'],
@@ -75,6 +78,7 @@ export default [
   ['Locro', 'Argentine', 46, 'corn, white beans, pumpkin, beef, pork, sausage, onion, garlic, paprika, cumin', 'Hearty national stew of corn, beans and pumpkin.', 'soup & stew'],
   ['Chimichurri', 'Argentine', 52, 'parsley, garlic, oregano, olive oil, vinegar, chili, bay leaf', 'The herb sauce that goes on everything off the grill.', 'sauce & dip'],
   ['Choripán', 'Argentine', 62, 'chorizo, bread, parsley, garlic, olive oil, vinegar, oregano', 'Grilled chorizo in a roll with chimichurri.', 'street & snack'],
+  ['Flan con Dulce de Leche', 'Argentine', 54, 'milk, egg, sugar, vanilla, dulce de leche', 'Custard flan served with a spoon of dulce de leche.', 'dessert'],
 
   // Cuban
   ['Cubano', 'Cuban', 70, 'bread, pork, ham, gruyère, pickle, mustard, butter', 'Pressed sandwich born between Havana and Tampa.', 'street & snack'],
@@ -118,6 +122,7 @@ export default [
   ['Hallacas', 'Venezuelan', 44, 'corn, beef, pork, olive, raisins, bell pepper, onion, capers', 'Christmas tamales wrapped in banana leaves.', 'main'],
   ['Tequeños', 'Venezuelan', 62, 'flour, queso fresco, butter, egg, vegetable oil', 'Cheese sticks wrapped in dough and fried.', 'street & snack'],
   ['Cachapas', 'Venezuelan', 50, 'corn, queso fresco, butter, sugar, milk', 'Sweet corn pancakes folded over cheese.', 'breakfast'],
+  ['Pan de Jamón', 'Venezuelan', 52, 'flour, yeast, ham, butter, olive, raisins, egg, sugar', 'Christmas bread rolled around ham, olives and raisins.', 'bread & pastry'],
 
   // Puerto Rican
   ['Mofongo', 'Puerto Rican', 60, 'plantain, garlic, bacon, olive oil, salt, stock', 'Mashed fried plantain with garlic.', 'main'],
@@ -125,4 +130,5 @@ export default [
   ['Pernil', 'Puerto Rican', 58, 'pork, garlic, oregano, olive oil, vinegar, black pepper, salt', 'Slow-roasted pork shoulder with crackling.', 'main'],
   ['Pasteles', 'Puerto Rican', 38, 'plantain, pork, olive, raisins, chickpeas, garlic, onion', 'Holiday plantain parcels steamed in leaves.', 'main'],
   ['Coquito', 'Puerto Rican', 46, 'coconut milk, milk, cinnamon, cloves, vanilla, sugar', 'Creamy coconut holiday drink.', 'drink'],
+  ['Tembleque', 'Puerto Rican', 40, 'coconut milk, sugar, cinnamon, salt', 'Wobbly coconut pudding dusted with cinnamon.', 'dessert'],
 ];

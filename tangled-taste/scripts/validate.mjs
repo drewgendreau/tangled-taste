@@ -1,11 +1,13 @@
 // Sanity checks for the curated dataset. Run with `pnpm validate`.
 // Hard problems fail the run; "goals" only warn unless --strict is passed.
+// Hard rules include: every cuisine has 6+ dishes and every ingredient is used by 2+ dishes.
 import { CATEGORIES, CUISINES, DISH_TYPES, DISHES, INGREDIENTS, INGREDIENT_CATEGORY } from '../src/data.js';
 import { hasIllustration } from '../src/illustrations.js';
 
 const strict = process.argv.includes('--strict');
-const MIN_DISHES_PER_CUISINE = 6;
-const MIN_DISHES_PER_INGREDIENT = 3;
+const MIN_DISHES_PER_CUISINE = 6; // hard rule
+const MIN_DISHES_PER_INGREDIENT = 2; // hard rule: an ingredient used once is a dead-end node
+const GOAL_DISHES_PER_INGREDIENT = 3; // soft goal
 const errors = [];
 const goals = [];
 const err = (m) => errors.push(m);
@@ -74,8 +76,11 @@ for (const i of ingredientNames) if (!used[i]) err(`ingredient "${i}" is not use
 for (const c of Object.keys(CUISINES)) if (!dishCount[c]) err(`cuisine "${c}" has no dishes`);
 
 // ---- goals
-for (const [c, n] of Object.entries(dishCount)) if (n < MIN_DISHES_PER_CUISINE) goal(`cuisine ${c} has ${n} dishes (goal ${MIN_DISHES_PER_CUISINE}+)`);
-for (const [i, n] of Object.entries(used)) if (n < MIN_DISHES_PER_INGREDIENT) goal(`ingredient "${i}" is used by ${n} dish${n > 1 ? 'es' : ''} (goal ${MIN_DISHES_PER_INGREDIENT}+)`);
+for (const [c, n] of Object.entries(dishCount)) if (n < MIN_DISHES_PER_CUISINE) err(`cuisine ${c} has ${n} dishes (needs ${MIN_DISHES_PER_CUISINE}+)`);
+for (const [i, n] of Object.entries(used)) {
+  if (n < MIN_DISHES_PER_INGREDIENT) err(`ingredient "${i}" is used by only ${n} dish (needs ${MIN_DISHES_PER_INGREDIENT}+)`);
+  else if (n < GOAL_DISHES_PER_INGREDIENT) goal(`ingredient "${i}" is used by ${n} dishes (goal ${GOAL_DISHES_PER_INGREDIENT}+)`);
+}
 
 const fail = errors.length > 0 || (strict && goals.length > 0);
 console.log(`${DISHES.length} dishes · ${Object.keys(CUISINES).length} cuisines · ${ingredientNames.length} ingredients`);
