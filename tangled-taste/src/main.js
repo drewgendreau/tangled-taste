@@ -96,7 +96,7 @@ for (const n of nodes) {
   s.scale.setScalar(n.baseScale);
   s.userData.node = n;
   n.sprite = s;
-  n.vis = { scale: 1, opacity: 0, tScale: 1, tOpacity: 1 };
+  n.vis = { scale: 1, base: n.baseScale, opacity: 0, tScale: 1, tOpacity: 1 };
   nodeGroup.add(s);
 }
 const paintQueue = [...nodes].sort((a, b) => b.count - a.count);
@@ -209,12 +209,24 @@ const ranked = [...nodes].sort((a, b) => b.count - a.count);
 const HOME_LABELS = new Set(ranked.slice(0, 55).map((n) => n.id));
 for (const n of nodes) {
   const el = document.createElement('div');
-  el.className = 'label' + (n.commonness > 0.55 ? ' major' : '');
+  el.className = 'label';
   el.textContent = n.name;
-  el.style.fontSize = `${12 + 16 * n.commonness * n.commonness + 4 * n.commonness}px`;
   el.style.display = 'none';
   labelLayer.appendChild(el);
   n.label = el;
+}
+// Size by popularity: common ingredients are drawn (and labelled) larger. Off: one medium-small size.
+const UNIFORM_SCALE = 13;
+let sizeByPopularity = true;
+try { sizeByPopularity = localStorage.getItem('tt-size-popularity') !== '0'; } catch { /* storage unavailable */ }
+function setSizeByPopularity(on) {
+  sizeByPopularity = on;
+  for (const n of nodes) {
+    n.label.style.fontSize = on ? `${12 + 16 * n.commonness * n.commonness + 4 * n.commonness}px` : '15px';
+    n.label.classList.toggle('major', on && n.commonness > 0.55);
+  }
+  document.getElementById('size-toggle').setAttribute('aria-checked', String(on));
+  try { localStorage.setItem('tt-size-popularity', on ? '1' : '0'); } catch { /* storage unavailable */ }
 }
 const cuisineMarks = Object.entries(CUISINES).map(([name, c]) => {
   const p = new THREE.Vector3(...latLngToVec(c.lat, c.lng, GLOBE_RADIUS * 1.18));
@@ -827,6 +839,8 @@ function resetAll() {
 document.getElementById('brand').addEventListener('click', resetAll);
 document.getElementById('reset').addEventListener('click', resetAll);
 document.getElementById('illus-toggle').addEventListener('click', () => setIllustrations(!showIllustrations));
+document.getElementById('size-toggle').addEventListener('click', () => setSizeByPopularity(!sizeByPopularity));
+setSizeByPopularity(sizeByPopularity);
 setIllustrations(showIllustrations);
 window.addEventListener('keydown', (e) => {
   if (e.key === 'Home' && document.activeElement !== input) resetAll();
@@ -1062,7 +1076,8 @@ function frame(rawDt) {
     v.scale += (v.tScale * hov - v.scale) * lerp;
     v.opacity += (v.tOpacity - v.opacity) * lerp;
     const breathe = 1 + Math.sin(time * 0.8 + n.id) * 0.015;
-    n.sprite.scale.setScalar(n.baseScale * v.scale * breathe * (showIllustrations ? 1 : 1.15));
+    v.base += ((sizeByPopularity ? n.baseScale : UNIFORM_SCALE) - v.base) * lerp;
+    n.sprite.scale.setScalar(v.base * v.scale * breathe * (showIllustrations ? 1 : 1.15));
     n.sprite.material.opacity = v.opacity;
   }
   const comparing = view.type === 'compare' && compareInfo;
