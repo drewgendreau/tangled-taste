@@ -7,6 +7,7 @@
     "build": "node scripts/bake-layout.mjs && vite build",
     "preview": "vite preview",
     "validate": "node scripts/validate.mjs",
+    "assign-ids": "node scripts/assign-dish-ids.mjs",
     "validate:strict": "node scripts/validate.mjs --strict",
     "bake": "node scripts/bake-layout.mjs",
     "format:data": "node scripts/format-data.mjs"

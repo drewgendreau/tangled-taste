@@ -2,6 +2,7 @@
 // Hard problems fail the run; "goals" only warn unless --strict is passed.
 // Hard rules include: every cuisine has 6+ dishes and every ingredient is used by 2+ dishes.
 import { CATEGORIES, CUISINES, DISH_TYPES, DISHES, INGREDIENTS, INGREDIENT_CATEGORY } from '../src/data.js';
+import { DISH_IDS } from '../src/data/dish-ids.js';
 import { hasCountryShape, hasIllustration } from '../src/illustrations.js';
 
 const strict = process.argv.includes('--strict');
@@ -12,6 +13,18 @@ const errors = [];
 const goals = [];
 const err = (m) => errors.push(m);
 const goal = (m) => goals.push(m);
+
+// ---- permanent dish IDs
+{
+  const uids = new Map();
+  for (const d of DISHES) {
+    if (!d.uid) err(`dish "${d.name}" has no permanent ID: run \`pnpm assign-ids\``);
+    else if (uids.has(d.uid)) err(`dish ID ${d.uid} is used by both "${uids.get(d.uid)}" and "${d.name}"`);
+    else uids.set(d.uid, d.name);
+  }
+  const names = new Set(DISHES.map((d) => d.name));
+  for (const [name, id] of Object.entries(DISH_IDS)) if (!names.has(name)) err(`dish ID ${id} belongs to "${name}", which no longer exists (renamed? edit the key in src/data/dish-ids.js)`);
+}
 
 // ---- structure
 for (const [cat, names] of Object.entries(INGREDIENTS)) {

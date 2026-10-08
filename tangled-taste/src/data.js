@@ -5,6 +5,7 @@ import { CUISINES } from './data/cuisines.js';
 import { INGREDIENTS } from './data/ingredients.js';
 import { DISH_TYPES } from './data/dish-types.js';
 import { INGREDIENT_NOTES } from './data/ingredient-notes.js';
+import { DISH_IDS } from './data/dish-ids.js';
 import europe from './data/dishes/europe.js';
 import americas from './data/dishes/americas.js';
 import asiaPacific from './data/dishes/asia-pacific.js';
@@ -18,7 +19,8 @@ export const INGREDIENT_CATEGORY = Object.fromEntries(
 
 export const DISHES = [...europe, ...americas, ...asiaPacific, ...africaMiddleEast].map(
   ([name, cuisine, popularity, ingredients, note, type = 'main'], id) => ({
-    id,
+    id, // position in the list: used internally, changes when dishes are added or reordered
+    uid: DISH_IDS[name], // permanent public ID (src/data/dish-ids.js, assigned by `pnpm assign-ids`)
     name,
     cuisine,
     popularity,
