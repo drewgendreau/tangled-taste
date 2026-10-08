@@ -576,7 +576,7 @@ function renderPanel() {
     const topDishes = [...DISHES].sort((a, b) => b.popularity - a.popularity).map((d) => d.id);
     h = `<div class="kicker">a tasting map of</div>
       <h2>${nodes.length} ingredients</h2>
-      <p class="lede">linked whenever they meet in the same dish — ${totalDishes} dishes from ${Object.keys(CUISINES).length} cuisines, arranged on a globe so regional ingredients drift toward home while universal staples gather at the centre.</p>
+      <p class="lede">Ingredients are linked whenever they meet in the same dish, and the map currently includes ${totalDishes} dishes from ${Object.keys(CUISINES).length} cuisines. Universal staples tend to be toward the center, with regional ingredients on the outskirts.</p>
       <h3>Most common ingredients</h3>${ingRows(ranked, (n) => n.count, 10)}
       <h3>Most popular dishes</h3>${dishRows(topDishes, 8)}
       <h3>Ingredient families</h3><div class="chips">${Object.entries(CATEGORIES).map(([k, c], i) => `<button class="chip" data-go="category:${k}"><img src="${familyIcon(k)}" alt="">${c.label}</button>`).join('')}</div>

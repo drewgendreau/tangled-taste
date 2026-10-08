@@ -86,7 +86,6 @@ body { background-size: 512px 512px; }
 }
 #brand { pointer-events: auto; cursor: pointer; display: flex; flex-direction: column; line-height: 1; user-select: none; }
 .brand-title { font-size: 30px; font-weight: 600; font-style: italic; letter-spacing: 0.01em; }
-.brand-sub { font-family: var(--hand); font-size: 19px; color: var(--ink-soft); margin-top: 2px; }
 
 #search { position: relative; pointer-events: auto; grid-column: 2; }
 #topright { justify-self: end; display: flex; gap: 8px; pointer-events: none; }
@@ -427,7 +426,6 @@ body { background-size: 512px 512px; }
   #illus-toggle span { display: none; }
   #search { grid-column: 1 / -1; }
   .brand-title { font-size: 24px; }
-  .brand-sub { display: none; }
   #panel { top: auto; left: 16px; right: 16px; width: auto; bottom: 16px; height: 42vh; }
   #panel-inner { align-self: flex-end; }
   #atlas, #compare { display: none; }
