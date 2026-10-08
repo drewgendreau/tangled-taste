@@ -335,8 +335,8 @@ for (const n of nodes) {
 }
 // Size by commonality: common ingredients are drawn (and labelled) larger. Off: one medium-small size.
 const UNIFORM_SCALE = 13;
-let sizeByPopularity = true;
-try { sizeByPopularity = localStorage.getItem('tt-size-popularity') !== '0'; } catch { /* storage unavailable */ }
+let sizeByPopularity = false;
+try { sizeByPopularity = localStorage.getItem('tt-size-popularity') === '1'; } catch { /* storage unavailable */ }
 function setSizeByPopularity(on, { persist = true } = {}) {
   sizeByPopularity = on;
   invalidate();
@@ -1107,8 +1107,8 @@ const DENSITY = [
   { label: 'Low', nodes: 0.45, minWeight: 3 },
   { label: 'Minimal', nodes: 0.25, minWeight: 4 },
 ];
-let densityLevel = 0;
-try { densityLevel = Math.min(3, Math.max(0, parseInt(localStorage.getItem('tt-density') || '0', 10) || 0)); } catch { /* storage unavailable */ }
+let densityLevel = 3; // Minimal
+try { const saved = localStorage.getItem('tt-density'); if (saved !== null) densityLevel = Math.min(3, Math.max(0, parseInt(saved, 10) || 0)); } catch { /* storage unavailable */ }
 const densitySlider = document.getElementById('density');
 // "Hide Common Ingredients": which ingredients count as common is worked out from the
 // data itself (how many dishes use each), so it follows the dataset as it grows.
@@ -1284,7 +1284,17 @@ function resetAll() {
   controls.autoRotate = true;
 }
 document.getElementById('brand').addEventListener('click', resetAll);
-document.getElementById('reset').addEventListener('click', resetAll);
+// "Reset view" also puts every setting back to its default
+function resetSettings() {
+  compareIllus.auto = false;
+  compareSize.auto = false;
+  setIllustrations(true);
+  setShowCuisines(true);
+  setSizeByPopularity(false);
+  applyHideCommon(0);
+  applyDensity(3);
+}
+document.getElementById('reset').addEventListener('click', () => { resetAll(); resetSettings(); });
 document.getElementById('illus-toggle').addEventListener('click', () => {
   compareIllus.auto = false; // the person's own choice always wins
   setIllustrations(!showIllustrations);
