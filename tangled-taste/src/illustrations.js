@@ -1480,6 +1480,60 @@ const D = {
       for (let k = 0; k < 7; k++) paint(leaf(x + 10 + k * 0.8, 50 + k * 8, 12, 3.5, -Math.PI / 2 + (k % 2 ? 0.5 : -0.5)), '#d9b56a', { small: true });
     }
   },
+
+  grape() {
+    ink(curve([128, 40], [132, 56], [128, 72]), { color: '#6a4a2a', a: 0.9, w: 3.5 });
+    paint(leaf(132, 52, 60, 26, -0.2, { serr: 5 }), '#6a9a3a', { gloss: false });
+    shadow(128, 214, 50, 8);
+    const rows = [[5, 84], [5, 108], [4, 132], [4, 156], [3, 178], [2, 198]];
+    rows.forEach(([n, y], r) => {
+      for (let i = 0; i < n; i++) paint(E(128 + (i - (n - 1) / 2) * 24 + R(2), y + R(2), 13, 14), r % 2 ? '#6a3a7a' : '#7a4a8a', { small: false, liner: false, gran: false, blot: false, gloss: true });
+    });
+  },
+  'fava beans'() {
+    shadow(128, 192, 96, 12);
+    paint(band([30, 120], [128, 80], [226, 116], 8, 6, 30, (t) => 0.6 + Math.sin(Math.PI * t) * 2.4), '#7aa84a');
+    for (let i = 0; i < 4; i++) paint(E(74 + i * 36, 104 - Math.sin((i / 3) * Math.PI) * 8, 15, 11), '#c8dc8a', { gloss: true, liner: false });
+    pile(16, 128, 196, 86, 40, (x, y) => paint(E(x, y, 13, 10, R(0.6)), '#b8cf7a', { small: false, liner: false, gran: false, blot: false, gloss: true }));
+  },
+  pumpkin() {
+    shadow(128, 208, 96, 12);
+    for (const [dx, rx, c] of [[-46, 44, '#d9772a'], [46, 44, '#d9772a'], [-20, 46, '#e8862e'], [20, 46, '#e8862e'], [0, 40, '#ef9436']]) paint(E(128 + dx, 146, rx, 62), c, { liner: dx === 0, gloss: dx === 0 });
+    paint(band([126, 88], [124, 70], [136, 56], 7, 5), '#6a7a3a', { liner: false });
+  },
+  banana() {
+    shadow(128, 188, 100, 12);
+    for (let i = 0; i < 2; i++) {
+      const oy = i * 26;
+      paint(band([34, 104 + oy], [100, 200 + oy], [222, 120 + oy], 3, 4, 30, (t) => 1 + 4.2 * Math.sin(Math.PI * t)), i ? '#e9c43a' : '#f0d050', { gloss: true });
+      paint(rrect(216, 106 + oy, 16, 10, 4, -0.8), '#6a5a2a', { small: true });
+    }
+  },
+  macadamia() {
+    shadow(128, 196, 92, 12);
+    paint(arc(170, 160, 44, 40, Math.PI, TAU, 18).concat(arc(170, 160, 44, 14, 0, Math.PI, 18)), '#7a5236', { gloss: true });
+    paint(E(170, 160, 34, 12), '#f1e2c0', { small: true });
+    for (const [x, y] of [[76, 154], [112, 176], [96, 128], [132, 140]]) paint(E(x, y, 18, 17), '#ecd9a8', { gloss: true, liner: false, gran: false, blot: false });
+  },
+  cloves() {
+    shadow(128, 192, 92, 12);
+    pile(34, 128, 188, 86, 76, (x, y) => {
+      const a = rand() * TAU;
+      ink([[x, y], [x + Math.cos(a) * 18, y + Math.sin(a) * 18]], { color: '#5a2e1e', a: 0.95, w: 3.4 });
+      paint(E(x, y, 5.5, 5.5), '#7a3e26', { small: true, gloss: true });
+    });
+  },
+  jackfruit() {
+    shadow(118, 204, 84, 12);
+    const pts = E(110, 136, 76, 64, -0.2, 0.05);
+    paint(pts, '#8aa83a', { gloss: false });
+    ctx.save();
+    ctx.clip(pathOf(pts));
+    for (let i = 0; i < 160; i++) dot(40 + rand() * 150, 70 + rand() * 140, 1.8, '#4a6a1a', 0.55);
+    ctx.restore();
+    paint(E(184, 188, 30, 22, 0.4), '#f2c94a', { gloss: true });
+    paint(E(184, 188, 8, 6, 0.4), '#8a6a3a', { small: true });
+  },
 };
 
 // ---------------------------------------------------------------- public API
