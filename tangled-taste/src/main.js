@@ -7,6 +7,7 @@ import { CATEGORIES, CUISINES, DISHES, DISH_TYPES, INGREDIENT_NOTES } from './da
 import { buildGraph, buildDishGraph, MIN_SHARED, latLngToVec, GLOBE_RADIUS } from './graph.js';
 import { paintBlob, paintBlobCanvas, paintHalo, paintPaperTile } from './watercolor.js';
 import { paintIngredient, paintCuisine, isPainted } from './illustrations.js';
+import { paintDish, hasDishArt, isDishPainted } from './dishes-art.js';
 import { buildProfiles, buildMatrix, compareSets, describe } from './similarity.js';
 import { buildIndex, analyze, describeLift } from './overlap.js';
 
@@ -140,9 +141,10 @@ const famIco = (k, px) => ico('fam', k, px);
 const iconSource = (kind, key) => {
   if (kind === 'ing') { const n = ingNodes[+key]; return paintIngredient(n.name, CATEGORIES[n.category].color); }
   if (kind === 'cui') return paintCuisine(key, CUISINES[key].color);
+  if (kind === 'dish') return paintDish(DISHES[+key].name, 256);
   return paintIngredient(REP[key], CATEGORIES[key].color);
 };
-const iconReady = (kind, key) => (kind === 'ing' ? isPainted(ingNodes[+key].name) : kind === 'cui' ? isPainted(`cuisine:${key}`) : isPainted(REP[key]));
+const iconReady = (kind, key) => (kind === 'ing' ? isPainted(ingNodes[+key].name) : kind === 'cui' ? isPainted(`cuisine:${key}`) : kind === 'dish' ? isDishPainted(DISHES[+key].name, 256) : isPainted(REP[key]));
 function fillIcons(root) {
   for (const c of root.querySelectorAll('canvas[data-ico]:not([data-done])')) {
     const [kind, key] = c.dataset.ico.split(/:(.*)/s);
@@ -780,14 +782,30 @@ function ensureDishGraph() {
     const mat = new THREE.SpriteMaterial({ map: n.blobTex, transparent: true, depthWrite: false, opacity: 0, rotation: (((n.id * 7919) % 100) / 100 - 0.5) * 0.3 });
     const sp = new THREE.Sprite(mat);
     sp.position.fromArray(n.pos);
-    n.baseScale = 5 + 16 * Math.pow(n.commonness, 1.4);
+    n.hasArt = hasDishArt(n.name);
+    n.baseScale = n.hasArt ? 12 + 22 * Math.pow(n.commonness, 1.4) : 5 + 16 * Math.pow(n.commonness, 1.4);
     sp.scale.setScalar(n.baseScale);
     sp.userData.node = n;
     n.sprite = sp;
     n.vis = { scale: 1, base: n.baseScale, opacity: 0, tScale: 1, tOpacity: 1 };
     dishGroup.add(sp);
     makeLabel(n);
+    if (n.hasArt) whenIdle(() => paintDishNode(n), true);
   }
+}
+// A dish with a watercolor shows it on the map; the others keep their cuisine-coloured blob.
+function paintDishNode(n) {
+  if (n.illusTex) return;
+  invalidate();
+  const tex = new THREE.CanvasTexture(paintDish(n.name, 256));
+  tex.colorSpace = THREE.SRGBColorSpace;
+  tex.anisotropy = 1;
+  n.illusTex = tex;
+  if (showIllustrations) {
+    n.sprite.material.map = tex;
+    n.sprite.material.needsUpdate = true;
+  }
+  n.vis.opacity = 0;
 }
 
 function goDishes(next, { push = true, quiet = false } = {}) {
@@ -868,6 +886,7 @@ function goDishes(next, { push = true, quiet = false } = {}) {
       fly([...hi]);
       break;
   }
+  if (hi && hi.size < 120) for (const id of hi) if (nodes[id].hasArt) paintDishNode(nodes[id]);
   highlight = hi;
   focusIds = focus;
   setHighlightEdges(edgesHi);
@@ -915,7 +934,8 @@ const ingChip = (n, extra = '') => `<button class="chip" data-go="ingredient:${n
 const cuisineChip = (name, extra = '') => `<button class="chip${activeCuisines.has(name) ? ' active' : ''}" data-go="cuisine:${esc(name)}">${cuiIco(name)}${esc(name)}${extra}</button>`;
 const dishRows = (ids, max = 99) => `<ul class="rows">${ids.slice(0, max).map((id) => {
   const d = DISHES[id];
-  return `<li data-go="dish:${id}"><span class="nm">${esc(d.name)} <em>${esc(d.cuisine)}</em></span><span class="val">${d.popularity}</span>${bar(d.popularity, CUISINES[d.cuisine].color)}</li>`;
+  const pic = hasDishArt(d.name) ? ico('dish', id, 28) : `<i class="dish-dot" style="--c:${CUISINES[d.cuisine].color}"></i>`;
+  return `<li data-go="dish:${id}"><span class="nm">${pic}${esc(d.name)} <em>${esc(d.cuisine)}</em></span><span class="val">${d.popularity}</span>${bar(d.popularity, CUISINES[d.cuisine].color)}</li>`;
 }).join('')}</ul>`;
 const ingRows = (list, valFn, max = 99, maxVal) => {
   const mv = maxVal || Math.max(...list.map(valFn));
@@ -933,6 +953,23 @@ function crumbs() {
   return `<div class="crumbs">${parts.join('')}</div>`;
 }
 
+// The preview slot at the top of a dish panel: a large watercolor when the dish has one, a placeholder otherwise.
+const PREVIEW_PX = (window.devicePixelRatio || 1) > 1.5 ? 1024 : 768; // painted at this size, so it stays crisp on big screens
+function dishPreview(d) {
+  if (hasDishArt(d.name)) return `<figure class="dish-art"><canvas data-dish-art="${d.id}" width="${PREVIEW_PX}" height="${PREVIEW_PX}" role="img" aria-label="Watercolor painting of ${esc(d.name)}"></canvas></figure>`;
+  const c = CUISINES[d.cuisine].color;
+  return `<figure class="dish-art empty" style="--c:${c}"><div><b>${esc(d.name)}</b><span>Watercolor coming soon</span></div></figure>`;
+}
+function fillDishArt(root) {
+  for (const c of root.querySelectorAll('canvas[data-dish-art]')) {
+    const d = DISHES[+c.dataset.dishArt];
+    whenIdle(() => {
+      if (!c.isConnected) return;
+      c.getContext('2d').drawImage(paintDish(d.name, PREVIEW_PX), 0, 0);
+      c.classList.add('ready');
+    });
+  }
+}
 function renderPanel() {
   let h = '';
   const v = view;
@@ -970,7 +1007,7 @@ function renderPanel() {
     const similar = DISHES.filter((o) => o.id !== d.id)
       .map((o) => ({ o, s: o.ingredients.filter((x) => set.has(x)).length / new Set([...o.ingredients, ...d.ingredients]).size }))
       .sort((a, b) => b.s - a.s).slice(0, 5);
-    h = `${crumbs()}<div class="kicker">${esc(d.cuisine)} dish</div><h2>${esc(d.name)}</h2>
+    h = `${crumbs()}${dishPreview(d)}<div class="kicker">${esc(d.cuisine)} dish</div><h2>${esc(d.name)}</h2>
       <div class="chips" style="margin-top:6px">${cuisineChip(d.cuisine)}<button class="chip" data-go="region:${esc(c.region)}">${esc(c.country)} · ${esc(c.region)}</button></div>
       <p class="note">${esc(d.note)}</p>
       <a class="ext-link" href="https://www.google.com/search?q=${encodeURIComponent(`${d.name} recipe`)}" target="_blank" rel="noopener noreferrer">Search for recipes<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6" /><path d="M20 4l-9 9" /><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" /></svg><span class="sr">(opens Google in a new tab)</span></a>
@@ -1042,6 +1079,7 @@ function renderPanel() {
   }
   panel.innerHTML = `<div class="panel">${h}</div>`;
   fillIcons(panel);
+  fillDishArt(panel);
   panel.scrollTop = 0;
   panel.style.animation = 'none';
   void panel.offsetWidth;
@@ -1869,7 +1907,7 @@ function frame(rawDt) {
   for (const n of nodes) {
     const v = n.vis;
     const targetScale = v.tScale * (n === hovered ? 1.22 : 1);
-    const targetBase = sizeByPopularity ? n.baseScale : n.isDish ? 9 : UNIFORM_SCALE;
+    const targetBase = sizeByPopularity ? n.baseScale : n.isDish ? (n.hasArt ? 21 : 9) : UNIFORM_SCALE;
     if (Math.abs(targetScale - v.scale) > 0.002 || Math.abs(v.tOpacity - v.opacity) > 0.002 || Math.abs(targetBase - v.base) > 0.01) {
       v.scale += (targetScale - v.scale) * lerp;
       v.opacity += (v.tOpacity - v.opacity) * lerp;

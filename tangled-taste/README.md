@@ -57,3 +57,9 @@ pnpm validate   # sanity-check the dataset (run in CI before every deploy)
 - **Delivery.** three.js is a separate cached chunk; fonts load without blocking the first paint.
 - **Measure it.** Add `?perf` to the address for a live readout of fps, pixel ratio and where each frame's time goes.
 
+## Dish illustrations
+
+- The 50 most popular dishes have watercolor paintings. They appear as thumbnails on the map in *Dishes* mode, as small icons in dish lists, and as a large preview at the top of a dish's panel. Dishes without a painting show a placeholder in the preview slot and a plain colored blob on the map.
+- Paintings are built from templates (`src/dishes-art.js`): one recipe per kind of plate, such as a bowl of soup, a layered slice, a pile of rice or a plate of noodles. A dish is just a template name plus a few parameters (colors, toppings) in `src/data/dish-art.js`. To illustrate another dish, add one line there; no new drawing is needed.
+- Each painting is drawn on a fixed 256-unit grid and rendered at whatever size is needed: 256 px for map thumbnails, 768 px (1024 px on high-density screens) for the preview, so it stays crisp on large monitors.
+- `gallery.html?dishes=1` shows every dish painting (`&px=640` for a larger size, `&names=Sushi,Ramen` to pick some).
