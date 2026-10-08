@@ -3,3 +3,4 @@ dist/
 .DS_Store
 .claude/
 src/data/layout.generated.json
+src/data/layout.dishes.generated.json

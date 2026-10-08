@@ -458,3 +458,12 @@ body.multi-add #hint { color: var(--accent); }
     #hint { display: none; }
 }
 #search-results.open ~ #lucky { display: none; }
+
+/* ---------- ingredients / dishes switch ---------- */
+#mode-toggle { pointer-events: auto; display: flex; padding: 3px; border: 1px solid var(--rule); border-radius: 999px; background: var(--card); box-shadow: 0 2px 14px rgba(90, 60, 30, 0.08); }
+#mode-toggle button { all: unset; cursor: pointer; padding: 5px 14px; border-radius: 999px; font-family: var(--serif); font-size: 14px; font-weight: 500; letter-spacing: 0.04em; color: var(--ink-soft); transition: background 0.15s, color 0.15s; }
+#mode-toggle button:hover { color: var(--accent); }
+#mode-toggle button[aria-pressed='true'] { background: var(--accent); color: #fffaf0; }
+#mode-toggle button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+body.mode-dishes #compare, body.mode-dishes [data-ingredients-only] { display: none; }
+@media (max-width: 900px) { #mode-toggle button { padding: 5px 10px; font-size: 13px; } }

@@ -13,6 +13,7 @@ pnpm validate   # sanity-check the dataset (run in CI before every deploy)
 ## Navigating
 
 - **Search bar** (press `/`): find ingredients, dishes, cuisines, countries, regions or ingredient families.
+- **Ingredients / Dishes switch** (top right): *Dishes* redraws the map with one blob per dish, coloured by cuisine and linked when two dishes share at least 3 ingredients; thicker, darker lines mean more shared ingredients. Everything else works on dishes too: click a dish to see its closest relatives, click an ingredient in the panel to light up every dish that uses it. *Reset view* switches back to Ingredients.
 - **Click an ingredient**: read a short description, see its companions, the cuisines that use it and its dishes. Cuisines that use it light up on the globe and all the others fade.
 - **Click a dish**: its ingredients light up as a linked constellation; the panel shows popularity and kindred dishes. The panel links to a Google search for the dish's recipe.
 - **Ctrl/⌘-click several ingredients** (or turn on *Add ingredients* in the panel on touch screens) to see what drives their overlap: shared dishes, shared cuisines, pair-by-pair lift and the ingredients that bridge them.

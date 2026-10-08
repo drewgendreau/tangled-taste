@@ -117,3 +117,81 @@ function layout(nodes, edges) {
   }
   nodes.forEach((n, i) => (n.pos = pos[i]));
 }
+
+// ---------------------------------------------------------------- the dish graph
+// Dishes are linked when they share ingredients; the link's weight is how many they share.
+// Weak links (fewer than MIN_SHARED ingredients) are left out: nearly every pair of dishes shares salt or onion.
+export const MIN_SHARED = 3;
+
+// `baked` is an optional { dishId: [x, y, z] } map produced by scripts/bake-layout.mjs.
+export function buildDishGraph(baked) {
+  const byIngredient = new Map();
+  DISHES.forEach((d) => new Set(d.ingredients).forEach((nm) => (byIngredient.get(nm) || byIngredient.set(nm, []).get(nm)).push(d.id)));
+  const counts = new Map();
+  for (const ids of byIngredient.values()) {
+    for (let a = 0; a < ids.length; a++) {
+      for (let b = a + 1; b < ids.length; b++) {
+        const key = ids[a] * 10000 + ids[b];
+        counts.set(key, (counts.get(key) || 0) + 1);
+      }
+    }
+  }
+  const edges = [];
+  for (const [key, weight] of counts) if (weight >= MIN_SHARED) edges.push({ source: Math.floor(key / 10000), target: key % 10000, weight });
+  const nodes = DISHES.map((d) => ({
+    id: d.id, name: d.name, isDish: true, cuisine: d.cuisine, type: d.type, count: d.popularity, popularity: d.popularity,
+    commonness: Math.sqrt(d.popularity / 100), cuisines: new Map([[d.cuisine, 1]]), dishes: [d.id],
+  }));
+  const adjacency = nodes.map(() => new Map());
+  for (const e of edges) {
+    adjacency[e.source].set(e.target, e);
+    adjacency[e.target].set(e.source, e);
+  }
+  if (baked && nodes.every((n) => baked[n.id])) nodes.forEach((n) => (n.pos = baked[n.id].slice()));
+  else layoutDishes(nodes, edges);
+  return { nodes, edges, adjacency };
+}
+
+// Each dish settles near its cuisine on the globe; dishes that share many ingredients drift together.
+function layoutDishes(nodes, edges) {
+  let seed = 9871;
+  const rand = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+  const anchors = nodes.map((n) => latLngToVec(CUISINES[n.cuisine].lat, CUISINES[n.cuisine].lng, GLOBE_RADIUS * 0.85));
+  const pos = nodes.map((n, i) => anchors[i].map((v) => v + (rand() - 0.5) * 40));
+  const vel = nodes.map(() => [0, 0, 0]);
+  const N = nodes.length;
+  const ITER = 300;
+  for (let it = 0; it < ITER; it++) {
+    const alpha = 1 - it / ITER;
+    const f = nodes.map(() => [0, 0, 0]);
+    for (let i = 0; i < N; i++) {
+      for (let j = i + 1; j < N; j++) {
+        let dx = pos[i][0] - pos[j][0], dy = pos[i][1] - pos[j][1], dz = pos[i][2] - pos[j][2];
+        const d2 = dx * dx + dy * dy + dz * dz + 0.01;
+        const minD = 9 + 6 * (nodes[i].commonness + nodes[j].commonness);
+        let rep = 500 / d2;
+        const d = Math.sqrt(d2);
+        if (d < minD) rep += (minD - d) * 0.5;
+        dx /= d; dy /= d; dz /= d;
+        f[i][0] += dx * rep; f[i][1] += dy * rep; f[i][2] += dz * rep;
+        f[j][0] -= dx * rep; f[j][1] -= dy * rep; f[j][2] -= dz * rep;
+      }
+    }
+    for (const e of edges) {
+      const a = pos[e.source], b = pos[e.target];
+      const dx = b[0] - a[0], dy = b[1] - a[1], dz = b[2] - a[2];
+      const d = Math.hypot(dx, dy, dz) + 0.01;
+      const k = 0.004 * (e.weight - MIN_SHARED + 1) * (d - 30) / d;
+      f[e.source][0] += dx * k; f[e.source][1] += dy * k; f[e.source][2] += dz * k;
+      f[e.target][0] -= dx * k; f[e.target][1] -= dy * k; f[e.target][2] -= dz * k;
+    }
+    for (let i = 0; i < N; i++) {
+      for (let a = 0; a < 3; a++) {
+        f[i][a] += (anchors[i][a] - pos[i][a]) * 0.04;
+        vel[i][a] = (vel[i][a] + f[i][a] * alpha) * 0.6;
+        pos[i][a] += Math.max(-6, Math.min(6, vel[i][a]));
+      }
+    }
+  }
+  nodes.forEach((n, i) => (n.pos = pos[i]));
+}

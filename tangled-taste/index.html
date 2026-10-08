@@ -35,6 +35,10 @@
         <button id="lucky" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="3.5" /><circle cx="8.5" cy="8.5" r="1.1" /><circle cx="15.5" cy="8.5" r="1.1" /><circle cx="12" cy="12" r="1.1" /><circle cx="8.5" cy="15.5" r="1.1" /><circle cx="15.5" cy="15.5" r="1.1" /></svg><span>I’m feeling lucky</span></button>
       </div>
       <div id="topright">
+        <div id="mode-toggle" role="group" aria-label="What the map shows">
+          <button type="button" data-mode="ingredients" aria-pressed="true">Ingredients</button>
+          <button type="button" data-mode="dishes" aria-pressed="false">Dishes</button>
+        </div>
         <button id="settings-btn" type="button" aria-expanded="false" aria-controls="settings" title="Settings">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
           <span>Settings</span>
@@ -67,7 +71,7 @@
         <div class="txt"><b>Size by commonality</b><small>On: common ingredients are drawn larger. Off: everything is one size.</small></div>
         <button id="size-toggle" class="sw" type="button" role="switch" aria-checked="true" aria-label="Size by commonality"><i class="switch" aria-hidden="true"></i></button>
       </div>
-      <div class="setting col">
+      <div class="setting col" data-ingredients-only>
         <div class="row"><label for="hide-common"><b>Hide Common Ingredients</b></label><output id="hide-label" for="hide-common">Show all</output></div>
         <input id="hide-common" type="range" min="0" max="2" step="1" value="0" aria-describedby="hide-help" />
         <div class="ticks" id="hide-ticks" aria-hidden="true"><span>Show all</span><span>Hide some</span><span>Hide most</span></div>

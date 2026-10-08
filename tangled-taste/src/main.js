@@ -4,7 +4,7 @@ import { LineSegments2 } from 'three/examples/jsm/lines/LineSegments2.js';
 import { LineSegmentsGeometry } from 'three/examples/jsm/lines/LineSegmentsGeometry.js';
 import { LineMaterial } from 'three/examples/jsm/lines/LineMaterial.js';
 import { CATEGORIES, CUISINES, DISHES, DISH_TYPES, INGREDIENT_NOTES } from './data.js';
-import { buildGraph, latLngToVec, GLOBE_RADIUS } from './graph.js';
+import { buildGraph, buildDishGraph, MIN_SHARED, latLngToVec, GLOBE_RADIUS } from './graph.js';
 import { paintBlob, paintBlobCanvas, paintHalo, paintPaperTile } from './watercolor.js';
 import { paintIngredient, paintCuisine, isPainted } from './illustrations.js';
 import { buildProfiles, buildMatrix, compareSets, describe } from './similarity.js';
@@ -15,7 +15,15 @@ const PAPER = new THREE.Color('#f5eee0');
 const INK = new THREE.Color('#5a4030');
 // Positions are computed once at build time (scripts/bake-layout.mjs); without them we simulate on load.
 const baked = Object.values(import.meta.glob('./data/layout.generated.json', { eager: true, import: 'default' }))[0];
-const { nodes, edges, adjacency } = buildGraph(baked);
+const bakedDishes = Object.values(import.meta.glob('./data/layout.dishes.generated.json', { eager: true, import: 'default' }))[0];
+// Two graphs share the scene: ingredients (linked by shared dishes) and, built on first use, dishes (linked by shared
+// ingredients). `nodes`, `edges` and `adjacency` always point at the one on screen; ingNodes is always the ingredients.
+const ingredientGraph = buildGraph(baked);
+const ingNodes = ingredientGraph.nodes;
+let { nodes, edges, adjacency } = ingredientGraph;
+let mode = 'ingredients';
+let dishGraph = null;
+const allNodes = () => (dishGraph ? [...ingNodes, ...dishGraph.nodes] : ingNodes);
 performance.mark('app:graph');
 const totalDishes = DISHES.length;
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
@@ -130,11 +138,11 @@ const ingIco = (n, px) => ico('ing', n.id, px);
 const cuiIco = (name, px = 24) => ico('cui', name, px, 'cico');
 const famIco = (k, px) => ico('fam', k, px);
 const iconSource = (kind, key) => {
-  if (kind === 'ing') { const n = nodes[+key]; return paintIngredient(n.name, CATEGORIES[n.category].color); }
+  if (kind === 'ing') { const n = ingNodes[+key]; return paintIngredient(n.name, CATEGORIES[n.category].color); }
   if (kind === 'cui') return paintCuisine(key, CUISINES[key].color);
   return paintIngredient(REP[key], CATEGORIES[key].color);
 };
-const iconReady = (kind, key) => (kind === 'ing' ? isPainted(nodes[+key].name) : kind === 'cui' ? isPainted(`cuisine:${key}`) : isPainted(REP[key]));
+const iconReady = (kind, key) => (kind === 'ing' ? isPainted(ingNodes[+key].name) : kind === 'cui' ? isPainted(`cuisine:${key}`) : isPainted(REP[key]));
 function fillIcons(root) {
   for (const c of root.querySelectorAll('canvas[data-ico]:not([data-done])')) {
     const [kind, key] = c.dataset.ico.split(/:(.*)/s);
@@ -150,7 +158,10 @@ function fillIcons(root) {
 }
 const nodeGroup = new THREE.Group();
 scene.add(nodeGroup);
-for (const n of nodes) {
+const dishGroup = new THREE.Group();
+dishGroup.visible = false;
+scene.add(dishGroup);
+for (const n of ingNodes) {
   n.blobTex = blobs[n.category][n.id % 3];
   const mat = new THREE.SpriteMaterial({ map: n.blobTex, transparent: true, depthWrite: false, opacity: 0, rotation: (((n.id * 7919) % 100) / 100 - 0.5) * 0.3 });
   const s = new THREE.Sprite(mat);
@@ -177,11 +188,11 @@ function paintIngredientNode(n) {
   }
   n.vis.opacity = 0; // fade the finished painting in
 }
-for (const n of [...nodes].sort((a, b) => b.count - a.count)) whenIdle(() => paintIngredientNode(n), true);
+for (const n of [...ingNodes].sort((a, b) => b.count - a.count)) whenIdle(() => paintIngredientNode(n), true);
 function setIllustrations(on, { persist = true } = {}) {
   showIllustrations = on;
   invalidate();
-  for (const n of nodes) {
+  for (const n of allNodes()) {
     n.sprite.material.map = on && n.illusTex ? n.illusTex : n.blobTex;
     n.sprite.material.needsUpdate = true;
   }
@@ -210,7 +221,7 @@ function curvePoints(a, b, bend = 0.82, SEG = 10) {
   }
   return out;
 }
-const maxW = Math.max(...edges.map((e) => e.weight));
+let maxW = Math.max(...edges.map((e) => e.weight));
 const baseEdgeMat = new THREE.LineBasicMaterial({ vertexColors: true, transparent: true, opacity: 0.75, depthWrite: false, fog: true });
 let baseEdges = null;
 let baseThick = []; // heavier links, drawn as fat lines while "Show Relationship Strength" is on
@@ -220,7 +231,10 @@ let showStrength = false;
 try { showStrength = localStorage.getItem('tt-strength') === '1'; } catch { /* storage unavailable */ }
 // link width in pixels by how many dishes two ingredients share (1 dish stays a hairline)
 const STRENGTH_STEPS = [[5, 3], [3, 2.2], [2, 1.6]];
-const strengthWidth = (w) => { for (const [min, px] of STRENGTH_STEPS) if (w >= min) return px; return 0; };
+const DISH_STRENGTH_STEPS = [[7, 3], [5, 2.2], [4, 1.6]]; // dishes share more ingredients than ingredients share dishes
+const strengthWidth = (w) => { for (const [min, px] of (mode === 'dishes' ? DISH_STRENGTH_STEPS : STRENGTH_STEPS)) if (w >= min) return px; return 0; };
+// in the dish view the width of a line always shows how many ingredients two dishes share
+const strengthOn = () => showStrength || mode === 'dishes';
 function setBaseOpacity(v) {
   baseOpacity = v;
   baseEdgeMat.opacity = v;
@@ -244,7 +258,7 @@ function buildBaseEdges(minWeight = 1, keep = null) {
     const pts = curvePoints(a, b);
     const strength = 0.10 + 0.5 * Math.pow(e.weight / maxW, 0.6);
     tmp.copy(PAPER).lerp(INK, strength);
-    const px = showStrength ? strengthWidth(e.weight) : 0;
+    const px = strengthOn() ? strengthWidth(e.weight) : 0;
     let P = pos, C = col;
     if (px) {
       if (!thick.has(px)) thick.set(px, { pos: [], col: [] });
@@ -327,7 +341,7 @@ function setHighlightEdges(list) {
     return lines;
   };
   const plain = list.filter((e) => !e.shared);
-  if (showStrength) {
+  if (strengthOn()) {
     // four width classes, from the base width up to roughly twice it
     for (let k = 0; k < 4; k++) {
       const items = plain.filter((e) => Math.min(3, Math.floor(e.strength * 4)) === k);
@@ -372,11 +386,12 @@ if (new URLSearchParams(location.search).has('perf')) {
 
 // ---------------------------------------------------------------- HTML labels
 const labelLayer = document.getElementById('labels');
-const ranked = [...nodes].sort((a, b) => b.count - a.count);
+const ingRanked = [...ingNodes].sort((a, b) => b.count - a.count);
+let ranked = ingRanked;
 let labelsDirty = true; // the set of ingredients that may carry a label must be recomputed
 let showSetCache = null;
 let HOME_LABELS = new Set(ranked.slice(0, 55).map((n) => n.id));
-for (const n of nodes) {
+function makeLabel(n) {
   const el = document.createElement('div');
   el.className = 'label';
   el.textContent = n.name;
@@ -384,6 +399,7 @@ for (const n of nodes) {
   labelLayer.appendChild(el);
   n.label = el;
 }
+ingNodes.forEach(makeLabel);
 // Size by commonality: common ingredients are drawn (and labelled) larger. Off: one medium-small size.
 const UNIFORM_SCALE = 13;
 let sizeByPopularity = false;
@@ -576,10 +592,11 @@ function cliqueEdges(dishIds, color) {
   return list;
 }
 
-const nodeByName = new Map(nodes.map((n) => [n.name, n]));
+const nodeByName = new Map(ingNodes.map((n) => [n.name, n]));
 const dishIngredientIds = (did) => DISHES[did].ingredients.map((nm) => nodeByName.get(nm).id);
 
 function go(next, { push = true, quiet = false } = {}) {
+  if (mode === 'dishes') return goDishes(next, { push, quiet });
   invalidate();
   labelsDirty = true;
   if (push && !(next.type === view.type && JSON.stringify(next) === JSON.stringify(view))) history.push(view);
@@ -750,6 +767,128 @@ function go(next, { push = true, quiet = false } = {}) {
   renderComparePane();
 }
 
+// ---------------------------------------------------------------- dishes mode
+// Built the first time the person switches to "Dishes": one blob per dish, coloured by its cuisine.
+const dishBlobs = new Map();
+function ensureDishGraph() {
+  if (dishGraph) return;
+  dishGraph = buildDishGraph(bakedDishes);
+  for (const n of dishGraph.nodes) {
+    const color = CUISINES[n.cuisine].color;
+    if (!dishBlobs.has(n.cuisine)) dishBlobs.set(n.cuisine, paintBlob(color, n.cuisine.length * 17 + 5, 96));
+    n.blobTex = dishBlobs.get(n.cuisine);
+    const mat = new THREE.SpriteMaterial({ map: n.blobTex, transparent: true, depthWrite: false, opacity: 0, rotation: (((n.id * 7919) % 100) / 100 - 0.5) * 0.3 });
+    const sp = new THREE.Sprite(mat);
+    sp.position.fromArray(n.pos);
+    n.baseScale = 5 + 16 * Math.pow(n.commonness, 1.4);
+    sp.scale.setScalar(n.baseScale);
+    sp.userData.node = n;
+    n.sprite = sp;
+    n.vis = { scale: 1, base: n.baseScale, opacity: 0, tScale: 1, tOpacity: 1 };
+    dishGroup.add(sp);
+    makeLabel(n);
+  }
+}
+
+function goDishes(next, { push = true, quiet = false } = {}) {
+  invalidate();
+  labelsDirty = true;
+  if (push && !(next.type === view.type && JSON.stringify(next) === JSON.stringify(view))) history.push(view);
+  if (next.type === 'compare') next = { type: 'home' }; // comparing cuisines is an ingredient view
+  view = next;
+  controls.autoRotate = next.type === 'home';
+  activeCuisines = new Set();
+  filter.types = new Set(next.type === 'filter' ? next.types : []);
+  filter.cuisines = new Set(next.type === 'filter' ? next.cuisines : []);
+  let hi = null, edgesHi = [], focus = new Set();
+  hiMat.linewidth = 2;
+  hiMat.opacity = 0.85;
+  const ofDishes = (pred) => DISHES.filter(pred).map((d) => d.id);
+  const fly = (ids, minDist = 200) => {
+    if (!ids.length) return;
+    const { c, r } = centroid(ids);
+    flyTo(c, Math.max(minDist, r * 2.6));
+  };
+  // links among a set of dishes, strongest first
+  const linksWithin = (set, color, cap = 500) => {
+    const list = edges.filter((e) => set.has(e.source) && set.has(e.target)).sort((a, b) => b.weight - a.weight).slice(0, cap);
+    const mw = Math.max(1, ...list.map((e) => e.weight));
+    return list.map((e) => ({ a: e.source, b: e.target, color, strength: Math.pow(e.weight / mw, 0.6) }));
+  };
+  switch (next.type) {
+    case 'home':
+      flyTo(new THREE.Vector3(), HOME_POS.length() * (camera.aspect < 1 ? 1.25 : 1));
+      break;
+    case 'dish': {
+      const d = DISHES[next.id];
+      const near = [...adjacency[d.id].entries()].sort((a, b) => b[1].weight - a[1].weight).slice(0, 24);
+      const mw = Math.max(1, ...near.map(([, e]) => e.weight));
+      hi = new Set([d.id, ...near.map(([o]) => o)]);
+      focus = new Set([d.id]);
+      near.forEach(([o, e]) => edgesHi.push({ a: d.id, b: o, color: CUISINES[d.cuisine].color, strength: Math.pow(e.weight / mw, 0.6) }));
+      hi.forEach((id) => activeCuisines.add(DISHES[id].cuisine));
+      fly([...hi]);
+      break;
+    }
+    case 'ingredient': {
+      const name = ingNodes[next.id].name;
+      hi = new Set(ofDishes((d) => d.ingredients.includes(name)));
+      hi.forEach((id) => activeCuisines.add(DISHES[id].cuisine));
+      fly([...hi]);
+      break;
+    }
+    case 'overlap': {
+      overlapInfo = analyze(overlapIndex(), next.ids.map((id) => ingNodes[id].name));
+      const list = overlapInfo.all.length ? overlapInfo.all : overlapInfo.several.map((x) => x.dish);
+      hi = new Set(list.map((d) => d.id));
+      hi.forEach((id) => activeCuisines.add(DISHES[id].cuisine));
+      fly([...hi]);
+      break;
+    }
+    case 'cuisine':
+      hi = new Set(ofDishes((d) => d.cuisine === next.name));
+      activeCuisines.add(next.name);
+      edgesHi = linksWithin(hi, CUISINES[next.name].color);
+      fly([...hi]);
+      break;
+    case 'region': {
+      const names = Object.keys(CUISINES).filter((k) => CUISINES[k].region === next.name);
+      hi = new Set(ofDishes((d) => names.includes(d.cuisine)));
+      names.forEach((k) => activeCuisines.add(k));
+      fly([...hi]);
+      break;
+    }
+    case 'category':
+      hi = new Set(ofDishes((d) => d.ingredients.filter((nm) => nodeByName.get(nm).category === next.key).length >= 2));
+      fly([...hi]);
+      break;
+    case 'filter':
+      hi = new Set(filteredDishes().map((d) => d.id));
+      filter.cuisines.forEach((c) => activeCuisines.add(c));
+      fly([...hi]);
+      break;
+  }
+  highlight = hi;
+  focusIds = focus;
+  setHighlightEdges(edgesHi);
+  setBaseOpacity(hi ? 0.18 : 0.75);
+  for (const n of nodes) {
+    const on = hi ? hi.has(n.id) : n.densityKeep;
+    n.vis.tOpacity = on ? 1 : n.densityKeep ? 0.09 : 0;
+    n.vis.tScale = focus.has(n.id) ? 1.5 : on ? 1 : 0.8;
+    n.sprite.renderOrder = focus.has(n.id) ? 10 : 0;
+    n.sprite.material.depthTest = !focus.has(n.id);
+    n.label.style.color = '';
+  }
+  halo.renderOrder = 11;
+  halo.material.depthTest = false;
+  if (next.type === 'home') compare.picks = [];
+  if (quiet) return;
+  renderPanel();
+  renderAtlas();
+  renderComparePane();
+}
+
 function filteredDishes() {
   return DISHES.filter((d) => (!filter.types.size || filter.types.has(d.type)) && (!filter.cuisines.size || filter.cuisines.has(d.cuisine)));
 }
@@ -785,7 +924,7 @@ const ingRows = (list, valFn, max = 99, maxVal) => {
 
 function crumbs() {
   const trail = [...history.slice(-3), view].filter((v, i, arr) => i === arr.length - 1 || v.type !== 'home');
-  const name = (v) => (v.type === 'home' ? 'Atlas' : v.type === 'ingredient' ? nodes[v.id].name : v.type === 'dish' ? DISHES[v.id].name : v.type === 'category' ? CATEGORIES[v.key].label : v.type === 'filter' ? 'Filtered' : v.type === 'compare' ? 'Compare' : v.type === 'overlap' ? (v.cuisine ? `${v.cuisine} dishes` : 'Overlap') : v.name);
+  const name = (v) => (v.type === 'home' ? 'Atlas' : v.type === 'ingredient' ? ingNodes[v.id].name : v.type === 'dish' ? DISHES[v.id].name : v.type === 'category' ? CATEGORIES[v.key].label : v.type === 'filter' ? 'Filtered' : v.type === 'compare' ? 'Compare' : v.type === 'overlap' ? (v.cuisine ? `${v.cuisine} dishes` : 'Overlap') : v.name);
   const parts = [`<button data-go="home">Atlas</button>`];
   trail.forEach((v, i) => {
     if (v.type === 'home') return;
@@ -799,16 +938,22 @@ function renderPanel() {
   const v = view;
   if (v.type === 'home') {
     const topDishes = [...DISHES].sort((a, b) => b.popularity - a.popularity).map((d) => d.id);
-    h = `<div class="kicker">a tasting map of</div>
-      <h2>${nodes.length} ingredients</h2>
+    if (mode === 'dishes') h = `<div class="kicker">a tasting map of</div>
+      <h2>${totalDishes} dishes</h2>
+      <p class="lede">Dishes are linked whenever they share at least ${MIN_SHARED} ingredients: the thicker the line, the more ingredients two dishes have in common. Each dish sits near the cuisine it comes from, and similar dishes from different cuisines drift together.</p>
+      <h3>Most popular dishes</h3>${dishRows(topDishes, 10)}
+      <h3>Kinds of dish</h3><div class="chips">${Object.entries(DISH_TYPES).filter(([k]) => DISHES.some((d) => d.type === k)).map(([k, t]) => `<button class="chip" data-filter="type:${esc(k)}">${esc(t.label)}</button>`).join('')}</div>
+      <p class="fine">Click a dish to see the dishes that share the most ingredients with it. Click an ingredient in its panel to see every dish that uses it. Popularity scores are illustrative estimates of worldwide recognition.</p>`;
+    else h = `<div class="kicker">a tasting map of</div>
+      <h2>${ingNodes.length} ingredients</h2>
       <p class="lede">Ingredients are linked whenever they meet in the same dish, and the map currently includes ${totalDishes} dishes from ${Object.keys(CUISINES).length} cuisines. Universal staples tend to be toward the center, with regional ingredients on the outskirts.</p>
-      <h3>Most common ingredients</h3>${ingRows(ranked, (n) => n.count, 10)}
+      <h3>Most common ingredients</h3>${ingRows(ingRanked, (n) => n.count, 10)}
       <h3>Most popular dishes</h3>${dishRows(topDishes, 8)}
       <h3>Ingredient families</h3><div class="chips">${Object.entries(CATEGORIES).map(([k, c], i) => `<button class="chip" data-go="category:${k}">${famIco(k)}${c.label}</button>`).join('')}</div>
       <p class="fine">Blob size shows how common an ingredient is. Popularity scores are illustrative estimates of worldwide recognition.</p>`;
   } else if (v.type === 'ingredient') {
-    const n = nodes[v.id];
-    const companions = [...adjacency[n.id].entries()].sort((a, b) => b[1].weight - a[1].weight).map(([id, e]) => ({ n: nodes[id], w: e.weight }));
+    const n = ingNodes[v.id];
+    const companions = [...ingredientGraph.adjacency[n.id].entries()].sort((a, b) => b[1].weight - a[1].weight).map(([id, e]) => ({ n: ingNodes[id], w: e.weight }));
     const cuisines = [...n.cuisines.entries()].sort((a, b) => b[1] - a[1]);
     h = `${crumbs()}<div class="title-row">${ingIco(n, 76)}<div><div class="kicker">${esc(CATEGORIES[n.category].label.toLowerCase())}</div><h2>${esc(n.name)}</h2></div></div>
       ${INGREDIENT_NOTES[n.name] ? `<p class="note">${esc(INGREDIENT_NOTES[n.name])}</p>` : ''}
@@ -820,7 +965,7 @@ function renderPanel() {
   } else if (v.type === 'dish') {
     const d = DISHES[v.id];
     const c = CUISINES[d.cuisine];
-    const ings = dishIngredientIds(d.id).map((id) => nodes[id]);
+    const ings = dishIngredientIds(d.id).map((id) => ingNodes[id]);
     const set = new Set(d.ingredients);
     const similar = DISHES.filter((o) => o.id !== d.id)
       .map((o) => ({ o, s: o.ingredients.filter((x) => set.has(x)).length / new Set([...o.ingredients, ...d.ingredients]).size }))
@@ -831,6 +976,7 @@ function renderPanel() {
       <a class="ext-link" href="https://www.google.com/search?q=${encodeURIComponent(`${d.name} recipe`)}" target="_blank" rel="noopener noreferrer">Search for recipes<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6" /><path d="M20 4l-9 9" /><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" /></svg><span class="sr">(opens Google in a new tab)</span></a>
       <div class="meter"><span>popularity</span><div class="track"><i style="width:${d.popularity}%;background:${c.color}"></i></div><b>${d.popularity}</b></div>
       <h3>Ingredients · ${ings.length}</h3><div class="chips">${ings.sort((a, b) => b.count - a.count).map((n) => ingChip(n, ` <small>${n.count}</small>`)).join('')}</div>
+      ${mode === 'dishes' ? `<h3>Shares the most ingredients</h3><ul class="rows">${[...adjacency[d.id].entries()].sort((a, b) => b[1].weight - a[1].weight).slice(0, 8).map(([o, e]) => `<li data-go="dish:${o}"><span class="nm">${esc(DISHES[o].name)} <em>${esc(DISHES[o].cuisine)}</em></span><span class="val">${e.weight} in common</span>${bar((e.weight / Math.max(1, d.ingredients.length)) * 100, CUISINES[DISHES[o].cuisine].color)}</li>`).join('') || '<li><span class="nm"><em>No dish shares ' + MIN_SHARED + ' or more.</em></span></li>'}</ul>` : ''}
       <h3>Kindred dishes</h3><ul class="rows">${similar.map(({ o, s }) => `<li data-go="dish:${o.id}"><span class="nm">${esc(o.name)} <em>${esc(o.cuisine)}</em></span><span class="val">${Math.round(s * 100)}% shared</span>${bar(s * 100, CUISINES[o.cuisine].color)}</li>`).join('')}</ul>`;
   } else if (v.type === 'cuisine') {
     const c = CUISINES[v.name];
@@ -890,7 +1036,7 @@ function renderPanel() {
       h += `<h3>Most used ingredients</h3>${ingRows(topIng, (x) => x._k, 10)}<h3>Dishes</h3>${dishRows(ds.map((d) => d.id), 60)}${ds.length > 60 ? `<p class="fine">Showing the 60 most popular of ${ds.length}.</p>` : ''}`;
     }
   } else if (v.type === 'category') {
-    const list = nodes.filter((n) => n.category === v.key).sort((a, b) => b.count - a.count);
+    const list = ingNodes.filter((n) => n.category === v.key).sort((a, b) => b.count - a.count);
     h = `${crumbs()}<div class="title-row">${famIco(v.key, 76)}<div><div class="kicker">ingredient family</div><h2>${esc(CATEGORIES[v.key].label)}</h2></div></div>
       <h3>By number of dishes</h3>${ingRows(list, (n) => n.count)}`;
   }
@@ -1153,10 +1299,10 @@ atlasToggle.addEventListener('click', () => {
 });
 // ---------------------------------------------------------------- settings pane
 const DENSITY = [
-  { label: 'High', nodes: 1, minWeight: 1 }, // everything, as drawn originally
-  { label: 'Medium', nodes: 0.7, minWeight: 2 },
-  { label: 'Low', nodes: 0.45, minWeight: 3 },
-  { label: 'Minimal', nodes: 0.25, minWeight: 4 },
+  { label: 'High', nodes: 1, minWeight: 1, dishWeight: 3 }, // everything, as drawn originally
+  { label: 'Medium', nodes: 0.7, minWeight: 2, dishWeight: 4 },
+  { label: 'Low', nodes: 0.45, minWeight: 3, dishWeight: 5 },
+  { label: 'Minimal', nodes: 0.25, minWeight: 4, dishWeight: 6 },
 ];
 let densityLevel = 3; // Minimal
 try { const saved = localStorage.getItem('tt-density'); if (saved !== null) densityLevel = Math.min(3, Math.max(0, parseInt(saved, 10) || 0)); } catch { /* storage unavailable */ }
@@ -1165,10 +1311,10 @@ const densitySlider = document.getElementById('density');
 // data itself (how many dishes use each), so it follows the dataset as it grows.
 const COMMON_SHARES = [0, 0.05, 0.2]; // share of all ingredients, most-used first
 const COMMON_LABELS = ['Show all', 'Hide some', 'Hide most'];
-const byCount = [...nodes].sort((a, b) => b.count - a.count);
+const byCount = [...ingNodes].sort((a, b) => b.count - a.count);
 function commonAt(level) {
   if (!level) return { ids: new Set(), cut: 0, list: [] };
-  const k = Math.max(1, Math.round(nodes.length * COMMON_SHARES[level]));
+  const k = Math.max(1, Math.round(ingNodes.length * COMMON_SHARES[level]));
   const cut = byCount[k - 1].count;
   const list = byCount.filter((n) => n.count >= cut);
   return { ids: new Set(list.map((n) => n.id)), cut, list };
@@ -1179,7 +1325,7 @@ const hideSlider = document.getElementById('hide-common');
 function applyHideCommon(level, { refresh = true } = {}) {
   hideLevel = level;
   const { ids, cut, list } = commonAt(level);
-  for (const n of nodes) n.hidden = ids.has(n.id);
+  for (const n of ingNodes) n.hidden = ids.has(n.id);
   hideSlider.value = String(level);
   document.getElementById('hide-label').textContent = COMMON_LABELS[level];
   document.querySelectorAll('#hide-ticks span').forEach((t, i) => t.classList.toggle('on', i === level));
@@ -1205,7 +1351,7 @@ function applyDensity(level) {
   for (const n of nodes) n.densityKeep = keepTop.has(n.id) && !n.hidden;
   const keep = new Set(nodes.filter((n) => n.densityKeep).map((n) => n.id));
   HOME_LABELS = new Set(ranked.filter((n) => n.densityKeep).slice(0, 55).map((n) => n.id));
-  buildBaseEdges(d.minWeight, keep);
+  buildBaseEdges(mode === 'dishes' ? d.dishWeight : d.minWeight, keep);
   // refresh what is shown right now, without moving the camera
   for (const n of nodes) {
     const on = highlight ? highlight.has(n.id) : n.densityKeep;
@@ -1336,7 +1482,54 @@ function resetAll() {
 }
 document.getElementById('brand').addEventListener('click', resetAll);
 // "Reset view" also puts every setting back to its default
+function setMode(next) {
+  if (next === mode) return;
+  if (next === 'dishes') ensureDishGraph();
+  // retire what is on screen now
+  for (const n of nodes) {
+    n.vis.opacity = n.vis.tOpacity = n.sprite.material.opacity = 0;
+    n.labelOn = false;
+    n.label.style.display = 'none';
+    n.label._disp = 'none';
+    n.label.style.color = '';
+    n.ringOn = false;
+    if (n.ring) n.ring.visible = false;
+  }
+  if (compare.open) setCompareOpen(false);
+  setMultiAdd(false);
+  mode = next;
+  nodeGroup.visible = next === 'ingredients';
+  dishGroup.visible = next === 'dishes';
+  document.body.classList.toggle('mode-dishes', next === 'dishes');
+  document.querySelectorAll('#mode-toggle button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.mode === next)));
+  const g = next === 'dishes' ? dishGraph : ingredientGraph;
+  ({ nodes, edges, adjacency } = g);
+  maxW = Math.max(...edges.map((e) => e.weight));
+  ranked = next === 'dishes' ? [...nodes].sort((a, b) => b.count - a.count) : ingRanked;
+  history.length = 0;
+  hovered = null;
+  tooltip.classList.remove('show');
+  input.value = '';
+  closeResults();
+  highlight = null;
+  focusIds = new Set();
+  view = { type: 'home' };
+  setSizeByPopularity(sizeByPopularity, { persist: false });
+  applyDensity(densityLevel);
+  go({ type: 'home' }, { push: false });
+  camTween.fromPos.copy(camera.position);
+  camTween.fromTarget.copy(controls.target);
+  camTween.toTarget.set(0, 0, 0);
+  camTween.toPos.copy(HOME_POS).multiplyScalar(camera.aspect < 1 ? 1.25 : 1);
+  camTween.t = 0;
+  controls.autoRotate = true;
+}
+document.getElementById('mode-toggle').addEventListener('click', (e) => {
+  const b = e.target.closest('button[data-mode]');
+  if (b) setMode(b.dataset.mode);
+});
 function resetSettings() {
+  setMode('ingredients');
   compareIllus.auto = false;
   compareSize.auto = false;
   setIllustrations(true);
@@ -1391,7 +1584,7 @@ document.getElementById('lucky').addEventListener('click', () => {
 const input = document.getElementById('search-input');
 const results = document.getElementById('search-results');
 const index = [
-  ...nodes.map((n) => ({ name: n.name, sub: `${CATEGORIES[n.category].label} · ${n.count} dish${n.count > 1 ? 'es' : ''}`, type: 'ingredient', weight: n.count * 6, ico: ['ing', n.id], go: { type: 'ingredient', id: n.id } })),
+  ...ingNodes.map((n) => ({ name: n.name, sub: `${CATEGORIES[n.category].label} · ${n.count} dish${n.count > 1 ? 'es' : ''}`, type: 'ingredient', weight: n.count * 6, ico: ['ing', n.id], go: { type: 'ingredient', id: n.id } })),
   ...DISHES.map((d) => ({ name: d.name, sub: `${d.cuisine} · popularity ${d.popularity}`, type: 'dish', weight: d.popularity, color: CUISINES[d.cuisine].color, go: { type: 'dish', id: d.id } })),
   ...Object.entries(CUISINES).map(([k, c]) => ({ name: k, sub: `${c.country} · ${c.region}`, type: 'cuisine', weight: 200, color: c.color, ico: ['cui', k], go: { type: 'cuisine', name: k }, alt: [c.country] })),
   ...regions.map((r) => ({ name: r, sub: Object.keys(CUISINES).filter((k) => CUISINES[k].region === r).join(', '), type: 'region', weight: 150, go: { type: 'region', name: r } })),
@@ -1486,7 +1679,7 @@ const pickVec = new THREE.Vector3();
 function pick(ev) {
   pointer.set((ev.clientX / innerWidth) * 2 - 1, -(ev.clientY / innerHeight) * 2 + 1);
   raycaster.setFromCamera(pointer, camera);
-  const hitsR = raycaster.intersectObjects(nodeGroup.children, false).filter((h) => h.object.userData.node.vis.opacity > 0.3);
+  const hitsR = raycaster.intersectObjects((mode === 'dishes' ? dishGroup : nodeGroup).children, false).filter((h) => h.object.userData.node.vis.opacity > 0.3);
   if (hitsR.length) return hitsR[0].object.userData.node;
   // tiny dots are hard to hit exactly, so accept the nearest visible one within a few pixels
   let best = null, bestD = 11;
@@ -1506,7 +1699,13 @@ function handlePointerMove(ev) {
     hovered = n;
     stage.classList.toggle('pointing', !!n);
   }
-  if (n) {
+  if (n && n.isDish) {
+    const ingCount = DISHES[n.id].ingredients.length;
+    tooltip.innerHTML = `<b>${esc(n.name)}</b><span>${esc(n.cuisine)} · ${ingCount} ingredients · popularity ${n.popularity}</span>`;
+    tooltip.style.left = `${Math.min(ev.clientX + 16, innerWidth - 270)}px`;
+    tooltip.style.top = `${ev.clientY + 14}px`;
+    tooltip.classList.add('show');
+  } else if (n) {
     const cuisines = [...n.cuisines.keys()];
     tooltip.innerHTML = `<b>${esc(n.name)}</b><span>${n.count} dish${n.count > 1 ? 'es' : ''} · ${cuisines.length} cuisine${cuisines.length > 1 ? 's' : ''}${cuisines.length <= 3 ? ` — ${cuisines.join(', ')}` : ''}</span>`;
     tooltip.style.left = `${Math.min(ev.clientX + 16, innerWidth - 270)}px`;
@@ -1538,7 +1737,8 @@ renderer.domElement.addEventListener('pointerup', (ev) => {
   if (!downAt || Math.hypot(ev.clientX - downAt[0], ev.clientY - downAt[1]) > 5) return;
   const n = pick(ev);
   if (!n) return;
-  if (ev.ctrlKey || ev.metaKey || multiAdd) toggleIngredient(n.id);
+  if (mode === 'dishes') go({ type: 'dish', id: n.id });
+  else if (ev.ctrlKey || ev.metaKey || multiAdd) toggleIngredient(n.id);
   else go({ type: 'ingredient', id: n.id });
 });
 controls.addEventListener('start', () => (controls.autoRotate = false));
@@ -1669,7 +1869,7 @@ function frame(rawDt) {
   for (const n of nodes) {
     const v = n.vis;
     const targetScale = v.tScale * (n === hovered ? 1.22 : 1);
-    const targetBase = sizeByPopularity ? n.baseScale : UNIFORM_SCALE;
+    const targetBase = sizeByPopularity ? n.baseScale : n.isDish ? 9 : UNIFORM_SCALE;
     if (Math.abs(targetScale - v.scale) > 0.002 || Math.abs(v.tOpacity - v.opacity) > 0.002 || Math.abs(targetBase - v.base) > 0.01) {
       v.scale += (targetScale - v.scale) * lerp;
       v.opacity += (v.tOpacity - v.opacity) * lerp;
@@ -1695,7 +1895,7 @@ function frame(rawDt) {
       n.ring.material.opacity = n.vis.opacity;
     }
   }
-  const haloNode = hovered || (view.type === 'ingredient' ? nodes[view.id] : null);
+  const haloNode = hovered || (view.type === (mode === 'dishes' ? 'dish' : 'ingredient') ? nodes[view.id] : null);
   const haloTarget = haloNode ? 0.9 : 0;
   if (haloNode) {
     halo.position.copy(haloNode.sprite.position);
@@ -1770,4 +1970,4 @@ camTween.t = 1;
 if (camera.aspect < 1) camera.position.multiplyScalar(1.25);
 animate();
 // expose for debugging
-window.__atlas = { nodes, edges, go, camera, controls, cuisineMarks, perf, renderer, tick, loop: () => ({ state: ['idle', 'auto-rotate', 'moving'][loopState], needsRender }), step: (k = 30) => { for (let i = 0; i < k; i++) frame(0.05); } };
+window.__atlas = { get nodes() { return nodes; }, get edges() { return edges; }, setMode, get mode() { return mode; }, go, camera, controls, cuisineMarks, perf, renderer, tick, loop: () => ({ state: ['idle', 'auto-rotate', 'moving'][loopState], needsRender }), step: (k = 30) => { for (let i = 0; i < k; i++) frame(0.05); } };
