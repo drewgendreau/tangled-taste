@@ -7,7 +7,7 @@ import { CATEGORIES, CUISINES, DISHES, DISH_TYPES, INGREDIENT_NOTES } from './da
 import { buildGraph, buildDishGraph, MIN_SHARED, latLngToVec, GLOBE_RADIUS } from './graph.js';
 import { paintBlob, paintBlobCanvas, paintHalo, paintPaperTile } from './watercolor.js';
 import { paintIngredient, paintCuisine, isPainted } from './illustrations.js';
-import { paintDish, hasDishArt, isDishPainted } from './dishes-art.js';
+import { loadDishArt, onDishArt, hasDishImage, dishPreviewUrl, dishThumbTexture, dishThumbHTML } from './dish-images.js';
 import { buildProfiles, buildMatrix, compareSets, describe } from './similarity.js';
 import { buildIndex, analyze, describeLift } from './overlap.js';
 
@@ -141,10 +141,9 @@ const famIco = (k, px) => ico('fam', k, px);
 const iconSource = (kind, key) => {
   if (kind === 'ing') { const n = ingNodes[+key]; return paintIngredient(n.name, CATEGORIES[n.category].color); }
   if (kind === 'cui') return paintCuisine(key, CUISINES[key].color);
-  if (kind === 'dish') return paintDish(DISHES[+key].name, 256);
   return paintIngredient(REP[key], CATEGORIES[key].color);
 };
-const iconReady = (kind, key) => (kind === 'ing' ? isPainted(ingNodes[+key].name) : kind === 'cui' ? isPainted(`cuisine:${key}`) : kind === 'dish' ? isDishPainted(DISHES[+key].name, 256) : isPainted(REP[key]));
+const iconReady = (kind, key) => (kind === 'ing' ? isPainted(ingNodes[+key].name) : kind === 'cui' ? isPainted(`cuisine:${key}`) : isPainted(REP[key]));
 function fillIcons(root) {
   for (const c of root.querySelectorAll('canvas[data-ico]:not([data-done])')) {
     const [kind, key] = c.dataset.ico.split(/:(.*)/s);
@@ -782,31 +781,42 @@ function ensureDishGraph() {
     const mat = new THREE.SpriteMaterial({ map: n.blobTex, transparent: true, depthWrite: false, opacity: 0, rotation: (((n.id * 7919) % 100) / 100 - 0.5) * 0.3 });
     const sp = new THREE.Sprite(mat);
     sp.position.fromArray(n.pos);
-    n.hasArt = hasDishArt(n.name);
-    n.baseScale = n.hasArt ? 12 + 22 * Math.pow(n.commonness, 1.4) : 5 + 16 * Math.pow(n.commonness, 1.4);
+    n.hasArt = false;
+    n.baseScale = 5 + 16 * Math.pow(n.commonness, 1.4);
     sp.scale.setScalar(n.baseScale);
     sp.userData.node = n;
     n.sprite = sp;
     n.vis = { scale: 1, base: n.baseScale, opacity: 0, tScale: 1, tOpacity: 1 };
     dishGroup.add(sp);
     makeLabel(n);
-    if (n.hasArt) whenIdle(() => paintDishNode(n), true);
   }
+  applyDishArt();
 }
-// A dish with a watercolor shows it on the map; the others keep their cuisine-coloured blob.
-function paintDishNode(n) {
-  if (n.illusTex) return;
+// A dish with a picture shows it on the map; the others keep their cuisine-coloured blob.
+// Runs when the dish graph is built and again whenever more pictures have loaded.
+function applyDishArt() {
+  if (!dishGraph) return;
+  for (const n of dishGraph.nodes) {
+    if (n.illusTex || !hasDishImage(n.uid)) continue;
+    const tex = dishThumbTexture(n.uid);
+    if (!tex) continue;
+    n.illusTex = tex;
+    n.hasArt = true;
+    n.baseScale = 14 + 22 * Math.pow(n.commonness, 1.4);
+    if (showIllustrations) {
+      n.sprite.material.map = tex;
+      n.sprite.material.needsUpdate = true;
+    }
+    n.vis.opacity = 0; // fade the picture in
+  }
   invalidate();
-  const tex = new THREE.CanvasTexture(paintDish(n.name, 256));
-  tex.colorSpace = THREE.SRGBColorSpace;
-  tex.anisotropy = 1;
-  n.illusTex = tex;
-  if (showIllustrations) {
-    n.sprite.material.map = tex;
-    n.sprite.material.needsUpdate = true;
-  }
-  n.vis.opacity = 0;
 }
+onDishArt(() => {
+  applyDishArt();
+  // the first time pictures arrive, show them in an open panel too (unless the person has scrolled it)
+  if (mode === 'dishes' && panel.scrollTop === 0 && (view.type === 'home' || view.type === 'dish')) renderPanel();
+});
+whenIdle(() => loadDishArt(), true);
 
 function goDishes(next, { push = true, quiet = false } = {}) {
   invalidate();
@@ -886,7 +896,6 @@ function goDishes(next, { push = true, quiet = false } = {}) {
       fly([...hi]);
       break;
   }
-  if (hi && hi.size < 120) for (const id of hi) if (nodes[id].hasArt) paintDishNode(nodes[id]);
   highlight = hi;
   focusIds = focus;
   setHighlightEdges(edgesHi);
@@ -934,7 +943,7 @@ const ingChip = (n, extra = '') => `<button class="chip" data-go="ingredient:${n
 const cuisineChip = (name, extra = '') => `<button class="chip${activeCuisines.has(name) ? ' active' : ''}" data-go="cuisine:${esc(name)}">${cuiIco(name)}${esc(name)}${extra}</button>`;
 const dishRows = (ids, max = 99) => `<ul class="rows">${ids.slice(0, max).map((id) => {
   const d = DISHES[id];
-  const pic = hasDishArt(d.name) ? ico('dish', id, 28) : `<i class="dish-dot" style="--c:${CUISINES[d.cuisine].color}"></i>`;
+  const pic = hasDishImage(d.uid) ? dishThumbHTML(d.uid, 28) : `<i class="dish-dot" style="--c:${CUISINES[d.cuisine].color}"></i>`;
   return `<li data-go="dish:${id}"><span class="nm">${pic}${esc(d.name)} <em>${esc(d.cuisine)}</em></span><span class="val">${d.popularity}</span>${bar(d.popularity, CUISINES[d.cuisine].color)}</li>`;
 }).join('')}</ul>`;
 const ingRows = (list, valFn, max = 99, maxVal) => {
@@ -953,21 +962,11 @@ function crumbs() {
   return `<div class="crumbs">${parts.join('')}</div>`;
 }
 
-// The preview slot at the top of a dish panel: a large watercolor when the dish has one, a placeholder otherwise.
-const PREVIEW_PX = (window.devicePixelRatio || 1) > 1.5 ? 1024 : 768; // painted at this size, so it stays crisp on big screens
+// The preview slot at the top of a dish panel: the dish's picture when it has one, nothing otherwise.
 function dishPreview(d) {
-  if (hasDishArt(d.name)) return `<figure class="dish-art"><canvas data-dish-art="${d.id}" width="${PREVIEW_PX}" height="${PREVIEW_PX}" role="img" aria-label="Watercolor painting of ${esc(d.name)}"></canvas></figure>`;
-  return '';
-}
-function fillDishArt(root) {
-  for (const c of root.querySelectorAll('canvas[data-dish-art]')) {
-    const d = DISHES[+c.dataset.dishArt];
-    whenIdle(() => {
-      if (!c.isConnected) return;
-      c.getContext('2d').drawImage(paintDish(d.name, PREVIEW_PX), 0, 0);
-      c.classList.add('ready');
-    });
-  }
+  const url = dishPreviewUrl(d.uid);
+  if (!url) return '';
+  return `<figure class="dish-art"><img src="${url}" width="1024" height="1024" alt="Illustration of ${esc(d.name)}" decoding="async" onload="this.classList.add('ready')"></figure>`;
 }
 function renderPanel() {
   let h = '';
@@ -1078,7 +1077,6 @@ function renderPanel() {
   }
   panel.innerHTML = `<div class="panel">${h}</div>`;
   fillIcons(panel);
-  fillDishArt(panel);
   panel.scrollTop = 0;
   panel.style.animation = 'none';
   void panel.offsetWidth;

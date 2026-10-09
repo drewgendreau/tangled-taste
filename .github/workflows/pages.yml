@@ -31,6 +31,11 @@ jobs:
           cache: pnpm
           cache-dependency-path: tangled-taste/pnpm-lock.yaml
       - run: pnpm install --frozen-lockfile
+      - uses: actions/cache@v4
+        with:
+          path: tangled-taste/.cache
+          key: dish-art-${{ hashFiles('tangled-taste/art/dishes/**', 'tangled-taste/scripts/build-dish-art.mjs') }}
+          restore-keys: dish-art-
       - run: pnpm validate
       - run: pnpm build
       - uses: actions/upload-pages-artifact@v3

@@ -4,3 +4,5 @@ dist/
 .claude/
 src/data/layout.generated.json
 src/data/layout.dishes.generated.json
+public/dish-art/
+.cache/

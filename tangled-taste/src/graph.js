@@ -139,7 +139,7 @@ export function buildDishGraph(baked) {
   const edges = [];
   for (const [key, weight] of counts) if (weight >= MIN_SHARED) edges.push({ source: Math.floor(key / 10000), target: key % 10000, weight });
   const nodes = DISHES.map((d) => ({
-    id: d.id, name: d.name, isDish: true, cuisine: d.cuisine, type: d.type, count: d.popularity, popularity: d.popularity,
+    id: d.id, uid: d.uid, name: d.name, isDish: true, cuisine: d.cuisine, type: d.type, count: d.popularity, popularity: d.popularity,
     commonness: Math.sqrt(d.popularity / 100), cuisines: new Map([[d.cuisine, 1]]), dishes: [d.id],
   }));
   const adjacency = nodes.map(() => new Map());
