@@ -2,7 +2,11 @@ node_modules/
 dist/
 .DS_Store
 .claude/
-src/data/layout.generated.json
-src/data/layout.dishes.generated.json
-public/dish-art/
 .cache/
+.env.local
+.env
+# generated at build time (paths are from the repository root)
+tangled-taste/src/data/layout.generated.json
+tangled-taste/src/data/layout.dishes.generated.json
+tangled-taste/public/dish-art/
+tangled-taste/public/ingredient-art/

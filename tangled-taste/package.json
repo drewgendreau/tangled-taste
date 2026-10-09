@@ -11,6 +11,7 @@
     "validate:strict": "node scripts/validate.mjs --strict",
     "bake": "node scripts/bake-layout.mjs",
     "art:build": "node scripts/build-dish-art.mjs",
+    "image": "node scripts/gemini-image.mjs",
     "format:data": "node scripts/format-data.mjs"
   },
   "keywords": [],

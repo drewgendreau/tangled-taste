@@ -3,12 +3,13 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { LineSegments2 } from 'three/examples/jsm/lines/LineSegments2.js';
 import { LineSegmentsGeometry } from 'three/examples/jsm/lines/LineSegmentsGeometry.js';
 import { LineMaterial } from 'three/examples/jsm/lines/LineMaterial.js';
-import { CATEGORIES, CUISINES, DISHES, DISH_TYPES, INGREDIENT_NOTES } from './data.js';
+import { CATEGORIES, CUISINES, DISHES, DISH_TYPES, INGREDIENT_NOTES, ingredientSlug } from './data.js';
 import { buildGraph, buildDishGraph, latLngToVec, GLOBE_RADIUS } from './graph.js';
 import { paintBlob, paintBlobCanvas, paintHalo, paintPaperTile } from './watercolor.js';
 import { paintIngredient, paintCuisine, isPainted } from './illustrations.js';
 import aboutSource from '../content/about.md?raw';
 import welcomeSource from '../content/welcome.md?raw';
+import { loadIngredientArt, onIngredientArt, hasIngredientImage, ingredientThumbTexture, ingredientThumbCanvas } from './ingredient-images.js';
 import { loadDishArt, onDishArt, hasDishImage, dishPreviewUrl, dishThumbTexture, dishThumbHTML } from './dish-images.js';
 import { buildProfiles, buildMatrix, compareSets, describe } from './similarity.js';
 import { buildIndex, analyze, describeLift } from './overlap.js';
@@ -145,17 +146,21 @@ const ingIco = (n, px) => ico('ing', n.id, px);
 const cuiIco = (name, px = 24) => ico('cui', name, px, 'cico');
 const famIco = (k, px) => ico('fam', k, px);
 const iconSource = (kind, key) => {
-  if (kind === 'ing') { const n = ingNodes[+key]; return paintIngredient(n.name, CATEGORIES[n.category].color); }
+  if (kind === 'ing') {
+    const n = ingNodes[+key];
+    return ingredientThumbCanvas(ingredientSlug(n.name)) || paintIngredient(n.name, CATEGORIES[n.category].color); // a picture if it has one
+  }
   if (kind === 'cui') return paintCuisine(key, CUISINES[key].color);
   return paintIngredient(REP[key], CATEGORIES[key].color);
 };
-const iconReady = (kind, key) => (kind === 'ing' ? isPainted(ingNodes[+key].name) : kind === 'cui' ? isPainted(`cuisine:${key}`) : isPainted(REP[key]));
+const iconReady = (kind, key) => (kind === 'ing' ? !!ingredientThumbCanvas(ingredientSlug(ingNodes[+key].name)) || isPainted(ingNodes[+key].name) : kind === 'cui' ? isPainted(`cuisine:${key}`) : isPainted(REP[key]));
 function fillIcons(root) {
   for (const c of root.querySelectorAll('canvas[data-ico]:not([data-done])')) {
     const [kind, key] = c.dataset.ico.split(/:(.*)/s);
     const draw = () => {
       const g = c.getContext('2d');
       g.imageSmoothingQuality = 'high';
+      g.clearRect(0, 0, c.width, c.height);
       g.drawImage(iconSource(kind, key), 0, 0, c.width, c.height);
       c.dataset.done = '1';
     };
@@ -222,6 +227,33 @@ function paintIngredientNode(n) {
   n.vis.opacity = 0; // fade the finished painting in
 }
 for (const n of [...ingNodes].sort((a, b) => b.count - a.count)) whenIdle(() => paintIngredientNode(n), true);
+// An ingredient with a generated picture (art/ingredients/<name>.webp) uses it instead of the painting made in code.
+function applyIngredientArt() {
+  for (const n of ingNodes) {
+    if (n.imageArt) continue;
+    const slug = ingredientSlug(n.name);
+    if (!hasIngredientImage(slug)) continue;
+    const tex = ingredientThumbTexture(slug);
+    if (!tex) continue;
+    if (n.illusTex?.dispose) n.illusTex.dispose();
+    n.imageArt = true;
+    n.illusTex = tex;
+    if (showIllustrations) {
+      n.sprite.material.map = tex;
+      n.sprite.material.needsUpdate = true;
+    }
+    n.vis.opacity = 0; // fade the picture in
+  }
+  // icons already drawn from the painting are redrawn from the picture
+  for (const c of document.querySelectorAll('canvas.ico[data-ico^="ing:"][data-done]')) {
+    const n = ingNodes[+c.dataset.ico.slice(4)];
+    if (n?.imageArt) delete c.dataset.done;
+  }
+  fillIcons(document.body);
+  invalidate();
+}
+onIngredientArt(applyIngredientArt);
+whenIdle(() => loadIngredientArt(), true);
 function setIllustrations(on, { persist = true } = {}) {
   showIllustrations = on;
   invalidate();

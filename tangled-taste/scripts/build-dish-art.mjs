@@ -1,22 +1,22 @@
-// Turns the dish images in art/dishes/ into what the site loads.
+// Turns the pictures in art/dishes/ and art/ingredients/ into what the site loads.
 //
 //   art/dishes/TT-0001.webp   (any square-ish webp/png/jpg; the name is the permanent dish ID)
 //     -> public/dish-art/previews/TT-0001.<hash>.webp   1024 px cutout, shown in the dish panel
 //     -> public/dish-art/thumbs-<n>.<hash>.webp         192 px cutouts packed into 2048 px sheets (map + lists)
 //     -> public/dish-art/manifest.json                  what the app reads
+//   art/ingredients/olive-oil.webp   (the name is the ingredient's name, lower case, spaces as hyphens)
+//     -> public/ingredient-art/thumbs-<n>.<hash>.webp + manifest.json   (thumbnails only)
 //
-// To change a dish picture: replace its file in art/dishes/ (same name). To add one: drop in TT-xxxx.webp.
+// To change a picture: replace its file (same name). To add one: drop in a new file.
 // This runs automatically before `pnpm dev` and `pnpm build`; unchanged images are skipped (cache in .cache/dish-art).
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import crypto from 'node:crypto';
 import sharp from 'sharp';
-import { DISHES } from '../src/data.js';
+import { DISHES, INGREDIENT_CATEGORY, ingredientSlug } from '../src/data.js';
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url));
-const SRC = path.join(ROOT, 'art/dishes');
-const OUT = path.join(ROOT, 'public/dish-art');
 const CACHE = path.join(ROOT, '.cache/dish-art');
 // any change to this script re-renders everything (the cache key includes the script itself)
 const PIPELINE_VERSION = crypto.createHash('sha256').update(fs.readFileSync(fileURLToPath(import.meta.url))).digest('hex').slice(0, 10);
@@ -31,7 +31,6 @@ const PER_SHEET = COLS * COLS;
 const FILL = 0.84; // the dish fills this share of the square, so every dish has the same visual weight
 
 const sha = (buf, n = 8) => crypto.createHash('sha256').update(buf).digest('hex').slice(0, n);
-fs.mkdirSync(path.join(OUT, 'previews'), { recursive: true });
 fs.mkdirSync(CACHE, { recursive: true });
 
 // ---------------------------------------------------------------- cutout
@@ -120,61 +119,86 @@ async function normalise({ data, width, height }) {
 }
 
 // ---------------------------------------------------------------- run
-const byUid = new Map(DISHES.map((d) => [d.uid, d]));
-const files = fs.readdirSync(SRC).filter((f) => /^TT-\d{4}\.(webp|png|jpe?g)$/i.test(f)).sort();
 const problems = [];
-const items = [];
-for (const f of files) {
-  const uid = f.slice(0, 7);
-  const dish = byUid.get(uid);
-  if (!dish) { problems.push(`${f}: no dish has the ID ${uid}`); continue; }
-  const source = fs.readFileSync(path.join(SRC, f));
-  const key = sha(Buffer.concat([source, Buffer.from(PIPELINE_VERSION)]), 12);
-  const cached = path.join(CACHE, `${uid}.${key}.json`);
-  let rec;
-  if (fs.existsSync(cached) && fs.existsSync(path.join(CACHE, `${uid}.${key}.preview.webp`))) rec = JSON.parse(fs.readFileSync(cached, 'utf8'));
-  else {
-    const meta = await sharp(source).metadata();
-    if (Math.abs(meta.width - meta.height) > Math.min(meta.width, meta.height) * 0.1) problems.push(`${f}: not square (${meta.width}x${meta.height}); it will still be used`);
-    if (Math.min(meta.width, meta.height) < 512) problems.push(`${f}: small (${meta.width}x${meta.height}); 1024 px is recommended`);
-    const { canvas, touches } = await normalise(await cutout(source));
-    const preview = await sharp(canvas).webp({ quality: 86, alphaQuality: 90, effort: 5 }).toBuffer();
-    const thumb = await sharp(canvas).resize(CELL, CELL, { kernel: 'lanczos3' }).png().toBuffer();
-    fs.writeFileSync(path.join(CACHE, `${uid}.${key}.preview.webp`), preview);
-    fs.writeFileSync(path.join(CACHE, `${uid}.${key}.thumb.png`), thumb);
-    rec = { uid, key, touches, previewHash: sha(preview) };
-    fs.writeFileSync(cached, JSON.stringify(rec));
-  }
-  if (rec.touches) problems.push(`${f}: the dish runs to the edge of the picture; leave a margin if you can`);
-  items.push({ ...rec, dish });
-}
-items.sort((a, b) => b.dish.popularity - a.dish.popularity || a.uid.localeCompare(b.uid));
+const ingredientNames = Object.keys(INGREDIENT_CATEGORY);
+const ingredientCount = new Map();
+for (const d of DISHES) for (const nm of new Set(d.ingredients)) ingredientCount.set(nm, (ingredientCount.get(nm) || 0) + 1);
 
-// previews
-const manifest = { version: 1, thumbs: { cell: CELL, gutter: GUTTER, stride: STRIDE, size: SHEET, columns: COLS, sheets: [] }, previews: {} };
-for (const f of fs.readdirSync(path.join(OUT, 'previews'))) fs.unlinkSync(path.join(OUT, 'previews', f));
-for (const f of fs.readdirSync(OUT)) if (/^thumbs-/.test(f)) fs.unlinkSync(path.join(OUT, f));
-for (const it of items) {
-  const name = `previews/${it.uid}.${it.previewHash}.webp`;
-  fs.copyFileSync(path.join(CACHE, `${it.uid}.${it.key}.preview.webp`), path.join(OUT, name));
-  manifest.previews[it.uid] = name;
+const SETS = [
+  {
+    label: 'dish art', src: 'art/dishes', out: 'public/dish-art', previews: true,
+    pattern: /^(TT-\d{4})\.(webp|png|jpe?g)$/i,
+    lookup: new Map(DISHES.map((d) => [d.uid, { weight: d.popularity }])),
+    unknown: (id) => `no dish has the ID ${id}`,
+  },
+  {
+    label: 'ingredient art', src: 'art/ingredients', out: 'public/ingredient-art', previews: false,
+    pattern: /^([a-z0-9][a-z0-9-]*)\.(webp|png|jpe?g)$/,
+    lookup: new Map(ingredientNames.map((nm) => [ingredientSlug(nm), { weight: ingredientCount.get(nm) || 0 }])),
+    unknown: (id) => `no ingredient is called "${id.replace(/-/g, ' ')}"`,
+  },
+];
+
+async function buildSet(cfg) {
+  const SRC = path.join(ROOT, cfg.src), OUT = path.join(ROOT, cfg.out);
+  fs.mkdirSync(path.join(OUT, 'previews'), { recursive: true });
+  fs.mkdirSync(SRC, { recursive: true });
+  const files = fs.readdirSync(SRC).filter((f) => cfg.pattern.test(f)).sort();
+  const items = [];
+  for (const f of files) {
+    const id = f.match(cfg.pattern)[1];
+    const entry = cfg.lookup.get(id);
+    if (!entry) { problems.push(`${cfg.src}/${f}: ${cfg.unknown(id)}`); continue; }
+    const source = fs.readFileSync(path.join(SRC, f));
+    const key = sha(Buffer.concat([source, Buffer.from(PIPELINE_VERSION)]), 12);
+    const cached = path.join(CACHE, `${id}.${key}.json`);
+    let rec;
+    if (fs.existsSync(cached) && fs.existsSync(path.join(CACHE, `${id}.${key}.preview.webp`))) rec = JSON.parse(fs.readFileSync(cached, 'utf8'));
+    else {
+      const meta = await sharp(source).metadata();
+      if (Math.abs(meta.width - meta.height) > Math.min(meta.width, meta.height) * 0.1) problems.push(`${cfg.src}/${f}: not square (${meta.width}x${meta.height}); it will still be used`);
+      if (Math.min(meta.width, meta.height) < 512) problems.push(`${cfg.src}/${f}: small (${meta.width}x${meta.height}); 1024 px is recommended`);
+      const { canvas, touches } = await normalise(await cutout(source));
+      const preview = await sharp(canvas).webp({ quality: 86, alphaQuality: 90, effort: 5 }).toBuffer();
+      const thumb = await sharp(canvas).resize(CELL, CELL, { kernel: 'lanczos3' }).png().toBuffer();
+      fs.writeFileSync(path.join(CACHE, `${id}.${key}.preview.webp`), preview);
+      fs.writeFileSync(path.join(CACHE, `${id}.${key}.thumb.png`), thumb);
+      rec = { id, key, touches, previewHash: sha(preview) };
+      fs.writeFileSync(cached, JSON.stringify(rec));
+    }
+    if (rec.touches) problems.push(`${cfg.src}/${f}: the picture runs to the edge; leave a margin if you can`);
+    items.push({ ...rec, id, weight: entry.weight });
+  }
+  items.sort((a, b) => b.weight - a.weight || a.id.localeCompare(b.id));
+
+  const manifest = { version: 1, thumbs: { cell: CELL, gutter: GUTTER, stride: STRIDE, size: SHEET, columns: COLS, sheets: [] }, previews: {} };
+  for (const f of fs.readdirSync(path.join(OUT, 'previews'))) fs.unlinkSync(path.join(OUT, 'previews', f));
+  for (const f of fs.readdirSync(OUT)) if (/^thumbs-/.test(f)) fs.unlinkSync(path.join(OUT, f));
+  for (const it of items) {
+    // ingredient pictures are only shown small, so they have a thumbnail but no large preview
+    const name = `previews/${it.id}.${it.previewHash}.webp`;
+    if (cfg.previews) fs.copyFileSync(path.join(CACHE, `${it.id}.${it.key}.preview.webp`), path.join(OUT, name));
+    manifest.previews[it.id] = cfg.previews ? name : true;
+  }
+  // thumbnail sheets, most popular first
+  for (let s = 0; s * PER_SHEET < items.length; s++) {
+    const group = items.slice(s * PER_SHEET, (s + 1) * PER_SHEET);
+    const composites = group.map((it, i) => ({
+      input: path.join(CACHE, `${it.id}.${it.key}.thumb.png`),
+      left: (i % COLS) * STRIDE + GUTTER,
+      top: Math.floor(i / COLS) * STRIDE + GUTTER,
+    }));
+    const rows = Math.ceil(group.length / COLS);
+    const sheet = await sharp({ create: { width: SHEET, height: rows * STRIDE, channels: 4, background: { r: 0, g: 0, b: 0, alpha: 0 } } })
+      .composite(composites).webp({ quality: 85, alphaQuality: 90, effort: 5 }).toBuffer();
+    const file = `thumbs-${s}.${sha(sheet)}.webp`;
+    fs.writeFileSync(path.join(OUT, file), sheet);
+    manifest.thumbs.sheets.push({ file, width: SHEET, height: rows * STRIDE, items: Object.fromEntries(group.map((it, i) => [it.id, [i % COLS, Math.floor(i / COLS)]])) });
+  }
+  fs.writeFileSync(path.join(OUT, 'manifest.json'), JSON.stringify(manifest));
+  const bytes = fs.readdirSync(OUT, { recursive: true }).reduce((n, f) => { const p = path.join(OUT, f); return n + (fs.statSync(p).isFile() ? fs.statSync(p).size : 0); }, 0);
+  console.log(`${cfg.label}: ${items.length} images, ${manifest.thumbs.sheets.length} sheet(s), ${(bytes / 1e6).toFixed(1)} MB`);
 }
-// thumbnail sheets, most popular dishes first
-for (let s = 0; s * PER_SHEET < items.length; s++) {
-  const group = items.slice(s * PER_SHEET, (s + 1) * PER_SHEET);
-  const composites = group.map((it, i) => ({
-    input: path.join(CACHE, `${it.uid}.${it.key}.thumb.png`),
-    left: (i % COLS) * STRIDE + GUTTER,
-    top: Math.floor(i / COLS) * STRIDE + GUTTER,
-  }));
-  const rows = Math.ceil(group.length / COLS);
-  const sheet = await sharp({ create: { width: SHEET, height: rows * STRIDE, channels: 4, background: { r: 0, g: 0, b: 0, alpha: 0 } } })
-    .composite(composites).webp({ quality: 85, alphaQuality: 90, effort: 5 }).toBuffer();
-  const file = `thumbs-${s}.${sha(sheet)}.webp`;
-  fs.writeFileSync(path.join(OUT, file), sheet);
-  manifest.thumbs.sheets.push({ file, width: SHEET, height: rows * STRIDE, items: Object.fromEntries(group.map((it, i) => [it.uid, [i % COLS, Math.floor(i / COLS)]])) });
-}
-fs.writeFileSync(path.join(OUT, 'manifest.json'), JSON.stringify(manifest));
-const bytes = fs.readdirSync(OUT, { recursive: true }).reduce((n, f) => { const p = path.join(OUT, f); return n + (fs.statSync(p).isFile() ? fs.statSync(p).size : 0); }, 0);
-console.log(`dish art: ${items.length} images, ${manifest.thumbs.sheets.length} sheet(s), ${(bytes / 1e6).toFixed(1)} MB`);
+
+for (const cfg of SETS) await buildSet(cfg);
 for (const p of problems) console.warn(`  note: ${p}`);

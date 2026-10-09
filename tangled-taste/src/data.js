@@ -13,6 +13,9 @@ import africaMiddleEast from './data/dishes/africa-middle-east.js';
 
 export { CATEGORIES, CUISINES, INGREDIENTS, DISH_TYPES, INGREDIENT_NOTES };
 
+// File-name form of an ingredient's name, used for its picture: "olive oil" -> "olive-oil".
+export const ingredientSlug = (name) => name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+
 export const INGREDIENT_CATEGORY = Object.fromEntries(
   Object.entries(INGREDIENTS).flatMap(([category, names]) => names.map((n) => [n, category])),
 );
