@@ -8,6 +8,7 @@ import { buildGraph, buildDishGraph, latLngToVec, GLOBE_RADIUS } from './graph.j
 import { paintBlob, paintBlobCanvas, paintHalo, paintPaperTile } from './watercolor.js';
 import { paintIngredient, paintCuisine, isPainted } from './illustrations.js';
 import aboutSource from '../content/about.md?raw';
+import welcomeSource from '../content/welcome.md?raw';
 import { loadDishArt, onDishArt, hasDishImage, dishPreviewUrl, dishThumbTexture, dishThumbHTML } from './dish-images.js';
 import { buildProfiles, buildMatrix, compareSets, describe } from './similarity.js';
 import { buildIndex, analyze, describeLift } from './overlap.js';
@@ -1515,16 +1516,21 @@ document.getElementById('settings-close').addEventListener('click', () => setSet
 document.getElementById('settings-done').addEventListener('click', () => setSettingsOpen(false));
 
 // ---------------------------------------------------------------- About window
-// The text lives in content/about.md (edit it on GitHub, no code needed): a first line "# Title", then
-// paragraphs separated by blank lines. [text](https://…) makes a link.
-{
-  const blocks = aboutSource.replace(/\r/g, '').trim().split(/\n\s*\n/);
-  let title = 'About Tangled Taste';
-  if (blocks[0] && blocks[0].startsWith('# ')) title = blocks.shift().slice(2).trim();
-  document.getElementById('about-title').textContent = title;
+// The text of the About and Welcome windows lives in content/about.md and content/welcome.md (edit them on GitHub,
+// no code needed): a first line "# Title", then paragraphs separated by blank lines. Lines starting "1. ", "2. "…
+// make a numbered list; [text](https://…) makes a link.
+function renderContent(source, titleEl, bodyEl) {
+  const blocks = source.replace(/\r/g, '').trim().split(/\n\s*\n/);
+  if (blocks[0] && blocks[0].startsWith('# ')) titleEl.textContent = blocks.shift().slice(2).trim();
   const link = (t) => esc(t).replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>');
-  document.getElementById('about-body').innerHTML = blocks.map((b) => `<p>${link(b.replace(/\n/g, ' '))}</p>`).join('');
+  bodyEl.innerHTML = blocks.map((b) => {
+    const lines = b.split('\n');
+    if (lines.every((l) => /^\d+\.\s/.test(l))) return `<ol>${lines.map((l) => `<li>${link(l.replace(/^\d+\.\s+/, ''))}</li>`).join('')}</ol>`;
+    return `<p>${link(lines.join(' '))}</p>`;
+  }).join('');
 }
+renderContent(aboutSource, document.getElementById('about-title'), document.getElementById('about-body'));
+renderContent(welcomeSource, document.getElementById('welcome-title'), document.getElementById('welcome-body'));
 const aboutEl = document.getElementById('about');
 const aboutBtn = document.getElementById('about-btn');
 function setAboutOpen(open) {
@@ -1537,6 +1543,26 @@ aboutBtn.addEventListener('click', () => setAboutOpen(true));
 document.getElementById('about-close').addEventListener('click', () => setAboutOpen(false));
 document.getElementById('about-done').addEventListener('click', () => setAboutOpen(false));
 aboutEl.addEventListener('click', (e) => { if (e.target === aboutEl) setAboutOpen(false); }); // click outside the card
+
+// Welcome window: shown on a first visit. "Don't Show Again" is ticked by default, so closing it normally means
+// the person is not shown it again; unticking it makes it come back next time.
+const welcomeEl = document.getElementById('welcome');
+let welcomeSeen = false;
+try { welcomeSeen = localStorage.getItem('tt-welcome-seen') === '1'; } catch { /* storage unavailable: show it */ }
+function setWelcomeOpen(open) {
+  welcomeEl.hidden = !open;
+  if (open) document.getElementById('welcome-go').focus({ preventScroll: true });
+  else {
+    try {
+      if (document.getElementById('welcome-dont-show').checked) localStorage.setItem('tt-welcome-seen', '1');
+      else localStorage.removeItem('tt-welcome-seen');
+    } catch { /* storage unavailable */ }
+  }
+}
+document.getElementById('welcome-close').addEventListener('click', () => setWelcomeOpen(false));
+document.getElementById('welcome-go').addEventListener('click', () => setWelcomeOpen(false));
+welcomeEl.addEventListener('click', (e) => { if (e.target === welcomeEl) setWelcomeOpen(false); });
+if (!welcomeSeen) setWelcomeOpen(true);
 
 // ---------------------------------------------------------------- compare pane (bottom, off by default)
 const compareToggle = document.getElementById('compare-toggle');
@@ -1825,7 +1851,8 @@ window.addEventListener('keydown', (e) => {
   if (e.key === '/' && document.activeElement !== input) {
     e.preventDefault();
     input.focus();
-  } else if (e.key === 'Escape' && !aboutEl.hidden) setAboutOpen(false);
+  } else if (e.key === 'Escape' && !welcomeEl.hidden) setWelcomeOpen(false);
+  else if (e.key === 'Escape' && !aboutEl.hidden) setAboutOpen(false);
   else if (e.key === 'Escape' && !settingsPane.hidden) setSettingsOpen(false);
   else if (e.key === 'Escape' && multiAdd) setMultiAdd(false);
   else if (e.key === 'Escape' && document.activeElement !== input) back();

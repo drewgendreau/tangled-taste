@@ -63,6 +63,10 @@ pnpm validate   # sanity-check the dataset (run in CI before every deploy)
 
 The text in the *About* window is the file `content/about.md`. Edit it on GitHub (the pencil icon on the file page) and commit; the site rebuilds and updates in a minute or two, with no code changes. The first line is the title (`# About Tangled Taste`); after that, paragraphs are separated by a blank line, and `[link text](https://example.com)` makes a link.
 
+## Welcome window
+
+A first-time visitor sees a Welcome window. It has a "Don't Show Again" box, ticked by default, so closing it normally means it will not appear again on that browser (the choice is stored in the browser's local storage); untick the box and it comes back next visit. Its text is the file `content/welcome.md`, edited the same way as the About text: a first line `# Title`, paragraphs separated by blank lines, and numbered list items written as `1. text`.
+
 ## Dish pictures
 
 The most popular dishes have pictures (50 so far). They show on the map in *Dishes* mode, as small icons in dish lists, and as a large preview at the top of a dish's panel. Dishes without a picture show a plain colored blob and no preview.

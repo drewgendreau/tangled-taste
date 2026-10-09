@@ -54,6 +54,19 @@
       </div>
     </header>
 
+    <div id="welcome" role="dialog" aria-modal="true" aria-labelledby="welcome-title" hidden>
+      <div class="about-card welcome-card">
+        <header class="about-head">
+          <h2 id="welcome-title">Welcome to Tangled Taste!</h2>
+          <button id="welcome-close" type="button" aria-label="Close">×</button>
+        </header>
+        <div class="about-body" id="welcome-body"></div>
+        <footer class="welcome-foot">
+          <label class="welcome-check"><input id="welcome-dont-show" type="checkbox" checked /> Don't Show Again</label>
+          <button id="welcome-go" type="button">Let's Go!</button>
+        </footer>
+      </div>
+    </div>
     <div id="about" role="dialog" aria-modal="true" aria-labelledby="about-title" hidden>
       <div class="about-card">
         <header class="about-head">
