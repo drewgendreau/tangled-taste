@@ -14,6 +14,7 @@ One picture per dish. Placeholders in the prompt template: `{{name}}` = Dish, `{
 | Pixel size | 1024 × 1024 px (square) |
 | Target file size | 150–300 KB (hard limit 400 KB) |
 | Saved in | `tangled-taste/art/dishes/` |
+| Output by Gemini to Google Drive in the folder | `04 Food/Tangled Taste/Dishes` |
 | File name | the item's permanent ID plus `.webp` (see the "Expected file name" column) |
 
 ## Required prompt wording
