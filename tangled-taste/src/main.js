@@ -3,7 +3,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 import { LineSegments2 } from 'three/examples/jsm/lines/LineSegments2.js';
 import { LineSegmentsGeometry } from 'three/examples/jsm/lines/LineSegmentsGeometry.js';
 import { LineMaterial } from 'three/examples/jsm/lines/LineMaterial.js';
-import { CATEGORIES, CUISINES, DISHES, DISH_TYPES, INGREDIENT_NOTES, ingredientSlug } from './data.js';
+import { CATEGORIES, CUISINES, DISHES, DISH_TYPES, INGREDIENT_NOTES, ingredientId } from './data.js';
 import { buildGraph, buildDishGraph, latLngToVec, GLOBE_RADIUS } from './graph.js';
 import { paintBlob, paintBlobCanvas, paintHalo, paintPaperTile } from './watercolor.js';
 import { paintIngredient, paintCuisine, isPainted } from './illustrations.js';
@@ -148,12 +148,12 @@ const famIco = (k, px) => ico('fam', k, px);
 const iconSource = (kind, key) => {
   if (kind === 'ing') {
     const n = ingNodes[+key];
-    return ingredientThumbCanvas(ingredientSlug(n.name)) || paintIngredient(n.name, CATEGORIES[n.category].color); // a picture if it has one
+    return ingredientThumbCanvas(ingredientId(n.name)) || paintIngredient(n.name, CATEGORIES[n.category].color); // a picture if it has one
   }
   if (kind === 'cui') return paintCuisine(key, CUISINES[key].color);
   return paintIngredient(REP[key], CATEGORIES[key].color);
 };
-const iconReady = (kind, key) => (kind === 'ing' ? !!ingredientThumbCanvas(ingredientSlug(ingNodes[+key].name)) || isPainted(ingNodes[+key].name) : kind === 'cui' ? isPainted(`cuisine:${key}`) : isPainted(REP[key]));
+const iconReady = (kind, key) => (kind === 'ing' ? !!ingredientThumbCanvas(ingredientId(ingNodes[+key].name)) || isPainted(ingNodes[+key].name) : kind === 'cui' ? isPainted(`cuisine:${key}`) : isPainted(REP[key]));
 function fillIcons(root) {
   for (const c of root.querySelectorAll('canvas[data-ico]:not([data-done])')) {
     const [kind, key] = c.dataset.ico.split(/:(.*)/s);
@@ -231,9 +231,9 @@ for (const n of [...ingNodes].sort((a, b) => b.count - a.count)) whenIdle(() => 
 function applyIngredientArt() {
   for (const n of ingNodes) {
     if (n.imageArt) continue;
-    const slug = ingredientSlug(n.name);
-    if (!hasIngredientImage(slug)) continue;
-    const tex = ingredientThumbTexture(slug);
+    const iid = ingredientId(n.name);
+    if (!hasIngredientImage(iid)) continue;
+    const tex = ingredientThumbTexture(iid);
     if (!tex) continue;
     if (n.illusTex?.dispose) n.illusTex.dispose();
     n.imageArt = true;

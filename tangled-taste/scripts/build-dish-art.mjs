@@ -4,7 +4,7 @@
 //     -> public/dish-art/previews/TT-0001.<hash>.webp   1024 px cutout, shown in the dish panel
 //     -> public/dish-art/thumbs-<n>.<hash>.webp         192 px cutouts packed into 2048 px sheets (map + lists)
 //     -> public/dish-art/manifest.json                  what the app reads
-//   art/ingredients/olive-oil.webp   (the name is the ingredient's name, lower case, spaces as hyphens)
+//   art/ingredients/TI-0001.webp   (the name is the ingredient's permanent ID)
 //     -> public/ingredient-art/thumbs-<n>.<hash>.webp + manifest.json   (thumbnails only)
 //
 // To change a picture: replace its file (same name). To add one: drop in a new file.
@@ -14,7 +14,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import crypto from 'node:crypto';
 import sharp from 'sharp';
-import { DISHES, INGREDIENT_CATEGORY, ingredientSlug } from '../src/data.js';
+import { DISHES, INGREDIENT_CATEGORY, INGREDIENT_IDS } from '../src/data.js';
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url));
 const CACHE = path.join(ROOT, '.cache/dish-art');
@@ -133,9 +133,9 @@ const SETS = [
   },
   {
     label: 'ingredient art', src: 'art/ingredients', out: 'public/ingredient-art', previews: false,
-    pattern: /^([a-z0-9][a-z0-9-]*)\.(webp|png|jpe?g)$/,
-    lookup: new Map(ingredientNames.map((nm) => [ingredientSlug(nm), { weight: ingredientCount.get(nm) || 0 }])),
-    unknown: (id) => `no ingredient is called "${id.replace(/-/g, ' ')}"`,
+    pattern: /^(TI-\d{4})\.(webp|png|jpe?g)$/i,
+    lookup: new Map(ingredientNames.map((nm) => [INGREDIENT_IDS[nm], { weight: ingredientCount.get(nm) || 0 }])),
+    unknown: (id) => `no ingredient has the ID ${id}`,
   },
 ];
 

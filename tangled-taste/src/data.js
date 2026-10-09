@@ -6,6 +6,7 @@ import { INGREDIENTS } from './data/ingredients.js';
 import { DISH_TYPES } from './data/dish-types.js';
 import { INGREDIENT_NOTES } from './data/ingredient-notes.js';
 import { DISH_IDS } from './data/dish-ids.js';
+import { INGREDIENT_IDS } from './data/ingredient-ids.js';
 import europe from './data/dishes/europe.js';
 import americas from './data/dishes/americas.js';
 import asiaPacific from './data/dishes/asia-pacific.js';
@@ -13,8 +14,9 @@ import africaMiddleEast from './data/dishes/africa-middle-east.js';
 
 export { CATEGORIES, CUISINES, INGREDIENTS, DISH_TYPES, INGREDIENT_NOTES };
 
-// File-name form of an ingredient's name, used for its picture: "olive oil" -> "olive-oil".
-export const ingredientSlug = (name) => name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+// Permanent ingredient IDs (TI-0001 …) from src/data/ingredient-ids.js, assigned by `pnpm assign-ids`.
+export { INGREDIENT_IDS };
+export const ingredientId = (name) => INGREDIENT_IDS[name];
 
 export const INGREDIENT_CATEGORY = Object.fromEntries(
   Object.entries(INGREDIENTS).flatMap(([category, names]) => names.map((n) => [n, category])),

@@ -3,19 +3,19 @@
 // or from a git-ignored file, tangled-taste/.env.local, containing the line  GEMINI_API_KEY=your-key
 //
 //   node scripts/gemini-image.mjs dish "Birria Tacos"          (or the dish ID: TT-0650)
-//   node scripts/gemini-image.mjs ingredient "olive oil"
+//   node scripts/gemini-image.mjs ingredient "olive oil"       (or the ingredient ID: TI-0012)
 //   node scripts/gemini-image.mjs dishes --missing --limit 10        most popular dishes that have no picture yet
 //   node scripts/gemini-image.mjs ingredients --missing --limit 10   most used ingredients with no picture yet
 //
 // Options: --force (replace an existing picture), --dry-run (show the prompt, call nothing), --extra "text"
 // (added to the prompt, e.g. "show it served in a clay bowl"), --model name (default gemini-2.5-flash-image).
 // The prompts are the editable files in art/prompts/. Pictures are saved as 1024 px WebP in art/dishes/ or
-// art/ingredients/; `pnpm art:build` (run automatically by dev and build) turns them into the site's images.
+// art/ingredients/, named by permanent ID (dishes TT-0650, ingredients TI-0012); `pnpm art:build` (run automatically by dev and build) turns them into the site's images.
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
-import { DISHES, INGREDIENT_CATEGORY, INGREDIENT_NOTES, CATEGORIES, ingredientSlug } from '../src/data.js';
+import { DISHES, INGREDIENT_CATEGORY, INGREDIENT_NOTES, INGREDIENT_IDS, CATEGORIES } from '../src/data.js';
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url));
 const args = process.argv.slice(2);
@@ -55,11 +55,11 @@ function dishJob(query) {
   };
 }
 function ingredientJob(query) {
-  const name = ingredientNames.find((n) => n.toLowerCase() === query.toLowerCase() || ingredientSlug(n) === query.toLowerCase());
-  if (!name) throw new Error(`No ingredient "${query}". Use its exact name, such as "olive oil".`);
+  const name = ingredientNames.find((n) => n.toLowerCase() === query.toLowerCase() || INGREDIENT_IDS[n].toLowerCase() === query.toLowerCase());
+  if (!name) throw new Error(`No ingredient "${query}". Use its exact name, such as "olive oil", or its ID (TI-0001).`);
   return {
-    label: name,
-    file: path.join(ROOT, 'art/ingredients', `${ingredientSlug(name)}.webp`),
+    label: `${name} (${INGREDIENT_IDS[name]})`,
+    file: path.join(ROOT, 'art/ingredients', `${INGREDIENT_IDS[name]}.webp`),
     prompt: fill(template('ingredient'), { name, category: CATEGORIES[INGREDIENT_CATEGORY[name]].label.toLowerCase(), description: INGREDIENT_NOTES[name] || '', extra: option('extra') }),
   };
 }
@@ -73,7 +73,7 @@ function jobs() {
     return todo.slice(0, limit).map((d) => dishJob(d.uid));
   }
   if (kind === 'ingredients') {
-    const todo = [...ingredientNames].sort((a, b) => ingredientCount.get(b) - ingredientCount.get(a)).filter((n) => flag('force') || !fs.existsSync(path.join(ROOT, 'art/ingredients', `${ingredientSlug(n)}.webp`)));
+    const todo = [...ingredientNames].sort((a, b) => ingredientCount.get(b) - ingredientCount.get(a)).filter((n) => flag('force') || !fs.existsSync(path.join(ROOT, 'art/ingredients', `${INGREDIENT_IDS[n]}.webp`)));
     return todo.slice(0, limit).map((n) => ingredientJob(n));
   }
   throw new Error('Usage: gemini-image.mjs dish "Name" | ingredient "name" | dishes --missing --limit N | ingredients --missing --limit N');

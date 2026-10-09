@@ -17,19 +17,23 @@ Ask Claude for a dish or ingredient picture and it runs `tangled-taste/scripts/g
 ## What to ask Claude
 
 - "Make the picture for Birria Tacos." / "Make a picture for TT-0650."
-- "Make an ingredient picture for yam."
+- "Make an ingredient picture for yam." / "Make the picture for TI-0099."
 - "Make pictures for the 10 most popular dishes that don't have one."
 - "Redo Pad Thai, but show it in a blue-and-white bowl." (adds an extra instruction to the prompt)
 - "Publish them." (Claude commits and pushes; GitHub rebuilds the site.)
 
 Claude shows you the pictures first if you ask to review them, and only pushes when you say so.
 
+## Permanent IDs
+
+Every dish has an ID like `TT-0650` (list: `tangled-taste/src/data/dish-ids.js`) and every ingredient has one like `TI-0012` (list: `tangled-taste/src/data/ingredient-ids.js`). Pictures are filed by ID, so renaming a dish or ingredient never loses its picture, and you can refer to anything by ID when you ask Claude for a picture. When new dishes or ingredients are added, `pnpm assign-ids` gives them the next number (existing numbers never change).
+
 ## Where things go
 
 | What | Source picture | Prompt you can edit |
 |---|---|---|
 | Dishes | `tangled-taste/art/dishes/TT-0650.webp` (the dish's permanent ID) | `tangled-taste/art/prompts/dish.md` |
-| Ingredients | `tangled-taste/art/ingredients/olive-oil.webp` (name, lower case, hyphens) | `tangled-taste/art/prompts/ingredient.md` |
+| Ingredients | `tangled-taste/art/ingredients/TI-0012.webp` (the ingredient's permanent ID) | `tangled-taste/art/prompts/ingredient.md` |
 
 - Source pictures are 1024 x 1024 WebP with a plain white background. The site build (`pnpm art:build`, run automatically by `pnpm dev` and `pnpm build` and by the GitHub deploy) removes the white, centers the subject and makes the thumbnails; dishes also get a large preview for the Detail Pane.
 - An ingredient without a picture keeps the painting drawn in code; a dish without one shows a plain blob. A picture replaces that automatically as soon as its file exists.
@@ -40,7 +44,7 @@ Claude shows you the pictures first if you ask to review them, and only pushes w
 ```
 cd tangled-taste
 node scripts/gemini-image.mjs dish "Birria Tacos"
-node scripts/gemini-image.mjs ingredient "olive oil"
+node scripts/gemini-image.mjs ingredient "olive oil"   # or: ingredient TI-0012
 node scripts/gemini-image.mjs dishes --limit 10        # most popular dishes with no picture yet
 node scripts/gemini-image.mjs ingredients --limit 10   # most used ingredients with no picture yet
 ```

@@ -3,6 +3,7 @@
 // Hard rules include: every cuisine has 6+ dishes and every ingredient is used by 2+ dishes.
 import { CATEGORIES, CUISINES, DISH_TYPES, DISHES, INGREDIENTS, INGREDIENT_CATEGORY } from '../src/data.js';
 import { DISH_IDS } from '../src/data/dish-ids.js';
+import { INGREDIENT_IDS } from '../src/data/ingredient-ids.js';
 import { hasCountryShape, hasIllustration } from '../src/illustrations.js';
 
 const strict = process.argv.includes('--strict');
@@ -24,6 +25,18 @@ const goal = (m) => goals.push(m);
   }
   const names = new Set(DISHES.map((d) => d.name));
   for (const [name, id] of Object.entries(DISH_IDS)) if (!names.has(name)) err(`dish ID ${id} belongs to "${name}", which no longer exists (renamed? edit the key in src/data/dish-ids.js)`);
+}
+
+// ---- permanent ingredient IDs
+{
+  const seenIds = new Map();
+  for (const name of Object.keys(INGREDIENT_CATEGORY)) {
+    const id = INGREDIENT_IDS[name];
+    if (!id) err(`ingredient "${name}" has no permanent ID: run \`pnpm assign-ids\``);
+    else if (seenIds.has(id)) err(`ingredient ID ${id} is used by both "${seenIds.get(id)}" and "${name}"`);
+    else seenIds.set(id, name);
+  }
+  for (const [name, id] of Object.entries(INGREDIENT_IDS)) if (!(name in INGREDIENT_CATEGORY)) err(`ingredient ID ${id} belongs to "${name}", which no longer exists (renamed? edit the key in src/data/ingredient-ids.js)`);
 }
 
 // ---- structure
