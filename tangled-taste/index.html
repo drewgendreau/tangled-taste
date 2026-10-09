@@ -23,10 +23,6 @@
     <div id="stage"></div>
     <div id="labels" aria-hidden="true"></div>
 
-    <button id="back-btn" type="button" aria-label="Back to the previous view" title="Back" disabled>
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 14 4 9l5-5" /><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11" /></svg>
-    </button>
-
     <header id="topbar">
       <div id="brand" role="button" tabindex="0" title="Back to the whole atlas">
         <span class="brand-title">Tangled Taste</span>
@@ -124,6 +120,9 @@
     </section>
 
     <aside id="panel">
+      <button id="back-btn" type="button" aria-label="Back to the previous view" title="Back" disabled>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 14 4 9l5-5" /><path d="M4 9h10.5a5.5 5.5 0 0 1 0 11H11" /></svg>
+      </button>
       <button id="panel-restore" type="button" aria-expanded="false" aria-controls="panel-inner" hidden>Detail Pane</button>
       <button id="panel-collapse" type="button" aria-expanded="true" aria-controls="panel-inner" aria-label="Minimize the Detail Pane" title="Minimize">–</button>
       <div id="panel-inner"></div>
