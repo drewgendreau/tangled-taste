@@ -78,6 +78,7 @@ fs.writeFileSync(path.join(DOCS, 'ingredient-images.md'), guide({
   title: 'Ingredient image reference guide',
   intro: 'One picture per ingredient. Placeholders in the prompt template: `{{name}}` = Ingredient, `{{category}}` = Family (lower case), `{{description}}` = Description. Ingredients have no cuisine; the Family column says what kind of ingredient it is. Pictures are shown small on the site, so keep the subject simple and bold.',
   fillIn: '- **[DISH NAME AND KEY INGREDIENTS]**: for an ingredient picture, use the ingredient\'s name from the Ingredient column (and its Description if it helps), for example "Yam: a starchy brown tuber, one whole and one cut to show the pale flesh".\n- **[VESSEL / SERVING DISH TYPE]**: how the ingredient is presented: a small bowl, a wooden board, a jar, a bunch tied with string, a scoop or spoon, or simply on its own without a vessel if it is naturally a whole item. Vary this across the set.',
+  driveFolder: '04 Food/Tangled Taste/Ingredients',
   template: promptTemplate('ingredient'), dir: 'art/ingredients', noun: 'ingredient', rows: ingredientRows,
   extraColumns: [{ head: 'Ingredient', get: (r) => r.name }, { head: 'Family', get: (r) => r.family }, { head: 'Description', get: (r) => r.note }, { head: 'Used in', get: (r) => `${r.used} dishes` }],
   listColumns: [{ head: 'ID', get: (r) => r.id }, { head: 'Ingredient', get: (r) => r.name }, { head: 'Family', get: (r) => r.family }, { head: 'Description', get: (r) => r.note }],

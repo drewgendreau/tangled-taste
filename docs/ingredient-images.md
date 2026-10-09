@@ -14,6 +14,7 @@ One picture per ingredient. Placeholders in the prompt template: `{{name}}` = In
 | Pixel size | 1024 × 1024 px (square) |
 | Target file size | 150–300 KB (hard limit 400 KB) |
 | Saved in | `tangled-taste/art/ingredients/` |
+| Output by Gemini to Google Drive in the folder | `04 Food/Tangled Taste/Ingredients` |
 | File name | the item's permanent ID plus `.webp` (see the "Expected file name" column) |
 
 ## Required prompt wording
