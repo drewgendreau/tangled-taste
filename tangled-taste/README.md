@@ -23,7 +23,7 @@ pnpm validate   # sanity-check the dataset (run in CI before every deploy)
 - **Settings** (top right, left of *Reset view*) opens a small pane, closed with *Done*, the × or Esc:
   - *Show Cuisines on Graph* (on by default); off, cuisine names and country paintings are never drawn on the map.
   - *Show Relationship Strength* (off by default) draws links between ingredients that share more dishes slightly thicker.
-  - *Globe Line Intensity* (High / Medium / Low / Off, Low by default) sets how dark and well defined the latitude and longitude lines around the map are.
+  - *Globe Line Intensity* (Full Earth / High / Medium / Low / Off, Low by default) sets the lines around the map. High and Medium make the latitude and longitude lines darker and more defined; *Full Earth* adds see-through grey continents and country borders (Natural Earth, public domain; `scripts/build-world-map.mjs`) behind the dishes and ingredients; Off draws nothing.
   - *Show Illustrations* swaps the food paintings for much smaller plain watercolor dots.
   - *Size by commonality*, when off, draws every ingredient and label at one medium-small size.
   - *Density* (High → Medium → Low → Minimal) thins out the background map: lower settings keep only the most common ingredients and the strongest connections. Anything you select or focus on stays visible at every density.

@@ -1404,17 +1404,86 @@ function applyDensity(level) {
 }
 densitySlider.addEventListener('input', () => applyDensity(+densitySlider.value));
 
-// Globe Line Intensity: High / Medium / Low (the original look) / Off
+// Globe Line Intensity: Full Earth / High / Medium / Low (the original look) / Off
 const GLOBE_LEVELS = [
-  { label: 'High', opacity: 0.55, color: '#3a2a1e', fog: false }, // no depth fade: crisp all the way round
-  { label: 'Medium', opacity: 0.27, color: '#4a3526', fog: true },
-  { label: 'Low', opacity: 0.09, color: null, fog: true }, // exactly as the globe has always been drawn
-  { label: 'Off', opacity: 0, color: null, fog: true },
+  { key: 'full', label: 'Full Earth', opacity: 0.14, color: null, fog: true, earth: true }, // faint grid plus continents and countries
+  { key: 'high', label: 'High', opacity: 0.55, color: '#3a2a1e', fog: false }, // no depth fade: crisp all the way round
+  { key: 'medium', label: 'Medium', opacity: 0.27, color: '#4a3526', fog: true },
+  { key: 'low', label: 'Low', opacity: 0.09, color: null, fog: true }, // exactly as the globe has always been drawn
+  { key: 'off', label: 'Off', opacity: 0, color: null, fog: true },
 ];
-const GLOBE_DEFAULT = 2;
+const GLOBE_DEFAULT = 3;
 let globeLevel = GLOBE_DEFAULT;
-try { const saved = localStorage.getItem('tt-globe'); if (saved !== null) globeLevel = Math.min(3, Math.max(0, parseInt(saved, 10) || 0)); } catch { /* storage unavailable */ }
+try {
+  const saved = localStorage.getItem('tt-globe-level');
+  const old = localStorage.getItem('tt-globe'); // earlier versions stored a position: 0 High, 1 Medium, 2 Low, 3 Off
+  const key = saved ?? (old !== null ? ['high', 'medium', 'low', 'off'][parseInt(old, 10)] : null);
+  const i = GLOBE_LEVELS.findIndex((g) => g.key === key);
+  if (i >= 0) globeLevel = i;
+} catch { /* storage unavailable */ }
 const globeSlider = document.getElementById('globe');
+
+// Full Earth: see-through grey land and country borders drawn on the globe's surface. Built the first time it is
+// chosen (the outline data is loaded then). Everything is drawn before the food, so dishes and ingredients stay
+// fully visible through it.
+let earth = null, earthLoading = false;
+async function ensureEarth() {
+  if (earth || earthLoading) return;
+  earthLoading = true;
+  try {
+    const { default: WORLD } = await import('./data/worldMap.js');
+    const R = GLOBE_RADIUS * 1.18;
+    const W = 2048, H = 1024;
+    // land: a soft grey wash painted on an equirectangular canvas and wrapped around a sphere
+    const cv = document.createElement('canvas');
+    cv.width = W; cv.height = H;
+    const g = cv.getContext('2d');
+    g.fillStyle = 'rgba(95, 90, 85, 0.16)';
+    for (const rings of WORLD) {
+      const path = new Path2D();
+      for (const r of rings) {
+        for (let i = 0; i < r.length; i += 2) {
+          const x = ((r[i] + 180) / 360) * W, y = ((90 - r[i + 1]) / 180) * H;
+          if (i === 0) path.moveTo(x, y); else path.lineTo(x, y);
+        }
+        path.closePath();
+      }
+      g.fill(path, 'evenodd');
+    }
+    const map = new THREE.CanvasTexture(cv);
+    map.colorSpace = THREE.SRGBColorSpace;
+    map.wrapS = THREE.RepeatWrapping;
+    map.offset.x = 0.25; // the sphere's texture seam sits at -90 degrees longitude, not -180
+    map.anisotropy = 4;
+    const land = new THREE.Mesh(new THREE.SphereGeometry(R * 0.999, 96, 64), new THREE.MeshBasicMaterial({ map, transparent: true, depthWrite: false, side: THREE.FrontSide }));
+    land.renderOrder = -3;
+    // outlines: every coast and border as a thin grey line
+    const pts = [];
+    for (const rings of WORLD) {
+      for (const r of rings) {
+        for (let i = 0; i + 3 < r.length; i += 2) {
+          const x0 = r[i], y0 = r[i + 1], x1 = r[i + 2], y1 = r[i + 3];
+          if (Math.abs(x0) >= 179.9 && Math.abs(x1) >= 179.9 && Math.sign(x0) === Math.sign(x1)) continue; // map edge, not a border
+          if (Math.abs(x1 - x0) > 180) continue;
+          pts.push(...latLngToVec(y0, x0, R), ...latLngToVec(y1, x1, R));
+        }
+      }
+    }
+    const lg = new THREE.BufferGeometry();
+    lg.setAttribute('position', new THREE.Float32BufferAttribute(pts, 3));
+    const borders = new THREE.LineSegments(lg, new THREE.LineBasicMaterial({ color: '#555049', transparent: true, opacity: 0.4, fog: true, depthWrite: false }));
+    borders.renderOrder = -2;
+    earth = new THREE.Group();
+    earth.add(land, borders);
+    scene.add(earth);
+    earth.visible = GLOBE_LEVELS[globeLevel].earth === true;
+    invalidate();
+  } catch (err) {
+    console.warn('Full Earth outlines unavailable', err);
+  } finally {
+    earthLoading = false;
+  }
+}
 function applyGlobe(level) {
   globeLevel = level;
   const g = GLOBE_LEVELS[level];
@@ -1422,11 +1491,13 @@ function applyGlobe(level) {
   graticuleMat.color.set(g.color || INK);
   if (graticuleMat.fog !== g.fog) { graticuleMat.fog = g.fog; graticuleMat.needsUpdate = true; }
   graticule.visible = g.opacity > 0;
+  if (g.earth) ensureEarth();
+  if (earth) earth.visible = !!g.earth;
   invalidate();
   globeSlider.value = String(level);
   document.getElementById('globe-label').textContent = g.label;
   document.querySelectorAll('#globe-ticks span').forEach((t, i) => t.classList.toggle('on', i === level));
-  try { localStorage.setItem('tt-globe', String(level)); } catch { /* storage unavailable */ }
+  try { localStorage.setItem('tt-globe-level', g.key); } catch { /* storage unavailable */ }
 }
 globeSlider.addEventListener('input', () => applyGlobe(+globeSlider.value));
 applyGlobe(globeLevel);
