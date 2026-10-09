@@ -4,7 +4,7 @@ import { LineSegments2 } from 'three/examples/jsm/lines/LineSegments2.js';
 import { LineSegmentsGeometry } from 'three/examples/jsm/lines/LineSegmentsGeometry.js';
 import { LineMaterial } from 'three/examples/jsm/lines/LineMaterial.js';
 import { CATEGORIES, CUISINES, DISHES, DISH_TYPES, INGREDIENT_NOTES } from './data.js';
-import { buildGraph, buildDishGraph, MIN_SHARED, latLngToVec, GLOBE_RADIUS } from './graph.js';
+import { buildGraph, buildDishGraph, latLngToVec, GLOBE_RADIUS } from './graph.js';
 import { paintBlob, paintBlobCanvas, paintHalo, paintPaperTile } from './watercolor.js';
 import { paintIngredient, paintCuisine, isPainted } from './illustrations.js';
 import { loadDishArt, onDishArt, hasDishImage, dishPreviewUrl, dishThumbTexture, dishThumbHTML } from './dish-images.js';
@@ -232,7 +232,7 @@ let showStrength = false;
 try { showStrength = localStorage.getItem('tt-strength') === '1'; } catch { /* storage unavailable */ }
 // link width in pixels by how many dishes two ingredients share (1 dish stays a hairline)
 const STRENGTH_STEPS = [[5, 3], [3, 2.2], [2, 1.6]];
-const DISH_STRENGTH_STEPS = [[7, 3], [5, 2.2], [4, 1.6]]; // dishes share more ingredients than ingredients share dishes
+const DISH_STRENGTH_STEPS = [[4, 3], [3, 2.2], [2, 1.6]]; // shared ingredients between two dishes (the most common ones don't count)
 const strengthWidth = (w) => { for (const [min, px] of (mode === 'dishes' ? DISH_STRENGTH_STEPS : STRENGTH_STEPS)) if (w >= min) return px; return 0; };
 // in the dish view the width of a line always shows how many ingredients two dishes share
 const strengthOn = () => showStrength || mode === 'dishes';
@@ -975,7 +975,7 @@ function renderPanel() {
     const topDishes = [...DISHES].sort((a, b) => b.popularity - a.popularity).map((d) => d.id);
     if (mode === 'dishes') h = `<div class="kicker">a tasting map of</div>
       <h2>${totalDishes} dishes</h2>
-      <p class="lede">Dishes are linked whenever they share at least ${MIN_SHARED} ingredients: the thicker the line, the more ingredients two dishes have in common. Each dish sits near the cuisine it comes from, and similar dishes from different cuisines drift together.</p>
+      <p class="lede">Dishes are linked when they share ingredients. The ${dishGraph.common.length} most common ones (${dishGraph.common.slice(0, 5).join(', ')}…) don't count, since nearly every dish has them, so a line means two dishes really are alike. The thicker and darker the line, the more ingredients they share. Each dish sits near the cuisine it comes from, and similar dishes from different cuisines drift together.</p>
       <h3>Most popular dishes</h3>${dishRows(topDishes, 10)}
       <h3>Kinds of dish</h3><div class="chips">${Object.entries(DISH_TYPES).filter(([k]) => DISHES.some((d) => d.type === k)).map(([k, t]) => `<button class="chip" data-filter="type:${esc(k)}">${esc(t.label)}</button>`).join('')}</div>
       <p class="fine">Click a dish to see the dishes that share the most ingredients with it. Click an ingredient in its panel to see every dish that uses it. Popularity scores are illustrative estimates of worldwide recognition.</p>`;
@@ -1011,7 +1011,7 @@ function renderPanel() {
       <a class="ext-link" href="https://www.google.com/search?q=${encodeURIComponent(`${d.name} recipe`)}" target="_blank" rel="noopener noreferrer">Search for recipes<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 4h6v6" /><path d="M20 4l-9 9" /><path d="M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" /></svg><span class="sr">(opens Google in a new tab)</span></a>
       <div class="meter"><span>popularity</span><div class="track"><i style="width:${d.popularity}%;background:${c.color}"></i></div><b>${d.popularity}</b></div>
       <h3>Ingredients · ${ings.length}</h3><div class="chips">${ings.sort((a, b) => b.count - a.count).map((n) => ingChip(n, ` <small>${n.count}</small>`)).join('')}</div>
-      ${mode === 'dishes' ? `<h3>Shares the most ingredients</h3><ul class="rows">${[...adjacency[d.id].entries()].sort((a, b) => b[1].weight - a[1].weight).slice(0, 8).map(([o, e]) => `<li data-go="dish:${o}"><span class="nm">${esc(DISHES[o].name)} <em>${esc(DISHES[o].cuisine)}</em></span><span class="val">${e.weight} in common</span>${bar((e.weight / Math.max(1, d.ingredients.length)) * 100, CUISINES[DISHES[o].cuisine].color)}</li>`).join('') || '<li><span class="nm"><em>No dish shares ' + MIN_SHARED + ' or more.</em></span></li>'}</ul>` : ''}
+      ${mode === 'dishes' ? `<h3>Shares the most ingredients</h3><ul class="rows">${[...adjacency[d.id].entries()].sort((a, b) => b[1].weight - a[1].weight).slice(0, 8).map(([o, e]) => `<li data-go="dish:${o}"><span class="nm">${esc(DISHES[o].name)} <em>${esc(DISHES[o].cuisine)}</em></span><span class="val" title="${esc(e.shared.join(', '))}">${e.shared.length === 1 ? esc(e.shared[0]) : `${e.weight} shared`}</span>${bar((e.weight / Math.max(1, d.ingredients.length)) * 100, CUISINES[DISHES[o].cuisine].color)}</li>`).join('') || '<li><span class="nm"><em>No other dish shares an uncommon ingredient with it.</em></span></li>'}</ul>` : ''}
       <h3>Kindred dishes</h3><ul class="rows">${similar.map(({ o, s }) => `<li data-go="dish:${o.id}"><span class="nm">${esc(o.name)} <em>${esc(o.cuisine)}</em></span><span class="val">${Math.round(s * 100)}% shared</span>${bar(s * 100, CUISINES[o.cuisine].color)}</li>`).join('')}</ul>`;
   } else if (v.type === 'cuisine') {
     const c = CUISINES[v.name];
@@ -1334,10 +1334,10 @@ atlasToggle.addEventListener('click', () => {
 });
 // ---------------------------------------------------------------- settings pane
 const DENSITY = [
-  { label: 'High', nodes: 1, minWeight: 1, dishWeight: 3 }, // everything, as drawn originally
-  { label: 'Medium', nodes: 0.7, minWeight: 2, dishWeight: 4 },
-  { label: 'Low', nodes: 0.45, minWeight: 3, dishWeight: 5 },
-  { label: 'Minimal', nodes: 0.25, minWeight: 4, dishWeight: 6 },
+  { label: 'High', nodes: 1, minWeight: 1, dishWeight: 1 }, // everything, as drawn originally
+  { label: 'Medium', nodes: 0.7, minWeight: 2, dishWeight: 2 },
+  { label: 'Low', nodes: 0.45, minWeight: 3, dishWeight: 2 },
+  { label: 'Minimal', nodes: 0.25, minWeight: 4, dishWeight: 2 },
 ];
 let densityLevel = 3; // Minimal
 try { const saved = localStorage.getItem('tt-density'); if (saved !== null) densityLevel = Math.min(3, Math.max(0, parseInt(saved, 10) || 0)); } catch { /* storage unavailable */ }

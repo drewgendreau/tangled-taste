@@ -119,25 +119,64 @@ function layout(nodes, edges) {
 }
 
 // ---------------------------------------------------------------- the dish graph
-// Dishes are linked when they share ingredients; the link's weight is how many they share.
-// Weak links (fewer than MIN_SHARED ingredients) are left out: nearly every pair of dishes shares salt or onion.
-export const MIN_SHARED = 3;
+// Dishes are linked when they share ingredients, and the link's weight is how many they share. The most common
+// ingredients (onion, garlic, eggs…) are left out of the count: nearly every dish has some of them, so they say
+// nothing about which dishes are alike. Two dishes need at least MIN_SHARED of the remaining ingredients to be
+// linked, and a dish that would otherwise float alone gets links to the dishes it shares its rarest ingredient with.
+export const SKIP_COMMON = 11; // how many of the most-used ingredients are ignored when linking dishes
+export const MIN_SHARED = 2;
+const ORPHAN_LINKS = 2;
 
 // `baked` is an optional { dishId: [x, y, z] } map produced by scripts/bake-layout.mjs.
 export function buildDishGraph(baked) {
   const byIngredient = new Map();
   DISHES.forEach((d) => new Set(d.ingredients).forEach((nm) => (byIngredient.get(nm) || byIngredient.set(nm, []).get(nm)).push(d.id)));
-  const counts = new Map();
-  for (const ids of byIngredient.values()) {
+  const common = [...byIngredient.entries()].sort((a, b) => b[1].length - a[1].length || a[0].localeCompare(b[0])).slice(0, SKIP_COMMON).map(([nm]) => nm);
+  const skip = new Set(common);
+  const pairs = new Map(); // dish pair -> the ingredients they share
+  for (const [nm, ids] of byIngredient) {
+    if (skip.has(nm)) continue;
     for (let a = 0; a < ids.length; a++) {
       for (let b = a + 1; b < ids.length; b++) {
         const key = ids[a] * 10000 + ids[b];
-        counts.set(key, (counts.get(key) || 0) + 1);
+        const list = pairs.get(key);
+        if (list) list.push(nm); else pairs.set(key, [nm]);
       }
     }
   }
   const edges = [];
-  for (const [key, weight] of counts) if (weight >= MIN_SHARED) edges.push({ source: Math.floor(key / 10000), target: key % 10000, weight });
+  const degree = new Array(DISHES.length).fill(0);
+  for (const [key, shared] of pairs) {
+    if (shared.length < MIN_SHARED) continue;
+    const source = Math.floor(key / 10000), target = key % 10000;
+    edges.push({ source, target, weight: shared.length, shared });
+    degree[source]++; degree[target]++;
+  }
+  // dishes with no link yet: connect each to the dishes it shares its rarest ingredient with
+  const orphans = new Set(degree.map((d, i) => (d ? -1 : i)).filter((i) => i >= 0));
+  if (orphans.size) {
+    const best = new Map();
+    for (const [key, shared] of pairs) {
+      if (shared.length >= MIN_SHARED) continue;
+      const a = Math.floor(key / 10000), b = key % 10000;
+      const rarity = byIngredient.get(shared[0]).length;
+      for (const [me, other] of [[a, b], [b, a]]) {
+        if (!orphans.has(me)) continue;
+        const list = best.get(me) || best.set(me, []).get(me);
+        list.push({ other, shared, rarity, pop: DISHES[other].popularity });
+      }
+    }
+    const seen = new Set();
+    for (const [me, list] of best) {
+      list.sort((x, y) => x.rarity - y.rarity || y.pop - x.pop);
+      for (const { other, shared } of list.slice(0, ORPHAN_LINKS)) {
+        const key = Math.min(me, other) * 10000 + Math.max(me, other);
+        if (seen.has(key)) continue;
+        seen.add(key);
+        edges.push({ source: Math.min(me, other), target: Math.max(me, other), weight: 1, shared });
+      }
+    }
+  }
   const nodes = DISHES.map((d) => ({
     id: d.id, uid: d.uid, name: d.name, isDish: true, cuisine: d.cuisine, type: d.type, count: d.popularity, popularity: d.popularity,
     commonness: Math.sqrt(d.popularity / 100), cuisines: new Map([[d.cuisine, 1]]), dishes: [d.id],
@@ -149,7 +188,7 @@ export function buildDishGraph(baked) {
   }
   if (baked && nodes.every((n) => baked[n.id])) nodes.forEach((n) => (n.pos = baked[n.id].slice()));
   else layoutDishes(nodes, edges);
-  return { nodes, edges, adjacency };
+  return { nodes, edges, adjacency, common };
 }
 
 // Each dish settles near its cuisine on the globe; dishes that share many ingredients drift together.
@@ -181,7 +220,7 @@ function layoutDishes(nodes, edges) {
       const a = pos[e.source], b = pos[e.target];
       const dx = b[0] - a[0], dy = b[1] - a[1], dz = b[2] - a[2];
       const d = Math.hypot(dx, dy, dz) + 0.01;
-      const k = 0.004 * (e.weight - MIN_SHARED + 1) * (d - 30) / d;
+      const k = 0.006 * e.weight * (d - 30) / d;
       f[e.source][0] += dx * k; f[e.source][1] += dy * k; f[e.source][2] += dz * k;
       f[e.target][0] -= dx * k; f[e.target][1] -= dy * k; f[e.target][2] -= dz * k;
     }
