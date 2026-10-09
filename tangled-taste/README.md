@@ -27,7 +27,7 @@ pnpm validate   # sanity-check the dataset (run in CI before every deploy)
   - *Show Illustrations* swaps the food paintings for much smaller plain watercolor dots.
   - *Size by commonality*, when off, draws every ingredient and label at one medium-small size.
   - *Density* (High → Medium → Low → Minimal) thins out the background map: lower settings keep only the most common ingredients and the strongest connections. Anything you select or focus on stays visible at every density.
-  - *Hide Common Ingredients* (Show all / Hide some / Hide most) removes the most-used ingredients from the map entirely. What counts as common is worked out from the data: *Hide some* drops the top 5% of ingredients by number of dishes and *Hide most* the top 20% (currently 11 and 45), so it adapts as dishes are added. An ingredient you pick on purpose, by search or from a panel, still appears.
+  - *Hide Common Ingredients* is a slider from 0 to 50: the number of most-used ingredients (by how many dishes use them) taken off the map. 0, the default, hides none; 10 hides the ten most-used. An ingredient you pick on purpose, by search or from a panel, still appears. It applies in Ingredient Mode.
   Settings apply immediately and are remembered between visits.
 - The **Detail Pane** (the side panel on the right) has a – button to minimize it to a small "Detail Pane" bar; click the bar to open it again. It opens by itself whenever something new is shown in it.
 - **Drag / scroll** to orbit and zoom; **Esc** or the breadcrumbs step back.

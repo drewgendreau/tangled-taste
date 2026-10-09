@@ -1345,32 +1345,32 @@ const DENSITY = [
 let densityLevel = 3; // Minimal
 try { const saved = localStorage.getItem('tt-density'); if (saved !== null) densityLevel = Math.min(3, Math.max(0, parseInt(saved, 10) || 0)); } catch { /* storage unavailable */ }
 const densitySlider = document.getElementById('density');
-// "Hide Common Ingredients": which ingredients count as common is worked out from the
-// data itself (how many dishes use each), so it follows the dataset as it grows.
-const COMMON_SHARES = [0, 0.05, 0.2]; // share of all ingredients, most-used first
-const COMMON_LABELS = ['Show all', 'Hide some', 'Hide most'];
-const byCount = [...ingNodes].sort((a, b) => b.count - a.count);
-function commonAt(level) {
-  if (!level) return { ids: new Set(), cut: 0, list: [] };
-  const k = Math.max(1, Math.round(ingNodes.length * COMMON_SHARES[level]));
-  const cut = byCount[k - 1].count;
-  const list = byCount.filter((n) => n.count >= cut);
-  return { ids: new Set(list.map((n) => n.id)), cut, list };
+// "Hide Common Ingredients": the slider (0 to 50) is the number of most-used ingredients taken off the map
+// (counted by how many dishes use each). 0, the default, hides nothing.
+const MAX_HIDDEN = 50;
+const byCount = [...ingNodes].sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
+function commonAt(n) {
+  const list = byCount.slice(0, n);
+  return { ids: new Set(list.map((x) => x.id)), list };
 }
-let hideLevel = 0;
-try { hideLevel = Math.min(2, Math.max(0, parseInt(localStorage.getItem('tt-hide-common') || '0', 10) || 0)); } catch { /* storage unavailable */ }
+let hideCount = 0;
+try {
+  const saved = localStorage.getItem('tt-hide-top');
+  const old = localStorage.getItem('tt-hide-common'); // earlier versions: 0 show all, 1 hide some, 2 hide most
+  const n = saved !== null ? parseInt(saved, 10) : old !== null ? [0, 11, 45][parseInt(old, 10)] : 0;
+  if (Number.isFinite(n)) hideCount = Math.min(MAX_HIDDEN, Math.max(0, n));
+} catch { /* storage unavailable */ }
 const hideSlider = document.getElementById('hide-common');
-function applyHideCommon(level, { refresh = true } = {}) {
-  hideLevel = level;
-  const { ids, cut, list } = commonAt(level);
+function applyHideCommon(count, { refresh = true } = {}) {
+  hideCount = count;
+  const { ids, list } = commonAt(count);
   for (const n of ingNodes) n.hidden = ids.has(n.id);
-  hideSlider.value = String(level);
-  document.getElementById('hide-label').textContent = COMMON_LABELS[level];
-  document.querySelectorAll('#hide-ticks span').forEach((t, i) => t.classList.toggle('on', i === level));
-  document.getElementById('hide-help').textContent = level
-    ? `Removes the ${list.length} most common ingredients, the ones used in at least ${Math.round((cut / totalDishes) * 100)}% of all ${totalDishes} dishes (${list.slice(0, 6).map((n) => n.name).join(', ')}…), from the map.`
-    : `Every ingredient is drawn. “Hide some” would remove the ${commonAt(1).list.length} most common, “Hide most” the ${commonAt(2).list.length}.`;
-  try { localStorage.setItem('tt-hide-common', String(level)); } catch { /* storage unavailable */ }
+  hideSlider.value = String(count);
+  document.getElementById('hide-label').textContent = count ? `Top ${count}` : 'None';
+  document.getElementById('hide-help').textContent = count
+    ? `Takes the ${count} most-used ingredient${count === 1 ? '' : 's'} off the map (${list.slice(0, 6).map((n) => n.name).join(', ')}${count > 6 ? '…' : ''}). One you pick on purpose, by search or from a panel, still appears.`
+    : `Every ingredient is drawn. Slide right to take the most-used ones off the map, one at a time, up to ${MAX_HIDDEN}.`;
+  try { localStorage.setItem('tt-hide-top', String(count)); } catch { /* storage unavailable */ }
   if (refresh) {
     applyDensity(densityLevel);
     freezeCamera = true; // redraw the current view without moving the camera
@@ -1499,7 +1499,7 @@ function applyGlobe(level) {
 }
 globeSlider.addEventListener('input', () => applyGlobe(+globeSlider.value));
 applyGlobe(globeLevel);
-applyHideCommon(hideLevel, { refresh: false });
+applyHideCommon(hideCount, { refresh: false });
 applyDensity(densityLevel);
 
 const settingsBtn = document.getElementById('settings-btn');
