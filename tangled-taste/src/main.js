@@ -170,8 +170,8 @@ dishGroup.visible = false;
 // Dish pictures on the map sit inside a white badge with a light grey rim (a second sprite behind the picture).
 // DISH_BADGES = false puts the pictures back as they were; the size factors are shares of the node's size.
 const DISH_BADGES = true;
-const BADGE_RING = 0.88, BADGE_IMAGE = 0.9;
-const BADGE_FILL_ALPHA = 0.6; // opacity of the white circle: 1 = solid white, 0 = fully clear (the rim stays solid)
+const BADGE_RING = 0.70, BADGE_IMAGE = 0.6;
+const BADGE_FILL_ALPHA = 0.7; // opacity of the white circle: 1 = solid white, 0 = fully clear (the rim stays solid)
 const dishBadgeGroup = new THREE.Group();
 dishBadgeGroup.visible = false;
 scene.add(dishBadgeGroup);
