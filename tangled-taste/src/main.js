@@ -230,32 +230,19 @@ function curvePoints(a, b, bend = 0.82, SEG = 10) {
 let maxW = Math.max(...edges.map((e) => e.weight));
 const baseEdgeMat = new THREE.LineBasicMaterial({ vertexColors: true, transparent: true, opacity: 0.75, depthWrite: false, fog: true });
 let baseEdges = null;
-let baseThick = []; // heavier links, drawn as fat lines while "Show Relationship Strength" is on
 let baseOpacity = 0.75;
 let baseArgs = { minWeight: 1, keep: null };
 let showStrength = false;
 try { showStrength = localStorage.getItem('tt-strength') === '1'; } catch { /* storage unavailable */ }
-// Relationship strength: when it is on, a link's weight (how many dishes two ingredients share, or how many
-// ingredients two dishes share) is shown in five classes that differ in width, darkness and opacity, with the
-// strongest drawn on top. Off: every link is a thin hairline.
-const STRENGTH_WIDTH = [1, 1.7, 2.8, 4.4, 6.5]; // px
-const STRENGTH_MIX = [0.10, 0.26, 0.5, 0.78, 1]; // how far the colour goes from paper to ink
-const STRENGTH_ALPHA = [0.5, 0.68, 0.84, 0.95, 1]; // against the view's base opacity
+// Relationship strength: when it is on, the links of the selected dishes or ingredients (the highlighted ones)
+// are drawn in five classes by weight (how many dishes two ingredients share, or how many ingredients two dishes
+// share) that differ in width and opacity, with the strongest on top. The background web is never affected.
 const HI_WIDTH = [0.55, 0.9, 1.5, 2.4, 3.6]; // times the line width of the current view
 const HI_ALPHA = [0.45, 0.62, 0.8, 0.92, 1];
 const strengthOn = () => showStrength;
-// 0 (weakest) to 4 (strongest). Ingredient links range up to dozens of dishes, so they use a log scale; dish links
-// share only a handful of ingredients, so those mix a log and a linear scale.
-function strengthClass(w) {
-  const lin = (w - 1) / Math.max(1, maxW - 1);
-  const log = Math.log(w) / Math.log(Math.max(2, maxW));
-  const t = maxW > 10 ? log : 0.5 * log + 0.5 * lin;
-  return Math.max(0, Math.min(4, Math.floor(t * 5)));
-}
 function setBaseOpacity(v) {
   baseOpacity = v;
   baseEdgeMat.opacity = v;
-  for (const l of baseThick) l.material.opacity = v * (l.userData.alpha ?? 1);
 }
 // The ambient web of connections. `keep` limits it to a set of ingredients; minWeight drops weak links.
 function buildBaseEdges(minWeight = 1, keep = null) {
@@ -264,49 +251,23 @@ function buildBaseEdges(minWeight = 1, keep = null) {
     scene.remove(baseEdges);
     baseEdges.geometry.dispose();
   }
-  for (const l of baseThick) { scene.remove(l); l.geometry.dispose(); l.material.dispose(); }
-  baseThick = [];
   const pos = [], col = [];
-  const classes = Array.from({ length: 5 }, () => ({ pos: [], col: [] })); // when strength is shown
-  const on = strengthOn();
   const tmp = new THREE.Color();
   for (const e of edges) {
     if (e.weight < minWeight || (keep && !(keep.has(e.source) && keep.has(e.target)))) continue;
     const a = nodes[e.source].sprite.position, b = nodes[e.target].sprite.position;
     const pts = curvePoints(a, b);
-    let P = pos, C = col;
-    if (on) {
-      const k = strengthClass(e.weight);
-      tmp.copy(PAPER).lerp(INK, STRENGTH_MIX[k]);
-      ({ pos: P, col: C } = classes[k]);
-    } else tmp.copy(PAPER).lerp(INK, 0.10 + 0.5 * Math.pow(e.weight / maxW, 0.6));
+    tmp.copy(PAPER).lerp(INK, 0.10 + 0.5 * Math.pow(e.weight / maxW, 0.6));
     for (let i = 0; i < SEG; i++) {
-      P.push(pts[i].x, pts[i].y, pts[i].z, pts[i + 1].x, pts[i + 1].y, pts[i + 1].z);
-      C.push(tmp.r, tmp.g, tmp.b, tmp.r, tmp.g, tmp.b);
+      pos.push(pts[i].x, pts[i].y, pts[i].z, pts[i + 1].x, pts[i + 1].y, pts[i + 1].z);
+      col.push(tmp.r, tmp.g, tmp.b, tmp.r, tmp.g, tmp.b);
     }
   }
-  // class 0 stays a plain hairline (faint on purpose); the stronger classes are fat lines
-  const hair = on ? classes[0] : { pos, col };
   const g = new THREE.BufferGeometry();
-  g.setAttribute('position', new THREE.Float32BufferAttribute(hair.pos, 3));
-  g.setAttribute('color', new THREE.Float32BufferAttribute(hair.col, 3));
+  g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
+  g.setAttribute('color', new THREE.Float32BufferAttribute(col, 3));
   baseEdges = new THREE.LineSegments(g, baseEdgeMat);
   scene.add(baseEdges);
-  if (on) {
-    classes.forEach((d, k) => {
-      if (k === 0 || !d.pos.length) return;
-      const sg = new LineSegmentsGeometry();
-      sg.setPositions(d.pos);
-      sg.setColors(d.col);
-      const m = new LineMaterial({ vertexColors: true, linewidth: STRENGTH_WIDTH[k], transparent: true, opacity: baseOpacity * STRENGTH_ALPHA[k], depthWrite: false, worldUnits: false });
-      m.resolution.set(innerWidth, innerHeight);
-      const l = new LineSegments2(sg, m);
-      l.userData.alpha = STRENGTH_ALPHA[k];
-      l.renderOrder = -1.6 + k * 0.1; // stronger links are drawn on top of weaker ones
-      scene.add(l);
-      baseThick.push(l);
-    });
-  }
 }
 
 // highlighted edges: fat lines rebuilt per view
@@ -1703,7 +1664,6 @@ function setMode(next) {
   view = { type: 'home' };
   setSizeByPopularity(sizeByPopularity, { persist: false });
   applyDensity(densityLevel);
-  updateStrengthKey();
   go({ type: 'home' }, { push: false });
   camTween.fromPos.copy(camera.position);
   camTween.fromTarget.copy(controls.target);
@@ -1739,24 +1699,13 @@ function setShowCuisines(on) {
   document.getElementById('cuisine-toggle').setAttribute('aria-checked', String(on));
   try { localStorage.setItem('tt-cuisines', on ? '1' : '0'); } catch { /* storage unavailable */ }
 }
-// a small key at the bottom of the map explains the line classes while Show Relationship Strength is on
-function updateStrengthKey() {
-  const key = document.getElementById('strength-key');
-  if (!key) return;
-  key.hidden = !showStrength;
-  document.getElementById('strength-key-what').textContent = mode === 'dishes' ? 'ingredients two dishes share' : 'dishes two ingredients appear in together';
-}
 function setShowStrength(on) {
   const changed = on !== showStrength;
   showStrength = on;
   invalidate();
   document.getElementById('strength-toggle').setAttribute('aria-checked', String(on));
-  updateStrengthKey();
   try { localStorage.setItem('tt-strength', on ? '1' : '0'); } catch { /* storage unavailable */ }
-  if (changed) {
-    buildBaseEdges(baseArgs.minWeight, baseArgs.keep);
-    setHighlightEdges(lastHiList);
-  }
+  if (changed) setHighlightEdges(lastHiList); // only the selected items' links are affected
 }
 document.getElementById('strength-toggle').addEventListener('click', () => setShowStrength(!showStrength));
 document.getElementById('cuisine-toggle').addEventListener('click', () => setShowCuisines(!showCuisines));
@@ -2156,7 +2105,7 @@ function fitViewport() {
   hiMat.resolution.set(innerWidth, innerHeight);
   hiMatShared.resolution.set(innerWidth, innerHeight);
   hiMatCasing.resolution.set(innerWidth, innerHeight);
-  for (const l of [...baseThick, ...hiExtra]) l.material.resolution.set(innerWidth, innerHeight);
+  for (const l of hiExtra) l.material.resolution.set(innerWidth, innerHeight);
 }
 window.addEventListener('resize', fitViewport);
 fitViewport();

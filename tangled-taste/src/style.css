@@ -496,11 +496,3 @@ body.mode-dishes #compare, body.mode-dishes [data-ingredients-only] { display: n
 /* the top bar is crowded on mid-size windows: the About and Settings buttons shrink to their icons */
 @media (max-width: 1100px) { #about-btn span { display: none; } #about-btn { padding: 9px 11px; } }
 @media (max-width: 1040px) { #settings-btn span { display: none; } #settings-btn { padding: 9px 11px; } }
-
-/* ---------- relationship strength key ---------- */
-#strength-key { position: fixed; left: calc(50% - 190px); bottom: 66px; transform: translateX(-50%); z-index: 3; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; justify-content: center; max-width: min(460px, calc(100vw - 32px)); padding: 6px 14px; background: var(--card); border: 1px solid var(--rule); border-radius: 999px; pointer-events: none; font-size: 13px; color: var(--ink-soft); box-shadow: 0 2px 14px rgba(90, 60, 30, 0.08); }
-#strength-key[hidden] { display: none; }
-#strength-key svg { width: 104px; height: 14px; flex: none; }
-#strength-key .sk-label { letter-spacing: 0.1em; text-transform: uppercase; font-size: 11px; font-weight: 500; }
-#strength-key .sk-what { flex-basis: 100%; text-align: center; font-style: italic; font-size: 12px; color: var(--ink-faint); margin-top: -2px; }
-@media (max-width: 900px) { #strength-key { left: 50%; bottom: calc(42vh + 24px); } }
