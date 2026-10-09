@@ -1642,6 +1642,7 @@ const settingsBtn = document.getElementById('settings-btn');
 const settingsPane = document.getElementById('settings');
 function setSettingsOpen(open) {
   settingsPane.hidden = !open;
+  document.body.classList.toggle('settings-open', open);
   settingsBtn.setAttribute('aria-expanded', String(open));
   if (open) settingsPane.querySelector('.sw').focus({ preventScroll: true });
   else settingsBtn.focus({ preventScroll: true });
@@ -1863,6 +1864,7 @@ function resetSettings() {
   applyGlobe(GLOBE_DEFAULT);
   // and close the Settings pane (without moving focus away from the Reset button)
   settingsPane.hidden = true;
+  document.body.classList.remove('settings-open');
   settingsBtn.setAttribute('aria-expanded', 'false');
 }
 document.getElementById('reset').addEventListener('click', () => { resetAll(); resetSettings(); });
