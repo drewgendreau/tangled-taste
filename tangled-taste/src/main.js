@@ -235,16 +235,27 @@ let baseOpacity = 0.75;
 let baseArgs = { minWeight: 1, keep: null };
 let showStrength = false;
 try { showStrength = localStorage.getItem('tt-strength') === '1'; } catch { /* storage unavailable */ }
-// link width in pixels by how many dishes two ingredients share (1 dish stays a hairline)
-const STRENGTH_STEPS = [[5, 3], [3, 2.2], [2, 1.6]];
-const DISH_STRENGTH_STEPS = [[4, 3], [3, 2.2], [2, 1.6]]; // shared ingredients between two dishes (the most common ones don't count)
-const strengthWidth = (w) => { for (const [min, px] of (mode === 'dishes' ? DISH_STRENGTH_STEPS : STRENGTH_STEPS)) if (w >= min) return px; return 0; };
-// in the dish view the width of a line always shows how many ingredients two dishes share
-const strengthOn = () => showStrength || mode === 'dishes';
+// Relationship strength: when it is on, a link's weight (how many dishes two ingredients share, or how many
+// ingredients two dishes share) is shown in five classes that differ in width, darkness and opacity, with the
+// strongest drawn on top. Off: every link is a thin hairline.
+const STRENGTH_WIDTH = [1, 1.7, 2.8, 4.4, 6.5]; // px
+const STRENGTH_MIX = [0.10, 0.26, 0.5, 0.78, 1]; // how far the colour goes from paper to ink
+const STRENGTH_ALPHA = [0.5, 0.68, 0.84, 0.95, 1]; // against the view's base opacity
+const HI_WIDTH = [0.55, 0.9, 1.5, 2.4, 3.6]; // times the line width of the current view
+const HI_ALPHA = [0.45, 0.62, 0.8, 0.92, 1];
+const strengthOn = () => showStrength;
+// 0 (weakest) to 4 (strongest). Ingredient links range up to dozens of dishes, so they use a log scale; dish links
+// share only a handful of ingredients, so those mix a log and a linear scale.
+function strengthClass(w) {
+  const lin = (w - 1) / Math.max(1, maxW - 1);
+  const log = Math.log(w) / Math.log(Math.max(2, maxW));
+  const t = maxW > 10 ? log : 0.5 * log + 0.5 * lin;
+  return Math.max(0, Math.min(4, Math.floor(t * 5)));
+}
 function setBaseOpacity(v) {
   baseOpacity = v;
   baseEdgeMat.opacity = v;
-  for (const l of baseThick) l.material.opacity = v;
+  for (const l of baseThick) l.material.opacity = v * (l.userData.alpha ?? 1);
 }
 // The ambient web of connections. `keep` limits it to a set of ingredients; minWeight drops weak links.
 function buildBaseEdges(minWeight = 1, keep = null) {
@@ -256,40 +267,45 @@ function buildBaseEdges(minWeight = 1, keep = null) {
   for (const l of baseThick) { scene.remove(l); l.geometry.dispose(); l.material.dispose(); }
   baseThick = [];
   const pos = [], col = [];
-  const thick = new Map(); // px -> { pos, col }
+  const classes = Array.from({ length: 5 }, () => ({ pos: [], col: [] })); // when strength is shown
+  const on = strengthOn();
   const tmp = new THREE.Color();
   for (const e of edges) {
     if (e.weight < minWeight || (keep && !(keep.has(e.source) && keep.has(e.target)))) continue;
     const a = nodes[e.source].sprite.position, b = nodes[e.target].sprite.position;
     const pts = curvePoints(a, b);
-    const strength = 0.10 + 0.5 * Math.pow(e.weight / maxW, 0.6);
-    tmp.copy(PAPER).lerp(INK, strength);
-    const px = strengthOn() ? strengthWidth(e.weight) : 0;
     let P = pos, C = col;
-    if (px) {
-      if (!thick.has(px)) thick.set(px, { pos: [], col: [] });
-      ({ pos: P, col: C } = thick.get(px));
-    }
+    if (on) {
+      const k = strengthClass(e.weight);
+      tmp.copy(PAPER).lerp(INK, STRENGTH_MIX[k]);
+      ({ pos: P, col: C } = classes[k]);
+    } else tmp.copy(PAPER).lerp(INK, 0.10 + 0.5 * Math.pow(e.weight / maxW, 0.6));
     for (let i = 0; i < SEG; i++) {
       P.push(pts[i].x, pts[i].y, pts[i].z, pts[i + 1].x, pts[i + 1].y, pts[i + 1].z);
       C.push(tmp.r, tmp.g, tmp.b, tmp.r, tmp.g, tmp.b);
     }
   }
+  // class 0 stays a plain hairline (faint on purpose); the stronger classes are fat lines
+  const hair = on ? classes[0] : { pos, col };
   const g = new THREE.BufferGeometry();
-  g.setAttribute('position', new THREE.Float32BufferAttribute(pos, 3));
-  g.setAttribute('color', new THREE.Float32BufferAttribute(col, 3));
+  g.setAttribute('position', new THREE.Float32BufferAttribute(hair.pos, 3));
+  g.setAttribute('color', new THREE.Float32BufferAttribute(hair.col, 3));
   baseEdges = new THREE.LineSegments(g, baseEdgeMat);
   scene.add(baseEdges);
-  for (const [px, d] of thick) {
-    const sg = new LineSegmentsGeometry();
-    sg.setPositions(d.pos);
-    sg.setColors(d.col);
-    const m = new LineMaterial({ vertexColors: true, linewidth: px, transparent: true, opacity: baseOpacity, depthWrite: false, worldUnits: false });
-    m.resolution.set(innerWidth, innerHeight);
-    const l = new LineSegments2(sg, m);
-    l.renderOrder = -1.5;
-    scene.add(l);
-    baseThick.push(l);
+  if (on) {
+    classes.forEach((d, k) => {
+      if (k === 0 || !d.pos.length) return;
+      const sg = new LineSegmentsGeometry();
+      sg.setPositions(d.pos);
+      sg.setColors(d.col);
+      const m = new LineMaterial({ vertexColors: true, linewidth: STRENGTH_WIDTH[k], transparent: true, opacity: baseOpacity * STRENGTH_ALPHA[k], depthWrite: false, worldUnits: false });
+      m.resolution.set(innerWidth, innerHeight);
+      const l = new LineSegments2(sg, m);
+      l.userData.alpha = STRENGTH_ALPHA[k];
+      l.renderOrder = -1.6 + k * 0.1; // stronger links are drawn on top of weaker ones
+      scene.add(l);
+      baseThick.push(l);
+    });
   }
 }
 
@@ -348,14 +364,23 @@ function setHighlightEdges(list) {
   };
   const plain = list.filter((e) => !e.shared);
   if (strengthOn()) {
-    // four width classes, from the base width up to roughly twice it
-    for (let k = 0; k < 4; k++) {
-      const items = plain.filter((e) => Math.min(3, Math.floor(e.strength * 4)) === k);
+    // five classes, weakest to strongest, each its own width and opacity (strongest on top). With something
+    // selected the scale is relative to the links shown, so the strongest of them is always the thickest.
+    const ws = plain.filter((e) => e.weight).map((e) => e.weight);
+    const lo = Math.min(...ws), hi = Math.max(...ws);
+    const classOf = (e) => {
+      if (!e.weight) return Math.min(4, Math.floor(e.strength * 5));
+      if (hi === lo) return 2;
+      return Math.min(4, Math.floor(((e.weight - lo) / (hi - lo)) * 5));
+    };
+    for (let k = 0; k < 5; k++) {
+      const items = plain.filter((e) => classOf(e) === k);
       if (!items.length) continue;
       const m = hiMat.clone();
-      m.linewidth = hiMat.linewidth * (1 + 0.3 * k);
+      m.linewidth = Math.max(1, hiMat.linewidth * HI_WIDTH[k]);
+      m.opacity = Math.min(1, hiMat.opacity * HI_ALPHA[k] + 0.08);
       m.resolution.set(innerWidth, innerHeight);
-      const l = build(items, m, -1);
+      const l = build(items, m, -1 + k * 0.02);
       if (l) hiExtra.push(l);
     }
   } else hiLines = build(plain, hiMat, -1);
@@ -624,7 +649,7 @@ function go(next, { push = true, quiet = false } = {}) {
       focus = new Set([n.id]);
       n.cuisines.forEach((_, c) => activeCuisines.add(c)); // light up the cuisines that use it, fade the rest
       const mw = Math.max(...[...adjacency[n.id].values()].map((e) => e.weight));
-      for (const [other, e] of adjacency[n.id]) edgesHi.push({ a: n.id, b: other, color: CATEGORIES[n.category].color, strength: Math.pow(e.weight / mw, 0.6) });
+      for (const [other, e] of adjacency[n.id]) edgesHi.push({ a: n.id, b: other, color: CATEGORIES[n.category].color, weight: e.weight, strength: Math.pow(e.weight / mw, 0.6) });
       flyTo(n.sprite.position.clone(), 170);
       break;
     }
@@ -846,7 +871,7 @@ function goDishes(next, { push = true, quiet = false } = {}) {
   const linksWithin = (set, color, cap = 500) => {
     const list = edges.filter((e) => set.has(e.source) && set.has(e.target)).sort((a, b) => b.weight - a.weight).slice(0, cap);
     const mw = Math.max(1, ...list.map((e) => e.weight));
-    return list.map((e) => ({ a: e.source, b: e.target, color, strength: Math.pow(e.weight / mw, 0.6) }));
+    return list.map((e) => ({ a: e.source, b: e.target, color, weight: e.weight, strength: Math.pow(e.weight / mw, 0.6) }));
   };
   switch (next.type) {
     case 'home':
@@ -858,7 +883,7 @@ function goDishes(next, { push = true, quiet = false } = {}) {
       const mw = Math.max(1, ...near.map(([, e]) => e.weight));
       hi = new Set([d.id, ...near.map(([o]) => o)]);
       focus = new Set([d.id]);
-      near.forEach(([o, e]) => edgesHi.push({ a: d.id, b: o, color: CUISINES[d.cuisine].color, strength: Math.pow(e.weight / mw, 0.6) }));
+      near.forEach(([o, e]) => edgesHi.push({ a: d.id, b: o, color: CUISINES[d.cuisine].color, weight: e.weight, strength: Math.pow(e.weight / mw, 0.6) }));
       activeCuisines.add(d.cuisine); // only the selected dish's own cuisine is shown, not the cuisines of the similar dishes
       fly([...hi]);
       break;
@@ -1678,6 +1703,7 @@ function setMode(next) {
   view = { type: 'home' };
   setSizeByPopularity(sizeByPopularity, { persist: false });
   applyDensity(densityLevel);
+  updateStrengthKey();
   go({ type: 'home' }, { push: false });
   camTween.fromPos.copy(camera.position);
   camTween.fromTarget.copy(controls.target);
@@ -1713,11 +1739,19 @@ function setShowCuisines(on) {
   document.getElementById('cuisine-toggle').setAttribute('aria-checked', String(on));
   try { localStorage.setItem('tt-cuisines', on ? '1' : '0'); } catch { /* storage unavailable */ }
 }
+// a small key at the bottom of the map explains the line classes while Show Relationship Strength is on
+function updateStrengthKey() {
+  const key = document.getElementById('strength-key');
+  if (!key) return;
+  key.hidden = !showStrength;
+  document.getElementById('strength-key-what').textContent = mode === 'dishes' ? 'ingredients two dishes share' : 'dishes two ingredients appear in together';
+}
 function setShowStrength(on) {
   const changed = on !== showStrength;
   showStrength = on;
   invalidate();
   document.getElementById('strength-toggle').setAttribute('aria-checked', String(on));
+  updateStrengthKey();
   try { localStorage.setItem('tt-strength', on ? '1' : '0'); } catch { /* storage unavailable */ }
   if (changed) {
     buildBaseEdges(baseArgs.minWeight, baseArgs.keep);
@@ -2134,4 +2168,4 @@ camTween.t = 1;
 if (camera.aspect < 1) camera.position.multiplyScalar(1.25);
 animate();
 // expose for debugging
-window.__atlas = { get nodes() { return nodes; }, get edges() { return edges; }, setMode, get mode() { return mode; }, go, camera, controls, cuisineMarks, perf, renderer, tick, loop: () => ({ state: ['idle', 'auto-rotate', 'moving'][loopState], needsRender }), step: (k = 30) => { for (let i = 0; i < k; i++) frame(0.05); } };
+window.__atlas = { scene, get nodes() { return nodes; }, get edges() { return edges; }, setMode, get mode() { return mode; }, go, camera, controls, cuisineMarks, perf, renderer, tick, loop: () => ({ state: ['idle', 'auto-rotate', 'moving'][loopState], needsRender }), step: (k = 30) => { for (let i = 0; i < k; i++) frame(0.05); } };

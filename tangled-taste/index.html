@@ -54,6 +54,12 @@
       </div>
     </header>
 
+    <div id="strength-key" hidden aria-label="Relationship strength key">
+      <span class="sk-label">weak</span>
+      <svg viewBox="0 0 130 16" aria-hidden="true"><g stroke="#5a4030" stroke-linecap="round"><line x1="4" y1="8" x2="22" y2="8" stroke-width="1" opacity="0.5"/><line x1="30" y1="8" x2="48" y2="8" stroke-width="1.7" opacity="0.68"/><line x1="56" y1="8" x2="74" y2="8" stroke-width="2.8" opacity="0.84"/><line x1="82" y1="8" x2="100" y2="8" stroke-width="4.4" opacity="0.95"/><line x1="108" y1="8" x2="126" y2="8" stroke-width="6.5"/></g></svg>
+      <span class="sk-label">strong</span>
+      <span class="sk-what">Line strength: <span id="strength-key-what"></span></span>
+    </div>
     <div id="about" role="dialog" aria-modal="true" aria-labelledby="about-title" hidden>
       <div class="about-card">
         <header class="about-head">
@@ -78,7 +84,7 @@
         <button id="cuisine-toggle" class="sw" type="button" role="switch" aria-checked="true" aria-label="Show Cuisines on Graph"><i class="switch" aria-hidden="true"></i></button>
       </div>
       <div class="setting">
-        <div class="txt"><b>Show Relationship Strength</b><small>On: links between ingredients that share more dishes are drawn slightly thicker.</small></div>
+        <div class="txt"><b>Show Relationship Strength</b><small>On: the stronger a relationship, the thicker and darker its line: more dishes shared by two ingredients, or more ingredients shared by two dishes. Weak links stay thin and faint.</small></div>
         <button id="strength-toggle" class="sw" type="button" role="switch" aria-checked="false" aria-label="Show Relationship Strength"><i class="switch" aria-hidden="true"></i></button>
       </div>
       <div class="setting">
