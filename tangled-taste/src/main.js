@@ -995,6 +995,10 @@ function back() {
   if (history.length) go(history.pop(), { push: false });
   else if (view.type !== 'home') go({ type: 'home' }, { push: false });
 }
+// the Back button is available whenever there is somewhere to go back to
+const backBtn = document.getElementById('back-btn');
+const updateBackBtn = () => { backBtn.disabled = !(history.length || view.type !== 'home'); };
+backBtn.addEventListener('click', () => { back(); backBtn.blur(); });
 
 // ---------------------------------------------------------------- panel
 const panel = document.getElementById('panel-inner');
@@ -1040,6 +1044,7 @@ document.getElementById('panel-collapse').addEventListener('click', () => setPan
 document.getElementById('panel-restore').addEventListener('click', () => setPanelMinimized(false));
 // keep: redraw without opening a minimized pane (for changes that are not new information)
 function renderPanel({ keep = false } = {}) {
+  updateBackBtn();
   if (!keep) setPanelMinimized(false);
   let h = '';
   const v = view;

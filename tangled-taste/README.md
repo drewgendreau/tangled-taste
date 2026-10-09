@@ -31,6 +31,7 @@ pnpm validate   # sanity-check the dataset (run in CI before every deploy)
   Settings apply immediately and are remembered between visits.
 - **Ctrl/⌘-click several dishes in Dish Mode** (or turn on *Add dishes* in the Detail Pane on touch screens, or Ctrl-click dish rows and search results) to compare them: ingredients shared by all or some, pair-by-pair overlap with the shared ingredients named, ingredients unique to each dish, their cuisines and kinds of dish, and other dishes closely linked to several of them. Each picked dish gets its own colour and ring on the map, with thick striped lines between dishes that share an ingredient. Up to six at a time.
 - The **Detail Pane** (the side panel on the right) has a – button to minimize it to a small "Detail Pane" bar; click the bar to open it again. It opens by itself whenever something new is shown in it.
+- The round **Back** button (an undo arrow, under the title at top left) returns to the previous view, step by step, back to the overview where it greys out. Esc does the same.
 - **Drag / scroll** to orbit and zoom; **Esc** or the breadcrumbs step back.
 - **Reset view** (top right, or the Home key) clears the search and filters and returns to the full atlas.
 
