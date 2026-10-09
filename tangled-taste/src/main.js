@@ -170,7 +170,8 @@ dishGroup.visible = false;
 // Dish pictures on the map sit inside a white badge with a light grey rim (a second sprite behind the picture).
 // DISH_BADGES = false puts the pictures back as they were; the size factors are shares of the node's size.
 const DISH_BADGES = true;
-const BADGE_RING = 0.88, BADGE_IMAGE = 0.72;
+const BADGE_RING = 0.88, BADGE_IMAGE = 0.9;
+const BADGE_FILL_ALPHA = 0.6; // opacity of the white circle: 1 = solid white, 0 = fully clear (the rim stays solid)
 const dishBadgeGroup = new THREE.Group();
 dishBadgeGroup.visible = false;
 scene.add(dishBadgeGroup);
@@ -180,14 +181,10 @@ function makeBadgeTexture() {
   const c = document.createElement('canvas');
   c.width = c.height = 192;
   const g = c.getContext('2d');
-  g.shadowColor = 'rgba(90, 60, 30, 0.18)';
-  g.shadowBlur = 6;
-  g.shadowOffsetY = 1.5;
   g.beginPath();
   g.arc(96, 96, 86, 0, Math.PI * 2);
-  g.fillStyle = '#ffffff';
+  g.fillStyle = `rgba(255, 255, 255, ${BADGE_FILL_ALPHA})`;
   g.fill();
-  g.shadowColor = 'transparent';
   g.lineWidth = 4;
   g.strokeStyle = '#d6d2ca';
   g.stroke();
