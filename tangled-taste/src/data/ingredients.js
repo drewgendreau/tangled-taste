@@ -193,6 +193,7 @@ export const INGREDIENTS = {
     'buckwheat',
     'barley',
     'oats',
+    'teff',
   ],
   legume: [
     'chickpeas',
