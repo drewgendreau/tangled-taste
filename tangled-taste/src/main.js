@@ -859,7 +859,7 @@ function goDishes(next, { push = true, quiet = false } = {}) {
       hi = new Set([d.id, ...near.map(([o]) => o)]);
       focus = new Set([d.id]);
       near.forEach(([o, e]) => edgesHi.push({ a: d.id, b: o, color: CUISINES[d.cuisine].color, strength: Math.pow(e.weight / mw, 0.6) }));
-      hi.forEach((id) => activeCuisines.add(DISHES[id].cuisine));
+      activeCuisines.add(d.cuisine); // only the selected dish's own cuisine is shown, not the cuisines of the similar dishes
       fly([...hi]);
       break;
     }
