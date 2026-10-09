@@ -1699,6 +1699,9 @@ function resetSettings() {
   applyHideCommon(0);
   applyDensity(3);
   applyGlobe(GLOBE_DEFAULT);
+  // and close the Settings pane (without moving focus away from the Reset button)
+  settingsPane.hidden = true;
+  settingsBtn.setAttribute('aria-expanded', 'false');
 }
 document.getElementById('reset').addEventListener('click', () => { resetAll(); resetSettings(); });
 document.getElementById('illus-toggle').addEventListener('click', () => {
