@@ -3,14 +3,14 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "dev": "node scripts/build-dish-art.mjs && node scripts/bake-layout.mjs && vite",
-    "build": "node scripts/build-dish-art.mjs && node scripts/bake-layout.mjs && vite build",
+    "dev": "node scripts/build-dish-art.mjs && node scripts/build-image-guides.mjs && node scripts/bake-layout.mjs && vite",
+    "build": "node scripts/build-dish-art.mjs && node scripts/build-image-guides.mjs && node scripts/bake-layout.mjs && vite build",
     "preview": "vite preview",
     "validate": "node scripts/validate.mjs",
     "assign-ids": "node scripts/assign-dish-ids.mjs",
     "validate:strict": "node scripts/validate.mjs --strict",
     "bake": "node scripts/bake-layout.mjs",
-    "art:build": "node scripts/build-dish-art.mjs",
+    "art:build": "node scripts/build-dish-art.mjs && node scripts/build-image-guides.mjs",
     "image": "node scripts/gemini-image.mjs",
     "format:data": "node scripts/format-data.mjs"
   },

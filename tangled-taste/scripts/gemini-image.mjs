@@ -14,6 +14,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { execFileSync } from 'node:child_process';
 import sharp from 'sharp';
 import { DISHES, INGREDIENT_CATEGORY, INGREDIENT_NOTES, INGREDIENT_IDS, CATEGORIES } from '../src/data.js';
 
@@ -112,15 +113,18 @@ async function main() {
   if (!list.length) return console.log('Nothing to do: every one of those already has a picture.');
   const key = apiKey();
   if (!key && !flag('dry-run')) throw new Error('No API key. Put GEMINI_API_KEY=... in tangled-taste/.env.local (git-ignored) or set the GEMINI_API_KEY environment variable.');
+  let made = 0;
   for (const job of list) {
+    if (flag('dry-run')) { console.log(`--- ${job.label} -> ${path.relative(ROOT, job.file)}${fs.existsSync(job.file) ? ' (already exists)' : ''}\n${job.prompt}\n`); continue; }
     if (fs.existsSync(job.file) && !flag('force')) { console.log(`skip ${job.label}: ${path.relative(ROOT, job.file)} exists (use --force to replace)`); continue; }
-    if (flag('dry-run')) { console.log(`--- ${job.label} -> ${path.relative(ROOT, job.file)}\n${job.prompt}\n`); continue; }
     process.stdout.write(`making ${job.label} … `);
     const raw = await generate(job.prompt, key);
     fs.mkdirSync(path.dirname(job.file), { recursive: true });
     const out = await sharp(raw).resize(1024, 1024, { fit: 'contain', background: '#ffffff' }).flatten({ background: '#ffffff' }).webp({ quality: 90 }).toBuffer();
     fs.writeFileSync(job.file, out);
     console.log(`saved ${path.relative(ROOT, job.file)} (${Math.round(out.length / 1024)} KB)`);
+    made++;
   }
+  if (made) execFileSync(process.execPath, [path.join(ROOT, 'scripts/build-image-guides.mjs')], { stdio: 'inherit' }); // refresh the reference guides
 }
 main().catch((e) => { console.error(`error: ${e.message}`); process.exit(1); });

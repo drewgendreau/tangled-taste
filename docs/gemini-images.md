@@ -24,6 +24,10 @@ Ask Claude for a dish or ingredient picture and it runs `tangled-taste/scripts/g
 
 Claude shows you the pictures first if you ask to review them, and only pushes when you say so.
 
+## Reference guides (hand these to Gemini)
+
+`docs/dish-images.md` and `docs/ingredient-images.md` list every dish and ingredient with its permanent ID, description, cuisine (dishes) or family (ingredients), expected file name, format, pixel size, target file size, and whether the picture already exists (✅ created / ⬜ to create). Each starts with the picture specification, the prompt template and a "Still to create" table, so you can give a guide to Gemini (or Claude) to "top off" whatever is missing after new dishes or ingredients are added. They are rebuilt automatically whenever the site is built or a picture is generated; do not edit them by hand.
+
 ## Permanent IDs
 
 Every dish has an ID like `TT-0650` (list: `tangled-taste/src/data/dish-ids.js`) and every ingredient has one like `TI-0012` (list: `tangled-taste/src/data/ingredient-ids.js`). Pictures are filed by ID, so renaming a dish or ingredient never loses its picture, and you can refer to anything by ID when you ask Claude for a picture. When new dishes or ingredients are added, `pnpm assign-ids` gives them the next number (existing numbers never change).

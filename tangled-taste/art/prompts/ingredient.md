@@ -4,6 +4,6 @@ Composition: a single ingredient (or one small natural group of it), centered, s
 
 Background: pure white (#FFFFFF), flat and even, with no gradient, vignette, table, scene or props apart from a soft contact shadow directly under it.
 
-Style: the same warm, detailed hand-painted illustration look as a set of food illustrations, soft light from the upper left, rich natural color, crisp edges. No text, no letters, no logos, no hands, no people.
+Style: a hand-painted watercolor food illustration: soft translucent washes, delicate ink linework, gentle shading, rich natural color, soft light from the upper left. The same look for every picture in the set. No text, no letters, no logos, no hands, no people.
 
 {{extra}}

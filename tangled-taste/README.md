@@ -73,6 +73,8 @@ A first-time visitor sees a Welcome window. It has a "Don't Show Again" box, tic
 
 `scripts/gemini-image.mjs` generates dish and ingredient pictures with Google's Gemini image model and saves them in `art/dishes/` or `art/ingredients/`, where the next build picks them up. Setup, commands and what to ask Claude are in `../docs/gemini-images.md`. The API key lives only in the git-ignored `.env.local`.
 
+The guides `../docs/dish-images.md` and `../docs/ingredient-images.md` track which pictures exist and which are still to create (rebuilt by `pnpm art:build`).
+
 ## Dish pictures
 
 The most popular dishes have pictures (50 so far). They show on the map in *Dishes* mode, as small icons in dish lists, and as a large preview at the top of a dish's panel. Dishes without a picture show a plain colored blob and no preview.
