@@ -26,6 +26,9 @@ const COUNTRY = {
   Finnish: 'Finland', Singaporean: 'Singapore', Cambodian: 'Cambodia', Taiwanese: 'Taiwan', Pakistani: 'Pakistan',
   Australian: ['Australia', [112, -44, 154, -10]], Israeli: 'Israel', Tunisian: 'Tunisia', Senegalese: 'Senegal', Kenyan: 'Kenya',
   Armenian: 'Armenia', Venezuelan: 'Venezuela', 'Puerto Rican': 'Puerto Rico',
+  Danish: ['Denmark', [8, 54.5, 15.3, 57.8]], Romanian: 'Romania', Croatian: 'Croatia', Icelandic: 'Iceland',
+  Ecuadorian: ['Ecuador', [-82, -5.1, -75, 1.6]], Haitian: 'Haiti', Trinidadian: 'Trinidad and Tobago', Bangladeshi: 'Bangladesh',
+  Mongolian: 'Mongolia', Laotian: 'Laos', Afghan: 'Afghanistan', Ghanaian: 'Ghana', Algerian: 'Algeria', Iraqi: 'Iraq',
 };
 
 const src = process.argv[2];

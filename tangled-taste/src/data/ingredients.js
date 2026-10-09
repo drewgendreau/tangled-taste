@@ -38,6 +38,7 @@ export const INGREDIENTS = {
     'turnip',
     'asparagus',
     'bok choy',
+    'yam',
   ],
   herb: [
     'basil',
@@ -82,6 +83,8 @@ export const INGREDIENTS = {
     'blueberry',
     'plum',
     'cranberry',
+    'dates',
+    'fig',
   ],
   spice: [
     'black pepper',
