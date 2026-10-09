@@ -16,9 +16,20 @@ One picture per dish. Placeholders in the prompt template: `{{name}}` = Dish, `{
 | Saved in | `tangled-taste/art/dishes/` |
 | File name | the item's permanent ID plus `.webp` (see the "Expected file name" column) |
 
-### Prompt template
+## Required prompt wording
 
-Use this for every item, filling the `{{…}}` placeholders from the item's row (details under each list). Leave `{{extra}}` empty unless told otherwise.
+Always use this wording for the picture prompt (fill in the two bracketed parts):
+
+```text
+A delicate, refined watercolor food illustration of [DISH NAME AND KEY INGREDIENTS], viewed from a 45-degree angle looking down and slightly to the side. Soft fluid watercolor washes, visible cold-press paper grain texture, and subtle organic pigment bleeding on the food and dish. Rendered in a unique [VESSEL / SERVING DISH TYPE] with minimal, clean watercolor shading and no heavy blotches or mottled stains. Isolated on a completely clean, solid pure white background with no puddle splatters, background splotches, or external marks. Studio lighting, appetizing, high detail.
+```
+
+- **[DISH NAME AND KEY INGREDIENTS]**: the dish's name from the Dish column, then its Key ingredients (listed in the "Still to create" table), for example "Birria Tacos with beef, chili, onion, cinnamon and melted cheese".
+- **[VESSEL / SERVING DISH TYPE]**: choose a fitting, distinctive vessel or serving dish for that cuisine (a clay bowl, a cast-iron skillet, a banana leaf, a wooden board, a tall glass…) so the pictures in the set do not all use the same plate.
+
+### Prompt template (additional detail)
+
+This longer template adds composition and background details. Use it together with the required wording above, filling the `{{…}}` placeholders from the item's row (details under each list). Leave `{{extra}}` empty unless told otherwise.
 
 ```text
 A polished, richly colored, hand-illustrated food illustration of {{name}} ({{cuisine}} cuisine). {{note}} Key ingredients that should be visible: {{ingredients}}.

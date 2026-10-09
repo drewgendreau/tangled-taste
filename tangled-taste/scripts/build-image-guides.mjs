@@ -19,6 +19,9 @@ const SPEC = {
   size: '150–300 KB (hard limit 400 KB)',
 };
 
+// The wording the owner wants in every picture prompt. It is part of this generator, so it stays in both guides.
+const REQUIRED_PROMPT = 'A delicate, refined watercolor food illustration of [DISH NAME AND KEY INGREDIENTS], viewed from a 45-degree angle looking down and slightly to the side. Soft fluid watercolor washes, visible cold-press paper grain texture, and subtle organic pigment bleeding on the food and dish. Rendered in a unique [VESSEL / SERVING DISH TYPE] with minimal, clean watercolor shading and no heavy blotches or mottled stains. Isolated on a completely clean, solid pure white background with no puddle splatters, background splotches, or external marks. Studio lighting, appetizing, high detail.';
+
 function find(dir, id) {
   for (const ext of ['webp', 'png', 'jpg', 'jpeg']) {
     const file = path.join(ROOT, dir, `${id}.${ext}`);
@@ -28,7 +31,7 @@ function find(dir, id) {
 }
 const promptTemplate = (name) => fs.readFileSync(path.join(ROOT, 'art/prompts', `${name}.md`), 'utf8').trim();
 
-function guide({ title, intro, template, dir, noun, rows, extraColumns, listColumns }) {
+function guide({ title, intro, template, dir, noun, rows, extraColumns, listColumns, fillIn }) {
   const found = rows.map((r) => ({ ...r, hit: find(dir, r.id) }));
   const todo = found.filter((r) => !r.hit);
   const out = [];
@@ -38,7 +41,8 @@ function guide({ title, intro, template, dir, noun, rows, extraColumns, listColu
   out.push(intro, '');
   out.push('## What every picture must be', '');
   out.push('| | |', '|---|---|', `| File format | ${SPEC.format} |`, `| Pixel size | ${SPEC.pixels} |`, `| Target file size | ${SPEC.size} |`, `| Saved in | \`tangled-taste/${dir}/\` |`, '| File name | the item\'s permanent ID plus `.webp` (see the "Expected file name" column) |', '');
-  out.push('### Prompt template', '', 'Use this for every item, filling the `{{…}}` placeholders from the item\'s row (details under each list). Leave `{{extra}}` empty unless told otherwise.', '', '```text', template, '```', '');
+  out.push('## Required prompt wording', '', 'Always use this wording for the picture prompt (fill in the two bracketed parts):', '', '```text', REQUIRED_PROMPT, '```', '', fillIn, '');
+  out.push('### Prompt template (additional detail)', '', 'This longer template adds composition and background details. Use it together with the required wording above, filling the `{{…}}` placeholders from the item\'s row (details under each list). Leave `{{extra}}` empty unless told otherwise.', '', '```text', template, '```', '');
   out.push(`## Still to create (${todo.length})`, '');
   if (todo.length) {
     out.push(`| ${listColumns.map((c) => c.head).join(' | ')} | Expected file name |`, `|${listColumns.map(() => '---').join('|')}|---|`);
@@ -59,6 +63,7 @@ fs.mkdirSync(DOCS, { recursive: true });
 fs.writeFileSync(path.join(DOCS, 'dish-images.md'), guide({
   title: 'Dish image reference guide',
   intro: 'One picture per dish. Placeholders in the prompt template: `{{name}}` = Dish, `{{cuisine}}` = Cuisine, `{{note}}` = Description, `{{ingredients}}` = Key ingredients (listed in the "Still to create" table). Every picture is a single dish centered on a pure white background with a clear margin; see the template.',
+  fillIn: '- **[DISH NAME AND KEY INGREDIENTS]**: the dish\'s name from the Dish column, then its Key ingredients (listed in the "Still to create" table), for example "Birria Tacos with beef, chili, onion, cinnamon and melted cheese".\n- **[VESSEL / SERVING DISH TYPE]**: choose a fitting, distinctive vessel or serving dish for that cuisine (a clay bowl, a cast-iron skillet, a banana leaf, a wooden board, a tall glass…) so the pictures in the set do not all use the same plate.',
   template: promptTemplate('dish'), dir: 'art/dishes', noun: 'dish', rows: dishRows,
   extraColumns: [{ head: 'Dish', get: (r) => r.name }, { head: 'Cuisine', get: (r) => r.cuisine }, { head: 'Description', get: (r) => r.note }],
   listColumns: [{ head: 'ID', get: (r) => r.id }, { head: 'Dish', get: (r) => r.name }, { head: 'Cuisine', get: (r) => r.cuisine }, { head: 'Description', get: (r) => r.note }, { head: 'Key ingredients', get: (r) => r.ingredients }],
@@ -71,6 +76,7 @@ const ingredientRows = Object.keys(INGREDIENT_CATEGORY).map((nm) => ({ id: INGRE
 fs.writeFileSync(path.join(DOCS, 'ingredient-images.md'), guide({
   title: 'Ingredient image reference guide',
   intro: 'One picture per ingredient. Placeholders in the prompt template: `{{name}}` = Ingredient, `{{category}}` = Family (lower case), `{{description}}` = Description. Ingredients have no cuisine; the Family column says what kind of ingredient it is. Pictures are shown small on the site, so keep the subject simple and bold.',
+  fillIn: '- **[DISH NAME AND KEY INGREDIENTS]**: for an ingredient picture, use the ingredient\'s name from the Ingredient column (and its Description if it helps), for example "Yam: a starchy brown tuber, one whole and one cut to show the pale flesh".\n- **[VESSEL / SERVING DISH TYPE]**: how the ingredient is presented: a small bowl, a wooden board, a jar, a bunch tied with string, a scoop or spoon, or simply on its own without a vessel if it is naturally a whole item. Vary this across the set.',
   template: promptTemplate('ingredient'), dir: 'art/ingredients', noun: 'ingredient', rows: ingredientRows,
   extraColumns: [{ head: 'Ingredient', get: (r) => r.name }, { head: 'Family', get: (r) => r.family }, { head: 'Description', get: (r) => r.note }, { head: 'Used in', get: (r) => `${r.used} dishes` }],
   listColumns: [{ head: 'ID', get: (r) => r.id }, { head: 'Ingredient', get: (r) => r.name }, { head: 'Family', get: (r) => r.family }, { head: 'Description', get: (r) => r.note }],

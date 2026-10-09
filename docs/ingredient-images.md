@@ -16,9 +16,20 @@ One picture per ingredient. Placeholders in the prompt template: `{{name}}` = In
 | Saved in | `tangled-taste/art/ingredients/` |
 | File name | the item's permanent ID plus `.webp` (see the "Expected file name" column) |
 
-### Prompt template
+## Required prompt wording
 
-Use this for every item, filling the `{{…}}` placeholders from the item's row (details under each list). Leave `{{extra}}` empty unless told otherwise.
+Always use this wording for the picture prompt (fill in the two bracketed parts):
+
+```text
+A delicate, refined watercolor food illustration of [DISH NAME AND KEY INGREDIENTS], viewed from a 45-degree angle looking down and slightly to the side. Soft fluid watercolor washes, visible cold-press paper grain texture, and subtle organic pigment bleeding on the food and dish. Rendered in a unique [VESSEL / SERVING DISH TYPE] with minimal, clean watercolor shading and no heavy blotches or mottled stains. Isolated on a completely clean, solid pure white background with no puddle splatters, background splotches, or external marks. Studio lighting, appetizing, high detail.
+```
+
+- **[DISH NAME AND KEY INGREDIENTS]**: for an ingredient picture, use the ingredient's name from the Ingredient column (and its Description if it helps), for example "Yam: a starchy brown tuber, one whole and one cut to show the pale flesh".
+- **[VESSEL / SERVING DISH TYPE]**: how the ingredient is presented: a small bowl, a wooden board, a jar, a bunch tied with string, a scoop or spoon, or simply on its own without a vessel if it is naturally a whole item. Vary this across the set.
+
+### Prompt template (additional detail)
+
+This longer template adds composition and background details. Use it together with the required wording above, filling the `{{…}}` placeholders from the item's row (details under each list). Leave `{{extra}}` empty unless told otherwise.
 
 ```text
 A polished, richly colored, hand-illustrated food illustration of {{name}} ({{category}}): {{description}} Show it the way it is usually bought or prepared, with a cut piece or half showing the inside if that helps it read clearly.
