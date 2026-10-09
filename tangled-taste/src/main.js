@@ -167,6 +167,35 @@ const nodeGroup = new THREE.Group();
 scene.add(nodeGroup);
 const dishGroup = new THREE.Group();
 dishGroup.visible = false;
+// Dish pictures on the map sit inside a white badge with a light grey rim (a second sprite behind the picture).
+// DISH_BADGES = false puts the pictures back as they were; the size factors are shares of the node's size.
+const DISH_BADGES = true;
+const BADGE_RING = 0.88, BADGE_IMAGE = 0.72;
+const dishBadgeGroup = new THREE.Group();
+dishBadgeGroup.visible = false;
+scene.add(dishBadgeGroup);
+let badgeTexture = null;
+function makeBadgeTexture() {
+  if (badgeTexture) return badgeTexture;
+  const c = document.createElement('canvas');
+  c.width = c.height = 192;
+  const g = c.getContext('2d');
+  g.shadowColor = 'rgba(90, 60, 30, 0.18)';
+  g.shadowBlur = 6;
+  g.shadowOffsetY = 1.5;
+  g.beginPath();
+  g.arc(96, 96, 86, 0, Math.PI * 2);
+  g.fillStyle = '#ffffff';
+  g.fill();
+  g.shadowColor = 'transparent';
+  g.lineWidth = 4;
+  g.strokeStyle = '#d6d2ca';
+  g.stroke();
+  badgeTexture = new THREE.CanvasTexture(c);
+  badgeTexture.colorSpace = THREE.SRGBColorSpace;
+  return badgeTexture;
+}
+const nodeSize = (n) => (n.badge ? n.badge.scale.x : n.sprite.scale.x); // how big a node looks, for rings, halos and labels
 scene.add(dishGroup);
 for (const n of ingNodes) {
   n.blobTex = blobs[n.category][n.id % 3];
@@ -795,6 +824,11 @@ function applyDishArt() {
     n.illusTex = tex;
     n.hasArt = true;
     n.baseScale = 14 + 22 * Math.pow(n.commonness, 1.4);
+    if (DISH_BADGES && !n.badge) {
+      n.badge = new THREE.Sprite(new THREE.SpriteMaterial({ map: makeBadgeTexture(), transparent: true, depthWrite: false, opacity: 0 }));
+      n.badge.position.copy(n.sprite.position);
+      dishBadgeGroup.add(n.badge);
+    }
     if (showIllustrations) {
       n.sprite.material.map = tex;
       n.sprite.material.needsUpdate = true;
@@ -1785,6 +1819,7 @@ function setMode(next) {
   mode = next;
   nodeGroup.visible = next === 'ingredients';
   dishGroup.visible = next === 'dishes';
+  dishBadgeGroup.visible = next === 'dishes';
   document.body.classList.toggle('mode-dishes', next === 'dishes');
   document.querySelectorAll('#mode-toggle button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.mode === next)));
   const g = next === 'dishes' ? dishGraph : ingredientGraph;
@@ -2062,7 +2097,7 @@ function updateLabels() {
       continue;
     }
     const d = camera.position.distanceTo(n.sprite.position);
-    const rPx = (n.sprite.scale.x * 0.4) / (d * tanHalf) * (H / 2);
+    const rPx = (nodeSize(n) * 0.4) / (d * tanHalf) * (H / 2);
     const isFocus = focusIds.has(n.id) && view.type === 'ingredient';
     const scale = THREE.MathUtils.clamp(260 / d, 0.75, 1.5) * (isFocus ? 1.6 : view.type === 'dish' && focusIds.has(n.id) ? 1.25 : 1);
     const fs = n.fontPx * scale;
@@ -2174,14 +2209,21 @@ function frame(rawDt) {
     const breathe = controls.autoRotate ? 1 + Math.sin(time * 0.8 + n.id) * 0.015 : 1;
     // plain dots are drawn much smaller than the paintings (a sixth of the size, with a floor)
     const size = v.base * v.scale * breathe;
-    n.sprite.scale.setScalar(showIllustrations ? size : Math.max(size / 6, 2));
+    if (n.badge) {
+      n.sprite.scale.setScalar(showIllustrations ? size * BADGE_IMAGE : Math.max(size / 6, 2));
+      n.badge.visible = showIllustrations;
+      n.badge.scale.setScalar(size * BADGE_RING);
+      n.badge.material.opacity = v.opacity;
+      n.badge.renderOrder = n.sprite.renderOrder - 0.5;
+      n.badge.material.depthTest = n.sprite.material.depthTest;
+    } else n.sprite.scale.setScalar(showIllustrations ? size : Math.max(size / 6, 2));
     n.sprite.material.opacity = v.opacity;
   }
   for (const n of nodes) {
     if (!n.ring) continue;
     n.ring.visible = !!n.ringOn;
     if (n.ringOn) {
-      n.ring.scale.setScalar(n.sprite.scale.x * 1.5);
+      n.ring.scale.setScalar(nodeSize(n) * 1.5);
       n.ring.material.opacity = n.vis.opacity;
     }
   }
@@ -2189,7 +2231,7 @@ function frame(rawDt) {
   const haloTarget = haloNode ? 0.9 : 0;
   if (haloNode) {
     halo.position.copy(haloNode.sprite.position);
-    halo.scale.setScalar(haloNode.sprite.scale.x * 1.35);
+    halo.scale.setScalar(nodeSize(haloNode) * 1.35);
   }
   if (Math.abs(haloTarget - halo.material.opacity) > 0.004) {
     halo.material.opacity += (haloTarget - halo.material.opacity) * lerp;
