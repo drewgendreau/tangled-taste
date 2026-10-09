@@ -57,6 +57,10 @@ pnpm validate   # sanity-check the dataset (run in CI before every deploy)
 - **Delivery.** three.js is a separate cached chunk; fonts load without blocking the first paint.
 - **Measure it.** Add `?perf` to the address for a live readout of fps, pixel ratio and where each frame's time goes.
 
+## About window
+
+The text in the *About* window is the file `content/about.md`. Edit it on GitHub (the pencil icon on the file page) and commit; the site rebuilds and updates in a minute or two, with no code changes. The first line is the title (`# About Tangled Taste`); after that, paragraphs are separated by a blank line, and `[link text](https://example.com)` makes a link.
+
 ## Dish pictures
 
 The most popular dishes have pictures (50 so far). They show on the map in *Dishes* mode, as small icons in dish lists, and as a large preview at the top of a dish's panel. Dishes without a picture show a plain colored blob and no preview.
