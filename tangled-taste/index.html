@@ -106,7 +106,11 @@
       <footer class="set-foot"><button id="settings-done" type="button">Done</button></footer>
     </section>
 
-    <aside id="panel"><div id="panel-inner"></div></aside>
+    <aside id="panel">
+      <button id="panel-restore" type="button" aria-expanded="false" aria-controls="panel-inner" hidden>Detail Pane</button>
+      <button id="panel-collapse" type="button" aria-expanded="true" aria-controls="panel-inner" aria-label="Minimize the Detail Pane" title="Minimize">–</button>
+      <div id="panel-inner"></div>
+    </aside>
 
     <nav id="atlas">
       <button id="atlas-toggle" aria-expanded="true">Cuisines of the world</button>

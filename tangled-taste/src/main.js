@@ -805,7 +805,7 @@ function applyDishArt() {
 onDishArt(() => {
   applyDishArt();
   // the first time pictures arrive, show them in an open panel too (unless the person has scrolled it)
-  if (mode === 'dishes' && panel.scrollTop === 0 && (view.type === 'home' || view.type === 'dish')) renderPanel();
+  if (mode === 'dishes' && panel.scrollTop === 0 && (view.type === 'home' || view.type === 'dish')) renderPanel({ keep: true });
 });
 whenIdle(() => loadDishArt(), true);
 
@@ -959,7 +959,19 @@ function dishPreview(d) {
   if (!url) return '';
   return `<figure class="dish-art"><img src="${url}" width="1024" height="1024" alt="Illustration of ${esc(d.name)}" decoding="async" onload="this.classList.add('ready')"></figure>`;
 }
-function renderPanel() {
+// The Detail Pane can be minimized to a small "Detail Pane" bar. Anything that puts new information in it opens it again.
+const panelEl = document.getElementById('panel');
+function setPanelMinimized(min) {
+  panelEl.classList.toggle('minimized', min);
+  document.getElementById('panel-restore').hidden = !min;
+  document.getElementById('panel-collapse').setAttribute('aria-expanded', String(!min));
+  document.getElementById('panel-restore').setAttribute('aria-expanded', String(!min));
+}
+document.getElementById('panel-collapse').addEventListener('click', () => setPanelMinimized(true));
+document.getElementById('panel-restore').addEventListener('click', () => setPanelMinimized(false));
+// keep: redraw without opening a minimized pane (for changes that are not new information)
+function renderPanel({ keep = false } = {}) {
+  if (!keep) setPanelMinimized(false);
   let h = '';
   const v = view;
   if (v.type === 'home') {
@@ -1251,7 +1263,7 @@ function setMultiAdd(on) {
   multiAdd = on;
   document.body.classList.toggle('multi-add', on);
   hintEl.innerHTML = on ? 'adding ingredients · click one to add or remove it · <span>esc</span> or Done to stop' : HINT_DEFAULT;
-  if (view.type === 'ingredient' || view.type === 'overlap') renderPanel();
+  if (view.type === 'ingredient' || view.type === 'overlap') renderPanel({ keep: true });
 }
 
 function parseGo(s) {
