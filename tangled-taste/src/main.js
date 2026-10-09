@@ -107,6 +107,9 @@ controls.addEventListener('change', () => { if (!ownControlsUpdate) invalidate()
 controls.rotateSpeed = 0.6;
 
 // ---------------------------------------------------------------- globe graticule
+// The latitude/longitude lines around the map. Intensity is a setting (Settings > Globe Line Intensity).
+let graticule = null;
+const graticuleMat = new THREE.LineBasicMaterial({ color: INK, transparent: true, opacity: 0.09, fog: true });
 {
   const pts = [];
   const R = GLOBE_RADIUS * 1.18;
@@ -118,7 +121,8 @@ controls.rotateSpeed = 0.6;
   }
   const g = new THREE.BufferGeometry();
   g.setAttribute('position', new THREE.Float32BufferAttribute(pts, 3));
-  scene.add(new THREE.LineSegments(g, new THREE.LineBasicMaterial({ color: INK, transparent: true, opacity: 0.09, fog: true })));
+  graticule = new THREE.LineSegments(g, graticuleMat);
+  scene.add(graticule);
 }
 
 // ---------------------------------------------------------------- ingredient sprites
@@ -1399,6 +1403,33 @@ function applyDensity(level) {
   try { localStorage.setItem('tt-density', String(level)); } catch { /* storage unavailable */ }
 }
 densitySlider.addEventListener('input', () => applyDensity(+densitySlider.value));
+
+// Globe Line Intensity: High / Medium / Low (the original look) / Off
+const GLOBE_LEVELS = [
+  { label: 'High', opacity: 0.55, color: '#3a2a1e', fog: false }, // no depth fade: crisp all the way round
+  { label: 'Medium', opacity: 0.27, color: '#4a3526', fog: true },
+  { label: 'Low', opacity: 0.09, color: null, fog: true }, // exactly as the globe has always been drawn
+  { label: 'Off', opacity: 0, color: null, fog: true },
+];
+const GLOBE_DEFAULT = 2;
+let globeLevel = GLOBE_DEFAULT;
+try { const saved = localStorage.getItem('tt-globe'); if (saved !== null) globeLevel = Math.min(3, Math.max(0, parseInt(saved, 10) || 0)); } catch { /* storage unavailable */ }
+const globeSlider = document.getElementById('globe');
+function applyGlobe(level) {
+  globeLevel = level;
+  const g = GLOBE_LEVELS[level];
+  graticuleMat.opacity = g.opacity;
+  graticuleMat.color.set(g.color || INK);
+  if (graticuleMat.fog !== g.fog) { graticuleMat.fog = g.fog; graticuleMat.needsUpdate = true; }
+  graticule.visible = g.opacity > 0;
+  invalidate();
+  globeSlider.value = String(level);
+  document.getElementById('globe-label').textContent = g.label;
+  document.querySelectorAll('#globe-ticks span').forEach((t, i) => t.classList.toggle('on', i === level));
+  try { localStorage.setItem('tt-globe', String(level)); } catch { /* storage unavailable */ }
+}
+globeSlider.addEventListener('input', () => applyGlobe(+globeSlider.value));
+applyGlobe(globeLevel);
 applyHideCommon(hideLevel, { refresh: false });
 applyDensity(densityLevel);
 
@@ -1598,6 +1629,7 @@ function resetSettings() {
   setSizeByPopularity(false);
   applyHideCommon(0);
   applyDensity(3);
+  applyGlobe(GLOBE_DEFAULT);
 }
 document.getElementById('reset').addEventListener('click', () => { resetAll(); resetSettings(); });
 document.getElementById('illus-toggle').addEventListener('click', () => {
