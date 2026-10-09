@@ -21,27 +21,12 @@
 <script type="module">
   import { INGREDIENT_CATEGORY, CATEGORIES, CUISINES } from './src/data.js';
   import { paintIngredient, hasIllustration, paintCuisine } from './src/illustrations.js';
-  import { paintDish, dishArtNames } from './src/dishes-art.js';
-  import { DISH_ART } from './src/data/dish-art.js';
   const grid = document.getElementById('grid');
   const params = new URLSearchParams(location.search);
   const filter = params.get('cat');
   const only = params.get('names')?.split(',');
   const t0 = performance.now();
-  if (params.get('dishes')) {
-    // ?dishes=1 shows every dish painting; &px=640 renders them larger; &names=Sushi,Ramen picks some
-    const px = +params.get('px') || 256;
-    grid.style.gridTemplateColumns = `repeat(auto-fill, minmax(${Math.min(px, 320)}px, 1fr))`;
-    for (const name of dishArtNames()) {
-      if (only && !only.includes(name)) continue;
-      const fig = document.createElement('figure');
-      try { fig.appendChild(paintDish(name, px)); } catch (err) { console.warn('dish failed', name, err); }
-      const cap = document.createElement('figcaption');
-      cap.innerHTML = `${name}<small>${DISH_ART[name][0]}</small>`;
-      fig.appendChild(cap);
-      grid.appendChild(fig);
-    }
-  } else if (params.get('cuisines')) {
+  if (params.get('cuisines')) {
     for (const [name, c] of Object.entries(CUISINES)) {
       const fig = document.createElement('figure');
       fig.appendChild(paintCuisine(name, c.color));

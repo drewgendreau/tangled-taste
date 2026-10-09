@@ -10,7 +10,6 @@ export const SIZE = 256;
 const TAU = Math.PI * 2;
 const INK = '#3b2a20';
 let ctx, rand;
-let K = 1; // pixel scale of the canvas being painted (artwork is always drawn on a 256-unit grid)
 
 function mulberry32(seed) {
   return function () {
@@ -189,7 +188,7 @@ function paint(pts, color, opts = {}) {
   ctx.fillStyle = g;
   ctx.fillRect(b.x0 - 2, b.y0 - 2, b.w + 4, b.h + 4);
   if (!small && o.blot) {
-    ctx.filter = `blur(${Math.max(2, b.w * 0.05) * K}px)`;
+    ctx.filter = `blur(${Math.max(2, b.w * 0.05)}px)`;
     for (let j = 0; j < 3; j++) {
       ctx.beginPath();
       ctx.arc(b.x0 + b.w * (0.35 + rand() * 0.6), b.y0 + b.h * (0.35 + rand() * 0.6), Math.min(b.w, b.h) * (0.12 + rand() * 0.15), 0, TAU);
@@ -208,7 +207,7 @@ function paint(pts, color, opts = {}) {
   ctx.restore();
   // pigment pooled at the dried edge
   ctx.save();
-  if (!small) ctx.filter = `blur(${0.6 * K}px)`;
+  if (!small) ctx.filter = `blur(0.6px)`;
   ctx.strokeStyle = rgba(tone(base, -0.35), o.edge);
   ctx.lineWidth = Math.max(0.8, Math.min(2.6, Math.min(b.w, b.h) * 0.03));
   ctx.stroke(p);
@@ -253,7 +252,7 @@ function dot(x, y, r, color, a = 0.7) {
 }
 function shadow(cx, cy, rx, ry) {
   ctx.save();
-  ctx.filter = `blur(${6 * K}px)`;
+  ctx.filter = `blur(6px)`;
   ctx.beginPath();
   ctx.ellipse(cx, cy, rx, ry, 0, 0, TAU);
   ctx.fillStyle = 'rgba(110,80,55,0.18)';
@@ -2149,29 +2148,4 @@ export function paintIngredient(name, fallbackColor = '#c9a46a') {
   const out = underlay(c);
   cache.set(name, out);
   return out;
-}
-
-// ---------------------------------------------------------------- toolkit for other painters (dish templates)
-// A painting is always drawn on the same 256-unit grid; `px` only decides how many pixels it is rendered with,
-// so one recipe gives a small thumbnail and a large, crisp preview.
-export const TOOLS = {
-  paint, ink, line, dot, shadow, pile, mound, bowl, E, arc, rotate, densify, rrect, band, curve, leaf, sym, bbox, pathOf, poly,
-  R, rgb, rgba, tone, TAU, SIZE,
-  rnd: () => rand(),
-  get ctx() { return ctx; },
-};
-export function paintOnCanvas(px, seed, draw, { underlaid = true } = {}) {
-  const c = document.createElement('canvas');
-  c.width = c.height = px;
-  ctx = c.getContext('2d');
-  K = px / SIZE;
-  ctx.scale(K, K);
-  ctx.lineCap = 'round';
-  rand = mulberry32(hash(seed));
-  try {
-    draw();
-  } finally {
-    K = 1;
-  }
-  return underlaid ? underlay(c) : c;
 }
