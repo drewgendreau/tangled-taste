@@ -29,6 +29,7 @@ pnpm validate   # sanity-check the dataset (run in CI before every deploy)
   - *Density* (High → Medium → Low → Minimal) thins out the background map: lower settings keep only the most common ingredients and the strongest connections. Anything you select or focus on stays visible at every density.
   - *Hide Common Ingredients* (Show all / Hide some / Hide most) removes the most-used ingredients from the map entirely. What counts as common is worked out from the data: *Hide some* drops the top 5% of ingredients by number of dishes and *Hide most* the top 20% (currently 11 and 45), so it adapts as dishes are added. An ingredient you pick on purpose, by search or from a panel, still appears.
   Settings apply immediately and are remembered between visits.
+- The **Detail Pane** (the side panel on the right) has a – button to minimize it to a small "Detail Pane" bar; click the bar to open it again. It opens by itself whenever something new is shown in it.
 - **Drag / scroll** to orbit and zoom; **Esc** or the breadcrumbs step back.
 - **Reset view** (top right, or the Home key) clears the search and filters and returns to the full atlas.
 

@@ -206,8 +206,7 @@ body { background-size: 512px 512px; }
   border: 1px solid var(--rule);
   border-radius: 6px 22px 8px 20px / 20px 8px 22px 6px;
   box-shadow: 0 10px 40px rgba(90, 60, 30, 0.12);
-  scrollbar-width: thin;
-  scrollbar-color: var(--rule) transparent;
+  scrollbar-width: thin; /* default scrollbar colour, same as the Cuisines of the world pane */
   animation: rise 0.35s ease;
 }
 @keyframes rise { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
