@@ -1884,7 +1884,7 @@ document.getElementById('mode-toggle').addEventListener('click', (e) => {
   if (b) setMode(b.dataset.mode);
 });
 function resetSettings() {
-  setMode('ingredients');
+  // the current mode (Ingredient or Dish) is kept: Reset view returns to a fresh start of whichever one you are in
   compareIllus.auto = false;
   compareSize.auto = false;
   setIllustrations(true);
