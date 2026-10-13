@@ -527,7 +527,9 @@ body.mode-dishes #compare, body.mode-dishes [data-ingredients-only] { display: n
 #back-btn:hover:not(:disabled) { background: var(--accent); border-color: var(--accent); color: #fffaf0; transform: translateX(-2px); }
 #back-btn:disabled { opacity: 0.35; cursor: default; box-shadow: none; border-color: var(--rule); color: var(--ink-faint); }
 #back-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-#panel.minimized #back-btn { right: calc(100% - 146px); } /* follows the small "Detail Pane" bar */
+/* minimized: the small "Detail Pane" bar sits at the bottom right and the Back button just left of it */
+#panel.minimized #panel-restore { align-self: flex-end; }
+#panel.minimized #back-btn { top: auto; bottom: 0; right: 214px; left: auto; }
 /* with Settings open, the button sits left of it, so it is always left of whatever panes are open */
-body.settings-open #back-btn, body.settings-open #panel.minimized #back-btn { right: calc(100% + 346px); }
-@media (max-width: 900px) { #back-btn, #panel.minimized #back-btn, body.settings-open #back-btn, body.settings-open #panel.minimized #back-btn { top: -54px; right: auto; left: 0; } }
+body.settings-open #panel:not(.minimized) #back-btn { right: calc(100% + 346px); }
+@media (max-width: 900px) { #back-btn, body.settings-open #panel:not(.minimized) #back-btn { top: -54px; right: auto; left: 0; } #panel.minimized #back-btn { top: auto; bottom: 0; right: 214px; left: auto; } }

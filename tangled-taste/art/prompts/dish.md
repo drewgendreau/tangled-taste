@@ -1,9 +1,7 @@
-A polished, richly colored, hand-illustrated food illustration of {{name}} ({{cuisine}} cuisine). {{note}} Key ingredients that should be visible: {{ingredients}}.
+An abstract watercolor food illustration of {{name}} ({{cuisine}} cuisine) on a plate. {{note}}
 
-Composition: a single dish, plated or served the traditional way, centered, seen in three-quarter view from slightly above. Square 1:1 image. The dish fills about 80% of the frame with at least 8% clear margin on every side; nothing (plate, handle, utensil or garnish) touches or crosses an edge.
+Style: An expressive, loose, and highly atmospheric watercolor painting in an abstract style. It features vibrant color bleeds, natural watercolor blooms, and small but energetic splashes, splatters, and drips that expand outwards but stay within the boundaries. The illustration is characterized by translucent, wet-on-wet washes, dappled textures, and loose, suggestive brushstrokes that capture the essence of the dish rather than precise details. Gestural, quick ink-like or watercolor lines suggest the edges of the food and plating. It should feel artistic, messy, and rich with natural, warm, and cool contrast colors, utilizing a hand-painted aesthetic with soft light suggestion. No text, letters, logos, hands, or people. 
 
-Background: pure white (#FFFFFF), flat and even, with no gradient, vignette, table, scene or props apart from a soft contact shadow directly under the dish.
+Composition: A single dish, plated or served the traditional way, centered and seen in a three-quarter view from slightly above (i.e. about a 45 degree angle). The main elements of {{name}} (including visible key ingredients: {{ingredients}} and extras: {{extra}}) are loosely defined in the center, appearing on a plate, which is suggested with sweeping, loosely curved strokes that blend freely onto the paper. The dish fills about 80% of the frame with a clear, generous margin (at least 8%) on all four sides; absolutely nothing (food, plate, splatter, or garnish) touches or crosses the image borders.
 
-Style: a hand-painted watercolor food illustration: soft translucent washes, delicate ink linework, gentle shading, rich natural color, soft light from the upper left. The same look for every picture in the set. No text, no letters, no logos, no hands, no people.
-
-{{extra}}
+Background: The background is the textured, off-white paper itself (#FFFFFF), flat and even with no gradient, vignettes, tables, scenes, or props. Small but rich watercolor bleeds, splashes, and a loose, watery contact shadow directly under and around the plating are visible, all fading naturally into the white paper before reaching the edges.
