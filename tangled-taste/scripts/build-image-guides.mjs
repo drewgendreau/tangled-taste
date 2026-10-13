@@ -62,7 +62,7 @@ const dishRows = DISHES.map((d) => ({ id: d.uid, name: d.name, cuisine: d.cuisin
 fs.mkdirSync(DOCS, { recursive: true });
 fs.writeFileSync(path.join(DOCS, 'dish-images.md'), guide({
   title: 'Dish image reference guide',
-  intro: 'One picture per dish. Placeholders in the prompt template: `{{name}}` = Dish, `{{cuisine}}` = Cuisine, `{{note}}` = Description, `{{ingredients}}` = Key ingredients (listed in the "Still to create" table). Every picture is a single dish centered on a pure white background with a clear margin; see the template.',
+  intro: 'One picture per dish. Placeholders in the prompt template: `{{name}}` = Dish, `{{cuisine}}` = Cuisine, `{{note}}` = Description, `{{ingredients}}` = Key ingredients (listed in the "Still to create" table). Every picture is a single dish centered on a transparent background with a clear margin; see the template.',
   fillIn: '- **[DISH NAME AND KEY INGREDIENTS]**: the dish\'s name from the Dish column, then its Key ingredients (listed in the "Still to create" table), for example "Birria Tacos with beef, chili, onion, cinnamon and melted cheese".\n- **[VESSEL / SERVING DISH TYPE]**: choose a fitting, distinctive vessel or serving dish for that cuisine (a clay bowl, a cast-iron skillet, a banana leaf, a wooden board, a tall glass…) so the pictures in the set do not all use the same plate.',
   driveFolder: '04 Food/Tangled Taste/Dishes',
   template: promptTemplate('dish'), dir: 'art/dishes', noun: 'dish', rows: dishRows,
