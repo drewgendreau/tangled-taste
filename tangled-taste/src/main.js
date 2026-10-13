@@ -177,7 +177,7 @@ dishGroup.visible = false;
 const DISH_BADGES = true;
 const BADGE_RING = 0.70, BADGE_IMAGE = 0.6;
 // the plain coloured blobs of dishes without a picture are drawn at this share of their former size
-const DISH_BLOB = 0.62;
+const DISH_BLOB = 0.38;
 const BADGE_FILL_ALPHA = 0.7; // opacity of the white circle: 1 = solid white, 0 = fully clear (the rim stays solid)
 const dishBadgeGroup = new THREE.Group();
 dishBadgeGroup.visible = false;
