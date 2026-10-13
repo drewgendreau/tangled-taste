@@ -176,6 +176,8 @@ dishGroup.visible = false;
 // DISH_BADGES = false puts the pictures back as they were; the size factors are shares of the node's size.
 const DISH_BADGES = true;
 const BADGE_RING = 0.70, BADGE_IMAGE = 0.6;
+// the plain coloured blobs of dishes without a picture are drawn at this share of their former size
+const DISH_BLOB = 0.62;
 const BADGE_FILL_ALPHA = 0.7; // opacity of the white circle: 1 = solid white, 0 = fully clear (the rim stays solid)
 const dishBadgeGroup = new THREE.Group();
 dishBadgeGroup.visible = false;
@@ -832,7 +834,7 @@ function ensureDishGraph() {
     const sp = new THREE.Sprite(mat);
     sp.position.fromArray(n.pos);
     n.hasArt = false;
-    n.baseScale = 5 + 16 * Math.pow(n.commonness, 1.4);
+    n.baseScale = (5 + 16 * Math.pow(n.commonness, 1.4)) * DISH_BLOB;
     sp.scale.setScalar(n.baseScale);
     sp.userData.node = n;
     n.sprite = sp;
@@ -2230,7 +2232,7 @@ function frame(rawDt) {
   for (const n of nodes) {
     const v = n.vis;
     const targetScale = v.tScale * (n === hovered ? 1.22 : 1);
-    const targetBase = sizeByPopularity ? n.baseScale : n.isDish ? (n.hasArt ? 21 : 9) : UNIFORM_SCALE;
+    const targetBase = sizeByPopularity ? n.baseScale : n.isDish ? (n.hasArt ? 21 : 9 * DISH_BLOB) : UNIFORM_SCALE;
     if (Math.abs(targetScale - v.scale) > 0.002 || Math.abs(v.tOpacity - v.opacity) > 0.002 || Math.abs(targetBase - v.base) > 0.01) {
       v.scale += (targetScale - v.scale) * lerp;
       v.opacity += (v.tOpacity - v.opacity) * lerp;
