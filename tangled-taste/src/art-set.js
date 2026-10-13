@@ -72,7 +72,7 @@ export function makeArtSet(dir) {
     if (started) return started;
     started = (async () => {
       try {
-        const res = await fetch(`${root}manifest.json`);
+        const res = await fetch(`${root}manifest.json`, { cache: 'no-cache' });
         if (!res.ok) return;
         manifest = await res.json();
         listeners.forEach((fn) => fn());
