@@ -2336,6 +2336,7 @@ fitViewport();
 performance.mark('app:before-first-view');
 go({ type: 'home' }, { push: false });
 performance.mark('app:first-view');
+setMode('dishes'); // the site opens in Dish Mode
 camTween.t = 1;
 if (camera.aspect < 1) camera.position.multiplyScalar(1.25);
 animate();
