@@ -1277,12 +1277,12 @@ function renderCompareView(v) {
   return h;
 }
 
-const multiHint = (single, noun = 'ingredient') => `<div class="multi-hint">${multiAdd
-  ? `Click ${noun}s on the map to add or remove them.`
+const multiHint = (single, noun = 'ingredient') => { const nouns = noun === 'dish' ? 'dishes' : `${noun}s`; return `<div class="multi-hint">${multiAdd
+  ? `Click ${nouns} on the map to add or remove them.`
   : single
     ? `See what it shares with another ${noun}: hold <kbd>Ctrl</kbd> (<kbd>⌘</kbd> on a Mac) and click one.`
-    : `Hold <kbd>Ctrl</kbd> (<kbd>⌘</kbd> on a Mac) and click more ${noun}s to add them.`}
-  <button class="link" data-multi-toggle>${multiAdd ? 'Done' : `＋ Add ${noun}s`}</button></div>`;
+    : `Hold <kbd>Ctrl</kbd> (<kbd>⌘</kbd> on a Mac) and click more ${nouns} to add them.`}
+  <button class="link" data-multi-toggle>${multiAdd ? 'Done' : `＋ Add ${nouns}`}</button></div>`; };
 
 // Dish Mode: what two or more picked dishes have in common
 function renderDishCompareView(v) {
