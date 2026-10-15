@@ -870,11 +870,12 @@ function applyDishArt() {
   invalidate();
 }
 onDishArt(() => {
+  if (!performance.getEntriesByName('app:art-first').length) performance.mark('app:art-first');
   applyDishArt();
   // the first time pictures arrive, show them in an open panel too (unless the person has scrolled it)
   if (mode === 'dishes' && panel.scrollTop === 0 && (view.type === 'home' || view.type === 'dish')) renderPanel({ keep: true });
 });
-whenIdle(() => loadDishArt(), true);
+loadDishArt(); // the site opens in Dish Mode, so the picture download starts at once, not when the browser is idle
 
 function goDishes(next, { push = true, quiet = false } = {}) {
   invalidate();
@@ -2343,5 +2344,13 @@ setMode('dishes'); // the site opens in Dish Mode
 camTween.t = 1;
 if (camera.aspect < 1) camera.position.multiplyScalar(1.25);
 animate();
+// The first screen is revealed only once it is already in Dish Mode and the first pictures are in (or 1.5 s have
+// passed, so a slow connection never leaves a blank page): no flash of Ingredient Mode and no pictures popping in.
+const reveal = () => { if (document.body.classList.contains('booting')) performance.mark('app:revealed'); document.body.classList.remove('booting'); };
+let readyToReveal = false, picturesIn = false;
+const tryReveal = () => { if (readyToReveal && picturesIn) reveal(); };
+onDishArt(() => { if (dishGraph?.nodes.some((n) => n.hasArt)) { picturesIn = true; tryReveal(); } });
+requestAnimationFrame(() => requestAnimationFrame(() => { readyToReveal = true; tryReveal(); }));
+setTimeout(reveal, 1500);
 // expose for debugging
 window.__atlas = { scene, get nodes() { return nodes; }, get edges() { return edges; }, setMode, get mode() { return mode; }, go, camera, controls, cuisineMarks, perf, renderer, tick, loop: () => ({ state: ['idle', 'auto-rotate', 'moving'][loopState], needsRender }), step: (k = 30) => { for (let i = 0; i < k; i++) frame(0.05); } };

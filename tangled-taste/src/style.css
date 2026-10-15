@@ -540,3 +540,6 @@ body.settings-open #panel:not(.minimized) #back-btn { right: calc(100% + 346px);
 /* thin picture-loading bar along the very top of the page; it never blocks anything */
 #load-bar { position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 50; pointer-events: none; background: var(--accent); transform: scaleX(0); transform-origin: left; opacity: 0; transition: transform 0.3s ease-out, opacity 0.3s ease; }
 #load-bar.on { opacity: 0.85; }
+
+/* until the first view is ready, only the paper background shows (see main.js: reveal) */
+body.booting > *:not(#washes):not(#load-bar) { visibility: hidden; }
