@@ -293,8 +293,9 @@ const baseEdgeMat = new THREE.LineBasicMaterial({ vertexColors: true, transparen
 let baseEdges = null;
 let baseOpacity = 0.75;
 let baseArgs = { minWeight: 1, keep: null };
-let showStrength = false;
-try { showStrength = localStorage.getItem('tt-strength') === '1'; } catch { /* storage unavailable */ }
+// on by default; the key is versioned because the old one was written for everyone while the default was off
+let showStrength = true;
+try { showStrength = localStorage.getItem('tt-strength-v2') !== '0'; } catch { /* storage unavailable */ }
 // Relationship strength: when it is on, the links of the selected dishes or ingredients (the highlighted ones)
 // are drawn in five classes by weight (how many dishes two ingredients share, or how many ingredients two dishes
 // share) that differ in width and opacity, with the strongest on top. The background web is never affected.
@@ -1893,7 +1894,7 @@ function resetSettings() {
   compareSize.auto = false;
   setIllustrations(true);
   setShowCuisines(true);
-  setShowStrength(false);
+  setShowStrength(true);
   setSizeByPopularity(false);
   applyHideCommon(0);
   applyDensity(3);
@@ -1919,7 +1920,7 @@ function setShowStrength(on) {
   showStrength = on;
   invalidate();
   document.getElementById('strength-toggle').setAttribute('aria-checked', String(on));
-  try { localStorage.setItem('tt-strength', on ? '1' : '0'); } catch { /* storage unavailable */ }
+  try { localStorage.setItem('tt-strength-v2', on ? '1' : '0'); } catch { /* storage unavailable */ }
   if (changed) setHighlightEdges(lastHiList); // only the selected items' links are affected
 }
 document.getElementById('strength-toggle').addEventListener('click', () => setShowStrength(!showStrength));
