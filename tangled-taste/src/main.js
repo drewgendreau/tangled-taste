@@ -387,11 +387,13 @@ function setHighlightEdges(list) {
   };
   const plain = list.filter((e) => !e.shared);
   if (strengthOn()) {
-    // five classes, weakest to strongest, each its own width and opacity (strongest on top). With something
-    // selected the scale is relative to the links shown, so the strongest of them is always the thickest.
-    const ws = plain.filter((e) => e.weight).map((e) => e.weight);
+    // five classes, weakest to strongest, each its own width and opacity (strongest on top). Dish links use an
+    // absolute scale (how much of their uncommon ingredients two dishes share, in 20% steps); ingredient links
+    // are still relative to the links shown.
+    const ws = plain.filter((e) => e.weight && e.sim === undefined).map((e) => e.weight);
     const lo = Math.min(...ws), hi = Math.max(...ws);
     const classOf = (e) => {
+      if (e.sim !== undefined) return Math.min(4, Math.floor(e.sim * 5)); // dishes: absolute, 20% steps
       if (!e.weight) return Math.min(4, Math.floor(e.strength * 5));
       if (hi === lo) return 2;
       return Math.min(4, Math.floor(((e.weight - lo) / (hi - lo)) * 5));
@@ -899,8 +901,7 @@ function goDishes(next, { push = true, quiet = false } = {}) {
   // links among a set of dishes, strongest first
   const linksWithin = (set, color, cap = 500) => {
     const list = edges.filter((e) => set.has(e.source) && set.has(e.target)).sort((a, b) => b.weight - a.weight).slice(0, cap);
-    const mw = Math.max(1, ...list.map((e) => e.weight));
-    return list.map((e) => ({ a: e.source, b: e.target, color, weight: e.weight, strength: Math.pow(e.weight / mw, 0.6) }));
+    return list.map((e) => ({ a: e.source, b: e.target, color, weight: e.weight, sim: e.sim, strength: e.sim })); // absolute: see buildDishGraph
   };
   switch (next.type) {
     case 'home':
@@ -909,10 +910,9 @@ function goDishes(next, { push = true, quiet = false } = {}) {
     case 'dish': {
       const d = DISHES[next.id];
       const near = [...adjacency[d.id].entries()].sort((a, b) => b[1].weight - a[1].weight).slice(0, 24);
-      const mw = Math.max(1, ...near.map(([, e]) => e.weight));
       hi = new Set([d.id, ...near.map(([o]) => o)]);
       focus = new Set([d.id]);
-      near.forEach(([o, e]) => edgesHi.push({ a: d.id, b: o, color: CUISINES[d.cuisine].color, weight: e.weight, strength: Math.pow(e.weight / mw, 0.6) }));
+      near.forEach(([o, e]) => edgesHi.push({ a: d.id, b: o, color: CUISINES[d.cuisine].color, weight: e.weight, sim: e.sim, strength: e.sim }));
       activeCuisines.add(d.cuisine); // only the selected dish's own cuisine is shown, not the cuisines of the similar dishes
       fly([...hi]);
       break;
@@ -922,8 +922,8 @@ function goDishes(next, { push = true, quiet = false } = {}) {
       const link = new Map(); // other dish -> { count: picks it is linked to, weights per pick }
       picks.forEach((pid, i) => adjacency[pid].forEach((e, o) => {
         if (picks.includes(o)) return;
-        const rec = link.get(o) || link.set(o, { count: 0, total: 0, w: picks.map(() => 0) }).get(o);
-        rec.count++; rec.total += e.weight; rec.w[i] = e.weight;
+        const rec = link.get(o) || link.set(o, { count: 0, total: 0, w: picks.map(() => 0), s: picks.map(() => 0) }).get(o);
+        rec.count++; rec.total += e.weight; rec.w[i] = e.weight; rec.s[i] = e.sim;
       }));
       const bridges = [...link.entries()].filter(([, r]) => r.count >= 2).sort((a, b) => b[1].count - a[1].count || b[1].total - a[1].total).slice(0, 12);
       hi = new Set([...picks, ...bridges.map(([o]) => o)]);
@@ -934,8 +934,7 @@ function goDishes(next, { push = true, quiet = false } = {}) {
         const A = new Set(DISHES[picks[i]].ingredients);
         if (DISHES[picks[j]].ingredients.some((x) => A.has(x))) edgesHi.push({ a: picks[i], b: picks[j], colors: [PICK_COLORS[i], PICK_COLORS[j]], shared: true, casing: true, strength: 1 });
       }
-      const wmax = Math.max(1, ...bridges.flatMap(([, r]) => r.w));
-      bridges.forEach(([o, r]) => r.w.forEach((w, i) => { if (w) edgesHi.push({ a: o, b: picks[i], color: PICK_COLORS[i], weight: w, strength: Math.pow(w / wmax, 0.5) }); }));
+      bridges.forEach(([o, r]) => r.w.forEach((w, i) => { if (w) edgesHi.push({ a: o, b: picks[i], color: PICK_COLORS[i], weight: w, sim: r.s[i], strength: r.s[i] }); }));
       hiMat.linewidth = 1.6;
       hiMat.opacity = 0.75;
       fly([...hi]);

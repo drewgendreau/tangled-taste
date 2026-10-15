@@ -177,6 +177,13 @@ export function buildDishGraph(baked) {
       }
     }
   }
+  // absolute strength of each link: the share of the two dishes' uncommon ingredients that they have in common
+  // (0..1), the same measure as the % in a dish's Kindred dishes, so 80% looks stronger than 33% everywhere
+  const uncommonCount = DISHES.map((d) => new Set(d.ingredients.filter((x) => !skip.has(x))).size);
+  for (const e of edges) {
+    const both = new Set(e.shared).size;
+    e.sim = both / Math.max(1, uncommonCount[e.source] + uncommonCount[e.target] - both);
+  }
   const nodes = DISHES.map((d) => ({
     id: d.id, uid: d.uid, name: d.name, isDish: true, cuisine: d.cuisine, type: d.type, count: d.popularity, popularity: d.popularity,
     commonness: Math.sqrt(d.popularity / 100), cuisines: new Map([[d.cuisine, 1]]), dishes: [d.id],
