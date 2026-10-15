@@ -536,3 +536,7 @@ body.settings-open #panel.minimized #back-btn { right: 334px; }
 /* with Settings open, the button sits left of it, so it is always left of whatever panes are open */
 body.settings-open #panel:not(.minimized) #back-btn { right: calc(100% + 346px); }
 @media (max-width: 900px) { #back-btn, body.settings-open #panel:not(.minimized) #back-btn { top: -54px; right: auto; left: 0; } #panel.minimized #back-btn, body.settings-open #panel.minimized #back-btn { top: -54px; right: 0; left: auto; } body:has(#panel.minimized) #settings { right: 12px; } }
+
+/* thin picture-loading bar along the very top of the page; it never blocks anything */
+#load-bar { position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 50; pointer-events: none; background: var(--accent); transform: scaleX(0); transform-origin: left; opacity: 0; transition: transform 0.3s ease-out, opacity 0.3s ease; }
+#load-bar.on { opacity: 0.85; }
