@@ -530,6 +530,9 @@ body.mode-dishes #compare, body.mode-dishes [data-ingredients-only] { display: n
 /* minimized: the small "Detail Pane" bar sits at the bottom right and the Back button stays at the top right of the screen */
 #panel.minimized #panel-restore { align-self: flex-end; }
 #panel.minimized #back-btn { top: 4px; right: 0; left: auto; }
+/* with the Detail Pane minimized, Settings slides over to the right edge (above the small bar) and the Back button stays just left of it */
+body:has(#panel.minimized) #settings { right: 20px; max-height: calc(100vh - 112px - 62px); }
+body.settings-open #panel.minimized #back-btn { right: 334px; }
 /* with Settings open, the button sits left of it, so it is always left of whatever panes are open */
 body.settings-open #panel:not(.minimized) #back-btn { right: calc(100% + 346px); }
-@media (max-width: 900px) { #back-btn, body.settings-open #panel:not(.minimized) #back-btn { top: -54px; right: auto; left: 0; } #panel.minimized #back-btn { top: -54px; right: 0; left: auto; } }
+@media (max-width: 900px) { #back-btn, body.settings-open #panel:not(.minimized) #back-btn { top: -54px; right: auto; left: 0; } #panel.minimized #back-btn, body.settings-open #panel.minimized #back-btn { top: -54px; right: 0; left: auto; } body:has(#panel.minimized) #settings { right: 12px; } }
