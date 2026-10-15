@@ -41,8 +41,9 @@ function guide({ title, intro, template, dir, noun, rows, extraColumns, listColu
   out.push(intro, '');
   out.push('## What every picture must be', '');
   out.push('| | |', '|---|---|', `| File format | ${SPEC.format} |`, `| Pixel size | ${SPEC.pixels} |`, `| Target file size | ${SPEC.size} |`, `| Saved in | \`tangled-taste/${dir}/\` |`, ...(driveFolder ? [`| Output by Gemini to Google Drive in the folder | \`${driveFolder}\` |`] : []), '| File name | the item\'s permanent ID plus `.webp` (see the "Expected file name" column) |', '');
-  out.push('## Required prompt wording', '', 'Always use this wording for the picture prompt (fill in the two bracketed parts):', '', '```text', REQUIRED_PROMPT, '```', '', fillIn, '');
-  out.push('### Prompt template (additional detail)', '', 'This longer template adds composition and background details. Use it together with the required wording above, filling the `{{…}}` placeholders from the item\'s row (details under each list). Leave `{{extra}}` empty unless told otherwise.', '', '```text', template, '```', '');
+  if (fillIn) out.push('## Required prompt wording', '', 'Always use this wording for the picture prompt (fill in the two bracketed parts):', '', '```text', REQUIRED_PROMPT, '```', '', fillIn, '');
+  if (fillIn) out.push('### Prompt template (additional detail)', '', 'This longer template adds composition and background details. Use it together with the required wording above, filling the `{{…}}` placeholders from the item\'s row (details under each list). Leave `{{extra}}` empty unless told otherwise.', '', '```text', template, '```', '');
+  else out.push('## Prompt template', '', 'Fill the `{{…}}` placeholders from the item\'s row (details under each list). Leave `{{extra}}` empty unless told otherwise.', '', '```text', template, '```', '');
   out.push(`## Still to create (${todo.length})`, '');
   if (todo.length) {
     out.push(`| ${listColumns.map((c) => c.head).join(' | ')} | Expected file name |`, `|${listColumns.map(() => '---').join('|')}|---|`);
@@ -63,7 +64,6 @@ fs.mkdirSync(DOCS, { recursive: true });
 fs.writeFileSync(path.join(DOCS, 'dish-images.md'), guide({
   title: 'Dish image reference guide',
   intro: 'One picture per dish. Placeholders in the prompt template: `{{name}}` = Dish, `{{cuisine}}` = Cuisine, `{{note}}` = Description, `{{ingredients}}` = Key ingredients (listed in the "Still to create" table). Every picture is a single dish centered on a transparent background with a clear margin; see the template.',
-  fillIn: '- **[DISH NAME AND KEY INGREDIENTS]**: the dish\'s name from the Dish column, then its Key ingredients (listed in the "Still to create" table), for example "Birria Tacos with beef, chili, onion, cinnamon and melted cheese".\n- **[VESSEL / SERVING DISH TYPE]**: choose a fitting, distinctive vessel or serving dish for that cuisine (a clay bowl, a cast-iron skillet, a banana leaf, a wooden board, a tall glass…) so the pictures in the set do not all use the same plate.',
   driveFolder: '04 Food/Tangled Taste/Dishes',
   template: promptTemplate('dish'), dir: 'art/dishes', noun: 'dish', rows: dishRows,
   extraColumns: [{ head: 'Dish', get: (r) => r.name }, { head: 'Cuisine', get: (r) => r.cuisine }, { head: 'Description', get: (r) => r.note }],
