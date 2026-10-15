@@ -2,7 +2,7 @@
 
 > Generated file: it is rebuilt automatically (`pnpm art:build`, which `pnpm dev` and `pnpm build` run). Do not edit it by hand.
 
-**100 of 826 dish pictures are created. 726 still to create.**
+**200 of 826 dish pictures are created. 626 still to create.**
 
 One picture per dish. Placeholders in the prompt template: `{{name}}` = Dish, `{{cuisine}}` = Cuisine, `{{note}}` = Description, `{{ingredients}}` = Key ingredients (listed in the "Still to create" table). Every picture is a single dish centered on a transparent background with a clear margin; see the template.
 
@@ -42,32 +42,24 @@ Composition: A single dish, plated or served the traditional way, centered and s
 Background: The background is transparent. Small but rich watercolor bleeds, splashes, and a loose, watery contact shadow directly under and around the plating are visible, all fading naturally into the white paper before reaching the edges.
 ```
 
-## Still to create (726)
+## Still to create (626)
 
 | ID | Dish | Cuisine | Description | Key ingredients | Expected file name |
 |---|---|---|---|---|---|
-| TT-0184 | Minestrone | Italian | A thick, seasonal vegetable soup. | tomato, onion, carrot, celery, beans, pasta, garlic, olive oil | `TT-0184.webp` |
 | TT-0275 | Osso Buco | Italian | Braised veal shanks with gremolata. | veal, onion, carrot, celery, white wine, tomato, garlic, lemon | `TT-0275.webp` |
-| TT-0111 | Panna Cotta | Italian | Cooked cream, barely set. | cream, milk, sugar, vanilla, strawberry | `TT-0111.webp` |
 | TT-0468 | Pasta con le Sarde | Italian | Sicilian pasta of sardines, wild fennel and sweet raisins. | pasta, sardine, fennel, pine nuts, raisins, anchovy, onion, olive oil | `TT-0468.webp` |
 | TT-0460 | Vitello Tonnato | Italian | Cold sliced veal under a creamy tuna sauce. | veal, tuna, anchovy, capers, mayonnaise, olive oil, lemon, white wine | `TT-0460.webp` |
 | TT-0279 | Saltimbocca | Italian | “Jumps in the mouth” — veal, ham and sage. | veal, prosciutto, sage, butter, white wine, flour | `TT-0279.webp` |
 | TT-0519 | Coniglio alla Cacciatora | Italian | Hunter-style braised rabbit. | rabbit, tomato, white wine, rosemary, garlic, olive, olive oil | `TT-0519.webp` |
 | TT-0520 | Fegato alla Veneziana | Italian | Venice’s liver with slow-cooked onions. | liver, onion, butter, white wine, sage, parsley | `TT-0520.webp` |
 | TT-0392 | Tortellini in Brodo | Italian | Tiny stuffed pasta floating in clear broth. | pasta, prosciutto, pork, parmesan, nutmeg, stock, egg | `TT-0392.webp` |
-| TT-0153 | Cannoli | Italian | Crisp Sicilian shells piped with sweet ricotta. | flour, ricotta, sugar, chocolate, pistachio, vanilla, butter | `TT-0153.webp` |
 | TT-0211 | Spinach and Ricotta Ravioli | Italian | Pasta pillows with sage butter. | pasta, ricotta, spinach, nutmeg, butter, sage, parmesan | `TT-0211.webp` |
 | TT-0393 | Caponata | Italian | Sicilian sweet-and-sour eggplant. | eggplant, celery, olive, capers, tomato, vinegar, sugar, pine nuts | `TT-0393.webp` |
 | TT-0423 | Risotto agli Asparagi | Italian | Spring risotto with tender asparagus. | rice, asparagus, parmesan, butter, onion, white wine, stock | `TT-0423.webp` |
 | TT-0424 | Gnocchi al Gorgonzola | Italian | Potato gnocchi in blue cheese sauce. | potato, flour, blue cheese, cream, walnut, butter | `TT-0424.webp` |
 | TT-0521 | Pear and Mascarpone Tart | Italian | Crisp tart with creamy mascarpone and poached pears. | pear, mascarpone, flour, butter, sugar, egg, vanilla | `TT-0521.webp` |
-| TT-0142 | Coq au Vin | French | Chicken braised slowly in Burgundy wine. | chicken, red wine, mushroom, onion, bacon, garlic, thyme, butter | `TT-0142.webp` |
 | TT-0344 | Bouillabaisse | French | Marseille fisherman’s stew. | fish, shellfish, tomato, onion, garlic, saffron, fennel, olive oil | `TT-0344.webp` |
-| TT-0154 | Quiche Lorraine | French | Savoury custard tart from Lorraine. | egg, cream, bacon, flour, butter, gruyère, nutmeg | `TT-0154.webp` |
-| TT-0112 | Beef Bourguignon | French | Beef stewed in red wine with pearl onions. | beef, red wine, onion, carrot, mushroom, bacon, garlic, thyme | `TT-0112.webp` |
 | TT-0212 | Salade Niçoise | French | The composed salad of Nice. | fish, egg, potato, green beans, olive, tomato, lettuce, olive oil | `TT-0212.webp` |
-| TT-0155 | Duck Confit | French | Duck slow-cooked in its own fat until it falls off the bone. | duck, thyme, garlic, salt, bay leaf, potato, black pepper | `TT-0155.webp` |
-| TT-0118 | Moules Marinières | French | Mussels steamed in white wine, served with frites. | mussels, white wine, shallot, butter, parsley, garlic, cream | `TT-0118.webp` |
 | TT-0237 | Cassoulet | French | Slow-baked beans and meats from Languedoc. | white beans, duck, pork, sausage, onion, garlic, thyme, bay leaf | `TT-0237.webp` |
 | TT-0425 | Vichyssoise | French | Chilled leek and potato soup. | leek, potato, cream, butter, stock, chives | `TT-0425.webp` |
 | TT-0469 | Pissaladière | French | Niçois tart of sweet onions, anchovies and olives. | flour, yeast, onion, anchovy, olive, thyme, olive oil | `TT-0469.webp` |
@@ -83,24 +75,16 @@ Background: The background is transparent. Small but rich watercolor bleeds, spl
 | TT-0301 | Galette Bretonne | French | Buckwheat crêpe folded around ham, egg and cheese. | buckwheat, egg, ham, emmental, butter | `TT-0301.webp` |
 | TT-0345 | Cherry Clafoutis | French | Baked custard batter studded with cherries. | cherry, egg, flour, milk, sugar, butter, vanilla | `TT-0345.webp` |
 | TT-0346 | Lobster Bisque | French | Velvety shellfish soup. | lobster, cream, butter, white wine, tomato, onion, celery, carrot | `TT-0346.webp` |
-| TT-0185 | Gazpacho | Spanish | Chilled Andalusian tomato soup. | tomato, cucumber, bell pepper, garlic, olive oil, bread, vinegar, salt | `TT-0185.webp` |
-| TT-0119 | Patatas Bravas | Spanish | Crisp potatoes with a smoky, spicy sauce. | potato, paprika, tomato, garlic, olive oil, chili, mayonnaise | `TT-0119.webp` |
 | TT-0302 | Crema Catalana | Spanish | Catalonia’s citrus-scented custard. | milk, egg, sugar, cinnamon, lemon | `TT-0302.webp` |
-| TT-0156 | Calamares Fritos | Spanish | Crisp fried squid rings with lemon. | squid, flour, vegetable oil, lemon, salt, parsley | `TT-0156.webp` |
-| TT-0120 | Gambas al Ajillo | Spanish | Shrimp sizzling in garlic and chili oil. | shrimp, garlic, chili, olive oil, white wine, parsley | `TT-0120.webp` |
 | TT-0394 | Fabada Asturiana | Spanish | Asturias’ rich bean and sausage stew. | white beans, chorizo, pork, bacon, onion, garlic, paprika, saffron | `TT-0394.webp` |
 | TT-0238 | Pulpo a la Gallega | Spanish | Galician octopus with potatoes and smoked paprika. | octopus, potato, paprika, olive oil, salt | `TT-0238.webp` |
-| TT-0143 | Moussaka | Greek | Layers of eggplant, spiced lamb and béchamel. | eggplant, lamb, tomato, onion, garlic, cinnamon, milk, butter | `TT-0143.webp` |
 | TT-0276 | Spanakopita | Greek | Spinach and feta in crisp phyllo. | spinach, feta, flour, onion, dill, egg, olive oil, butter | `TT-0276.webp` |
-| TT-0186 | Tzatziki | Greek | Cool yogurt and cucumber dip. | yogurt, cucumber, garlic, dill, olive oil, lemon | `TT-0186.webp` |
 | TT-0376 | Avgolemono | Greek | Silky egg-lemon soup. | chicken, rice, egg, lemon, stock, dill | `TT-0376.webp` |
 | TT-0471 | Gigantes Plaki | Greek | Giant beans baked in tomato and dill. | white beans, tomato, onion, garlic, dill, olive oil, parsley | `TT-0471.webp` |
 | TT-0347 | Htapodi sti Skara | Greek | Charcoal-grilled octopus dressed with lemon and oregano. | octopus, olive oil, lemon, oregano, vinegar | `TT-0347.webp` |
 | TT-0505 | Stifado | Greek | Rabbit stewed with pearl onions and warm spices. | rabbit, onion, red wine, tomato, cinnamon, bay leaf, vinegar, olive oil | `TT-0505.webp` |
 | TT-0348 | Sauerbraten | German | Pot roast marinated for days. | beef, vinegar, red wine, onion, carrot, bay leaf, sugar, allspice | `TT-0348.webp` |
 | TT-0239 | Kartoffelsalat | German | Warm potato salad, Swabian style. | potato, onion, vinegar, mustard, stock, bacon, vegetable oil | `TT-0239.webp` |
-| TT-0144 | Black Forest Cake | German | Chocolate, cherries and clouds of cream. | flour, cocoa, egg, sugar, cherry, cream, butter | `TT-0144.webp` |
-| TT-0121 | Brezel | German | Lye-dipped pretzel, chewy and glossy. | flour, yeast, butter, salt, milk | `TT-0121.webp` |
 | TT-0240 | Schweinshaxe | German | Roast pork knuckle with crackling. | pork, sauerkraut, beer, caraway, onion, bay leaf, potato | `TT-0240.webp` |
 | TT-0472 | Rollmops | German | Herring rolled around pickles and onion. | herring, vinegar, onion, pickle, mustard seed, bay leaf, sugar | `TT-0472.webp` |
 | TT-0428 | Weißer Spargel | German | White asparagus with hollandaise. | asparagus, butter, egg, lemon, potato, ham, white wine | `TT-0428.webp` |
@@ -112,10 +96,6 @@ Background: The background is transparent. Small but rich watercolor bleeds, spl
 | TT-0395 | Dobos Torte | Hungarian | Thin sponge layers stacked under a glassy caramel crown. | flour, egg, sugar, butter, chocolate, vanilla | `TT-0395.webp` |
 | TT-0396 | Lecsó | Hungarian | Summer stew of peppers and tomatoes, finished with egg. | bell pepper, tomato, onion, paprika, sausage, egg | `TT-0396.webp` |
 | TT-0430 | Túrós Csusza | Hungarian | Noodles tossed with curd cheese, sour cream and crisp bacon. | noodles, queso fresco, sour cream, bacon, butter | `TT-0430.webp` |
-| TT-0122 | Shepherd’s Pie | British | Lamb mince under mashed potato. | lamb, potato, onion, carrot, peas, butter, milk, stock | `TT-0122.webp` |
-| TT-0157 | Scones | British | With jam and clotted cream, in that order (or not). | flour, butter, milk, sugar, egg, strawberry, cream | `TT-0157.webp` |
-| TT-0123 | Sunday Roast | British | Roast beef, crisp potatoes and a puffed Yorkshire pudding. | beef, potato, carrot, flour, egg, milk, rosemary, onion | `TT-0123.webp` |
-| TT-0158 | Sticky Toffee Pudding | British | Dark fruit-studded sponge drenched in warm toffee sauce. | flour, butter, sugar, egg, cream, raisins, milk | `TT-0158.webp` |
 | TT-0241 | Cornish Pasty | British | Crimped pastry parcel that fed generations of tin miners. | flour, butter, beef, potato, onion, black pepper, salt | `TT-0241.webp` |
 | TT-0473 | Kedgeree | British | Smoked fish, rice and eggs — a colonial breakfast. | rice, cod, egg, butter, turmeric, parsley, lemon | `TT-0473.webp` |
 | TT-0474 | Cullen Skink | British | Thick Scottish soup of smoked haddock and potato. | cod, potato, onion, leek, milk, butter, cream, chives | `TT-0474.webp` |
@@ -123,8 +103,6 @@ Background: The background is transparent. Small but rich watercolor bleeds, spl
 | TT-0397 | Porridge | British | Scottish oats stirred with a spurtle. | oats, milk, honey, salt | `TT-0397.webp` |
 | TT-0506 | Scotch Broth | British | Barley and lamb soup. | lamb, barley, carrot, turnip, leek, onion, celery | `TT-0506.webp` |
 | TT-0533 | Venison Pie | British | Game pie from the Highlands. | venison, flour, butter, onion, red wine, carrot, thyme, juniper | `TT-0533.webp` |
-| TT-0124 | Borscht | Russian | Ruby beet soup. | beet, cabbage, potato, carrot, onion, dill, sour cream, beef | `TT-0124.webp` |
-| TT-0187 | Pelmeni | Russian | Siberian dumplings, frozen by the hundred. | flour, egg, pork, beef, onion, sour cream, black pepper | `TT-0187.webp` |
 | TT-0214 | Blini | Russian | Yeasted pancakes for Maslenitsa. | flour, milk, egg, butter, yeast, sour cream, fish | `TT-0214.webp` |
 | TT-0242 | Olivier Salad | Russian | The creamy diced-vegetable salad of every New Year’s table. | potato, carrot, egg, pickle, peas, mayonnaise, ham, dill | `TT-0242.webp` |
 | TT-0304 | Pirozhki | Russian | Small baked or fried buns with a savory filling. | flour, yeast, beef, onion, egg, butter, dill | `TT-0304.webp` |
@@ -135,7 +113,6 @@ Background: The background is transparent. Small but rich watercolor bleeds, spl
 | TT-0281 | Medovik | Russian | Layered honey cake with sour cream. | honey, flour, sour cream, egg, sugar, butter, walnut | `TT-0281.webp` |
 | TT-0534 | Kisel | Russian | Thick, tart berry drink. | cranberry, sugar, lemon | `TT-0534.webp` |
 | TT-0216 | Gravlax | Swedish | Salmon cured under dill. | salmon, dill, sugar, salt, black pepper | `TT-0216.webp` |
-| TT-0125 | Kanelbullar | Swedish | Cardamom-scented cinnamon buns for fika. | flour, butter, sugar, cinnamon, cardamom, yeast, milk | `TT-0125.webp` |
 | TT-0476 | Jansson’s Temptation | Swedish | Potato and sprat gratin at Christmas. | potato, onion, cream, fish, bread | `TT-0476.webp` |
 | TT-0431 | Räksmörgås | Swedish | Open-faced shrimp sandwich piled high. | bread, shrimp, egg, mayonnaise, dill, lemon, butter | `TT-0431.webp` |
 | TT-0477 | Ärtsoppa | Swedish | Thursday’s yellow pea soup, served with mustard. | peas, ham, onion, carrot, thyme, mustard | `TT-0477.webp` |
@@ -155,41 +132,31 @@ Background: The background is transparent. Small but rich watercolor bleeds, spl
 | TT-0352 | Francesinha | Portuguese | Porto’s gloriously excessive sandwich. | bread, beef, ham, sausage, cheddar, beer, tomato, egg | `TT-0352.webp` |
 | TT-0353 | Sardinhas Assadas | Portuguese | Grilled sardines on bread, the taste of Lisbon’s June festivals. | sardine, salt, olive oil, bread, tomato | `TT-0353.webp` |
 | TT-0478 | Mexilhões à Bulhão Pato | Portuguese | Mussels steamed in garlic, cilantro and wine. | mussels, garlic, cilantro, olive oil, white wine, lemon | `TT-0478.webp` |
-| TT-0159 | Khinkali | Georgian | Twisted soup dumplings, eaten by the knot. | flour, beef, pork, onion, cilantro, black pepper, cumin | `TT-0159.webp` |
 | TT-0462 | Pkhali | Georgian | Vegetable and walnut pâtés. | spinach, beet, walnut, garlic, cilantro, pomegranate, coriander | `TT-0462.webp` |
 | TT-0434 | Chakhokhbili | Georgian | Herby chicken and tomato stew. | chicken, tomato, onion, garlic, cilantro, basil, fenugreek, chili | `TT-0434.webp` |
 | TT-0479 | Churchkhela | Georgian | Walnuts dipped in thickened grape must. | grape, walnut, flour | `TT-0479.webp` |
 | TT-0400 | Lobio | Georgian | Spiced kidney beans with walnuts. | kidney beans, onion, walnut, garlic, coriander, cilantro, fenugreek, vinegar | `TT-0400.webp` |
 | TT-0401 | Satsivi | Georgian | Cold chicken in walnut sauce. | chicken, walnut, garlic, coriander, fenugreek, turmeric, cinnamon, vinegar | `TT-0401.webp` |
 | TT-0538 | Tarkhuna | Georgian | Bright green tarragon lemonade. | tarragon, sugar, lime | `TT-0538.webp` |
-| TT-0145 | Irish Stew | Irish | Mutton, potatoes and patience. | lamb, potato, onion, carrot, thyme, stock, parsley | `TT-0145.webp` |
 | TT-0354 | Colcannon | Irish | Buttery mash with greens. | potato, kale, butter, milk, scallion | `TT-0354.webp` |
 | TT-0245 | Soda Bread | Irish | Quick bread marked with a cross. | flour, milk, salt, butter | `TT-0245.webp` |
 | TT-0480 | Boxty | Irish | Potato pancakes from the north-west. | potato, flour, milk, egg, butter | `TT-0480.webp` |
-| TT-0188 | Beef and Stout Stew | Irish | Beef braised dark and rich in stout. | beef, beer, onion, carrot, potato, thyme, tomato | `TT-0188.webp` |
 | TT-0435 | Champ | Irish | Mash with spring onions and a pool of butter. | potato, scallion, butter, milk | `TT-0435.webp` |
 | TT-0481 | Barmbrack | Irish | Tea-soaked fruit bread for Halloween. | flour, yeast, tea, raisins, sugar, egg, butter, cinnamon | `TT-0481.webp` |
 | TT-0482 | Dublin Coddle | Irish | Sausage and bacon simmered with potatoes. | sausage, bacon, potato, onion, stock, parsley | `TT-0482.webp` |
-| TT-0126 | Varenyky | Ukrainian | Boiled dumplings stuffed with potato and cheese. | flour, potato, cheddar, onion, butter, sour cream | `TT-0126.webp` |
 | TT-0246 | Holubtsi | Ukrainian | Cabbage rolls simmered in tomato sauce. | cabbage, rice, pork, onion, carrot, tomato, sour cream | `TT-0246.webp` |
 | TT-0307 | Pampushky | Ukrainian | Soft garlic rolls served with borscht. | flour, yeast, garlic, butter, milk, dill, vegetable oil | `TT-0307.webp` |
 | TT-0402 | Kutia | Ukrainian | Sweet grain pudding for Christmas Eve. | barley, poppy seeds, honey, walnut, raisins | `TT-0402.webp` |
 | TT-0436 | Kasha with Mushrooms | Ukrainian | Toasted buckwheat with fried mushrooms and onions. | buckwheat, mushroom, onion, butter, dill | `TT-0436.webp` |
 | TT-0355 | Kyiv Cake | Ukrainian | Airy hazelnut meringue layers with buttercream. | hazelnut, egg, sugar, butter, cream, chocolate | `TT-0355.webp` |
-| TT-0189 | Svíčková | Czech | Marinated beef in a velvety root-vegetable cream sauce. | beef, carrot, celery, onion, cream, bread, cranberry, lemon | `TT-0189.webp` |
-| TT-0160 | Vepřo Knedlo Zelo | Czech | Roast pork with bread dumplings and sauerkraut. | pork, sauerkraut, flour, bread, yeast, egg, caraway, onion | `TT-0160.webp` |
 | TT-0247 | Smažený Sýr | Czech | Fried cheese in breadcrumbs, a pub favorite. | gouda, flour, egg, bread, vegetable oil, mayonnaise | `TT-0247.webp` |
 | TT-0483 | Kulajda | Czech | Creamy dill soup with mushrooms and a poached egg. | potato, mushroom, cream, dill, egg, vinegar, flour | `TT-0483.webp` |
 | TT-0403 | Koláče | Czech | Round sweet pastries with fruit or curd filling. | flour, yeast, butter, queso fresco, poppy seeds, plum, sugar, egg | `TT-0403.webp` |
 | TT-0404 | Švestkové Knedlíky | Czech | Potato dumplings stuffed with whole plums. | plum, flour, potato, egg, butter, sugar, cinnamon | `TT-0404.webp` |
 | TT-0248 | Tafelspitz | Austrian | Boiled beef served with apple-horseradish. | beef, carrot, celery, onion, potato, horseradish, apple, parsley | `TT-0248.webp` |
-| TT-0127 | Sachertorte | Austrian | Dense chocolate cake with apricot jam. | chocolate, flour, egg, sugar, butter, apricot | `TT-0127.webp` |
 | TT-0249 | Käsespätzle | Austrian | Egg noodles baked with melted cheese and crisp onions. | flour, egg, emmental, onion, butter, milk, nutmeg | `TT-0249.webp` |
 | TT-0509 | Hirschgulasch | Austrian | Venison goulash with juniper and red wine. | venison, onion, red wine, juniper, paprika, flour, butter, cranberry | `TT-0509.webp` |
-| TT-0190 | Kaiserschmarrn | Austrian | Shredded fluffy pancake with plum compote. | flour, egg, milk, sugar, butter, raisins, plum | `TT-0190.webp` |
 | TT-0308 | Wiener Melange | Austrian | The coffee-house classic, espresso with steamed milk. | coffee, milk | `TT-0308.webp` |
-| TT-0161 | Raclette | Swiss | Scraped molten cheese over potatoes and pickles. | gruyère, potato, pickle, onion, black pepper, bread | `TT-0161.webp` |
-| TT-0191 | Rösti | Swiss | Crisp grated-potato cake. | potato, butter, onion, salt, bacon | `TT-0191.webp` |
 | TT-0250 | Birchermüesli | Swiss | Soaked oats with grated apple and nuts. | oats, apple, yogurt, milk, hazelnut, honey, lemon, raisins | `TT-0250.webp` |
 | TT-0524 | Basler Läckerli | Swiss | Spiced honey-nut biscuits from Basel. | hazelnut, almond, honey, flour, sugar, cinnamon, cloves | `TT-0524.webp` |
 | TT-0484 | Älplermagronen | Swiss | Alpine macaroni with potatoes, cheese and apple sauce. | pasta, potato, emmental, cream, onion, butter, apple | `TT-0484.webp` |
@@ -198,7 +165,6 @@ Background: The background is transparent. Small but rich watercolor bleeds, spl
 | TT-0309 | Stamppot | Dutch | Mashed potatoes and kale with smoked sausage. | potato, kale, sausage, bacon, butter, milk, mustard | `TT-0309.webp` |
 | TT-0463 | Kaassoufflé | Dutch | Deep-fried cheese pastry from the snack bar. | gouda, flour, egg, bread, vegetable oil | `TT-0463.webp` |
 | TT-0283 | Poffertjes | Dutch | Tiny fluffy pancakes dusted with sugar. | flour, yeast, milk, egg, butter, sugar | `TT-0283.webp` |
-| TT-0162 | Carbonnade Flamande | Belgian | Beef stewed in beer with mustard-coated bread. | beef, beer, onion, bread, mustard, sugar, thyme, bay leaf | `TT-0162.webp` |
 | TT-0379 | Waterzooi | Belgian | Ghent’s creamy chicken and vegetable stew. | chicken, leek, carrot, celery, potato, cream, egg, butter | `TT-0379.webp` |
 | TT-0217 | Pralines | Belgian | Filled chocolates invented in Brussels. | chocolate, cream, butter, hazelnut | `TT-0217.webp` |
 | TT-0485 | Asperges à la Flamande | Belgian | White asparagus with chopped egg and butter. | asparagus, egg, butter, parsley, nutmeg, potato | `TT-0485.webp` |
@@ -297,62 +263,43 @@ Background: The background is transparent. Small but rich watercolor bleeds, spl
 | TT-0219 | Mole Poblano | Mexican | Dozens of ingredients ground into a dark, rich sauce. | chili, chocolate, sesame, almond, garlic, onion, cinnamon, tomato | `TT-0219.webp` |
 | TT-0315 | Pozole | Mexican | Hominy stew served for celebrations. | pork, corn, chili, garlic, onion, oregano, cabbage, lime | `TT-0315.webp` |
 | TT-0488 | Chiles en Nogada | Mexican | Stuffed poblanos in walnut sauce. | chili, pork, walnut, pomegranate, cream, apple, onion, garlic | `TT-0488.webp` |
-| TT-0163 | Chilaquiles | Mexican | Tortilla chips simmered in salsa for breakfast. | corn, chili, tomato, onion, queso fresco, cream, egg, cilantro | `TT-0163.webp` |
 | TT-0316 | Huevos con Chorizo | Mexican | Scrambled eggs with spicy sausage and warm tortillas. | egg, chorizo, corn, onion, chili, tomato | `TT-0316.webp` |
 | TT-0357 | Agua de Jamaica | Mexican | Tart hibiscus agua fresca. | hibiscus, sugar, lime, cinnamon | `TT-0357.webp` |
 | TT-0277 | Clam Chowder | American | New England’s creamy clam soup. | shellfish, potato, onion, celery, cream, bacon, butter, thyme | `TT-0277.webp` |
-| TT-0128 | Pecan Pie | American | Southern holiday pie with a gooey heart. | pecan, sugar, butter, egg, maple syrup, vanilla, flour | `TT-0128.webp` |
-| TT-0146 | Lobster Roll | American | New England summer in a toasted bun. | lobster, bread, mayonnaise, butter, celery, lemon | `TT-0146.webp` |
 | TT-0220 | Crab Cakes | American | Chesapeake Bay classics, light on filler. | crab, bread, egg, mayonnaise, mustard, parsley, lemon, butter | `TT-0220.webp` |
 | TT-0407 | Cioppino | American | San Francisco’s seafood stew. | crab, mussels, fish, tomato, white wine, garlic, bay leaf, onion | `TT-0407.webp` |
-| TT-0129 | Roast Turkey | American | Thanksgiving centerpiece with herb stuffing. | turkey, butter, sage, thyme, rosemary, onion, celery, bread | `TT-0129.webp` |
 | TT-0252 | Turkey Club Sandwich | American | Triple-decker deli classic. | turkey, bacon, bread, lettuce, tomato, mayonnaise | `TT-0252.webp` |
-| TT-0130 | Chili con Carne | American | Texas-style bowl of red with beans. | beef, kidney beans, tomato, onion, garlic, chili, cumin, paprika | `TT-0130.webp` |
 | TT-0317 | Tuna Salad Sandwich | American | Lunch-counter staple. | tuna, mayonnaise, bread, celery, lemon, onion | `TT-0317.webp` |
-| TT-0192 | Loaded Baked Potato | American | Steakhouse side with all the toppings. | potato, butter, sour cream, cheddar, bacon, chives | `TT-0192.webp` |
-| TT-0113 | Pumpkin Pie | American | Thanksgiving’s spiced custard pie. | pumpkin, flour, butter, sugar, egg, cream, cinnamon, nutmeg | `TT-0113.webp` |
 | TT-0439 | Cranberry Sauce | American | Tart sauce for the holiday table. | cranberry, sugar, orange, cinnamon | `TT-0439.webp` |
-| TT-0131 | Reuben Sandwich | American | Grilled corned beef with sauerkraut and Swiss. | bread, beef, sauerkraut, gruyère, mayonnaise, mustard, pickle, butter | `TT-0131.webp` |
-| TT-0164 | Lox and Bagel | American | Smoked salmon on a bagel with all the trimmings. | bread, smoked salmon, sour cream, onion, capers, dill | `TT-0164.webp` |
 | TT-0318 | Shrimp Cocktail | American | Chilled shrimp with a horseradish sauce. | shrimp, tomato, horseradish, lemon, lettuce | `TT-0318.webp` |
 | TT-0380 | Beef and Barley Soup | American | Homey winter soup. | beef, barley, carrot, celery, onion, tomato, thyme | `TT-0380.webp` |
 | TT-0319 | Oatmeal | American | Warm bowl of oats. | oats, milk, butter, raisins, cinnamon, honey | `TT-0319.webp` |
 | TT-0320 | Beet and Goat Cheese Salad | American | Roasted beets with tangy goat cheese. | beet, goat cheese, walnut, olive oil, vinegar, lettuce, honey | `TT-0320.webp` |
 | TT-0440 | Pecan Pralines | American | New Orleans candy of toasted pecans and caramel. | pecan, sugar, butter, cream, vanilla | `TT-0440.webp` |
-| TT-0193 | Lomo Saltado | Peruvian | Chifa stir-fry of beef and fries. | beef, potato, tomato, onion, soy sauce, vinegar, chili, rice | `TT-0193.webp` |
 | TT-0419 | Ají de Gallina | Peruvian | Shredded chicken in a creamy yellow-pepper sauce. | chicken, chili, bread, milk, walnut, onion, garlic, parmesan | `TT-0419.webp` |
 | TT-0441 | Causa Limeña | Peruvian | Layered terrine of chili-spiked potato. | potato, chili, lime, chicken, avocado, mayonnaise, egg | `TT-0441.webp` |
 | TT-0489 | Solterito | Peruvian | Arequipa’s bright bean and cheese salad. | fava beans, corn, queso fresco, tomato, onion, olive, chili, lime | `TT-0489.webp` |
 | TT-0442 | Quinoa Soup | Peruvian | Andean comfort in a bowl. | quinoa, potato, carrot, corn, onion, garlic, cilantro, queso fresco | `TT-0442.webp` |
 | TT-0490 | Quinoa Chaufa | Peruvian | Peruvian-Chinese fried grain made with quinoa. | quinoa, egg, scallion, soy sauce, garlic, ginger, sesame oil, carrot | `TT-0490.webp` |
-| TT-0165 | Feijoada | Brazilian | Black bean and pork stew. | beans, pork, sausage, onion, garlic, bay leaf, orange, rice | `TT-0165.webp` |
 | TT-0221 | Pão de Queijo | Brazilian | Chewy cheese bread from Minas Gerais. | tapioca, parmesan, egg, milk, vegetable oil, salt | `TT-0221.webp` |
 | TT-0358 | Moqueca | Brazilian | Bahian fish stew with dendê oil. | fish, coconut milk, tomato, onion, bell pepper, cilantro, lime, palm oil | `TT-0358.webp` |
-| TT-0194 | Brigadeiro | Brazilian | Fudgy chocolate truffles for every party. | cocoa, sugar, butter, milk | `TT-0194.webp` |
-| TT-0132 | Coxinha | Brazilian | Teardrop fritters of shredded chicken. | chicken, flour, butter, milk, onion, parsley, egg, bread | `TT-0132.webp` |
 | TT-0408 | Acarajé | Brazilian | Bahian black-eyed pea fritters fried in dendê oil. | black-eyed peas, onion, shrimp, palm oil, chili, ginger | `TT-0408.webp` |
 | TT-0443 | Farofa | Brazilian | Toasted cassava flour with bacon and egg. | cassava, bacon, onion, butter, egg, parsley | `TT-0443.webp` |
 | TT-0321 | Ackee and Saltfish | Jamaican | Jamaica’s national breakfast. | ackee, fish, onion, tomato, chili, bell pepper, thyme, black pepper | `TT-0321.webp` |
-| TT-0195 | Rice and Peas | Jamaican | Kidney beans and rice in coconut milk. | rice, beans, coconut milk, scallion, thyme, allspice, garlic, chili | `TT-0195.webp` |
 | TT-0253 | Curry Goat | Jamaican | Sunday curry, slow and rich. | goat, turmeric, cumin, coriander, potato, onion, garlic, chili | `TT-0253.webp` |
 | TT-0222 | Fried Plantain | Jamaican | Sweet, caramel-edged ripe plantain. | plantain, vegetable oil, salt | `TT-0222.webp` |
 | TT-0491 | Escovitch Fish | Jamaican | Fried fish under spicy pickled vegetables. | fish, vinegar, onion, bell pepper, chili, allspice, thyme, vegetable oil | `TT-0491.webp` |
 | TT-0525 | Ackee Patty | Jamaican | Golden pastry stuffed with seasoned ackee. | flour, ackee, onion, chili, thyme, butter, turmeric | `TT-0525.webp` |
-| TT-0147 | Milanesa | Argentine | Breaded cutlet, an Italian import. | beef, bread, egg, garlic, parsley, lemon, vegetable oil | `TT-0147.webp` |
-| TT-0133 | Alfajores | Argentine | Sandwich cookies filled with dulce de leche. | flour, butter, sugar, egg, dulce de leche, coconut | `TT-0133.webp` |
 | TT-0444 | Provoleta | Argentine | Grilled cheese with oregano, crisp at the edges. | mozzarella, oregano, olive oil, chili, bread | `TT-0444.webp` |
 | TT-0409 | Locro | Argentine | Hearty national stew of corn, beans and pumpkin. | corn, white beans, pumpkin, beef, pork, sausage, onion, garlic | `TT-0409.webp` |
 | TT-0322 | Chimichurri | Argentine | The herb sauce that goes on everything off the grill. | parsley, garlic, oregano, olive oil, vinegar, chili, bay leaf | `TT-0322.webp` |
-| TT-0166 | Choripán | Argentine | Grilled chorizo in a roll with chimichurri. | chorizo, bread, parsley, garlic, olive oil, vinegar, oregano | `TT-0166.webp` |
 | TT-0286 | Flan con Dulce de Leche | Argentine | Custard flan served with a spoon of dulce de leche. | milk, egg, sugar, vanilla, dulce de leche | `TT-0286.webp` |
-| TT-0148 | Ropa Vieja | Cuban | "Old clothes" — shredded braised beef. | beef, bell pepper, onion, tomato, garlic, cumin, olive, white wine | `TT-0148.webp` |
 | TT-0323 | Moros y Cristianos | Cuban | Black beans and white rice cooked together. | beans, rice, onion, bell pepper, garlic, cumin, bay leaf | `TT-0323.webp` |
 | TT-0254 | Lechón Asado | Cuban | Roast pork in sour-orange mojo. | pork, orange, lime, garlic, oregano, cumin | `TT-0254.webp` |
 | TT-0324 | Picadillo | Cuban | Sweet-savory beef hash with olives and raisins. | beef, onion, bell pepper, tomato, garlic, olive, raisins, cumin | `TT-0324.webp` |
 | TT-0287 | Tostones | Cuban | Twice-fried green plantain slices. | plantain, vegetable oil, salt, garlic | `TT-0287.webp` |
 | TT-0359 | Flan de Leche | Cuban | Silky baked custard under liquid caramel. | milk, egg, sugar, vanilla | `TT-0359.webp` |
 | TT-0288 | Arroz con Pollo | Cuban | Chicken and rice cooked in beer and sofrito. | rice, chicken, tomato, bell pepper, onion, garlic, peas, beer | `TT-0288.webp` |
-| TT-0196 | Bandeja Paisa | Colombian | A platter big enough for a mule driver. | beans, rice, pork, beef, sausage, egg, plantain, avocado | `TT-0196.webp` |
 | TT-0289 | Ajiaco | Colombian | Bogotá’s three-potato chicken soup. | chicken, potato, corn, oregano, cream, avocado | `TT-0289.webp` |
 | TT-0325 | Sancocho | Colombian | Hearty Sunday stew. | chicken, plantain, cassava, corn, potato, cilantro, onion, garlic | `TT-0325.webp` |
 | TT-0326 | Empanadas Colombianas | Colombian | Golden corn-flour turnovers with beef and potato. | corn, beef, potato, onion, vegetable oil, cumin, cilantro | `TT-0326.webp` |
@@ -366,18 +313,13 @@ Background: The background is transparent. Small but rich watercolor bleeds, spl
 | TT-0327 | Blueberry Pie | Canadian | Wild Maritime blueberries under a lattice. | blueberry, flour, butter, sugar, lemon | `TT-0327.webp` |
 | TT-0224 | Pastel de Choclo | Chilean | Sweet-corn crust over a spiced filling. | corn, beef, onion, egg, olive, raisins, chicken, basil | `TT-0224.webp` |
 | TT-0328 | Cazuela | Chilean | A clear soup with a bit of everything. | chicken, potato, pumpkin, corn, rice, green beans, carrot, cilantro | `TT-0328.webp` |
-| TT-0197 | Empanadas de Pino | Chilean | Baked turnovers for Fiestas Patrias. | flour, beef, onion, egg, olive, raisins, cumin, paprika | `TT-0197.webp` |
 | TT-0362 | Sopaipillas | Chilean | Pumpkin fritters for rainy days. | pumpkin, flour, butter, salt, vegetable oil | `TT-0362.webp` |
 | TT-0291 | Completo | Chilean | A hot dog buried in avocado. | bread, sausage, avocado, tomato, mayonnaise | `TT-0291.webp` |
 | TT-0492 | Mote con Huesillo | Chilean | Summer drink of peaches and wheat berries. | barley, apricot, sugar, cinnamon | `TT-0492.webp` |
-| TT-0198 | Reina Pepiada | Venezuelan | Arepa stuffed with chicken-avocado salad. | corn, chicken, avocado, mayonnaise, cilantro, butter | `TT-0198.webp` |
 | TT-0256 | Pabellón Criollo | Venezuelan | National plate of shredded beef, beans and rice. | beef, rice, beans, plantain, onion, garlic, tomato, cumin | `TT-0256.webp` |
 | TT-0445 | Hallacas | Venezuelan | Christmas tamales wrapped in banana leaves. | corn, beef, pork, olive, raisins, bell pepper, onion, capers | `TT-0445.webp` |
-| TT-0167 | Tequeños | Venezuelan | Cheese sticks wrapped in dough and fried. | flour, queso fresco, butter, egg, vegetable oil | `TT-0167.webp` |
 | TT-0363 | Cachapas | Venezuelan | Sweet corn pancakes folded over cheese. | corn, queso fresco, butter, sugar, milk | `TT-0363.webp` |
 | TT-0329 | Pan de Jamón | Venezuelan | Christmas bread rolled around ham, olives and raisins. | flour, yeast, ham, butter, olive, raisins, egg, sugar | `TT-0329.webp` |
-| TT-0199 | Mofongo | Puerto Rican | Mashed fried plantain with garlic. | plantain, garlic, bacon, olive oil, salt, stock | `TT-0199.webp` |
-| TT-0200 | Arroz con Gandules | Puerto Rican | Rice with pigeon peas and sofrito. | rice, peas, pork, onion, bell pepper, garlic, cilantro, olive | `TT-0200.webp` |
 | TT-0225 | Pernil | Puerto Rican | Slow-roasted pork shoulder with crackling. | pork, garlic, oregano, olive oil, vinegar, black pepper, salt | `TT-0225.webp` |
 | TT-0512 | Pasteles | Puerto Rican | Holiday plantain parcels steamed in leaves. | plantain, pork, olive, raisins, chickpeas, garlic, onion | `TT-0512.webp` |
 | TT-0410 | Coquito | Puerto Rican | Creamy coconut holiday drink. | coconut milk, milk, cinnamon, cloves, vanilla, sugar | `TT-0410.webp` |
@@ -456,51 +398,27 @@ Background: The background is transparent. Small but rich watercolor bleeds, spl
 | TT-0722 | Corn Dog | American | A battered sausage on a stick. | sausage, flour, corn, egg, milk, sugar, vegetable oil, mustard | `TT-0722.webp` |
 | TT-0695 | Anticuchos | Peruvian | Grilled skewers marinated in chili and vinegar. | beef, chili, vinegar, garlic, cumin, oregano, potato, corn | `TT-0695.webp` |
 | TT-0731 | Causa | Peruvian | Cold layered potato terrine with a creamy filling. | potato, chili, lime, chicken, avocado, mayonnaise, egg, olive | `TT-0731.webp` |
-| TT-0101 | Tempura | Japanese | Feather-light battered fritters. | shrimp, flour, egg, vegetable oil, sweet potato, soy sauce, radish, mirin | `TT-0101.webp` |
 | TT-0420 | Okonomiyaki | Japanese | Savory pancake, "grilled as you like it". | flour, cabbage, egg, pork, scallion, mayonnaise, seaweed | `TT-0420.webp` |
-| TT-0102 | Tonkatsu | Japanese | Panko-crusted pork cutlet. | pork, flour, egg, bread, cabbage, rice, vegetable oil | `TT-0102.webp` |
-| TT-0103 | Sashimi | Japanese | Fresh-sliced raw fish with wasabi and soy. | tuna, salmon, soy sauce, wasabi, radish, ginger | `TT-0103.webp` |
-| TT-0134 | Takoyaki | Japanese | Osaka’s crisp octopus balls. | octopus, flour, egg, scallion, ginger, mayonnaise, seaweed, vegetable oil | `TT-0134.webp` |
-| TT-0168 | Zaru Soba | Japanese | Chilled buckwheat noodles with dipping sauce. | buckwheat, soy sauce, mirin, scallion, seaweed, wasabi | `TT-0168.webp` |
-| TT-0114 | Mapo Tofu | Chinese | Silken tofu in fiery bean sauce. | tofu, pork, chili, sichuan pepper, chili bean paste, garlic, ginger, scallion | `TT-0114.webp` |
 | TT-0278 | Hot and Sour Soup | Chinese | Peppery, tangy and warming. | tofu, mushroom, egg, vinegar, black pepper, soy sauce, bamboo shoot | `TT-0278.webp` |
 | TT-0364 | Salt and Pepper Squid | Chinese | Crisp wok-tossed squid with chili and garlic. | squid, flour, chili, scallion, garlic, salt, black pepper, vegetable oil | `TT-0364.webp` |
 | TT-0382 | Garlic Bok Choy | Chinese | Quick stir-fry of crisp greens. | bok choy, garlic, ginger, sesame oil, soy sauce, vegetable oil | `TT-0382.webp` |
-| TT-0135 | Wonton Soup | Chinese | Delicate dumplings in clear broth. | flour, pork, shrimp, bok choy, ginger, scallion, soy sauce, sesame oil | `TT-0135.webp` |
 | TT-0201 | Tteokbokki | Korean | Chewy rice cakes in red chili sauce. | rice, gochujang, fish, scallion, sugar, egg, cabbage | `TT-0201.webp` |
-| TT-0149 | Japchae | Korean | Glass noodles stir-fried with vegetables. | noodles, beef, spinach, carrot, mushroom, onion, soy sauce, sesame oil | `TT-0149.webp` |
-| TT-0104 | Samgyeopsal | Korean | Grilled pork belly wrapped in lettuce. | pork, garlic, lettuce, gochujang, sesame oil, cabbage, chili | `TT-0104.webp` |
 | TT-0494 | Ojingeo Bokkeum | Korean | Fiery stir-fried squid. | squid, gochujang, onion, garlic, scallion, sesame oil, cabbage | `TT-0494.webp` |
 | TT-0226 | Som Tam | Thai | Pounded green papaya salad. | papaya, chili, lime, fish sauce, peanut, tomato, garlic, green beans | `TT-0226.webp` |
-| TT-0105 | Mango Sticky Rice | Thai | Sweet coconut rice with ripe mango. | rice, mango, coconut milk, sugar, sesame, salt | `TT-0105.webp` |
-| TT-0150 | Gỏi Cuốn | Vietnamese | Fresh summer rolls in rice paper. | rice, shrimp, pork, lettuce, mint, noodles, peanut, hoisin | `TT-0150.webp` |
-| TT-0169 | Bún Chả | Vietnamese | Grilled pork with noodles and herbs, Hanoi style. | pork, noodles, fish sauce, sugar, garlic, lettuce, mint, lime | `TT-0169.webp` |
-| TT-0170 | Bánh Xèo | Vietnamese | Sizzling turmeric crêpes wrapped in lettuce and herbs. | rice, coconut milk, turmeric, shrimp, pork, bean sprouts, mint, lettuce | `TT-0170.webp` |
-| TT-0151 | Cà Phê Sữa Đá | Vietnamese | Strong drip coffee over sweet condensed milk and ice. | coffee, milk, sugar | `TT-0151.webp` |
 | TT-0330 | Cơm Tấm | Vietnamese | Broken rice with grilled pork, egg and pickles. | rice, pork, egg, scallion, fish sauce, cucumber, tomato, sugar | `TT-0330.webp` |
 | TT-0411 | Canh Chua | Vietnamese | Sweet-and-sour fish soup of the Mekong Delta. | fish, tamarind, pineapple, tomato, bean sprouts, okra, cilantro, lime | `TT-0411.webp` |
-| TT-0106 | Palak Paneer | Indian | Fresh cheese in spinach gravy. | spinach, paneer, onion, garlic, ginger, cumin, cream, garam masala | `TT-0106.webp` |
-| TT-0115 | Masala Dosa | Indian | Crisp fermented crêpe from the South. | rice, lentils, potato, mustard seed, turmeric, onion, chili, curry leaves | `TT-0115.webp` |
-| TT-0107 | Rogan Josh | Indian | Kashmiri lamb in a deep red gravy. | lamb, yogurt, chili, garlic, ginger, cardamom, cinnamon, onion | `TT-0107.webp` |
-| TT-0108 | Paneer Tikka | Indian | Tandoori-charred paneer and peppers. | paneer, yogurt, bell pepper, onion, garam masala, chili, lemon, ginger | `TT-0108.webp` |
-| TT-0171 | Rajma | Indian | Punjabi kidney bean curry, eaten with rice. | kidney beans, tomato, onion, garlic, ginger, cumin, garam masala, chili | `TT-0171.webp` |
 | TT-0292 | Gado-Gado | Indonesian | Vegetable salad in peanut dressing. | cabbage, bean sprouts, potato, egg, tofu, peanut, chili, lime | `TT-0292.webp` |
 | TT-0227 | Soto Ayam | Indonesian | Golden turmeric chicken soup. | chicken, turmeric, lemongrass, ginger, garlic, shallot, noodles, egg | `TT-0227.webp` |
-| TT-0172 | Mie Goreng | Indonesian | Sweet, smoky fried noodles. | noodles, egg, shrimp, cabbage, soy sauce, garlic, shallot, chili | `TT-0172.webp` |
 | TT-0365 | Sambal Terasi | Indonesian | Fiery chili relish pounded with fermented shrimp paste. | chili, shrimp paste, tomato, lime, sugar, shallot, garlic | `TT-0365.webp` |
 | TT-0383 | Martabak Manis | Indonesian | Thick street pancake stuffed with chocolate and peanuts. | flour, egg, sugar, milk, peanut, chocolate, butter, yeast | `TT-0383.webp` |
 | TT-0257 | Sinigang | Filipino | Sour tamarind soup. | pork, tamarind, tomato, radish, onion, green beans, spinach, chili | `TT-0257.webp` |
-| TT-0173 | Lumpia | Filipino | Crisp, slender spring rolls. | flour, pork, carrot, cabbage, onion, garlic, soy sauce, vegetable oil | `TT-0173.webp` |
 | TT-0228 | Pancit | Filipino | Birthday noodles for long life. | noodles, chicken, cabbage, carrot, soy sauce, garlic, onion, lime | `TT-0228.webp` |
 | TT-0202 | Lechon | Filipino | Whole spit-roasted pig. | pork, garlic, lemongrass, salt, black pepper, bay leaf | `TT-0202.webp` |
 | TT-0513 | Atchara | Filipino | Pickled green papaya, the Filipino table’s tangy side. | papaya, carrot, vinegar, sugar, ginger, garlic, bell pepper, salt | `TT-0513.webp` |
 | TT-0258 | Halo-Halo | Filipino | Shaved ice layered with sweet beans, fruit and milk. | milk, sugar, jackfruit, banana, beans, coconut, tapioca | `TT-0258.webp` |
-| TT-0116 | Roti Canai | Malaysian | Flaky griddled flatbread with curry. | flour, ghee, egg, sugar, salt | `TT-0116.webp` |
-| TT-0136 | Char Kway Teow | Malaysian | Smoky wok-fried flat noodles. | noodles, shrimp, egg, bean sprouts, soy sauce, chili, garlic, scallion | `TT-0136.webp` |
 | TT-0293 | Kaya Toast | Malaysian | Coconut jam toast with soft eggs. | bread, coconut milk, egg, sugar, pandan, butter | `TT-0293.webp` |
 | TT-0259 | Chili Crab | Malaysian | Messy, glorious crab in sweet chili-tomato sauce. | crab, tomato, chili, garlic, ginger, egg, soy sauce, sugar | `TT-0259.webp` |
 | TT-0229 | Hoppers | Sri Lankan | Bowl-shaped crêpes with crisp lacy edges. | rice, coconut milk, yeast, sugar, egg | `TT-0229.webp` |
-| TT-0174 | Kottu Roti | Sri Lankan | Chopped flatbread stir-fry, clattered on a griddle. | flour, egg, carrot, cabbage, onion, chili, curry leaves, chicken | `TT-0174.webp` |
 | TT-0446 | Fish Ambul Thiyal | Sri Lankan | Sour, peppery fish curry. | fish, tamarind, black pepper, curry leaves, garlic, cinnamon, cloves | `TT-0446.webp` |
 | TT-0331 | Parippu | Sri Lankan | Creamy coconut dhal. | lentils, coconut milk, turmeric, curry leaves, mustard seed, onion, chili | `TT-0331.webp` |
 | TT-0384 | Pol Sambol | Sri Lankan | Fresh coconut relish. | coconut, chili, lime, onion, fish | `TT-0384.webp` |
@@ -526,7 +444,6 @@ Background: The background is transparent. Small but rich watercolor bleeds, spl
 | TT-0528 | Samusa Thoke | Burmese | Crushed samosas dressed as a salad. | flour, potato, onion, cabbage, mint, cilantro, lime, chili | `TT-0528.webp` |
 | TT-0537 | Shwe Yin Aye | Burmese | Cooling coconut dessert with tapioca pearls and jackfruit. | tapioca, coconut milk, sugar, bread, jackfruit | `TT-0537.webp` |
 | TT-0448 | Wetthar Hin | Burmese | Slow-cooked Burmese pork curry. | pork, onion, garlic, ginger, turmeric, chili, vegetable oil, fish sauce | `TT-0448.webp` |
-| TT-0137 | Dal Bhat | Nepali | "Dal bhat power, 24 hour." | lentils, rice, turmeric, cumin, garlic, ginger, ghee, spinach | `TT-0137.webp` |
 | TT-0413 | Sel Roti | Nepali | Ring-shaped festival bread. | rice, sugar, ghee, banana, cardamom | `TT-0413.webp` |
 | TT-0296 | Thukpa | Nepali | Himalayan noodle soup. | noodles, chicken, carrot, cabbage, garlic, ginger, tomato, chili | `TT-0296.webp` |
 | TT-0514 | Choila | Nepali | Newari spiced grilled meat salad. | goat, ginger, garlic, chili, mustard seed, cumin, cilantro, scallion | `TT-0514.webp` |
@@ -544,8 +461,6 @@ Background: The background is transparent. Small but rich watercolor bleeds, spl
 | TT-0498 | Kuy Teav | Cambodian | Phnom Penh breakfast noodle soup. | noodles, pork, shrimp, bean sprouts, garlic, scallion, stock, lime | `TT-0498.webp` |
 | TT-0414 | Bai Sach Chrouk | Cambodian | Grilled pork and rice for breakfast. | rice, pork, garlic, coconut milk, pickle, egg | `TT-0414.webp` |
 | TT-0530 | Samlor Machu Trey | Cambodian | Sweet-and-sour Cambodian fish soup. | fish, tamarind, pineapple, tomato, lemongrass, bean sprouts, chili, fish sauce | `TT-0530.webp` |
-| TT-0138 | Gua Bao | Taiwanese | Steamed bun folded around braised pork belly. | flour, pork, peanut, cilantro, pickle, sugar, soy sauce, star anise | `TT-0138.webp` |
-| TT-0152 | Scallion Pancake | Taiwanese | Flaky, chewy griddled flatbread. | flour, scallion, sesame oil, vegetable oil, salt | `TT-0152.webp` |
 | TT-0205 | Lu Rou Fan | Taiwanese | Braised pork rice, Taiwan’s comfort food. | pork, rice, soy sauce, shallot, five-spice, egg, sugar, garlic | `TT-0205.webp` |
 | TT-0206 | Popcorn Chicken | Taiwanese | Crisp bites of fried chicken with fried basil. | chicken, flour, egg, five-spice, garlic, basil, vegetable oil, salt | `TT-0206.webp` |
 | TT-0337 | Nihari | Pakistani | Slow-cooked beef stew for breakfast. | beef, ginger, garlic, onion, ghee, garam masala, flour, chili | `TT-0337.webp` |
@@ -554,9 +469,6 @@ Background: The background is transparent. Small but rich watercolor bleeds, spl
 | TT-0415 | Haleem | Pakistani | Hours-long porridge of grains, lentils and meat. | lentils, beef, barley, ghee, ginger, garam masala, onion, lemon | `TT-0415.webp` |
 | TT-0264 | Kheer | Pakistani | Creamy rice pudding scented with cardamom. | rice, milk, sugar, cardamom, almond, pistachio, saffron, rose water | `TT-0264.webp` |
 | TT-0451 | Chapli Kebab | Pakistani | Flat spiced patties fried to a crisp. | beef, onion, tomato, coriander, cumin, chili, egg, flour | `TT-0451.webp` |
-| TT-0139 | Meat Pie | Australian | The footy-night hand pie. | beef, flour, butter, onion, stock, tomato | `TT-0139.webp` |
-| TT-0175 | Lamington | Australian | Sponge squares dipped in chocolate and coconut. | flour, egg, sugar, butter, chocolate, coconut, milk | `TT-0175.webp` |
-| TT-0117 | Pavlova | Australian | Crisp meringue shell with cream and fruit. | egg, sugar, cream, strawberry, vinegar, vanilla | `TT-0117.webp` |
 | TT-0452 | Barramundi | Australian | Pan-seared barramundi with lemon butter. | fish, lemon, butter, olive oil, parsley | `TT-0452.webp` |
 | TT-0297 | Anzac Biscuits | Australian | Chewy oat and coconut biscuits. | oats, flour, coconut, sugar, butter, honey | `TT-0297.webp` |
 | TT-0386 | Macadamia Cookies | Australian | Buttery cookies with native Australian nuts. | macadamia, flour, butter, sugar, egg, chocolate, vanilla | `TT-0386.webp` |
@@ -642,9 +554,6 @@ Background: The background is transparent. Small but rich watercolor bleeds, spl
 | TT-0821 | Pāua Fritters | New Zealander | Fritters of local sea snail. | shellfish, flour, egg, butter, lemon, salt | `TT-0821.webp` |
 | TT-0826 | Rēwena Bread | New Zealander | Māori sourdough made with a potato starter. | flour, potato, sugar, yeast, salt | `TT-0826.webp` |
 | TT-0208 | Tabbouleh | Levantine | A parsley salad, not a grain salad. | bulgur, parsley, mint, tomato, onion, lemon, olive oil | `TT-0208.webp` |
-| TT-0176 | Kibbeh | Levantine | Torpedo-shaped bulgur shells stuffed with spiced lamb. | bulgur, lamb, onion, pine nuts, cumin, cinnamon, allspice, vegetable oil | `TT-0176.webp` |
-| TT-0140 | Lamb Tagine | Moroccan | Slow-cooked under a conical lid. | lamb, onion, garlic, ginger, cinnamon, cumin, saffron, apricot | `TT-0140.webp` |
-| TT-0177 | Vegetable Couscous | Moroccan | Friday couscous with seven vegetables. | couscous, carrot, zucchini, chickpeas, onion, tomato, cumin, cinnamon | `TT-0177.webp` |
 | TT-0421 | Harira | Moroccan | Soup that breaks the Ramadan fast. | lentils, chickpeas, tomato, onion, celery, cilantro, parsley, lamb | `TT-0421.webp` |
 | TT-0453 | Chicken Pastilla | Moroccan | Sweet-savoury pie dusted with cinnamon sugar. | chicken, flour, almond, egg, onion, cinnamon, saffron, sugar | `TT-0453.webp` |
 | TT-0416 | Zaalouk | Moroccan | Smoky eggplant and tomato salad. | eggplant, tomato, garlic, cumin, paprika, olive oil, cilantro | `TT-0416.webp` |
@@ -656,12 +565,9 @@ Background: The background is transparent. Small but rich watercolor bleeds, spl
 | TT-0499 | Kitfo | Ethiopian | Minced beef warmed in spiced butter. | beef, butter, berbere, cardamom, chili | `TT-0499.webp` |
 | TT-0338 | Tibs | Ethiopian | Sizzling sautéed beef, served to honour guests. | beef, onion, thyme, chili, butter, garlic, bell pepper | `TT-0338.webp` |
 | TT-0516 | Gomen | Ethiopian | Collard-style greens in spiced butter. | kale, onion, garlic, ginger, butter, chili | `TT-0516.webp` |
-| TT-0109 | Adana Kebab | Turkish | Hand-minced lamb on wide skewers. | lamb, chili, onion, flatbread, sumac, parsley, tomato, salt | `TT-0109.webp` |
 | TT-0266 | Menemen | Turkish | Soft-scrambled eggs with peppers and tomato. | egg, tomato, bell pepper, onion, olive oil, chili | `TT-0266.webp` |
 | TT-0387 | İmam Bayıldı | Turkish | "The imam fainted" — olive-oil braised eggplant. | eggplant, onion, tomato, garlic, olive oil, parsley, sugar | `TT-0387.webp` |
-| TT-0178 | Lahmacun | Turkish | Thin flatbread with spiced lamb. | flour, yeast, lamb, onion, tomato, bell pepper, parsley, sumac | `TT-0178.webp` |
 | TT-0233 | Turkish Coffee | Turkish | Unfiltered and thick, read from the grounds. | coffee, sugar, cardamom | `TT-0233.webp` |
-| TT-0179 | Köfte | Turkish | Grilled spiced meatballs. | beef, onion, parsley, cumin, bread, mint, chili | `TT-0179.webp` |
 | TT-0234 | Simit | Turkish | Sesame-crusted bread ring. | flour, yeast, sesame, honey | `TT-0234.webp` |
 | TT-0267 | Mercimek Çorbası | Turkish | Red lentil soup with lemon. | lentils, onion, carrot, butter, paprika, lemon, cumin | `TT-0267.webp` |
 | TT-0268 | Ghormeh Sabzi | Persian | Iran’s beloved herb stew. | lamb, beans, parsley, cilantro, fenugreek, onion, lime, turmeric | `TT-0268.webp` |
@@ -671,12 +577,9 @@ Background: The background is transparent. Small but rich watercolor bleeds, spl
 | TT-0339 | Joojeh Kabab | Persian | Saffron chicken skewers. | chicken, saffron, lemon, onion, yogurt, butter | `TT-0339.webp` |
 | TT-0454 | Ash Reshteh | Persian | Herb and noodle soup for Nowruz. | kidney beans, noodles, spinach, parsley, cilantro, dill, onion, lentils | `TT-0454.webp` |
 | TT-0371 | Egusi Soup | West African | Leafy soup thickened with melon seeds. | spinach, palm oil, fish, beef, onion, chili, stock, shrimp | `TT-0371.webp` |
-| TT-0180 | Suya | West African | Spice-crusted grilled skewers. | beef, peanut, chili, ginger, garlic, onion, paprika | `TT-0180.webp` |
 | TT-0299 | Puff-Puff | West African | Pillowy fried dough balls. | flour, yeast, sugar, nutmeg, vegetable oil | `TT-0299.webp` |
 | TT-0417 | Akara | West African | Bean fritters for breakfast. | black-eyed peas, onion, chili, salt, vegetable oil | `TT-0417.webp` |
 | TT-0389 | Fufu and Okra Soup | West African | Pounded cassava with silky okra soup. | cassava, okra, palm oil, fish, onion, chili, stock | `TT-0389.webp` |
-| TT-0141 | Koshari | Egyptian | Cairo’s carb-on-carb street feast. | rice, lentils, pasta, chickpeas, tomato, onion, vinegar, garlic | `TT-0141.webp` |
-| TT-0181 | Ful Medames | Egyptian | Slow-stewed fava beans for breakfast. | fava beans, olive oil, cumin, garlic, lemon, parsley | `TT-0181.webp` |
 | TT-0455 | Molokhia | Egyptian | Silky green soup of jute leaves. | spinach, chicken, garlic, coriander, stock | `TT-0455.webp` |
 | TT-0269 | Ta’ameya | Egyptian | Egypt’s green fava-bean falafel. | fava beans, parsley, cilantro, dill, onion, garlic, cumin, sesame | `TT-0269.webp` |
 | TT-0466 | Fattah | Egyptian | Feast-day layers of bread, rice and meat. | rice, flatbread, lamb, garlic, vinegar, tomato | `TT-0466.webp` |
@@ -690,7 +593,6 @@ Background: The background is transparent. Small but rich watercolor bleeds, spl
 | TT-0340 | Malva Pudding | South African | Sticky apricot sponge with hot cream sauce. | flour, sugar, egg, butter, apricot, milk, cream, vinegar | `TT-0340.webp` |
 | TT-0236 | Biltong | South African | Air-dried, spice-cured beef. | beef, vinegar, coriander, salt, black pepper | `TT-0236.webp` |
 | TT-0271 | Sabich | Israeli | Pita stuffed with fried eggplant, egg and amba. | egg, eggplant, tahini, bread, tomato, cucumber, parsley, lemon | `TT-0271.webp` |
-| TT-0182 | Israeli Salad | Israeli | Finely diced vegetables dressed with lemon. | cucumber, tomato, onion, parsley, olive oil, lemon | `TT-0182.webp` |
 | TT-0517 | Chopped Liver | Israeli | Silky liver spread with caramelized onions. | liver, onion, egg, vegetable oil, salt, black pepper | `TT-0517.webp` |
 | TT-0518 | Cholent | Israeli | Sabbath stew that cooks overnight. | beef, beans, potato, barley, egg, onion, paprika | `TT-0518.webp` |
 | TT-0341 | Rugelach | Israeli | Crescent pastries rolled with nuts and cinnamon. | flour, butter, sour cream, walnut, cinnamon, sugar, raisins | `TT-0341.webp` |
@@ -701,8 +603,6 @@ Background: The background is transparent. Small but rich watercolor bleeds, spl
 | TT-0467 | Salade Méchouia | Tunisian | Grilled pepper and tomato salad. | bell pepper, tomato, garlic, olive oil, chili, tuna, caraway, lemon | `TT-0467.webp` |
 | TT-0501 | Makroud | Tunisian | Diamond-shaped semolina pastries soaked in honey. | couscous, honey, butter, cinnamon, cloves, orange | `TT-0501.webp` |
 | TT-0502 | Fricassé | Tunisian | Fried bread rolls stuffed with tuna and harissa. | flour, yeast, tuna, egg, olive, harissa, potato, capers | `TT-0502.webp` |
-| TT-0110 | Thieboudienne | Senegalese | Senegal’s national dish of fish and tomato rice. | fish, rice, tomato, carrot, cassava, cabbage, eggplant, onion | `TT-0110.webp` |
-| TT-0183 | Yassa Poulet | Senegalese | Chicken in tangy caramelized onions. | chicken, onion, lemon, mustard, garlic, vegetable oil, olive, chili | `TT-0183.webp` |
 | TT-0300 | Mafé | Senegalese | Rich peanut stew. | beef, peanut, tomato, onion, sweet potato, cabbage, chili, palm oil | `TT-0300.webp` |
 | TT-0418 | Bissap | Senegalese | Ruby hibiscus cooler. | hibiscus, sugar, mint, lime, ginger | `TT-0418.webp` |
 | TT-0531 | Thiakry | Senegalese | Sweet millet pudding with yogurt. | couscous, milk, yogurt, sugar, vanilla, raisins, nutmeg | `TT-0531.webp` |
@@ -783,10 +683,10 @@ Background: The background is transparent. Small but rich watercolor bleeds, spl
 | ✅ created | TT-0087 | Risotto alla Milanese | Italian | Golden saffron risotto from Milan. | `TT-0087.webp` | WebP | 1024 × 1024 px | 150–300 KB | 151 KB |
 | ✅ created | TT-0036 | Pesto Genovese | Italian | Pounded basil sauce from Liguria. | `TT-0036.webp` | WebP | 1024 × 1024 px | 150–300 KB | 293 KB |
 | ✅ created | TT-0010 | Tiramisu | Italian | Coffee-soaked layers of mascarpone cream. | `TT-0010.webp` | WebP | 1024 × 1024 px | 150–300 KB | 197 KB |
-| ⬜ to create | TT-0184 | Minestrone | Italian | A thick, seasonal vegetable soup. | `TT-0184.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0184 | Minestrone | Italian | A thick, seasonal vegetable soup. | `TT-0184.webp` | WebP | 1024 × 1024 px | 150–300 KB | 161 KB |
 | ⬜ to create | TT-0275 | Osso Buco | Italian | Braised veal shanks with gremolata. | `TT-0275.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ✅ created | TT-0072 | Arancini | Italian | Sicilian fried rice balls with a molten heart. | `TT-0072.webp` | WebP | 1024 × 1024 px | 150–300 KB | 177 KB |
-| ⬜ to create | TT-0111 | Panna Cotta | Italian | Cooked cream, barely set. | `TT-0111.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0111 | Panna Cotta | Italian | Cooked cream, barely set. | `TT-0111.webp` | WebP | 1024 × 1024 px | 150–300 KB | 171 KB |
 | ✅ created | TT-0088 | Amatriciana | Italian | Roman pasta with cured pork cheek and tomato. | `TT-0088.webp` | WebP | 1024 × 1024 px | 150–300 KB | 206 KB |
 | ✅ created | TT-0058 | Cacio e Pepe | Italian | Three ingredients, one creamy Roman sauce. | `TT-0058.webp` | WebP | 1024 × 1024 px | 150–300 KB | 187 KB |
 | ⬜ to create | TT-0468 | Pasta con le Sarde | Italian | Sicilian pasta of sardines, wild fennel and sweet raisins. | `TT-0468.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
@@ -795,24 +695,24 @@ Background: The background is transparent. Small but rich watercolor bleeds, spl
 | ⬜ to create | TT-0519 | Coniglio alla Cacciatora | Italian | Hunter-style braised rabbit. | `TT-0519.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0520 | Fegato alla Veneziana | Italian | Venice’s liver with slow-cooked onions. | `TT-0520.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0392 | Tortellini in Brodo | Italian | Tiny stuffed pasta floating in clear broth. | `TT-0392.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0153 | Cannoli | Italian | Crisp Sicilian shells piped with sweet ricotta. | `TT-0153.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0153 | Cannoli | Italian | Crisp Sicilian shells piped with sweet ricotta. | `TT-0153.webp` | WebP | 1024 × 1024 px | 150–300 KB | 198 KB |
 | ⬜ to create | TT-0211 | Spinach and Ricotta Ravioli | Italian | Pasta pillows with sage butter. | `TT-0211.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0393 | Caponata | Italian | Sicilian sweet-and-sour eggplant. | `TT-0393.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0423 | Risotto agli Asparagi | Italian | Spring risotto with tender asparagus. | `TT-0423.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0424 | Gnocchi al Gorgonzola | Italian | Potato gnocchi in blue cheese sauce. | `TT-0424.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0521 | Pear and Mascarpone Tart | Italian | Crisp tart with creamy mascarpone and poached pears. | `TT-0521.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0142 | Coq au Vin | French | Chicken braised slowly in Burgundy wine. | `TT-0142.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0142 | Coq au Vin | French | Chicken braised slowly in Burgundy wine. | `TT-0142.webp` | WebP | 1024 × 1024 px | 150–300 KB | 197 KB |
 | ✅ created | TT-0089 | Ratatouille | French | Provençal summer vegetable stew. | `TT-0089.webp` | WebP | 1024 × 1024 px | 150–300 KB | 245 KB |
 | ✅ created | TT-0073 | French Onion Soup | French | Caramelised onions under a bubbling cheese crust. | `TT-0073.webp` | WebP | 1024 × 1024 px | 150–300 KB | 205 KB |
 | ✅ created | TT-0008 | Croissant | French | Laminated, flaky, buttery pastry. | `TT-0008.webp` | WebP | 1024 × 1024 px | 150–300 KB | 209 KB |
 | ✅ created | TT-0027 | Crème Brûlée | French | Silky custard beneath a glassy sugar crust. | `TT-0027.webp` | WebP | 1024 × 1024 px | 150–300 KB | 245 KB |
 | ⬜ to create | TT-0344 | Bouillabaisse | French | Marseille fisherman’s stew. | `TT-0344.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0154 | Quiche Lorraine | French | Savoury custard tart from Lorraine. | `TT-0154.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0112 | Beef Bourguignon | French | Beef stewed in red wine with pearl onions. | `TT-0112.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0154 | Quiche Lorraine | French | Savoury custard tart from Lorraine. | `TT-0154.webp` | WebP | 1024 × 1024 px | 150–300 KB | 182 KB |
+| ✅ created | TT-0112 | Beef Bourguignon | French | Beef stewed in red wine with pearl onions. | `TT-0112.webp` | WebP | 1024 × 1024 px | 150–300 KB | 180 KB |
 | ⬜ to create | TT-0212 | Salade Niçoise | French | The composed salad of Nice. | `TT-0212.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ✅ created | TT-0023 | Crêpes | French | Paper-thin Breton pancakes. | `TT-0023.webp` | WebP | 1024 × 1024 px | 150–300 KB | 268 KB |
-| ⬜ to create | TT-0155 | Duck Confit | French | Duck slow-cooked in its own fat until it falls off the bone. | `TT-0155.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0118 | Moules Marinières | French | Mussels steamed in white wine, served with frites. | `TT-0118.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0155 | Duck Confit | French | Duck slow-cooked in its own fat until it falls off the bone. | `TT-0155.webp` | WebP | 1024 × 1024 px | 150–300 KB | 214 KB |
+| ✅ created | TT-0118 | Moules Marinières | French | Mussels steamed in white wine, served with frites. | `TT-0118.webp` | WebP | 1024 × 1024 px | 150–300 KB | 201 KB |
 | ⬜ to create | TT-0237 | Cassoulet | French | Slow-baked beans and meats from Languedoc. | `TT-0237.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0425 | Vichyssoise | French | Chilled leek and potato soup. | `TT-0425.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0469 | Pissaladière | French | Niçois tart of sweet onions, anchovies and olives. | `TT-0469.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
@@ -829,20 +729,20 @@ Background: The background is transparent. Small but rich watercolor bleeds, spl
 | ⬜ to create | TT-0345 | Cherry Clafoutis | French | Baked custard batter studded with cherries. | `TT-0345.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0346 | Lobster Bisque | French | Velvety shellfish soup. | `TT-0346.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ✅ created | TT-0017 | Paella | Spanish | Saffron rice cooked wide and shallow in Valencia. | `TT-0017.webp` | WebP | 1024 × 1024 px | 150–300 KB | 261 KB |
-| ⬜ to create | TT-0185 | Gazpacho | Spanish | Chilled Andalusian tomato soup. | `TT-0185.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0185 | Gazpacho | Spanish | Chilled Andalusian tomato soup. | `TT-0185.webp` | WebP | 1024 × 1024 px | 150–300 KB | 166 KB |
 | ✅ created | TT-0090 | Tortilla Española | Spanish | Thick potato and egg omelette. | `TT-0090.webp` | WebP | 1024 × 1024 px | 150–300 KB | 204 KB |
-| ⬜ to create | TT-0119 | Patatas Bravas | Spanish | Crisp potatoes with a smoky, spicy sauce. | `TT-0119.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0119 | Patatas Bravas | Spanish | Crisp potatoes with a smoky, spicy sauce. | `TT-0119.webp` | WebP | 1024 × 1024 px | 150–300 KB | 208 KB |
 | ✅ created | TT-0054 | Churros con Chocolate | Spanish | Fried dough dipped in thick hot chocolate. | `TT-0054.webp` | WebP | 1024 × 1024 px | 150–300 KB | 174 KB |
 | ⬜ to create | TT-0302 | Crema Catalana | Spanish | Catalonia’s citrus-scented custard. | `TT-0302.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0156 | Calamares Fritos | Spanish | Crisp fried squid rings with lemon. | `TT-0156.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0120 | Gambas al Ajillo | Spanish | Shrimp sizzling in garlic and chili oil. | `TT-0120.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0156 | Calamares Fritos | Spanish | Crisp fried squid rings with lemon. | `TT-0156.webp` | WebP | 1024 × 1024 px | 150–300 KB | 164 KB |
+| ✅ created | TT-0120 | Gambas al Ajillo | Spanish | Shrimp sizzling in garlic and chili oil. | `TT-0120.webp` | WebP | 1024 × 1024 px | 150–300 KB | 208 KB |
 | ⬜ to create | TT-0394 | Fabada Asturiana | Spanish | Asturias’ rich bean and sausage stew. | `TT-0394.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0238 | Pulpo a la Gallega | Spanish | Galician octopus with potatoes and smoked paprika. | `TT-0238.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0143 | Moussaka | Greek | Layers of eggplant, spiced lamb and béchamel. | `TT-0143.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0143 | Moussaka | Greek | Layers of eggplant, spiced lamb and béchamel. | `TT-0143.webp` | WebP | 1024 × 1024 px | 150–300 KB | 181 KB |
 | ✅ created | TT-0074 | Greek Salad | Greek | Horiatiki — the village salad. | `TT-0074.webp` | WebP | 1024 × 1024 px | 150–300 KB | 223 KB |
 | ✅ created | TT-0091 | Souvlaki | Greek | Grilled skewers wrapped in warm pita. | `TT-0091.webp` | WebP | 1024 × 1024 px | 150–300 KB | 211 KB |
 | ⬜ to create | TT-0276 | Spanakopita | Greek | Spinach and feta in crisp phyllo. | `TT-0276.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0186 | Tzatziki | Greek | Cool yogurt and cucumber dip. | `TT-0186.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0186 | Tzatziki | Greek | Cool yogurt and cucumber dip. | `TT-0186.webp` | WebP | 1024 × 1024 px | 150–300 KB | 184 KB |
 | ⬜ to create | TT-0376 | Avgolemono | Greek | Silky egg-lemon soup. | `TT-0376.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0471 | Gigantes Plaki | Greek | Giant beans baked in tomato and dill. | `TT-0471.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0347 | Htapodi sti Skara | Greek | Charcoal-grilled octopus dressed with lemon and oregano. | `TT-0347.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
@@ -851,8 +751,8 @@ Background: The background is transparent. Small but rich watercolor bleeds, spl
 | ⬜ to create | TT-0348 | Sauerbraten | German | Pot roast marinated for days. | `TT-0348.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0239 | Kartoffelsalat | German | Warm potato salad, Swabian style. | `TT-0239.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ✅ created | TT-0092 | Bratwurst | German | Grilled sausage with mustard. | `TT-0092.webp` | WebP | 1024 × 1024 px | 150–300 KB | 201 KB |
-| ⬜ to create | TT-0144 | Black Forest Cake | German | Chocolate, cherries and clouds of cream. | `TT-0144.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0121 | Brezel | German | Lye-dipped pretzel, chewy and glossy. | `TT-0121.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0144 | Black Forest Cake | German | Chocolate, cherries and clouds of cream. | `TT-0144.webp` | WebP | 1024 × 1024 px | 150–300 KB | 209 KB |
+| ✅ created | TT-0121 | Brezel | German | Lye-dipped pretzel, chewy and glossy. | `TT-0121.webp` | WebP | 1024 × 1024 px | 150–300 KB | 220 KB |
 | ⬜ to create | TT-0240 | Schweinshaxe | German | Roast pork knuckle with crackling. | `TT-0240.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0472 | Rollmops | German | Herring rolled around pickles and onion. | `TT-0472.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0428 | Weißer Spargel | German | White asparagus with hollandaise. | `TT-0428.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
@@ -866,11 +766,11 @@ Background: The background is transparent. Small but rich watercolor bleeds, spl
 | ⬜ to create | TT-0396 | Lecsó | Hungarian | Summer stew of peppers and tomatoes, finished with egg. | `TT-0396.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0430 | Túrós Csusza | Hungarian | Noodles tossed with curd cheese, sour cream and crisp bacon. | `TT-0430.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ✅ created | TT-0024 | Fish and Chips | British | Seaside supper wrapped in paper. | `TT-0024.webp` | WebP | 1024 × 1024 px | 150–300 KB | 246 KB |
-| ⬜ to create | TT-0122 | Shepherd’s Pie | British | Lamb mince under mashed potato. | `TT-0122.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0122 | Shepherd’s Pie | British | Lamb mince under mashed potato. | `TT-0122.webp` | WebP | 1024 × 1024 px | 150–300 KB | 214 KB |
 | ✅ created | TT-0093 | Full English Breakfast | British | The classic fry-up with all the trimmings. | `TT-0093.webp` | WebP | 1024 × 1024 px | 150–300 KB | 217 KB |
-| ⬜ to create | TT-0157 | Scones | British | With jam and clotted cream, in that order (or not). | `TT-0157.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0123 | Sunday Roast | British | Roast beef, crisp potatoes and a puffed Yorkshire pudding. | `TT-0123.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0158 | Sticky Toffee Pudding | British | Dark fruit-studded sponge drenched in warm toffee sauce. | `TT-0158.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0157 | Scones | British | With jam and clotted cream, in that order (or not). | `TT-0157.webp` | WebP | 1024 × 1024 px | 150–300 KB | 176 KB |
+| ✅ created | TT-0123 | Sunday Roast | British | Roast beef, crisp potatoes and a puffed Yorkshire pudding. | `TT-0123.webp` | WebP | 1024 × 1024 px | 150–300 KB | 201 KB |
+| ✅ created | TT-0158 | Sticky Toffee Pudding | British | Dark fruit-studded sponge drenched in warm toffee sauce. | `TT-0158.webp` | WebP | 1024 × 1024 px | 150–300 KB | 171 KB |
 | ⬜ to create | TT-0241 | Cornish Pasty | British | Crimped pastry parcel that fed generations of tin miners. | `TT-0241.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0473 | Kedgeree | British | Smoked fish, rice and eggs — a colonial breakfast. | `TT-0473.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0474 | Cullen Skink | British | Thick Scottish soup of smoked haddock and potato. | `TT-0474.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
@@ -878,9 +778,9 @@ Background: The background is transparent. Small but rich watercolor bleeds, spl
 | ⬜ to create | TT-0397 | Porridge | British | Scottish oats stirred with a spurtle. | `TT-0397.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0506 | Scotch Broth | British | Barley and lamb soup. | `TT-0506.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0533 | Venison Pie | British | Game pie from the Highlands. | `TT-0533.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0124 | Borscht | Russian | Ruby beet soup. | `TT-0124.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0124 | Borscht | Russian | Ruby beet soup. | `TT-0124.webp` | WebP | 1024 × 1024 px | 150–300 KB | 210 KB |
 | ✅ created | TT-0076 | Beef Stroganoff | Russian | Seared beef in mustard sour cream. | `TT-0076.webp` | WebP | 1024 × 1024 px | 150–300 KB | 203 KB |
-| ⬜ to create | TT-0187 | Pelmeni | Russian | Siberian dumplings, frozen by the hundred. | `TT-0187.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0187 | Pelmeni | Russian | Siberian dumplings, frozen by the hundred. | `TT-0187.webp` | WebP | 1024 × 1024 px | 150–300 KB | 180 KB |
 | ⬜ to create | TT-0214 | Blini | Russian | Yeasted pancakes for Maslenitsa. | `TT-0214.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0242 | Olivier Salad | Russian | The creamy diced-vegetable salad of every New Year’s table. | `TT-0242.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0304 | Pirozhki | Russian | Small baked or fried buns with a savory filling. | `TT-0304.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
@@ -892,7 +792,7 @@ Background: The background is transparent. Small but rich watercolor bleeds, spl
 | ⬜ to create | TT-0534 | Kisel | Russian | Thick, tart berry drink. | `TT-0534.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ✅ created | TT-0059 | Swedish Meatballs | Swedish | Köttbullar with lingonberries and cream sauce. | `TT-0059.webp` | WebP | 1024 × 1024 px | 150–300 KB | 180 KB |
 | ⬜ to create | TT-0216 | Gravlax | Swedish | Salmon cured under dill. | `TT-0216.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0125 | Kanelbullar | Swedish | Cardamom-scented cinnamon buns for fika. | `TT-0125.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0125 | Kanelbullar | Swedish | Cardamom-scented cinnamon buns for fika. | `TT-0125.webp` | WebP | 1024 × 1024 px | 150–300 KB | 202 KB |
 | ⬜ to create | TT-0476 | Jansson’s Temptation | Swedish | Potato and sprat gratin at Christmas. | `TT-0476.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0431 | Räksmörgås | Swedish | Open-faced shrimp sandwich piled high. | `TT-0431.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0477 | Ärtsoppa | Swedish | Thursday’s yellow pea soup, served with mustard. | `TT-0477.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
@@ -916,43 +816,43 @@ Background: The background is transparent. Small but rich watercolor bleeds, spl
 | ⬜ to create | TT-0353 | Sardinhas Assadas | Portuguese | Grilled sardines on bread, the taste of Lisbon’s June festivals. | `TT-0353.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0478 | Mexilhões à Bulhão Pato | Portuguese | Mussels steamed in garlic, cilantro and wine. | `TT-0478.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ✅ created | TT-0077 | Khachapuri | Georgian | Cheese-filled bread boat crowned with an egg. | `TT-0077.webp` | WebP | 1024 × 1024 px | 150–300 KB | 196 KB |
-| ⬜ to create | TT-0159 | Khinkali | Georgian | Twisted soup dumplings, eaten by the knot. | `TT-0159.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0159 | Khinkali | Georgian | Twisted soup dumplings, eaten by the knot. | `TT-0159.webp` | WebP | 1024 × 1024 px | 150–300 KB | 179 KB |
 | ⬜ to create | TT-0462 | Pkhali | Georgian | Vegetable and walnut pâtés. | `TT-0462.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0434 | Chakhokhbili | Georgian | Herby chicken and tomato stew. | `TT-0434.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0479 | Churchkhela | Georgian | Walnuts dipped in thickened grape must. | `TT-0479.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0400 | Lobio | Georgian | Spiced kidney beans with walnuts. | `TT-0400.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0401 | Satsivi | Georgian | Cold chicken in walnut sauce. | `TT-0401.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0538 | Tarkhuna | Georgian | Bright green tarragon lemonade. | `TT-0538.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0145 | Irish Stew | Irish | Mutton, potatoes and patience. | `TT-0145.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0145 | Irish Stew | Irish | Mutton, potatoes and patience. | `TT-0145.webp` | WebP | 1024 × 1024 px | 150–300 KB | 189 KB |
 | ⬜ to create | TT-0354 | Colcannon | Irish | Buttery mash with greens. | `TT-0354.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0245 | Soda Bread | Irish | Quick bread marked with a cross. | `TT-0245.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0480 | Boxty | Irish | Potato pancakes from the north-west. | `TT-0480.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0188 | Beef and Stout Stew | Irish | Beef braised dark and rich in stout. | `TT-0188.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0188 | Beef and Stout Stew | Irish | Beef braised dark and rich in stout. | `TT-0188.webp` | WebP | 1024 × 1024 px | 150–300 KB | 175 KB |
 | ⬜ to create | TT-0435 | Champ | Irish | Mash with spring onions and a pool of butter. | `TT-0435.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0481 | Barmbrack | Irish | Tea-soaked fruit bread for Halloween. | `TT-0481.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0482 | Dublin Coddle | Irish | Sausage and bacon simmered with potatoes. | `TT-0482.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0126 | Varenyky | Ukrainian | Boiled dumplings stuffed with potato and cheese. | `TT-0126.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0126 | Varenyky | Ukrainian | Boiled dumplings stuffed with potato and cheese. | `TT-0126.webp` | WebP | 1024 × 1024 px | 150–300 KB | 210 KB |
 | ⬜ to create | TT-0246 | Holubtsi | Ukrainian | Cabbage rolls simmered in tomato sauce. | `TT-0246.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0307 | Pampushky | Ukrainian | Soft garlic rolls served with borscht. | `TT-0307.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0402 | Kutia | Ukrainian | Sweet grain pudding for Christmas Eve. | `TT-0402.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0436 | Kasha with Mushrooms | Ukrainian | Toasted buckwheat with fried mushrooms and onions. | `TT-0436.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0355 | Kyiv Cake | Ukrainian | Airy hazelnut meringue layers with buttercream. | `TT-0355.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0189 | Svíčková | Czech | Marinated beef in a velvety root-vegetable cream sauce. | `TT-0189.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0160 | Vepřo Knedlo Zelo | Czech | Roast pork with bread dumplings and sauerkraut. | `TT-0160.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0189 | Svíčková | Czech | Marinated beef in a velvety root-vegetable cream sauce. | `TT-0189.webp` | WebP | 1024 × 1024 px | 150–300 KB | 195 KB |
+| ✅ created | TT-0160 | Vepřo Knedlo Zelo | Czech | Roast pork with bread dumplings and sauerkraut. | `TT-0160.webp` | WebP | 1024 × 1024 px | 150–300 KB | 211 KB |
 | ⬜ to create | TT-0247 | Smažený Sýr | Czech | Fried cheese in breadcrumbs, a pub favorite. | `TT-0247.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0483 | Kulajda | Czech | Creamy dill soup with mushrooms and a poached egg. | `TT-0483.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0403 | Koláče | Czech | Round sweet pastries with fruit or curd filling. | `TT-0403.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0404 | Švestkové Knedlíky | Czech | Potato dumplings stuffed with whole plums. | `TT-0404.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0248 | Tafelspitz | Austrian | Boiled beef served with apple-horseradish. | `TT-0248.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0127 | Sachertorte | Austrian | Dense chocolate cake with apricot jam. | `TT-0127.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0127 | Sachertorte | Austrian | Dense chocolate cake with apricot jam. | `TT-0127.webp` | WebP | 1024 × 1024 px | 150–300 KB | 203 KB |
 | ✅ created | TT-0095 | Apfelstrudel | Austrian | Paper-thin pastry rolled around spiced apples. | `TT-0095.webp` | WebP | 1024 × 1024 px | 150–300 KB | 231 KB |
 | ⬜ to create | TT-0249 | Käsespätzle | Austrian | Egg noodles baked with melted cheese and crisp onions. | `TT-0249.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0509 | Hirschgulasch | Austrian | Venison goulash with juniper and red wine. | `TT-0509.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0190 | Kaiserschmarrn | Austrian | Shredded fluffy pancake with plum compote. | `TT-0190.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0190 | Kaiserschmarrn | Austrian | Shredded fluffy pancake with plum compote. | `TT-0190.webp` | WebP | 1024 × 1024 px | 150–300 KB | 200 KB |
 | ⬜ to create | TT-0308 | Wiener Melange | Austrian | The coffee-house classic, espresso with steamed milk. | `TT-0308.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ✅ created | TT-0061 | Cheese Fondue | Swiss | Bubbling melted cheese for dipping bread. | `TT-0061.webp` | WebP | 1024 × 1024 px | 150–300 KB | 200 KB |
-| ⬜ to create | TT-0161 | Raclette | Swiss | Scraped molten cheese over potatoes and pickles. | `TT-0161.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0191 | Rösti | Swiss | Crisp grated-potato cake. | `TT-0191.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0161 | Raclette | Swiss | Scraped molten cheese over potatoes and pickles. | `TT-0161.webp` | WebP | 1024 × 1024 px | 150–300 KB | 188 KB |
+| ✅ created | TT-0191 | Rösti | Swiss | Crisp grated-potato cake. | `TT-0191.webp` | WebP | 1024 × 1024 px | 150–300 KB | 175 KB |
 | ⬜ to create | TT-0250 | Birchermüesli | Swiss | Soaked oats with grated apple and nuts. | `TT-0250.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0524 | Basler Läckerli | Swiss | Spiced honey-nut biscuits from Basel. | `TT-0524.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0484 | Älplermagronen | Swiss | Alpine macaroni with potatoes, cheese and apple sauce. | `TT-0484.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
@@ -963,7 +863,7 @@ Background: The background is transparent. Small but rich watercolor bleeds, spl
 | ⬜ to create | TT-0463 | Kaassoufflé | Dutch | Deep-fried cheese pastry from the snack bar. | `TT-0463.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0283 | Poffertjes | Dutch | Tiny fluffy pancakes dusted with sugar. | `TT-0283.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ✅ created | TT-0062 | Moules-Frites | Belgian | Mussels and fries, the national dish. | `TT-0062.webp` | WebP | 1024 × 1024 px | 150–300 KB | 215 KB |
-| ⬜ to create | TT-0162 | Carbonnade Flamande | Belgian | Beef stewed in beer with mustard-coated bread. | `TT-0162.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0162 | Carbonnade Flamande | Belgian | Beef stewed in beer with mustard-coated bread. | `TT-0162.webp` | WebP | 1024 × 1024 px | 150–300 KB | 209 KB |
 | ⬜ to create | TT-0379 | Waterzooi | Belgian | Ghent’s creamy chicken and vegetable stew. | `TT-0379.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ✅ created | TT-0028 | Belgian Waffles | Belgian | Light, deep-pocketed yeast waffles. | `TT-0028.webp` | WebP | 1024 × 1024 px | 150–300 KB | 232 KB |
 | ⬜ to create | TT-0217 | Pralines | Belgian | Filled chocolates invented in Brussels. | `TT-0217.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
@@ -1066,7 +966,7 @@ Background: The background is transparent. Small but rich watercolor bleeds, spl
 | ✅ created | TT-0063 | Enchiladas | Mexican | Rolled tortillas bathed in chili sauce. | `TT-0063.webp` | WebP | 1024 × 1024 px | 150–300 KB | 229 KB |
 | ⬜ to create | TT-0315 | Pozole | Mexican | Hominy stew served for celebrations. | `TT-0315.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0488 | Chiles en Nogada | Mexican | Stuffed poblanos in walnut sauce. | `TT-0488.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0163 | Chilaquiles | Mexican | Tortilla chips simmered in salsa for breakfast. | `TT-0163.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0163 | Chilaquiles | Mexican | Tortilla chips simmered in salsa for breakfast. | `TT-0163.webp` | WebP | 1024 × 1024 px | 150–300 KB | 223 KB |
 | ✅ created | TT-0097 | Elote | Mexican | Street corn slathered and dusted with chili. | `TT-0097.webp` | WebP | 1024 × 1024 px | 150–300 KB | 199 KB |
 | ✅ created | TT-0078 | Caesar Salad | Mexican | Born in Tijuana in 1924 and adopted by the world. | `TT-0078.webp` | WebP | 1024 × 1024 px | 150–300 KB | 196 KB |
 | ⬜ to create | TT-0316 | Huevos con Chorizo | Mexican | Scrambled eggs with spicy sausage and warm tortillas. | `TT-0316.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
@@ -1078,65 +978,65 @@ Background: The background is transparent. Small but rich watercolor bleeds, spl
 | ✅ created | TT-0045 | Apple Pie | American | As American as… | `TT-0045.webp` | WebP | 1024 × 1024 px | 150–300 KB | 285 KB |
 | ⬜ to create | TT-0277 | Clam Chowder | American | New England’s creamy clam soup. | `TT-0277.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ✅ created | TT-0022 | Pancakes | American | Fluffy stacks under maple syrup. | `TT-0022.webp` | WebP | 1024 × 1024 px | 150–300 KB | 273 KB |
-| ⬜ to create | TT-0128 | Pecan Pie | American | Southern holiday pie with a gooey heart. | `TT-0128.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0146 | Lobster Roll | American | New England summer in a toasted bun. | `TT-0146.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0128 | Pecan Pie | American | Southern holiday pie with a gooey heart. | `TT-0128.webp` | WebP | 1024 × 1024 px | 150–300 KB | 233 KB |
+| ✅ created | TT-0146 | Lobster Roll | American | New England summer in a toasted bun. | `TT-0146.webp` | WebP | 1024 × 1024 px | 150–300 KB | 171 KB |
 | ⬜ to create | TT-0220 | Crab Cakes | American | Chesapeake Bay classics, light on filler. | `TT-0220.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0407 | Cioppino | American | San Francisco’s seafood stew. | `TT-0407.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0129 | Roast Turkey | American | Thanksgiving centerpiece with herb stuffing. | `TT-0129.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0129 | Roast Turkey | American | Thanksgiving centerpiece with herb stuffing. | `TT-0129.webp` | WebP | 1024 × 1024 px | 150–300 KB | 193 KB |
 | ⬜ to create | TT-0252 | Turkey Club Sandwich | American | Triple-decker deli classic. | `TT-0252.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0130 | Chili con Carne | American | Texas-style bowl of red with beans. | `TT-0130.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0130 | Chili con Carne | American | Texas-style bowl of red with beans. | `TT-0130.webp` | WebP | 1024 × 1024 px | 150–300 KB | 179 KB |
 | ⬜ to create | TT-0317 | Tuna Salad Sandwich | American | Lunch-counter staple. | `TT-0317.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0192 | Loaded Baked Potato | American | Steakhouse side with all the toppings. | `TT-0192.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0192 | Loaded Baked Potato | American | Steakhouse side with all the toppings. | `TT-0192.webp` | WebP | 1024 × 1024 px | 150–300 KB | 200 KB |
 | ✅ created | TT-0064 | Buffalo Wings | American | Fried wings tossed in hot sauce. | `TT-0064.webp` | WebP | 1024 × 1024 px | 150–300 KB | 209 KB |
-| ⬜ to create | TT-0113 | Pumpkin Pie | American | Thanksgiving’s spiced custard pie. | `TT-0113.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0113 | Pumpkin Pie | American | Thanksgiving’s spiced custard pie. | `TT-0113.webp` | WebP | 1024 × 1024 px | 150–300 KB | 232 KB |
 | ⬜ to create | TT-0439 | Cranberry Sauce | American | Tart sauce for the holiday table. | `TT-0439.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0131 | Reuben Sandwich | American | Grilled corned beef with sauerkraut and Swiss. | `TT-0131.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0164 | Lox and Bagel | American | Smoked salmon on a bagel with all the trimmings. | `TT-0164.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0131 | Reuben Sandwich | American | Grilled corned beef with sauerkraut and Swiss. | `TT-0131.webp` | WebP | 1024 × 1024 px | 150–300 KB | 248 KB |
+| ✅ created | TT-0164 | Lox and Bagel | American | Smoked salmon on a bagel with all the trimmings. | `TT-0164.webp` | WebP | 1024 × 1024 px | 150–300 KB | 177 KB |
 | ⬜ to create | TT-0318 | Shrimp Cocktail | American | Chilled shrimp with a horseradish sauce. | `TT-0318.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0380 | Beef and Barley Soup | American | Homey winter soup. | `TT-0380.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0319 | Oatmeal | American | Warm bowl of oats. | `TT-0319.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0320 | Beet and Goat Cheese Salad | American | Roasted beets with tangy goat cheese. | `TT-0320.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0440 | Pecan Pralines | American | New Orleans candy of toasted pecans and caramel. | `TT-0440.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ✅ created | TT-0037 | Ceviche | Peruvian | Raw fish cured in tiger’s milk. | `TT-0037.webp` | WebP | 1024 × 1024 px | 150–300 KB | 253 KB |
-| ⬜ to create | TT-0193 | Lomo Saltado | Peruvian | Chifa stir-fry of beef and fries. | `TT-0193.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0193 | Lomo Saltado | Peruvian | Chifa stir-fry of beef and fries. | `TT-0193.webp` | WebP | 1024 × 1024 px | 150–300 KB | 198 KB |
 | ⬜ to create | TT-0419 | Ají de Gallina | Peruvian | Shredded chicken in a creamy yellow-pepper sauce. | `TT-0419.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0441 | Causa Limeña | Peruvian | Layered terrine of chili-spiked potato. | `TT-0441.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0489 | Solterito | Peruvian | Arequipa’s bright bean and cheese salad. | `TT-0489.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0442 | Quinoa Soup | Peruvian | Andean comfort in a bowl. | `TT-0442.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0490 | Quinoa Chaufa | Peruvian | Peruvian-Chinese fried grain made with quinoa. | `TT-0490.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0165 | Feijoada | Brazilian | Black bean and pork stew. | `TT-0165.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0165 | Feijoada | Brazilian | Black bean and pork stew. | `TT-0165.webp` | WebP | 1024 × 1024 px | 150–300 KB | 219 KB |
 | ⬜ to create | TT-0221 | Pão de Queijo | Brazilian | Chewy cheese bread from Minas Gerais. | `TT-0221.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0358 | Moqueca | Brazilian | Bahian fish stew with dendê oil. | `TT-0358.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0194 | Brigadeiro | Brazilian | Fudgy chocolate truffles for every party. | `TT-0194.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0132 | Coxinha | Brazilian | Teardrop fritters of shredded chicken. | `TT-0132.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0194 | Brigadeiro | Brazilian | Fudgy chocolate truffles for every party. | `TT-0194.webp` | WebP | 1024 × 1024 px | 150–300 KB | 210 KB |
+| ✅ created | TT-0132 | Coxinha | Brazilian | Teardrop fritters of shredded chicken. | `TT-0132.webp` | WebP | 1024 × 1024 px | 150–300 KB | 221 KB |
 | ⬜ to create | TT-0408 | Acarajé | Brazilian | Bahian black-eyed pea fritters fried in dendê oil. | `TT-0408.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ✅ created | TT-0099 | Churrasco | Brazilian | Grilled meats carved at the table. | `TT-0099.webp` | WebP | 1024 × 1024 px | 150–300 KB | 231 KB |
 | ⬜ to create | TT-0443 | Farofa | Brazilian | Toasted cassava flour with bacon and egg. | `TT-0443.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ✅ created | TT-0030 | Jerk Chicken | Jamaican | Smoky, fiery and fragrant with pimento. | `TT-0030.webp` | WebP | 1024 × 1024 px | 150–300 KB | 295 KB |
 | ⬜ to create | TT-0321 | Ackee and Saltfish | Jamaican | Jamaica’s national breakfast. | `TT-0321.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0195 | Rice and Peas | Jamaican | Kidney beans and rice in coconut milk. | `TT-0195.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0195 | Rice and Peas | Jamaican | Kidney beans and rice in coconut milk. | `TT-0195.webp` | WebP | 1024 × 1024 px | 150–300 KB | 199 KB |
 | ⬜ to create | TT-0253 | Curry Goat | Jamaican | Sunday curry, slow and rich. | `TT-0253.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0222 | Fried Plantain | Jamaican | Sweet, caramel-edged ripe plantain. | `TT-0222.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0491 | Escovitch Fish | Jamaican | Fried fish under spicy pickled vegetables. | `TT-0491.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0525 | Ackee Patty | Jamaican | Golden pastry stuffed with seasoned ackee. | `TT-0525.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ✅ created | TT-0065 | Asado | Argentine | The ritual of the grill, with chimichurri. | `TT-0065.webp` | WebP | 1024 × 1024 px | 150–300 KB | 220 KB |
 | ✅ created | TT-0038 | Empanadas | Argentine | Hand pies, crimped by region. | `TT-0038.webp` | WebP | 1024 × 1024 px | 150–300 KB | 270 KB |
-| ⬜ to create | TT-0147 | Milanesa | Argentine | Breaded cutlet, an Italian import. | `TT-0147.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0133 | Alfajores | Argentine | Sandwich cookies filled with dulce de leche. | `TT-0133.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0147 | Milanesa | Argentine | Breaded cutlet, an Italian import. | `TT-0147.webp` | WebP | 1024 × 1024 px | 150–300 KB | 179 KB |
+| ✅ created | TT-0133 | Alfajores | Argentine | Sandwich cookies filled with dulce de leche. | `TT-0133.webp` | WebP | 1024 × 1024 px | 150–300 KB | 161 KB |
 | ⬜ to create | TT-0444 | Provoleta | Argentine | Grilled cheese with oregano, crisp at the edges. | `TT-0444.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0409 | Locro | Argentine | Hearty national stew of corn, beans and pumpkin. | `TT-0409.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0322 | Chimichurri | Argentine | The herb sauce that goes on everything off the grill. | `TT-0322.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0166 | Choripán | Argentine | Grilled chorizo in a roll with chimichurri. | `TT-0166.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0166 | Choripán | Argentine | Grilled chorizo in a roll with chimichurri. | `TT-0166.webp` | WebP | 1024 × 1024 px | 150–300 KB | 241 KB |
 | ⬜ to create | TT-0286 | Flan con Dulce de Leche | Argentine | Custard flan served with a spoon of dulce de leche. | `TT-0286.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ✅ created | TT-0100 | Cubano | Cuban | Pressed sandwich born between Havana and Tampa. | `TT-0100.webp` | WebP | 1024 × 1024 px | 150–300 KB | 207 KB |
-| ⬜ to create | TT-0148 | Ropa Vieja | Cuban | "Old clothes" — shredded braised beef. | `TT-0148.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0148 | Ropa Vieja | Cuban | "Old clothes" — shredded braised beef. | `TT-0148.webp` | WebP | 1024 × 1024 px | 150–300 KB | 203 KB |
 | ⬜ to create | TT-0323 | Moros y Cristianos | Cuban | Black beans and white rice cooked together. | `TT-0323.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0254 | Lechón Asado | Cuban | Roast pork in sour-orange mojo. | `TT-0254.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0324 | Picadillo | Cuban | Sweet-savory beef hash with olives and raisins. | `TT-0324.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0287 | Tostones | Cuban | Twice-fried green plantain slices. | `TT-0287.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0359 | Flan de Leche | Cuban | Silky baked custard under liquid caramel. | `TT-0359.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0288 | Arroz con Pollo | Cuban | Chicken and rice cooked in beer and sofrito. | `TT-0288.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0196 | Bandeja Paisa | Colombian | A platter big enough for a mule driver. | `TT-0196.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0196 | Bandeja Paisa | Colombian | A platter big enough for a mule driver. | `TT-0196.webp` | WebP | 1024 × 1024 px | 150–300 KB | 186 KB |
 | ✅ created | TT-0066 | Arepas | Colombian | Griddled corn cakes, split and filled. | `TT-0066.webp` | WebP | 1024 × 1024 px | 150–300 KB | 204 KB |
 | ⬜ to create | TT-0289 | Ajiaco | Colombian | Bogotá’s three-potato chicken soup. | `TT-0289.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0325 | Sancocho | Colombian | Hearty Sunday stew. | `TT-0325.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
@@ -1152,18 +1052,18 @@ Background: The background is transparent. Small but rich watercolor bleeds, spl
 | ⬜ to create | TT-0327 | Blueberry Pie | Canadian | Wild Maritime blueberries under a lattice. | `TT-0327.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0224 | Pastel de Choclo | Chilean | Sweet-corn crust over a spiced filling. | `TT-0224.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0328 | Cazuela | Chilean | A clear soup with a bit of everything. | `TT-0328.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0197 | Empanadas de Pino | Chilean | Baked turnovers for Fiestas Patrias. | `TT-0197.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0197 | Empanadas de Pino | Chilean | Baked turnovers for Fiestas Patrias. | `TT-0197.webp` | WebP | 1024 × 1024 px | 150–300 KB | 220 KB |
 | ⬜ to create | TT-0362 | Sopaipillas | Chilean | Pumpkin fritters for rainy days. | `TT-0362.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0291 | Completo | Chilean | A hot dog buried in avocado. | `TT-0291.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0492 | Mote con Huesillo | Chilean | Summer drink of peaches and wheat berries. | `TT-0492.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0198 | Reina Pepiada | Venezuelan | Arepa stuffed with chicken-avocado salad. | `TT-0198.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0198 | Reina Pepiada | Venezuelan | Arepa stuffed with chicken-avocado salad. | `TT-0198.webp` | WebP | 1024 × 1024 px | 150–300 KB | 203 KB |
 | ⬜ to create | TT-0256 | Pabellón Criollo | Venezuelan | National plate of shredded beef, beans and rice. | `TT-0256.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0445 | Hallacas | Venezuelan | Christmas tamales wrapped in banana leaves. | `TT-0445.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0167 | Tequeños | Venezuelan | Cheese sticks wrapped in dough and fried. | `TT-0167.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0167 | Tequeños | Venezuelan | Cheese sticks wrapped in dough and fried. | `TT-0167.webp` | WebP | 1024 × 1024 px | 150–300 KB | 160 KB |
 | ⬜ to create | TT-0363 | Cachapas | Venezuelan | Sweet corn pancakes folded over cheese. | `TT-0363.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0329 | Pan de Jamón | Venezuelan | Christmas bread rolled around ham, olives and raisins. | `TT-0329.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0199 | Mofongo | Puerto Rican | Mashed fried plantain with garlic. | `TT-0199.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0200 | Arroz con Gandules | Puerto Rican | Rice with pigeon peas and sofrito. | `TT-0200.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0199 | Mofongo | Puerto Rican | Mashed fried plantain with garlic. | `TT-0199.webp` | WebP | 1024 × 1024 px | 150–300 KB | 245 KB |
+| ✅ created | TT-0200 | Arroz con Gandules | Puerto Rican | Rice with pigeon peas and sofrito. | `TT-0200.webp` | WebP | 1024 × 1024 px | 150–300 KB | 181 KB |
 | ⬜ to create | TT-0225 | Pernil | Puerto Rican | Slow-roasted pork shoulder with crackling. | `TT-0225.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0512 | Pasteles | Puerto Rican | Holiday plantain parcels steamed in leaves. | `TT-0512.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0410 | Coquito | Puerto Rican | Creamy coconut holiday drink. | `TT-0410.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
@@ -1244,17 +1144,17 @@ Background: The background is transparent. Small but rich watercolor bleeds, spl
 | ⬜ to create | TT-0731 | Causa | Peruvian | Cold layered potato terrine with a creamy filling. | `TT-0731.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ✅ created | TT-0002 | Sushi | Japanese | Vinegared rice with the freshest fish. | `TT-0002.webp` | WebP | 1024 × 1024 px | 150–300 KB | 204 KB |
 | ✅ created | TT-0005 | Ramen | Japanese | Noodles in a deep, slow-simmered broth. | `TT-0005.webp` | WebP | 1024 × 1024 px | 150–300 KB | 204 KB |
-| ⬜ to create | TT-0101 | Tempura | Japanese | Feather-light battered fritters. | `TT-0101.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0101 | Tempura | Japanese | Feather-light battered fritters. | `TT-0101.webp` | WebP | 1024 × 1024 px | 150–300 KB | 158 KB |
 | ✅ created | TT-0055 | Miso Soup | Japanese | Everyday soup of dashi and miso. | `TT-0055.webp` | WebP | 1024 × 1024 px | 150–300 KB | 196 KB |
 | ✅ created | TT-0079 | Teriyaki Chicken | Japanese | Glossy, sweet-savoury glaze. | `TT-0079.webp` | WebP | 1024 × 1024 px | 150–300 KB | 207 KB |
 | ⬜ to create | TT-0420 | Okonomiyaki | Japanese | Savory pancake, "grilled as you like it". | `TT-0420.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0102 | Tonkatsu | Japanese | Panko-crusted pork cutlet. | `TT-0102.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0102 | Tonkatsu | Japanese | Panko-crusted pork cutlet. | `TT-0102.webp` | WebP | 1024 × 1024 px | 150–300 KB | 187 KB |
 | ✅ created | TT-0080 | Yakitori | Japanese | Charcoal-grilled chicken skewers. | `TT-0080.webp` | WebP | 1024 × 1024 px | 150–300 KB | 190 KB |
-| ⬜ to create | TT-0103 | Sashimi | Japanese | Fresh-sliced raw fish with wasabi and soy. | `TT-0103.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0134 | Takoyaki | Japanese | Osaka’s crisp octopus balls. | `TT-0134.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0168 | Zaru Soba | Japanese | Chilled buckwheat noodles with dipping sauce. | `TT-0168.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0103 | Sashimi | Japanese | Fresh-sliced raw fish with wasabi and soy. | `TT-0103.webp` | WebP | 1024 × 1024 px | 150–300 KB | 164 KB |
+| ✅ created | TT-0134 | Takoyaki | Japanese | Osaka’s crisp octopus balls. | `TT-0134.webp` | WebP | 1024 × 1024 px | 150–300 KB | 175 KB |
+| ✅ created | TT-0168 | Zaru Soba | Japanese | Chilled buckwheat noodles with dipping sauce. | `TT-0168.webp` | WebP | 1024 × 1024 px | 150–300 KB | 197 KB |
 | ✅ created | TT-0031 | Kung Pao Chicken | Chinese | Sichuan stir-fry with numbing heat. | `TT-0031.webp` | WebP | 1024 × 1024 px | 150–300 KB | 269 KB |
-| ⬜ to create | TT-0114 | Mapo Tofu | Chinese | Silken tofu in fiery bean sauce. | `TT-0114.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0114 | Mapo Tofu | Chinese | Silken tofu in fiery bean sauce. | `TT-0114.webp` | WebP | 1024 × 1024 px | 150–300 KB | 246 KB |
 | ✅ created | TT-0056 | Peking Duck | Chinese | Lacquered roast duck in thin pancakes. | `TT-0056.webp` | WebP | 1024 × 1024 px | 150–300 KB | 189 KB |
 | ✅ created | TT-0012 | Jiaozi Dumplings | Chinese | Folded for Lunar New Year. | `TT-0012.webp` | WebP | 1024 × 1024 px | 150–300 KB | 281 KB |
 | ✅ created | TT-0019 | Fried Rice | Chinese | Day-old rice, wok-tossed. | `TT-0019.webp` | WebP | 1024 × 1024 px | 150–300 KB | 279 KB |
@@ -1262,64 +1162,64 @@ Background: The background is transparent. Small but rich watercolor bleeds, spl
 | ✅ created | TT-0081 | Char Siu | Chinese | Cantonese barbecued pork. | `TT-0081.webp` | WebP | 1024 × 1024 px | 150–300 KB | 214 KB |
 | ⬜ to create | TT-0364 | Salt and Pepper Squid | Chinese | Crisp wok-tossed squid with chili and garlic. | `TT-0364.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0382 | Garlic Bok Choy | Chinese | Quick stir-fry of crisp greens. | `TT-0382.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0135 | Wonton Soup | Chinese | Delicate dumplings in clear broth. | `TT-0135.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0135 | Wonton Soup | Chinese | Delicate dumplings in clear broth. | `TT-0135.webp` | WebP | 1024 × 1024 px | 150–300 KB | 151 KB |
 | ✅ created | TT-0047 | Kimchi | Korean | Fermented napa cabbage. | `TT-0047.webp` | WebP | 1024 × 1024 px | 150–300 KB | 290 KB |
 | ✅ created | TT-0039 | Bibimbap | Korean | Mixed rice in a sizzling stone bowl. | `TT-0039.webp` | WebP | 1024 × 1024 px | 150–300 KB | 283 KB |
 | ✅ created | TT-0067 | Bulgogi | Korean | "Fire meat" — marinated grilled beef. | `TT-0067.webp` | WebP | 1024 × 1024 px | 150–300 KB | 299 KB |
 | ⬜ to create | TT-0201 | Tteokbokki | Korean | Chewy rice cakes in red chili sauce. | `TT-0201.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0149 | Japchae | Korean | Glass noodles stir-fried with vegetables. | `TT-0149.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0104 | Samgyeopsal | Korean | Grilled pork belly wrapped in lettuce. | `TT-0104.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0149 | Japchae | Korean | Glass noodles stir-fried with vegetables. | `TT-0149.webp` | WebP | 1024 × 1024 px | 150–300 KB | 191 KB |
+| ✅ created | TT-0104 | Samgyeopsal | Korean | Grilled pork belly wrapped in lettuce. | `TT-0104.webp` | WebP | 1024 × 1024 px | 150–300 KB | 190 KB |
 | ⬜ to create | TT-0494 | Ojingeo Bokkeum | Korean | Fiery stir-fried squid. | `TT-0494.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ✅ created | TT-0006 | Pad Thai | Thai | Stir-fried rice noodles, sweet-sour-salty. | `TT-0006.webp` | WebP | 1024 × 1024 px | 150–300 KB | 231 KB |
 | ✅ created | TT-0032 | Green Curry | Thai | Fragrant curry of fresh green chilies. | `TT-0032.webp` | WebP | 1024 × 1024 px | 150–300 KB | 190 KB |
 | ✅ created | TT-0068 | Tom Yum | Thai | Hot and sour shrimp soup. | `TT-0068.webp` | WebP | 1024 × 1024 px | 150–300 KB | 195 KB |
 | ⬜ to create | TT-0226 | Som Tam | Thai | Pounded green papaya salad. | `TT-0226.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0105 | Mango Sticky Rice | Thai | Sweet coconut rice with ripe mango. | `TT-0105.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0105 | Mango Sticky Rice | Thai | Sweet coconut rice with ripe mango. | `TT-0105.webp` | WebP | 1024 × 1024 px | 150–300 KB | 196 KB |
 | ✅ created | TT-0048 | Massaman Curry | Thai | A Persian-influenced, gently spiced curry. | `TT-0048.webp` | WebP | 1024 × 1024 px | 150–300 KB | 277 KB |
 | ✅ created | TT-0013 | Pho | Vietnamese | Aromatic beef noodle soup. | `TT-0013.webp` | WebP | 1024 × 1024 px | 150–300 KB | 241 KB |
 | ✅ created | TT-0033 | Bánh Mì | Vietnamese | French baguette, Vietnamese fillings. | `TT-0033.webp` | WebP | 1024 × 1024 px | 150–300 KB | 291 KB |
-| ⬜ to create | TT-0150 | Gỏi Cuốn | Vietnamese | Fresh summer rolls in rice paper. | `TT-0150.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0169 | Bún Chả | Vietnamese | Grilled pork with noodles and herbs, Hanoi style. | `TT-0169.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0170 | Bánh Xèo | Vietnamese | Sizzling turmeric crêpes wrapped in lettuce and herbs. | `TT-0170.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0151 | Cà Phê Sữa Đá | Vietnamese | Strong drip coffee over sweet condensed milk and ice. | `TT-0151.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0150 | Gỏi Cuốn | Vietnamese | Fresh summer rolls in rice paper. | `TT-0150.webp` | WebP | 1024 × 1024 px | 150–300 KB | 205 KB |
+| ✅ created | TT-0169 | Bún Chả | Vietnamese | Grilled pork with noodles and herbs, Hanoi style. | `TT-0169.webp` | WebP | 1024 × 1024 px | 150–300 KB | 212 KB |
+| ✅ created | TT-0170 | Bánh Xèo | Vietnamese | Sizzling turmeric crêpes wrapped in lettuce and herbs. | `TT-0170.webp` | WebP | 1024 × 1024 px | 150–300 KB | 207 KB |
+| ✅ created | TT-0151 | Cà Phê Sữa Đá | Vietnamese | Strong drip coffee over sweet condensed milk and ice. | `TT-0151.webp` | WebP | 1024 × 1024 px | 150–300 KB | 164 KB |
 | ⬜ to create | TT-0330 | Cơm Tấm | Vietnamese | Broken rice with grilled pork, egg and pickles. | `TT-0330.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0411 | Canh Chua | Vietnamese | Sweet-and-sour fish soup of the Mekong Delta. | `TT-0411.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ✅ created | TT-0009 | Butter Chicken | Indian | Murgh makhani, born in Delhi. | `TT-0009.webp` | WebP | 1024 × 1024 px | 150–300 KB | 272 KB |
 | ✅ created | TT-0014 | Biryani | Indian | Layered, perfumed rice. | `TT-0014.webp` | WebP | 1024 × 1024 px | 150–300 KB | 290 KB |
 | ✅ created | TT-0082 | Chana Masala | Indian | Spiced chickpea curry. | `TT-0082.webp` | WebP | 1024 × 1024 px | 150–300 KB | 225 KB |
-| ⬜ to create | TT-0106 | Palak Paneer | Indian | Fresh cheese in spinach gravy. | `TT-0106.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0106 | Palak Paneer | Indian | Fresh cheese in spinach gravy. | `TT-0106.webp` | WebP | 1024 × 1024 px | 150–300 KB | 178 KB |
 | ✅ created | TT-0057 | Dal Tadka | Indian | Lentils finished with sizzling spices. | `TT-0057.webp` | WebP | 1024 × 1024 px | 150–300 KB | 197 KB |
 | ✅ created | TT-0025 | Samosa | Indian | Crisp pastry pockets of spiced potato. | `TT-0025.webp` | WebP | 1024 × 1024 px | 150–300 KB | 262 KB |
-| ⬜ to create | TT-0115 | Masala Dosa | Indian | Crisp fermented crêpe from the South. | `TT-0115.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0107 | Rogan Josh | Indian | Kashmiri lamb in a deep red gravy. | `TT-0107.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0115 | Masala Dosa | Indian | Crisp fermented crêpe from the South. | `TT-0115.webp` | WebP | 1024 × 1024 px | 150–300 KB | 218 KB |
+| ✅ created | TT-0107 | Rogan Josh | Indian | Kashmiri lamb in a deep red gravy. | `TT-0107.webp` | WebP | 1024 × 1024 px | 150–300 KB | 230 KB |
 | ✅ created | TT-0069 | Gulab Jamun | Indian | Milk dumplings soaked in fragrant syrup. | `TT-0069.webp` | WebP | 1024 × 1024 px | 150–300 KB | 181 KB |
 | ✅ created | TT-0034 | Masala Chai | Indian | Spiced milky tea from every street corner. | `TT-0034.webp` | WebP | 1024 × 1024 px | 150–300 KB | 190 KB |
-| ⬜ to create | TT-0108 | Paneer Tikka | Indian | Tandoori-charred paneer and peppers. | `TT-0108.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0108 | Paneer Tikka | Indian | Tandoori-charred paneer and peppers. | `TT-0108.webp` | WebP | 1024 × 1024 px | 150–300 KB | 234 KB |
 | ✅ created | TT-0083 | Mango Lassi | Indian | Cooling mango and yogurt drink. | `TT-0083.webp` | WebP | 1024 × 1024 px | 150–300 KB | 165 KB |
-| ⬜ to create | TT-0171 | Rajma | Indian | Punjabi kidney bean curry, eaten with rice. | `TT-0171.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0171 | Rajma | Indian | Punjabi kidney bean curry, eaten with rice. | `TT-0171.webp` | WebP | 1024 × 1024 px | 150–300 KB | 173 KB |
 | ✅ created | TT-0035 | Nasi Goreng | Indonesian | Sweet-soy fried rice. | `TT-0035.webp` | WebP | 1024 × 1024 px | 150–300 KB | 284 KB |
 | ✅ created | TT-0040 | Rendang | Indonesian | Beef slow-cooked until the coconut caramelises. | `TT-0040.webp` | WebP | 1024 × 1024 px | 150–300 KB | 205 KB |
 | ✅ created | TT-0049 | Satay | Indonesian | Skewers with peanut sauce. | `TT-0049.webp` | WebP | 1024 × 1024 px | 150–300 KB | 229 KB |
 | ⬜ to create | TT-0292 | Gado-Gado | Indonesian | Vegetable salad in peanut dressing. | `TT-0292.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0227 | Soto Ayam | Indonesian | Golden turmeric chicken soup. | `TT-0227.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0172 | Mie Goreng | Indonesian | Sweet, smoky fried noodles. | `TT-0172.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0172 | Mie Goreng | Indonesian | Sweet, smoky fried noodles. | `TT-0172.webp` | WebP | 1024 × 1024 px | 150–300 KB | 229 KB |
 | ⬜ to create | TT-0365 | Sambal Terasi | Indonesian | Fiery chili relish pounded with fermented shrimp paste. | `TT-0365.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0383 | Martabak Manis | Indonesian | Thick street pancake stuffed with chocolate and peanuts. | `TT-0383.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ✅ created | TT-0070 | Chicken Adobo | Filipino | Braised in vinegar and soy — the national dish. | `TT-0070.webp` | WebP | 1024 × 1024 px | 150–300 KB | 199 KB |
 | ⬜ to create | TT-0257 | Sinigang | Filipino | Sour tamarind soup. | `TT-0257.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0173 | Lumpia | Filipino | Crisp, slender spring rolls. | `TT-0173.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0173 | Lumpia | Filipino | Crisp, slender spring rolls. | `TT-0173.webp` | WebP | 1024 × 1024 px | 150–300 KB | 232 KB |
 | ⬜ to create | TT-0228 | Pancit | Filipino | Birthday noodles for long life. | `TT-0228.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0202 | Lechon | Filipino | Whole spit-roasted pig. | `TT-0202.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0513 | Atchara | Filipino | Pickled green papaya, the Filipino table’s tangy side. | `TT-0513.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0258 | Halo-Halo | Filipino | Shaved ice layered with sweet beans, fruit and milk. | `TT-0258.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ✅ created | TT-0050 | Nasi Lemak | Malaysian | Coconut rice with sambal — the national breakfast. | `TT-0050.webp` | WebP | 1024 × 1024 px | 150–300 KB | 246 KB |
 | ✅ created | TT-0041 | Laksa | Malaysian | Spicy coconut noodle soup. | `TT-0041.webp` | WebP | 1024 × 1024 px | 150–300 KB | 257 KB |
-| ⬜ to create | TT-0116 | Roti Canai | Malaysian | Flaky griddled flatbread with curry. | `TT-0116.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0136 | Char Kway Teow | Malaysian | Smoky wok-fried flat noodles. | `TT-0136.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0116 | Roti Canai | Malaysian | Flaky griddled flatbread with curry. | `TT-0116.webp` | WebP | 1024 × 1024 px | 150–300 KB | 190 KB |
+| ✅ created | TT-0136 | Char Kway Teow | Malaysian | Smoky wok-fried flat noodles. | `TT-0136.webp` | WebP | 1024 × 1024 px | 150–300 KB | 239 KB |
 | ⬜ to create | TT-0293 | Kaya Toast | Malaysian | Coconut jam toast with soft eggs. | `TT-0293.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0259 | Chili Crab | Malaysian | Messy, glorious crab in sweet chili-tomato sauce. | `TT-0259.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0229 | Hoppers | Sri Lankan | Bowl-shaped crêpes with crisp lacy edges. | `TT-0229.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0174 | Kottu Roti | Sri Lankan | Chopped flatbread stir-fry, clattered on a griddle. | `TT-0174.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0174 | Kottu Roti | Sri Lankan | Chopped flatbread stir-fry, clattered on a griddle. | `TT-0174.webp` | WebP | 1024 × 1024 px | 150–300 KB | 203 KB |
 | ⬜ to create | TT-0446 | Fish Ambul Thiyal | Sri Lankan | Sour, peppery fish curry. | `TT-0446.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0331 | Parippu | Sri Lankan | Creamy coconut dhal. | `TT-0331.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0384 | Pol Sambol | Sri Lankan | Fresh coconut relish. | `TT-0384.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
@@ -1348,7 +1248,7 @@ Background: The background is transparent. Small but rich watercolor bleeds, spl
 | ⬜ to create | TT-0537 | Shwe Yin Aye | Burmese | Cooling coconut dessert with tapioca pearls and jackfruit. | `TT-0537.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0448 | Wetthar Hin | Burmese | Slow-cooked Burmese pork curry. | `TT-0448.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ✅ created | TT-0085 | Momo | Nepali | Pleated dumplings with a fiery tomato achar. | `TT-0085.webp` | WebP | 1024 × 1024 px | 150–300 KB | 185 KB |
-| ⬜ to create | TT-0137 | Dal Bhat | Nepali | "Dal bhat power, 24 hour." | `TT-0137.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0137 | Dal Bhat | Nepali | "Dal bhat power, 24 hour." | `TT-0137.webp` | WebP | 1024 × 1024 px | 150–300 KB | 225 KB |
 | ⬜ to create | TT-0413 | Sel Roti | Nepali | Ring-shaped festival bread. | `TT-0413.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0296 | Thukpa | Nepali | Himalayan noodle soup. | `TT-0296.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0514 | Choila | Nepali | Newari spiced grilled meat salad. | `TT-0514.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
@@ -1368,8 +1268,8 @@ Background: The background is transparent. Small but rich watercolor bleeds, spl
 | ⬜ to create | TT-0414 | Bai Sach Chrouk | Cambodian | Grilled pork and rice for breakfast. | `TT-0414.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0530 | Samlor Machu Trey | Cambodian | Sweet-and-sour Cambodian fish soup. | `TT-0530.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ✅ created | TT-0086 | Beef Noodle Soup | Taiwanese | Taiwan’s national bowl of braised beef. | `TT-0086.webp` | WebP | 1024 × 1024 px | 150–300 KB | 235 KB |
-| ⬜ to create | TT-0138 | Gua Bao | Taiwanese | Steamed bun folded around braised pork belly. | `TT-0138.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0152 | Scallion Pancake | Taiwanese | Flaky, chewy griddled flatbread. | `TT-0152.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0138 | Gua Bao | Taiwanese | Steamed bun folded around braised pork belly. | `TT-0138.webp` | WebP | 1024 × 1024 px | 150–300 KB | 177 KB |
+| ✅ created | TT-0152 | Scallion Pancake | Taiwanese | Flaky, chewy griddled flatbread. | `TT-0152.webp` | WebP | 1024 × 1024 px | 150–300 KB | 229 KB |
 | ✅ created | TT-0053 | Bubble Tea | Taiwanese | Milk tea with chewy tapioca pearls. | `TT-0053.webp` | WebP | 1024 × 1024 px | 150–300 KB | 159 KB |
 | ⬜ to create | TT-0205 | Lu Rou Fan | Taiwanese | Braised pork rice, Taiwan’s comfort food. | `TT-0205.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0206 | Popcorn Chicken | Taiwanese | Crisp bites of fried chicken with fried basil. | `TT-0206.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
@@ -1379,9 +1279,9 @@ Background: The background is transparent. Small but rich watercolor bleeds, spl
 | ⬜ to create | TT-0415 | Haleem | Pakistani | Hours-long porridge of grains, lentils and meat. | `TT-0415.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0264 | Kheer | Pakistani | Creamy rice pudding scented with cardamom. | `TT-0264.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0451 | Chapli Kebab | Pakistani | Flat spiced patties fried to a crisp. | `TT-0451.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0139 | Meat Pie | Australian | The footy-night hand pie. | `TT-0139.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0175 | Lamington | Australian | Sponge squares dipped in chocolate and coconut. | `TT-0175.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0117 | Pavlova | Australian | Crisp meringue shell with cream and fruit. | `TT-0117.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0139 | Meat Pie | Australian | The footy-night hand pie. | `TT-0139.webp` | WebP | 1024 × 1024 px | 150–300 KB | 196 KB |
+| ✅ created | TT-0175 | Lamington | Australian | Sponge squares dipped in chocolate and coconut. | `TT-0175.webp` | WebP | 1024 × 1024 px | 150–300 KB | 181 KB |
+| ✅ created | TT-0117 | Pavlova | Australian | Crisp meringue shell with cream and fruit. | `TT-0117.webp` | WebP | 1024 × 1024 px | 150–300 KB | 189 KB |
 | ⬜ to create | TT-0452 | Barramundi | Australian | Pan-seared barramundi with lemon butter. | `TT-0452.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0297 | Anzac Biscuits | Australian | Chewy oat and coconut biscuits. | `TT-0297.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0386 | Macadamia Cookies | Australian | Buttery cookies with native Australian nuts. | `TT-0386.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
@@ -1472,9 +1372,9 @@ Background: The background is transparent. Small but rich watercolor bleeds, spl
 | ⬜ to create | TT-0208 | Tabbouleh | Levantine | A parsley salad, not a grain salad. | `TT-0208.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ✅ created | TT-0071 | Baklava | Levantine | Honeyed layers of nuts and phyllo. | `TT-0071.webp` | WebP | 1024 × 1024 px | 150–300 KB | 219 KB |
 | ✅ created | TT-0042 | Shakshuka | Levantine | Eggs poached in spiced tomato. | `TT-0042.webp` | WebP | 1024 × 1024 px | 150–300 KB | 230 KB |
-| ⬜ to create | TT-0176 | Kibbeh | Levantine | Torpedo-shaped bulgur shells stuffed with spiced lamb. | `TT-0176.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0140 | Lamb Tagine | Moroccan | Slow-cooked under a conical lid. | `TT-0140.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0177 | Vegetable Couscous | Moroccan | Friday couscous with seven vegetables. | `TT-0177.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0176 | Kibbeh | Levantine | Torpedo-shaped bulgur shells stuffed with spiced lamb. | `TT-0176.webp` | WebP | 1024 × 1024 px | 150–300 KB | 177 KB |
+| ✅ created | TT-0140 | Lamb Tagine | Moroccan | Slow-cooked under a conical lid. | `TT-0140.webp` | WebP | 1024 × 1024 px | 150–300 KB | 220 KB |
+| ✅ created | TT-0177 | Vegetable Couscous | Moroccan | Friday couscous with seven vegetables. | `TT-0177.webp` | WebP | 1024 × 1024 px | 150–300 KB | 192 KB |
 | ⬜ to create | TT-0421 | Harira | Moroccan | Soup that breaks the Ramadan fast. | `TT-0421.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0453 | Chicken Pastilla | Moroccan | Sweet-savoury pie dusted with cinnamon sugar. | `TT-0453.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0416 | Zaalouk | Moroccan | Smoky eggplant and tomato salad. | `TT-0416.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
@@ -1486,12 +1386,12 @@ Background: The background is transparent. Small but rich watercolor bleeds, spl
 | ⬜ to create | TT-0499 | Kitfo | Ethiopian | Minced beef warmed in spiced butter. | `TT-0499.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0338 | Tibs | Ethiopian | Sizzling sautéed beef, served to honour guests. | `TT-0338.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0516 | Gomen | Ethiopian | Collard-style greens in spiced butter. | `TT-0516.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0109 | Adana Kebab | Turkish | Hand-minced lamb on wide skewers. | `TT-0109.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0109 | Adana Kebab | Turkish | Hand-minced lamb on wide skewers. | `TT-0109.webp` | WebP | 1024 × 1024 px | 150–300 KB | 163 KB |
 | ⬜ to create | TT-0266 | Menemen | Turkish | Soft-scrambled eggs with peppers and tomato. | `TT-0266.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0387 | İmam Bayıldı | Turkish | "The imam fainted" — olive-oil braised eggplant. | `TT-0387.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0178 | Lahmacun | Turkish | Thin flatbread with spiced lamb. | `TT-0178.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0178 | Lahmacun | Turkish | Thin flatbread with spiced lamb. | `TT-0178.webp` | WebP | 1024 × 1024 px | 150–300 KB | 193 KB |
 | ⬜ to create | TT-0233 | Turkish Coffee | Turkish | Unfiltered and thick, read from the grounds. | `TT-0233.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0179 | Köfte | Turkish | Grilled spiced meatballs. | `TT-0179.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0179 | Köfte | Turkish | Grilled spiced meatballs. | `TT-0179.webp` | WebP | 1024 × 1024 px | 150–300 KB | 201 KB |
 | ⬜ to create | TT-0234 | Simit | Turkish | Sesame-crusted bread ring. | `TT-0234.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0267 | Mercimek Çorbası | Turkish | Red lentil soup with lemon. | `TT-0267.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0268 | Ghormeh Sabzi | Persian | Iran’s beloved herb stew. | `TT-0268.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
@@ -1502,12 +1402,12 @@ Background: The background is transparent. Small but rich watercolor bleeds, spl
 | ⬜ to create | TT-0454 | Ash Reshteh | Persian | Herb and noodle soup for Nowruz. | `TT-0454.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ✅ created | TT-0043 | Jollof Rice | West African | Party rice — and the subject of friendly rivalry. | `TT-0043.webp` | WebP | 1024 × 1024 px | 150–300 KB | 281 KB |
 | ⬜ to create | TT-0371 | Egusi Soup | West African | Leafy soup thickened with melon seeds. | `TT-0371.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0180 | Suya | West African | Spice-crusted grilled skewers. | `TT-0180.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0180 | Suya | West African | Spice-crusted grilled skewers. | `TT-0180.webp` | WebP | 1024 × 1024 px | 150–300 KB | 240 KB |
 | ⬜ to create | TT-0299 | Puff-Puff | West African | Pillowy fried dough balls. | `TT-0299.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0417 | Akara | West African | Bean fritters for breakfast. | `TT-0417.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0389 | Fufu and Okra Soup | West African | Pounded cassava with silky okra soup. | `TT-0389.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0141 | Koshari | Egyptian | Cairo’s carb-on-carb street feast. | `TT-0141.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0181 | Ful Medames | Egyptian | Slow-stewed fava beans for breakfast. | `TT-0181.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0141 | Koshari | Egyptian | Cairo’s carb-on-carb street feast. | `TT-0141.webp` | WebP | 1024 × 1024 px | 150–300 KB | 189 KB |
+| ✅ created | TT-0181 | Ful Medames | Egyptian | Slow-stewed fava beans for breakfast. | `TT-0181.webp` | WebP | 1024 × 1024 px | 150–300 KB | 207 KB |
 | ⬜ to create | TT-0455 | Molokhia | Egyptian | Silky green soup of jute leaves. | `TT-0455.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0269 | Ta’ameya | Egyptian | Egypt’s green fava-bean falafel. | `TT-0269.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0466 | Fattah | Egyptian | Feast-day layers of bread, rice and meat. | `TT-0466.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
@@ -1521,7 +1421,7 @@ Background: The background is transparent. Small but rich watercolor bleeds, spl
 | ⬜ to create | TT-0340 | Malva Pudding | South African | Sticky apricot sponge with hot cream sauce. | `TT-0340.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0236 | Biltong | South African | Air-dried, spice-cured beef. | `TT-0236.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0271 | Sabich | Israeli | Pita stuffed with fried eggplant, egg and amba. | `TT-0271.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0182 | Israeli Salad | Israeli | Finely diced vegetables dressed with lemon. | `TT-0182.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0182 | Israeli Salad | Israeli | Finely diced vegetables dressed with lemon. | `TT-0182.webp` | WebP | 1024 × 1024 px | 150–300 KB | 205 KB |
 | ⬜ to create | TT-0517 | Chopped Liver | Israeli | Silky liver spread with caramelized onions. | `TT-0517.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0518 | Cholent | Israeli | Sabbath stew that cooks overnight. | `TT-0518.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0341 | Rugelach | Israeli | Crescent pastries rolled with nuts and cinnamon. | `TT-0341.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
@@ -1532,8 +1432,8 @@ Background: The background is transparent. Small but rich watercolor bleeds, spl
 | ⬜ to create | TT-0467 | Salade Méchouia | Tunisian | Grilled pepper and tomato salad. | `TT-0467.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0501 | Makroud | Tunisian | Diamond-shaped semolina pastries soaked in honey. | `TT-0501.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0502 | Fricassé | Tunisian | Fried bread rolls stuffed with tuna and harissa. | `TT-0502.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0110 | Thieboudienne | Senegalese | Senegal’s national dish of fish and tomato rice. | `TT-0110.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
-| ⬜ to create | TT-0183 | Yassa Poulet | Senegalese | Chicken in tangy caramelized onions. | `TT-0183.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
+| ✅ created | TT-0110 | Thieboudienne | Senegalese | Senegal’s national dish of fish and tomato rice. | `TT-0110.webp` | WebP | 1024 × 1024 px | 150–300 KB | 193 KB |
+| ✅ created | TT-0183 | Yassa Poulet | Senegalese | Chicken in tangy caramelized onions. | `TT-0183.webp` | WebP | 1024 × 1024 px | 150–300 KB | 247 KB |
 | ⬜ to create | TT-0300 | Mafé | Senegalese | Rich peanut stew. | `TT-0300.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0418 | Bissap | Senegalese | Ruby hibiscus cooler. | `TT-0418.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
 | ⬜ to create | TT-0531 | Thiakry | Senegalese | Sweet millet pudding with yogurt. | `TT-0531.webp` | WebP | 1024 × 1024 px | 150–300 KB | — |
