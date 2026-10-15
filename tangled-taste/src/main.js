@@ -1112,10 +1112,13 @@ function renderPanel({ keep = false } = {}) {
     const d = DISHES[v.id];
     const c = CUISINES[d.cuisine];
     const ings = dishIngredientIds(d.id).map((id) => ingNodes[id]);
-    const set = new Set(d.ingredients);
+    // like the map's links, Kindred dishes ignore the most common ingredients (onion, oil, salt...)
+    const skipCommon = new Set(dishGraph ? dishGraph.common : []);
+    const mine = d.ingredients.filter((x) => !skipCommon.has(x));
+    const set = new Set(mine);
     const similar = DISHES.filter((o) => o.id !== d.id)
-      .map((o) => ({ o, s: o.ingredients.filter((x) => set.has(x)).length / new Set([...o.ingredients, ...d.ingredients]).size }))
-      .sort((a, b) => b.s - a.s).slice(0, 5);
+      .map((o) => { const theirs = o.ingredients.filter((x) => !skipCommon.has(x)); const shared = theirs.filter((x) => set.has(x)); const all = new Set([...theirs, ...mine]).size || 1; return { o, shared, all, s: shared.length / all }; })
+      .sort((a, b) => b.s - a.s).slice(0, 8);
     h = `${crumbs()}${dishPreview(d)}<div class="kicker">${esc(d.cuisine)} dish</div><h2>${esc(d.name)}</h2>
       <div class="chips" style="margin-top:6px">${cuisineChip(d.cuisine)}<button class="chip" data-go="region:${esc(c.region)}">${esc(c.country)} · ${esc(c.region)}</button></div>
       <p class="note">${esc(d.note)}</p>
@@ -1123,8 +1126,7 @@ function renderPanel({ keep = false } = {}) {
       ${mode === 'dishes' ? multiHint(true, 'dish') : ''}
       <div class="meter"><span>popularity</span><div class="track"><i style="width:${d.popularity}%;background:${c.color}"></i></div><b>${d.popularity}</b></div>
       <h3>Ingredients · ${ings.length}</h3><div class="chips">${ings.sort((a, b) => b.count - a.count).map((n) => ingChip(n, ` <small>${n.count}</small>`)).join('')}</div>
-      ${mode === 'dishes' ? `<h3>Shares the most ingredients</h3><ul class="rows">${[...adjacency[d.id].entries()].sort((a, b) => b[1].weight - a[1].weight).slice(0, 8).map(([o, e]) => `<li data-go="dish:${o}"><span class="nm">${esc(DISHES[o].name)} <em>${esc(DISHES[o].cuisine)}</em></span><span class="val" title="${esc(e.shared.join(', '))}">${e.shared.length === 1 ? esc(e.shared[0]) : `${e.weight} shared`}</span>${bar((e.weight / Math.max(1, d.ingredients.length)) * 100, CUISINES[DISHES[o].cuisine].color)}</li>`).join('') || '<li><span class="nm"><em>No other dish shares an uncommon ingredient with it.</em></span></li>'}</ul>` : ''}
-      <h3>Kindred dishes</h3><ul class="rows">${similar.map(({ o, s }) => `<li data-go="dish:${o.id}"><span class="nm">${esc(o.name)} <em>${esc(o.cuisine)}</em></span><span class="val">${Math.round(s * 100)}% shared</span>${bar(s * 100, CUISINES[o.cuisine].color)}</li>`).join('')}</ul>`;
+      <h3>Kindred dishes</h3><ul class="rows">${similar.map(({ o, s, shared, all }) => `<li data-go="dish:${o.id}"><span class="nm">${esc(o.name)} <em>${esc(o.cuisine)}</em></span><span class="val" title="${esc(shared.join(', '))}">${Math.round(s * 100)}% · ${shared.length} of ${all} ingredients</span>${bar(s * 100, CUISINES[o.cuisine].color)}</li>`).join('')}</ul>`;
   } else if (v.type === 'cuisine') {
     const c = CUISINES[v.name];
     const dishes = DISHES.filter((d) => d.cuisine === v.name).sort((a, b) => b.popularity - a.popularity);
