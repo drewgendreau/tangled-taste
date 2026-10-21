@@ -1583,10 +1583,10 @@ const GLOBE_LEVELS = [
   { key: 'low', label: 'Low', opacity: 0.09, color: null, fog: true }, // exactly as the globe has always been drawn
   { key: 'off', label: 'Off', opacity: 0, color: null, fog: true },
 ];
-const GLOBE_DEFAULT = 1; // High (the key below is versioned: the old one was saved for everyone while the default was Low)
+const GLOBE_DEFAULT = 2; // Medium (the key below is versioned: older ones were saved for everyone under earlier defaults)
 let globeLevel = GLOBE_DEFAULT;
 try {
-  const saved = localStorage.getItem('tt-globe-level-v2');
+  const saved = localStorage.getItem('tt-globe-level-v3');
   const key = saved;
   const i = GLOBE_LEVELS.findIndex((g) => g.key === key);
   if (i >= 0) globeLevel = i;
@@ -1667,7 +1667,7 @@ function applyGlobe(level) {
   globeSlider.value = String(level);
   document.getElementById('globe-label').textContent = g.label;
   document.querySelectorAll('#globe-ticks span').forEach((t, i) => t.classList.toggle('on', i === level));
-  try { localStorage.setItem('tt-globe-level-v2', g.key); } catch { /* storage unavailable */ }
+  try { localStorage.setItem('tt-globe-level-v3', g.key); } catch { /* storage unavailable */ }
 }
 globeSlider.addEventListener('input', () => applyGlobe(+globeSlider.value));
 applyGlobe(globeLevel);
