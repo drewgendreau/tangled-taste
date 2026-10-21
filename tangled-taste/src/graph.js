@@ -227,13 +227,13 @@ function layoutDishes(nodes, edges) {
       const a = pos[e.source], b = pos[e.target];
       const dx = b[0] - a[0], dy = b[1] - a[1], dz = b[2] - a[2];
       const d = Math.hypot(dx, dy, dz) + 0.01;
-      const k = 0.006 * e.weight * (d - 30) / d;
+      const k = 0.0055 * e.weight * (d - 30) / d;
       f[e.source][0] += dx * k; f[e.source][1] += dy * k; f[e.source][2] += dz * k;
       f[e.target][0] -= dx * k; f[e.target][1] -= dy * k; f[e.target][2] -= dz * k;
     }
     for (let i = 0; i < N; i++) {
       for (let a = 0; a < 3; a++) {
-        f[i][a] += (anchors[i][a] - pos[i][a]) * 0.04;
+        f[i][a] += (anchors[i][a] - pos[i][a]) * 0.08; // pull toward the home country (was 0.04)
         vel[i][a] = (vel[i][a] + f[i][a] * alpha) * 0.6;
         pos[i][a] += Math.max(-6, Math.min(6, vel[i][a]));
       }
