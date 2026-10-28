@@ -1,0 +1,29 @@
+:root {
+  --paper: #f5eee0; --ink: #3b2a20; --ink-soft: #6d5646; --ink-faint: #a38d7a; --rule: rgba(80, 55, 35, 0.18);
+  --card: rgba(251, 247, 238, 0.95); --accent: #b5543c;
+  --serif: 'Jost', 'Helvetica Neue', Arial, sans-serif; --display: 'Bodoni Moda', 'Didot', Georgia, serif;
+}
+* { box-sizing: border-box; }
+body { margin: 0; min-height: 100vh; background: radial-gradient(ellipse at 50% 30%, #f8f2e6, var(--paper) 70%); color: var(--ink); font-family: var(--serif); font-size: 16px; -webkit-font-smoothing: antialiased; display: flex; justify-content: center; padding: 32px 16px; }
+.card { width: 100%; max-width: 620px; background: var(--card); border: 1px solid var(--rule); border-radius: 8px 20px 8px 20px / 20px 8px 20px 8px; box-shadow: 0 14px 44px rgba(90, 60, 30, 0.16); padding: 26px 30px 24px; align-self: flex-start; }
+.back { color: var(--ink-soft); font-size: 14px; text-decoration: none; }
+.back:hover { color: var(--accent); }
+h1 { font-family: var(--display); font-weight: 400; font-style: italic; font-size: 34px; margin: 14px 0 0; color: var(--accent); }
+h2 { font-family: var(--display); font-weight: 400; font-size: 24px; margin: 2px 0 10px; }
+.lede { color: var(--ink-soft); line-height: 1.5; margin: 0 0 18px; }
+form label { display: block; font-size: 14px; font-weight: 500; color: var(--ink-soft); margin-bottom: 14px; }
+.opt { font-weight: 300; color: var(--ink-faint); }
+input, select, textarea { display: block; width: 100%; margin-top: 5px; font: inherit; font-size: 16px; color: var(--ink); background: #fffdf8; border: 1px solid var(--rule); border-radius: 8px; padding: 9px 12px; }
+textarea { resize: vertical; min-height: 180px; line-height: 1.45; }
+input:focus, select:focus, textarea:focus { outline: 2px solid var(--accent); outline-offset: 1px; }
+.trap { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.row { display: flex; align-items: center; gap: 14px; }
+button { font: inherit; font-size: 17px; font-weight: 600; cursor: pointer; padding: 8px 24px; border: 1px solid var(--accent); border-radius: 999px; background: var(--accent); color: #fffaf0; transition: filter 0.15s; }
+button:hover:not(:disabled) { filter: brightness(1.08); }
+button:disabled { opacity: 0.6; cursor: default; }
+.count { margin-left: auto; font-size: 13px; color: var(--ink-faint); }
+#status { min-height: 1.4em; margin: 12px 0 0; font-size: 15px; }
+#status.ok { color: #3e7a4a; }
+#status.err { color: #b0382a; }
+.fine { margin: 14px 0 0; padding-top: 12px; border-top: 1px solid var(--rule); font-size: 13px; color: var(--ink-faint); }
+@media (max-width: 520px) { .card { padding: 20px 18px; } }

@@ -487,7 +487,7 @@ body.mode-dishes #compare, body.mode-dishes [data-ingredients-only] { display: n
 #about-close { all: unset; cursor: pointer; margin-left: auto; font-size: 30px; line-height: 1; color: var(--ink-faint); padding: 0 4px; }
 #about-close:hover { color: var(--accent); }
 .about-body p { margin: 0 0 12px; font-size: 16px; line-height: 1.6; color: var(--ink-soft); }
-.about-foot { display: flex; justify-content: flex-end; padding-top: 12px; border-top: 1px solid var(--rule); }
+.about-foot { display: flex; align-items: center; justify-content: space-between; padding-top: 12px; border-top: 1px solid var(--rule); }
 #about-done { font: inherit; font-size: 17px; font-weight: 600; cursor: pointer; padding: 5px 22px; border: 1px solid var(--accent); border-radius: 999px; background: var(--accent); color: #fffaf0; transition: filter 0.15s; }
 #about-done:hover { filter: brightness(1.08); }
 #about-close:focus-visible, #about-done:focus-visible, #about-btn:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
@@ -543,3 +543,6 @@ body.settings-open #panel:not(.minimized) #back-btn { right: calc(100% + 346px);
 
 /* until the first view is ready, only the paper background shows (see main.js: reveal) */
 body.booting > *:not(#washes):not(#load-bar) { visibility: hidden; }
+
+.about-feedback { color: var(--accent); font-size: 15px; text-decoration: none; border-bottom: 1px solid rgba(181, 84, 60, 0.4); }
+.about-feedback:hover { border-bottom-color: var(--accent); }

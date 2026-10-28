@@ -83,3 +83,11 @@ The most popular dishes have pictures (50 so far). They show on the map in *Dish
 - **To change a picture:** replace its file (same name). **To add one:** drop in `TT-xxxx.webp` (webp, png or jpg). That is all: no code changes.
 - **What happens next:** `scripts/build-dish-art.mjs` runs automatically before `pnpm dev` and `pnpm build` (or run `pnpm art:build`). It removes the white background (keeping a soft shadow), centers the dish on a square with even margins so every dish has the same visual weight, and writes the 1024 px previews and the 192 px thumbnail sheets to `public/dish-art/` (generated, not committed). Unchanged pictures are skipped, so repeat runs are fast.
 - The build prints notes for pictures that need attention (not square, too small, dish touching the edge) and fails for a file whose ID matches no dish.
+
+## Feedback page
+
+`/feedback/` is a form (type, optional name, optional email, message). It posts to a Cloudflare Worker (`worker/`) that stores each entry in a D1 database named `tangled-feedback` (table `feedback`, see `worker/schema.sql`). The Worker is served at `https://feedback.tangledtaste.com/api/feedback`.
+
+- Deploy or update the Worker: `cd worker && npx wrangler deploy` (needs `npx wrangler login` once).
+- Read the data offline: `pnpm feedback:export` writes a dated `.csv` and `.sql` backup to `feedback-export/` (git-ignored; feedback is never committed).
+- Optional email notification of each entry (Resend): `npx wrangler secret put RESEND_API_KEY`, `NOTIFY_TO` and `NOTIFY_FROM` (run inside `worker/`).

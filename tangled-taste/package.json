@@ -12,7 +12,8 @@
     "bake": "node scripts/bake-layout.mjs",
     "art:build": "node scripts/build-dish-art.mjs && node scripts/build-image-guides.mjs",
     "image": "node scripts/gemini-image.mjs",
-    "format:data": "node scripts/format-data.mjs"
+    "format:data": "node scripts/format-data.mjs",
+    "feedback:export": "node scripts/export-feedback.mjs"
   },
   "keywords": [],
   "author": "",

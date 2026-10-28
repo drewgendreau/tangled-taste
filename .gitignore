@@ -10,3 +10,5 @@ tangled-taste/src/data/layout.generated.json
 tangled-taste/src/data/layout.dishes.generated.json
 tangled-taste/public/dish-art/
 tangled-taste/public/ingredient-art/
+tangled-taste/feedback-export/
+tangled-taste/worker/.wrangler/

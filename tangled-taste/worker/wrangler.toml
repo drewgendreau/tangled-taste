@@ -1,0 +1,17 @@
+name = "tangled-feedback"
+main = "src/index.js"
+compatibility_date = "2026-10-01"
+workers_dev = false
+# served from its own subdomain; Cloudflare creates the (proxied) DNS record for it when this is deployed
+routes = [{ pattern = "feedback.tangledtaste.com", custom_domain = true }]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "tangled-feedback"
+database_id = "bfe016a4-f325-4c48-9452-8d423bae4330"
+
+[vars]
+# the pages allowed to post to the Worker (CORS); localhost is always allowed for testing
+ALLOWED_ORIGINS = "https://tangledtaste.com,https://www.tangledtaste.com,https://drewgendreau.github.io"
+# Optional email notification (Resend). Set these as secrets, not here:
+#   npx wrangler secret put RESEND_API_KEY   NOTIFY_TO   NOTIFY_FROM

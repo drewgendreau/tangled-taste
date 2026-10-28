@@ -11,6 +11,7 @@ export default defineConfig({
       input: {
         main: resolve(import.meta.dirname, 'index.html'),
         gallery: resolve(import.meta.dirname, 'gallery.html'),
+        feedback: resolve(import.meta.dirname, 'feedback/index.html'),
       },
       output: {
         // three.js changes rarely: its own chunk stays cached across app updates
