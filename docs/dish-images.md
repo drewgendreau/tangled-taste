@@ -140,7 +140,7 @@ Nothing: every picture exists.
 | ✅ created | TT-0397 | Porridge | British | Scottish oats stirred with a spurtle. | `TT-0397.webp` | WebP | 1024 × 1024 px | 150–300 KB | 219 KB |
 | ✅ created | TT-0506 | Scotch Broth | British | Barley and lamb soup. | `TT-0506.webp` | WebP | 1024 × 1024 px | 150–300 KB | 267 KB |
 | ✅ created | TT-0533 | Venison Pie | British | Game pie from the Highlands. | `TT-0533.webp` | WebP | 1024 × 1024 px | 150–300 KB | 242 KB |
-| ✅ created | TT-0124 | Borscht | Russian | Ruby beet soup. | `TT-0124.webp` | WebP | 1024 × 1024 px | 150–300 KB | 210 KB |
+| ✅ created | TT-0124 | Borscht | Ukrainian | Ruby beet soup. | `TT-0124.webp` | WebP | 1024 × 1024 px | 150–300 KB | 210 KB |
 | ✅ created | TT-0076 | Beef Stroganoff | Russian | Seared beef in mustard sour cream. | `TT-0076.webp` | WebP | 1024 × 1024 px | 150–300 KB | 203 KB |
 | ✅ created | TT-0187 | Pelmeni | Russian | Siberian dumplings, frozen by the hundred. | `TT-0187.webp` | WebP | 1024 × 1024 px | 150–300 KB | 180 KB |
 | ✅ created | TT-0214 | Blini | Russian | Yeasted pancakes for Maslenitsa. | `TT-0214.webp` | WebP | 1024 × 1024 px | 150–300 KB | 211 KB |

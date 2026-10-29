@@ -116,7 +116,7 @@ export default [
   ['Venison Pie', 'British', 34, 'venison, flour, butter, onion, red wine, carrot, thyme, juniper', 'Game pie from the Highlands.', 'bread & pastry'],
 
   // Russian
-  ['Borscht', 'Russian', 66, 'beet, cabbage, potato, carrot, onion, dill, sour cream, beef, vinegar', 'Ruby beet soup.', 'soup & stew'],
+  ['Borscht', 'Ukrainian', 66, 'beet, cabbage, potato, carrot, onion, dill, sour cream, beef, vinegar', 'Ruby beet soup.', 'soup & stew'],
   ['Beef Stroganoff', 'Russian', 72, 'beef, mushroom, onion, sour cream, butter, mustard, noodles', 'Seared beef in mustard sour cream.', 'main'],
   ['Pelmeni', 'Russian', 60, 'flour, egg, pork, beef, onion, sour cream, black pepper', 'Siberian dumplings, frozen by the hundred.', 'street & snack'],
   ['Blini', 'Russian', 58, 'flour, milk, egg, butter, yeast, sour cream, fish', 'Yeasted pancakes for Maslenitsa.', 'breakfast'],
