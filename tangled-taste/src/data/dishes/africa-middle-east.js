@@ -5,8 +5,8 @@ export default [
   ['Falafel', 'Levantine', 82, 'chickpeas, onion, garlic, parsley, cilantro, cumin, coriander, vegetable oil', 'Herb-flecked chickpea fritters.', 'street & snack'],
   ['Shawarma', 'Levantine', 85, 'chicken, garlic, yogurt, lemon, cumin, paprika, turmeric, flatbread, tahini', 'Spit-roasted meat shaved thin.', 'street & snack'],
   ['Tabbouleh', 'Levantine', 60, 'bulgur, parsley, mint, tomato, onion, lemon, olive oil', 'A parsley salad, not a grain salad.', 'salad & side'],
-  ['Baklava', 'Levantine', 74, 'flour, walnut, pistachio, butter, honey, sugar, cinnamon, rose water', 'Honeyed layers of nuts and phyllo.', 'dessert'],
-  ['Shakshuka', 'Levantine', 78, 'egg, tomato, bell pepper, onion, garlic, cumin, paprika, chili, olive oil', 'Eggs poached in spiced tomato.', 'breakfast'],
+  ['Baklava', 'Turkish', 74, 'flour, walnut, pistachio, butter, honey, sugar, cinnamon, rose water', 'Honeyed layers of nuts and phyllo.', 'dessert'],
+  ['Shakshuka', 'Tunisian', 78, 'egg, tomato, bell pepper, onion, garlic, cumin, paprika, chili, olive oil', 'Eggs poached in spiced tomato.', 'breakfast'],
   ['Kibbeh', 'Levantine', 62, 'bulgur, lamb, onion, pine nuts, cumin, cinnamon, allspice, vegetable oil', 'Torpedo-shaped bulgur shells stuffed with spiced lamb.', 'street & snack'],
 
   // Moroccan

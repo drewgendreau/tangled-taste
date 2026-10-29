@@ -79,7 +79,7 @@ export default [
   ['Stifado', 'Greek', 38, 'rabbit, onion, red wine, tomato, cinnamon, bay leaf, vinegar, olive oil', 'Rabbit stewed with pearl onions and warm spices.', 'soup & stew'],
 
   // German
-  ['Wiener Schnitzel', 'German', 76, 'veal, flour, egg, bread, lemon, butter, salt', 'Thin, golden, breaded veal.', 'main'],
+  ['Wiener Schnitzel', 'Austrian', 76, 'veal, flour, egg, bread, lemon, butter, salt', 'Thin, golden, breaded veal.', 'main'],
   ['Sauerbraten', 'German', 50, 'beef, vinegar, red wine, onion, carrot, bay leaf, sugar, allspice, juniper', 'Pot roast marinated for days.', 'main'],
   ['Kartoffelsalat', 'German', 56, 'potato, onion, vinegar, mustard, stock, bacon, vegetable oil', 'Warm potato salad, Swabian style.', 'salad & side'],
   ['Bratwurst', 'German', 70, 'sausage, mustard, bread, onion, caraway', 'Grilled sausage with mustard.', 'street & snack'],
@@ -123,7 +123,7 @@ export default [
   ['Olivier Salad', 'Russian', 56, 'potato, carrot, egg, pickle, peas, mayonnaise, ham, dill', 'The creamy diced-vegetable salad of every New Year’s table.', 'salad & side'],
   ['Pirozhki', 'Russian', 52, 'flour, yeast, beef, onion, egg, butter, dill', 'Small baked or fried buns with a savory filling.', 'street & snack'],
   ['Syrniki', 'Russian', 46, 'queso fresco, flour, egg, sugar, sour cream, raisins, butter', 'Pan-fried curd-cheese pancakes served with sour cream.', 'breakfast'],
-  ['Chicken Kiev', 'Russian', 58, 'chicken, butter, egg, bread, garlic, parsley, dill, flour', 'Breaded chicken that bursts with garlic butter.', 'main'],
+  ['Chicken Kiev', 'Ukrainian', 58, 'chicken, butter, egg, bread, garlic, parsley, dill, flour', 'Breaded chicken that bursts with garlic butter.', 'main'],
   ['Pashtet', 'Russian', 38, 'liver, butter, onion, carrot, bread, cream, black pepper', 'Smooth liver pâté spread on dark bread.', 'sauce & dip'],
   ['Okroshka', 'Russian', 40, 'cucumber, potato, egg, radish, dill, scallion, ham, buttermilk', 'Chilled summer soup of raw vegetables.', 'soup & stew'],
   ['Medovik', 'Russian', 54, 'honey, flour, sour cream, egg, sugar, butter, walnut', 'Layered honey cake with sour cream.', 'dessert'],

@@ -92,7 +92,7 @@ export default [
   ['Roti Canai', 'Malaysian', 68, 'flour, ghee, egg, sugar, salt', 'Flaky griddled flatbread with curry.', 'bread & pastry'],
   ['Char Kway Teow', 'Malaysian', 66, 'noodles, shrimp, egg, bean sprouts, soy sauce, chili, garlic, scallion, sausage', 'Smoky wok-fried flat noodles.', 'rice & noodles'],
   ['Kaya Toast', 'Malaysian', 54, 'bread, coconut milk, egg, sugar, pandan, butter', 'Coconut jam toast with soft eggs.', 'breakfast'],
-  ['Chili Crab', 'Malaysian', 56, 'crab, tomato, chili, garlic, ginger, egg, soy sauce, sugar', 'Messy, glorious crab in sweet chili-tomato sauce.', 'main'],
+  ['Chili Crab', 'Singaporean', 56, 'crab, tomato, chili, garlic, ginger, egg, soy sauce, sugar', 'Messy, glorious crab in sweet chili-tomato sauce.', 'main'],
 
   // Sri Lankan
   ['Hoppers', 'Sri Lankan', 58, 'rice, coconut milk, yeast, sugar, egg', 'Bowl-shaped crêpes with crisp lacy edges.', 'bread & pastry'],
@@ -143,7 +143,7 @@ export default [
 
   // Singaporean
   ['Hainanese Chicken Rice', 'Singaporean', 76, 'chicken, rice, ginger, garlic, cucumber, scallion, sesame oil, soy sauce, chili, stock', 'Poached chicken with fragrant rice and chili sauce.', 'rice & noodles'],
-  ['Bak Kut Teh', 'Singaporean', 56, 'pork, garlic, black pepper, star anise, cinnamon, cloves, soy sauce, stock', 'Peppery pork-rib soup, eaten at breakfast.', 'soup & stew'],
+  ['Bak Kut Teh', 'Malaysian', 56, 'pork, garlic, black pepper, star anise, cinnamon, cloves, soy sauce, stock', 'Peppery pork-rib soup, eaten at breakfast.', 'soup & stew'],
   ['Chai Tow Kway', 'Singaporean', 50, 'radish, flour, egg, garlic, scallion, soy sauce, chili, vegetable oil', 'Pan-fried radish cake, known as “carrot cake”.', 'street & snack'],
   ['Kopi', 'Singaporean', 52, 'coffee, milk, sugar', 'Kopitiam coffee, thick and sweet.', 'drink'],
   ['Ice Kachang', 'Singaporean', 44, 'corn, beans, coconut milk, sugar, jackfruit', 'Shaved-ice mountain with beans, corn and syrup.', 'dessert'],

@@ -109,7 +109,7 @@ Nothing: every picture exists.
 | ✅ created | TT-0471 | Gigantes Plaki | Greek | Giant beans baked in tomato and dill. | `TT-0471.webp` | WebP | 1024 × 1024 px | 150–300 KB | 257 KB |
 | ✅ created | TT-0347 | Htapodi sti Skara | Greek | Charcoal-grilled octopus dressed with lemon and oregano. | `TT-0347.webp` | WebP | 1024 × 1024 px | 150–300 KB | 214 KB |
 | ✅ created | TT-0505 | Stifado | Greek | Rabbit stewed with pearl onions and warm spices. | `TT-0505.webp` | WebP | 1024 × 1024 px | 150–300 KB | 249 KB |
-| ✅ created | TT-0044 | Wiener Schnitzel | German | Thin, golden, breaded veal. | `TT-0044.webp` | WebP | 1024 × 1024 px | 150–300 KB | 224 KB |
+| ✅ created | TT-0044 | Wiener Schnitzel | Austrian | Thin, golden, breaded veal. | `TT-0044.webp` | WebP | 1024 × 1024 px | 150–300 KB | 224 KB |
 | ✅ created | TT-0348 | Sauerbraten | German | Pot roast marinated for days. | `TT-0348.webp` | WebP | 1024 × 1024 px | 150–300 KB | 254 KB |
 | ✅ created | TT-0239 | Kartoffelsalat | German | Warm potato salad, Swabian style. | `TT-0239.webp` | WebP | 1024 × 1024 px | 150–300 KB | 245 KB |
 | ✅ created | TT-0092 | Bratwurst | German | Grilled sausage with mustard. | `TT-0092.webp` | WebP | 1024 × 1024 px | 150–300 KB | 201 KB |
@@ -147,7 +147,7 @@ Nothing: every picture exists.
 | ✅ created | TT-0242 | Olivier Salad | Russian | The creamy diced-vegetable salad of every New Year’s table. | `TT-0242.webp` | WebP | 1024 × 1024 px | 150–300 KB | 206 KB |
 | ✅ created | TT-0304 | Pirozhki | Russian | Small baked or fried buns with a savory filling. | `TT-0304.webp` | WebP | 1024 × 1024 px | 150–300 KB | 230 KB |
 | ✅ created | TT-0398 | Syrniki | Russian | Pan-fried curd-cheese pancakes served with sour cream. | `TT-0398.webp` | WebP | 1024 × 1024 px | 150–300 KB | 244 KB |
-| ✅ created | TT-0215 | Chicken Kiev | Russian | Breaded chicken that bursts with garlic butter. | `TT-0215.webp` | WebP | 1024 × 1024 px | 150–300 KB | 235 KB |
+| ✅ created | TT-0215 | Chicken Kiev | Ukrainian | Breaded chicken that bursts with garlic butter. | `TT-0215.webp` | WebP | 1024 × 1024 px | 150–300 KB | 235 KB |
 | ✅ created | TT-0507 | Pashtet | Russian | Smooth liver pâté spread on dark bread. | `TT-0507.webp` | WebP | 1024 × 1024 px | 150–300 KB | 251 KB |
 | ✅ created | TT-0475 | Okroshka | Russian | Chilled summer soup of raw vegetables. | `TT-0475.webp` | WebP | 1024 × 1024 px | 150–300 KB | 236 KB |
 | ✅ created | TT-0281 | Medovik | Russian | Layered honey cake with sour cream. | `TT-0281.webp` | WebP | 1024 × 1024 px | 150–300 KB | 213 KB |
@@ -579,7 +579,7 @@ Nothing: every picture exists.
 | ✅ created | TT-0116 | Roti Canai | Malaysian | Flaky griddled flatbread with curry. | `TT-0116.webp` | WebP | 1024 × 1024 px | 150–300 KB | 190 KB |
 | ✅ created | TT-0136 | Char Kway Teow | Malaysian | Smoky wok-fried flat noodles. | `TT-0136.webp` | WebP | 1024 × 1024 px | 150–300 KB | 239 KB |
 | ✅ created | TT-0293 | Kaya Toast | Malaysian | Coconut jam toast with soft eggs. | `TT-0293.webp` | WebP | 1024 × 1024 px | 150–300 KB | 195 KB |
-| ✅ created | TT-0259 | Chili Crab | Malaysian | Messy, glorious crab in sweet chili-tomato sauce. | `TT-0259.webp` | WebP | 1024 × 1024 px | 150–300 KB | 281 KB |
+| ✅ created | TT-0259 | Chili Crab | Singaporean | Messy, glorious crab in sweet chili-tomato sauce. | `TT-0259.webp` | WebP | 1024 × 1024 px | 150–300 KB | 281 KB |
 | ✅ created | TT-0229 | Hoppers | Sri Lankan | Bowl-shaped crêpes with crisp lacy edges. | `TT-0229.webp` | WebP | 1024 × 1024 px | 150–300 KB | 295 KB |
 | ✅ created | TT-0174 | Kottu Roti | Sri Lankan | Chopped flatbread stir-fry, clattered on a griddle. | `TT-0174.webp` | WebP | 1024 × 1024 px | 150–300 KB | 203 KB |
 | ✅ created | TT-0446 | Fish Ambul Thiyal | Sri Lankan | Sour, peppery fish curry. | `TT-0446.webp` | WebP | 1024 × 1024 px | 150–300 KB | 255 KB |
@@ -618,7 +618,7 @@ Nothing: every picture exists.
 | ✅ created | TT-0529 | Yomari | Nepali | Steamed rice-flour dumplings filled with sesame and molasses. | `TT-0529.webp` | WebP | 1024 × 1024 px | 150–300 KB | 289 KB |
 | ✅ created | TT-0515 | Chatamari | Nepali | Newari rice-flour crêpe, the “Nepali pizza”. | `TT-0515.webp` | WebP | 1024 × 1024 px | 150–300 KB | 251 KB |
 | ✅ created | TT-0052 | Hainanese Chicken Rice | Singaporean | Poached chicken with fragrant rice and chili sauce. | `TT-0052.webp` | WebP | 1024 × 1024 px | 150–300 KB | 260 KB |
-| ✅ created | TT-0262 | Bak Kut Teh | Singaporean | Peppery pork-rib soup, eaten at breakfast. | `TT-0262.webp` | WebP | 1024 × 1024 px | 150–300 KB | 270 KB |
+| ✅ created | TT-0262 | Bak Kut Teh | Malaysian | Peppery pork-rib soup, eaten at breakfast. | `TT-0262.webp` | WebP | 1024 × 1024 px | 150–300 KB | 270 KB |
 | ✅ created | TT-0369 | Chai Tow Kway | Singaporean | Pan-fried radish cake, known as “carrot cake”. | `TT-0369.webp` | WebP | 1024 × 1024 px | 150–300 KB | 280 KB |
 | ✅ created | TT-0334 | Kopi | Singaporean | Kopitiam coffee, thick and sweet. | `TT-0334.webp` | WebP | 1024 × 1024 px | 150–300 KB | 206 KB |
 | ✅ created | TT-0449 | Ice Kachang | Singaporean | Shaved-ice mountain with beans, corn and syrup. | `TT-0449.webp` | WebP | 1024 × 1024 px | 150–300 KB | 285 KB |
@@ -732,8 +732,8 @@ Nothing: every picture exists.
 | ✅ created | TT-0026 | Falafel | Levantine | Herb-flecked chickpea fritters. | `TT-0026.webp` | WebP | 1024 × 1024 px | 150–300 KB | 271 KB |
 | ✅ created | TT-0020 | Shawarma | Levantine | Spit-roasted meat shaved thin. | `TT-0020.webp` | WebP | 1024 × 1024 px | 150–300 KB | 206 KB |
 | ✅ created | TT-0208 | Tabbouleh | Levantine | A parsley salad, not a grain salad. | `TT-0208.webp` | WebP | 1024 × 1024 px | 150–300 KB | 223 KB |
-| ✅ created | TT-0071 | Baklava | Levantine | Honeyed layers of nuts and phyllo. | `TT-0071.webp` | WebP | 1024 × 1024 px | 150–300 KB | 219 KB |
-| ✅ created | TT-0042 | Shakshuka | Levantine | Eggs poached in spiced tomato. | `TT-0042.webp` | WebP | 1024 × 1024 px | 150–300 KB | 211 KB |
+| ✅ created | TT-0071 | Baklava | Turkish | Honeyed layers of nuts and phyllo. | `TT-0071.webp` | WebP | 1024 × 1024 px | 150–300 KB | 219 KB |
+| ✅ created | TT-0042 | Shakshuka | Tunisian | Eggs poached in spiced tomato. | `TT-0042.webp` | WebP | 1024 × 1024 px | 150–300 KB | 211 KB |
 | ✅ created | TT-0176 | Kibbeh | Levantine | Torpedo-shaped bulgur shells stuffed with spiced lamb. | `TT-0176.webp` | WebP | 1024 × 1024 px | 150–300 KB | 177 KB |
 | ✅ created | TT-0140 | Lamb Tagine | Moroccan | Slow-cooked under a conical lid. | `TT-0140.webp` | WebP | 1024 × 1024 px | 150–300 KB | 220 KB |
 | ✅ created | TT-0177 | Vegetable Couscous | Moroccan | Friday couscous with seven vegetables. | `TT-0177.webp` | WebP | 1024 × 1024 px | 150–300 KB | 192 KB |
